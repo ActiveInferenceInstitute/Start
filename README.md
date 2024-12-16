@@ -67,10 +67,10 @@ git clone https://github.com/ActiveInferenceInstitute/Start.git
 ### Basic Curriculum Generation
 ```python
 # Generate domain-specific curriculum
-python Languages/Perplexity/1_Research_Domain.py --input "your_domain.md"
+python Languages/Perplexity/1_Research_Domain.py
 
-# Adapt for specific audience
-python Languages/Perplexity/1_Research_Perspective.py --audience "target_audience"
+# Adapt for specific audiences
+python Languages/Perplexity/1_Research_Perspective.py 
 
 # Generate curriculum
 python Languages/Perplexity/2_Write_Introduction.py
