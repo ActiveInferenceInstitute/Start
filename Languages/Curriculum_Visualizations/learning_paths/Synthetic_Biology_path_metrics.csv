@@ -1,0 +1,122 @@
+section,centrality,in_degree
+Domain Analysis,0.0,0
+Domain Analysis: Integrating Active Inference with Ecology and Conservation Biology,0.00909090909090909,1
+Introduction,0.4190158465387823,2
+Domain Expert Profile,0.3203502919099249,1
+Typical Educational Background,0.32043369474562133,1
+Core Knowledge Areas and Expertise,0.3205170975813178,1
+Common Methodologies and Frameworks Used,0.3206005004170142,1
+Technical Vocabulary and Concepts,0.3206839032527106,1
+Professional Goals and Challenges,0.32076730608840703,1
+Industry Context and Trends,0.32085070892410344,1
+Learning Preferences and Approaches,0.32093411175979986,1
+Key Domain Concepts,0.32101751459549627,1
+Fundamental Principles and Theories,0.3211009174311927,1
+Important Methodologies and Techniques,0.3211843202668891,1
+Standard Tools and Technologies,0.3212677231025855,1
+Conceptual Bridges to Active Inference,0.3213511259382819,1
+Parallel Concepts Between Domain and Active Inference,0.3214345287739783,1
+Natural Analogies and Metaphors,0.32151793160967473,1
+Shared Mathematical or Theoretical Foundations,0.32160133444537115,1
+Potential Applications of Active Inference,0.32168473728106756,1
+Predicting Ecological Outcomes,0.32176814011676397,1
+Optimizing Conservation Efforts,0.3218515429524604,1
+Monitoring Ecosystem Health,0.3219349457881568,1
+Integration Opportunities,0.3220183486238532,1
+Integrating Ecological Data with Inference Models,0.3221017514595496,1
+Using Active Inference for Ecological Modeling,0.322185154295246,1
+Value Proposition for the Domain,0.32226855713094243,1
+Improved Predictive Accuracy,0.3223519599666389,1
+Data-Driven Conservation,0.3224353628023353,1
+Enhanced Decision Making,0.3225187656380317,1
+Learning Considerations,0.32260216847372813,1
+Existing Knowledge That Can Be Leveraged,0.32268557130942455,1
+Potential Conceptual Barriers,0.32276897414512096,1
+Required Prerequisites,0.32285237698081737,1
+Optimal Learning Sequence,0.3229357798165138,1
+Practical Application Opportunities,0.3230191826522102,1
+Ecological Modeling Projects,0.3231025854879066,1
+Conservation Efforts,0.323185988323603,1
+Environmental Monitoring Systems,0.3232693911592994,1
+Assessment Approaches,0.32335279399499584,1
+Project-Based Assessments,0.32343619683069225,1
+Case Study Presentations,0.32351959966638866,1
+Coding Challenges,0.32360300250208507,1
+Support Needs,0.3236864053377815,1
+Mentorship Programs,0.3237698081734779,1
+Workshops and Tutorials,0.3238532110091743,1
+Collaborative Research Opportunities,0.3239366138448707,1
+Conceptual Frameworks,0.3240200166805671,1
+Active Inference Framework,0.32410341951626354,1
+Ecological Modeling Framework,0.32418682235196,1
+Practical Implementation,0.38849040867389495,2
+Further Reading and Exploration Paths,0.24578815679733113,1
+References,0.24587155963302754,1
+Conclusion,0.5623853211009174,2
+Curriculum Content,0.4006672226855713,1
+Comprehensive Expansion of Active Inference and Free Energy Principle,0.4007506255212677,1
+Introduction,0.4190158465387823,2
+Welcome Message,0.08982485404503754,1
+Relevance of Active Inference to the Domain,0.08990825688073395,1
+Value Proposition and Potential Applications,0.08999165971643036,1
+Connection to Existing Domain Knowledge,0.09007506255212677,1
+Conceptual Foundations,0.09015846538782318,1
+Core Active Inference Concepts Using Domain Analogies,0.09024186822351961,1
+Mathematical Principles with Domain-Relevant Examples,0.09032527105921602,1
+Practical Applications,0.09040867389491243,1
+Domain-Specific Use Cases,0.09049207673060884,1
+Implementation Examples,0.2527105921601335,2
+Integration Strategies,0.13244370308590492,1
+Technical Framework,0.13252710592160133,1
+Mathematical Formalization Using Domain Notation,0.13261050875729774,1
+Computational Aspects with Domain Tools,0.13269391159299415,1
+Advanced Topics,0.1327773144286906,1
+Cutting-Edge Research Relevant to Domain,0.132860717264387,1
+Future Opportunities,0.37155963302752293,2
+Research Directions,0.05521267723102585,1
+Practical Implementation,0.38849040867389495,2
+Case Studies from the Domain,0.13386155129274396,1
+Interactive Examples and Exercises,0.13394495412844037,1
+Code Examples,0.13402835696413679,1
+Evaluation Methods,0.1341117597998332,1
+Evaluation Metrics,0.2553794829024187,2
+Success Metrics,0.22844036697247708,1
+Advanced Concepts,0.2285237698081735,1
+Generative Models,0.2286071726438699,1
+Definition,0.2910758965804837,3
+Examples,0.2911592994161802,1
+Learning,0.02627189324437031,1
+Counterfactual Reasoning,0.026355296080066724,1
+Adaptability,0.026438698915763136,1
+Variational Free Energy,0.02652210175145955,1
+Definition,0.2910758965804837,3
+Examples,0.2911592994161802,1
+Minimization,0.0176814011676397,1
+Temporal Aspects,0.017764804003336115,1
+Predictive Coding,0.017848206839032526,1
+Definition,0.2910758965804837,3
+Examples,0.2911592994161802,1
+Prediction Errors,0.22944120100083404,1
+Limitations and Future Directions,0.22952460383653045,1
+Limitations of Current Artificial Generative Models,0.22960800667222686,1
+Future Opportunities,0.37155963302752293,2
+Conclusion,0.5623853211009174,2
+Further Reading,0.15287739783152626,1
+Practical Implementation Pathways,0.1529608006672227,1
+Step-by-Step Guide,0.1530442035029191,1
+Key Concepts Summary,0.15312760633861552,1
+Implementation Examples,0.2527105921601335,2
+Example 1: Predicting Invasive Species Spread,0.11142618849040868,1
+Define the generative model architecture,0.11150959132610509,1
+Compile the model,0.1115929941618015,1
+Train the model on your dataset,0.11167639699749791,1
+Use the trained model to predict invasive species spread,0.11175979983319433,1
+Example 2: Optimizing Habitat Restoration,0.11184320266889075,1
+Load remote sensing data,0.11192660550458716,1
+Convert raster to array for processing,0.11201000834028357,1
+Apply machine learning algorithms for analysis,0.11209341117597998,1
+Use the trained model to optimize habitat restoration strategies,0.1121768140116764,1
+Evaluation Metrics,0.2553794829024187,2
+Predictive Accuracy,0.018015012510425355,1
+Model Complexity,0.00909090909090909,1
+---,0.0,1

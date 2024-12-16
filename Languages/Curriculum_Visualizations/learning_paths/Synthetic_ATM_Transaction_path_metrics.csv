@@ -1,0 +1,118 @@
+section,centrality,in_degree
+Domain Analysis,0.0,0
+Domain Analysis: ATM Transaction Processing and Active Inference,0.00970873786407767,1
+Introduction,0.019227108319055778,1
+Domain Expert Profile,0.028555111364934323,1
+Typical Educational Background,0.03769274700171331,1
+Core Knowledge Areas and Expertise,0.04664001522939273,1
+Common Methodologies and Frameworks Used,0.05539691604797259,1
+Technical Vocabulary and Concepts,0.06396344945745289,1
+Professional Goals and Challenges,0.07233961545783361,1
+Industry Context and Trends,0.0805254140491148,1
+Learning Preferences and Approaches,0.0885208452312964,1
+Key Domain Concepts,0.09632590900437846,1
+Fundamental Principles and Theories,0.10394060536836094,1
+Important Methodologies and Techniques,0.11136493432324386,1
+Standard Tools and Technologies,0.11859889586902722,1
+Common Applications and Use Cases,0.125642490005711,1
+Industry Best Practices,0.13249571673329527,1
+Current Challenges and Opportunities,0.13915857605177995,1
+Emerging Trends and Developments,0.14563106796116504,1
+Conceptual Bridges to Active Inference,0.1519131924614506,1
+Parallel Concepts Between Domain and Active Inference,0.15800494955263658,1
+Natural Analogies and Metaphors,0.16390633923472303,1
+Shared Mathematical or Theoretical Foundations,0.1696173615077099,1
+Potential Applications of Active Inference,0.17513801637159718,1
+Integration Opportunities,0.18046830382638493,1
+Value Proposition for the Domain,0.1856082238720731,1
+Learning Considerations,0.1905577765086617,1
+Existing Knowledge That Can Be Leveraged,0.19531696173615076,1
+Potential Conceptual Barriers,0.19988577955454026,1
+Required Prerequisites,0.2042642299638302,1
+Optimal Learning Sequence,0.20845231296402056,1
+Practical Application Opportunities,0.21245002855511136,1
+Assessment Approaches,0.2162573767371026,1
+Support Needs,0.2198743575099943,1
+The Free Energy Principle and Its Implications,0.22330097087378642,1
+Definition and Core Concepts,0.4004695729424453,2
+Key Quantities and Formalizations,0.1258328574148106,1
+Predictive Coding and Active Inference,0.12250142775556824,1
+Examples and Applications,0.1191699980963259,1
+Generative Models and Learning,0.11583856843708357,1
+Hierarchical Structure and Adaptability,0.11250713877784123,1
+Variational Free Energy and Information-Theoretic Measures,0.1091757091185989,1
+Implications for Mental Health Disorders,0.10584427945935657,1
+Partially Observable Markov Decision Processes (POMDPs),0.10251284980011423,1
+Temporal Depth and Hierarchical Processing,0.09918142014087189,1
+Practical Applications and Implementations,0.09584999048162955,1
+Enhancing Fraud Detection in ATMs,0.09251856082238721,1
+Personalizing User Interfaces,0.14525033314296593,2
+Integrating Active Inference into ATM Systems,0.03299701757725744,1
+Case Studies and Practical Applications,0.029665587918015098,1
+Conclusion,0.22951963957103882,3
+Further Reading and Exploration Paths,0.0,1
+References,0.22285678025255415,2
+Curriculum Content,0.18059521543245127,1
+Comprehensive Expansion of Active Inference and the Free Energy Principle,0.17726378577320892,1
+Introduction to Active Inference and the Free Energy Principle,0.1739323561139666,1
+Definition and Core Concepts,0.4004695729424453,2
+Free Energy Principle,0.2615013642997652,1
+Active Inference,0.2581699346405229,1
+Mathematical Formalization,0.2548385049812806,1
+Variational Free Energy,0.2515070753220382,1
+Generative Models,0.24817564566279587,1
+Model Evidence,0.24484421600355355,1
+Predictive Coding,0.2415127863443112,1
+Prediction Errors,0.23818135668506887,1
+Active Inference in Decision-Making,0.23484992702582652,1
+Temporal Aspects,0.2315184973665842,1
+Practical Applications,0.36093660765276986,2
+Enhancing Fraud Detection Systems,0.049590710070435945,2
+Personalizing User Interfaces,0.14525033314296593,2
+Technical Framework,0.02998286693318104,1
+Mathematical Formalization Using Domain Notation,0.0266514372739387,1
+Computational Aspects with Domain Tools,0.023320007614696363,1
+Practical Applications in Domain Context,0.019988577955454025,1
+Enhancing Fraud Detection Systems,0.049590710070435945,2
+Personalizing User Interfaces,0.14525033314296593,2
+Advanced Topics,0.39380671362396097,2
+Integration with Blockchain Technology,0.26448378704232495,2
+AI-Powered ATMs,0.2611523573830826,1
+Future Opportunities,0.07509994288977727,1
+Research Directions,0.07176851323053493,1
+Collaboration Possibilities,0.06843708357129259,1
+Resources for Further Learning,0.06510565391205025,1
+Community Engagement,0.06177422425280792,1
+Case Studies,0.058442794593565585,1
+Case Study 1: Real-time Transaction Monitoring,0.05511136493432325,1
+Case Study 2: Personalized User Interfaces,0.05177993527508091,1
+Advanced Research Directions,0.04844850561583857,1
+Integration with Blockchain Technology,0.26448378704232495,2
+AI-Powered ATMs,0.2611523573830826,1
+Deep Learning Applications,0.1729170632654357,1
+Edge AI Integration,0.16958563360619333,1
+Practical Implementation Examples,0.16625420394695098,1
+Fraud Detection System,0.16292277428770863,1
+Define the generative model architecture,0.15959134462846625,1
+Compile the model with appropriate loss function and optimizer,0.15625991496922392,1
+Train the model with historical transaction data,0.1529284853099816,1
+Use active inference to update predictions based on new transactions,0.14959705565073922,1
+Personalized User Interface,0.14626562599149692,1
+Load user behavior data,0.1429341963322546,1
+Split data into training and testing sets,0.13960276667301225,1
+Define a simple neural network for personalization,0.13627133701376992,1
+Use active inference to adapt interface based on user behavior,0.13293990735452757,1
+Learning Pathways,0.12960847769528525,1
+Core Concepts,0.1262770480360429,1
+Practical Applications,0.36093660765276986,2
+Advanced Topics,0.39380671362396097,2
+Further Reading,0.17110857287898978,1
+Conclusion,0.22951963957103882,3
+References,0.22285678025255415,2
+Further Exploration Paths,0.02912621359223301,1
+Key Concepts Summary,0.025794783932990673,1
+Practical Implementation Steps,0.022463354273748334,1
+Addressing Potential Questions,0.019131924614505996,1
+Conclusion,0.22951963957103882,3
+References,0.22285678025255415,2
+Further Exploration Paths,0.02912621359223301,1

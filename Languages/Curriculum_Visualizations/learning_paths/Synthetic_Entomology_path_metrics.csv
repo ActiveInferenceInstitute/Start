@@ -1,0 +1,96 @@
+section,centrality,in_degree
+Domain Analysis,0.0,0
+Domain Analysis: Integrating Active Inference with Entomology,0.011235955056179775,1
+Introduction,0.022216547497446375,1
+Domain Expert Profile,0.0329417773237998,1
+Typical Educational Background,0.04341164453524004,1
+Core Knowledge Areas and Expertise,0.05362614913176711,1
+Common Methodologies and Frameworks Used,0.063585291113381,1
+Technical Vocabulary and Concepts,0.07328907048008172,1
+Professional Goals and Challenges,0.08273748723186926,1
+Industry Context and Trends,0.09193054136874362,1
+Learning Preferences and Approaches,0.1008682328907048,1
+Key Domain Concepts,0.10955056179775281,1
+Fundamental Principles and Theories,0.11797752808988764,1
+Important Methodologies and Techniques,0.1261491317671093,1
+Standard Tools and Technologies,0.13406537282941777,1
+Common Applications and Use Cases,0.14172625127681307,1
+Industry Best Practices,0.1491317671092952,1
+Current Challenges and Opportunities,0.15628192032686417,1
+Emerging Trends and Developments,0.16317671092951994,1
+Conceptual Bridges to Active Inference,0.16981613891726252,1
+Parallel Concepts Between Domain and Active Inference,0.17620020429009195,1
+Natural Analogies and Metaphors,0.18232890704800817,1
+Shared Mathematical or Theoretical Foundations,0.18820224719101125,1
+Potential Applications of Active Inference,0.19382022471910113,1
+Integration Opportunities,0.19918283963227784,1
+Value Proposition for the Domain,0.20429009193054137,1
+Learning Considerations,0.20914198161389172,1
+Existing Knowledge That Can Be Leveraged,0.2137385086823289,1
+Potential Conceptual Barriers,0.21807967313585291,1
+Required Prerequisites,0.22216547497446373,1
+Optimal Learning Sequence,0.2259959141981614,1
+Practical Application Opportunities,0.22957099080694587,1
+Assessment Approaches,0.23289070480081717,1
+Support Needs,0.23595505617977527,1
+Implementing Active Inference in Entomology,0.23876404494382023,1
+Example: Predicting Insect Populations,0.241317671092952,1
+Example dataset for predicting insect populations,0.2436159346271706,1
+Split data into training and testing sets,0.245658835546476,1
+"Initialize a generative model (e.g., neural network)",0.24744637385086823,1
+Train the model on the training data,0.2489785495403473,1
+Make predictions on the test data,0.25025536261491316,1
+Update predictions using active inference,0.28000510725229827,2
+Example: Optimizing Biological Control,0.022216547497446375,1
+Example dataset for optimizing biological control,0.02247191011235955,1
+"Initialize a generative model (e.g., decision tree)",0.022727272727272728,1
+Train the model on the data,0.022982635342185906,1
+Make predictions on new data points,0.02323799795709908,1
+Update predictions using active inference,0.28000510725229827,2
+Practical Applications and Implementations,0.2520429009193054,1
+Pest Management,0.2512768130745659,1
+Conservation Biology,0.25025536261491316,1
+Biological Control,0.2489785495403473,1
+Implications and Future Directions,0.24744637385086823,1
+Implications for Artificial Intelligence,0.245658835546476,1
+Implications for Mental Health,0.2436159346271706,1
+Conclusion,0.32545965270684374,3
+Further Reading,0.03358018386108274,1
+Learning Pathways,0.003958120531154239,1
+References,0.2820480081716037,2
+Curriculum Content,0.2751532175689479,1
+Free Energy Principle & Active Inference,0.26825842696629215,1
+Definition and Overview,0.26136363636363635,1
+Key Concepts,0.2544688457609806,1
+Mathematical Formalization,0.24757405515832484,1
+Mathematical Framework,0.24067926455566907,1
+Practical Applications,0.23378447395301327,1
+Insect Behavior and Ecology,0.2268896833503575,1
+Advanced Topics,0.21999489274770173,1
+Gene Editing Technologies,0.21310010214504596,1
+Insect-Inspired Technologies,0.2062053115423902,1
+Digital Entomology,0.19931052093973442,1
+Future Opportunities,0.19241573033707865,1
+Integration with Other Disciplines,0.18552093973442288,1
+Development of New Tools and Techniques,0.1786261491317671,1
+Resources for Further Learning,0.17173135852911134,1
+Books and Articles,0.16483656792645557,1
+Online Courses and Tutorials,0.1579417773237998,1
+Research Papers and Journals,0.15104698672114403,1
+Community Engagement,0.14415219611848826,1
+Joining Professional Networks,0.1372574055158325,1
+Participating in Workshops and Conferences,0.13036261491317672,1
+Collaborating with Researchers,0.12346782431052095,1
+Assessment Methods,0.11657303370786518,1
+Project-Based Assessments,0.1096782431052094,1
+Data Analysis Challenges,0.10278345250255363,1
+Case Study Presentations,0.09588866189989786,1
+Written Reports and Papers,0.08899387129724208,1
+Quizzes and Exams,0.08209908069458631,1
+Peer Review,0.07520429009193054,1
+Conclusion,0.32545965270684374,3
+Further Reading,0.03358018386108274,1
+Implementation Pathways,0.011363636363636364,1
+Potential Questions and Answers,0.004468845760980593,1
+Conclusion,0.32545965270684374,3
+References,0.2820480081716037,2

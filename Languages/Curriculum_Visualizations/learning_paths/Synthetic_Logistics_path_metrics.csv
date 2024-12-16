@@ -1,0 +1,135 @@
+section,centrality,in_degree
+Domain Analysis,0.0,0
+Domain Analysis: Integrating Active Inference into Logistics,0.008333333333333333,1
+Introduction,0.016526610644257703,1
+Domain Expert Profile,0.02457983193277311,1
+Typical Educational Background,0.03249299719887955,1
+Core Knowledge Areas and Expertise,0.04026610644257703,1
+Common Methodologies and Frameworks Used,0.04789915966386554,1
+Technical Vocabulary and Concepts,0.055392156862745096,1
+Professional Goals and Challenges,0.06274509803921569,1
+Industry Context and Trends,0.06995798319327731,1
+Learning Preferences and Approaches,0.07703081232492996,1
+Key Domain Concepts,0.08396358543417366,1
+Fundamental Principles and Theories,0.0907563025210084,1
+Important Methodologies and Techniques,0.09740896358543416,1
+Standard Tools and Technologies,0.10392156862745097,1
+Common Applications and Use Cases,0.11029411764705882,1
+Industry Best Practices,0.11652661064425769,1
+Current Challenges and Opportunities,0.12261904761904761,1
+Emerging Trends and Developments,0.12857142857142856,1
+Conceptual Bridges to Active Inference,0.13438375350140055,1
+Parallel Concepts Between Domain and Active Inference,0.1400560224089636,1
+Natural Analogies and Metaphors,0.14558823529411763,1
+Shared Mathematical or Theoretical Foundations,0.15098039215686274,1
+Potential Applications of Active Inference,0.15623249299719888,1
+Integration Opportunities,0.16134453781512603,1
+Value Propositions for the Domain,0.16631652661064425,1
+Learning Considerations,0.17114845938375348,1
+Existing Knowledge That Can Be Leveraged,0.17584033613445377,1
+Potential Conceptual Barriers,0.1803921568627451,1
+Required Prerequisites,0.18480392156862743,1
+Optimal Learning Sequence,0.18907563025210083,1
+Practical Application Opportunities,0.19320728291316525,1
+Assessment Approaches,0.19719887955182072,1
+Support Needs,0.2010504201680672,1
+Free Energy Principle & Active Inference,0.20476190476190476,1
+Definition,0.3766106442577031,5
+Example Applications,0.37450980392156863,1
+Mathematical Formalization,0.031512605042016806,1
+Active Inference,0.029411764705882353,1
+Key Mechanisms,0.027310924369747896,1
+Implications for Artificial Intelligence,0.025210084033613443,1
+Generative Models,0.02310924369747899,1
+Definition,0.3766106442577031,5
+Example Applications,0.37450980392156863,1
+Learning Process,0.015896358543417366,1
+Adaptability,0.013795518207282913,1
+Variational Free Energy,0.011694677871148458,1
+Definition,0.3766106442577031,5
+Example Applications,0.37450980392156863,1
+Minimization Process,0.20080532212885152,1
+Predictive Coding,0.3152310924369748,2
+Definition,0.3766106442577031,5
+Example Applications,0.37450980392156863,1
+Temporal Aspects,0.008018207282913165,1
+Partially Observable Markov Decision Processes (POMDPs),0.005917366946778711,1
+Definition,0.3766106442577031,5
+Example Applications,0.37450980392156863,1
+Active Inference in POMDPs,0.08396358543417366,1
+Practical Applications in Logistics,0.08186274509803922,1
+Demand Forecasting,0.07976190476190476,1
+Route Optimization,0.0776610644257703,1
+Inventory Management,0.07556022408963585,1
+Implementation Example,0.07345938375350139,1
+Define the generative model parameters,0.07135854341736694,1
+Define the observation model parameters,0.06925770308123248,1
+Generate a sample from the generative model,0.06715686274509804,1
+Observe the demand with noise,0.06505602240896358,1
+Update the belief using active inference,0.06295518207282913,1
+Select an action based on the updated belief,0.06085434173669468,1
+Conclusion,0.37303921568627446,2
+Further Reading,0.37093837535014,1
+Learning Pathway,0.32822128851540616,1
+Curriculum Content,0.32612044817927166,1
+Active Inference in Logistics: A Comprehensive Guide,0.3240196078431372,1
+Domain-Specific Introduction,0.32191876750700277,1
+Welcome Message,0.3198179271708683,1
+Relevance of Active Inference to the Domain,0.3177170868347339,1
+Value Proposition and Potential Applications,0.31561624649859943,1
+Connection to Existing Domain Knowledge,0.313515406162465,1
+Overview of Learning Journey,0.31141456582633054,1
+Success Stories and Examples,0.30931372549019603,1
+Conceptual Foundations,0.3072128851540616,1
+Core Active Inference Concepts Using Domain Analogies,0.30511204481792714,1
+Mathematical Principles with Domain-Relevant Examples,0.3030112044817927,1
+Practical Applications in Domain Context,0.30091036414565825,1
+Integration with Existing Domain Frameworks,0.2988095238095238,1
+Case Studies from the Domain,0.29670868347338936,1
+Interactive Examples and Exercises,0.29460784313725485,1
+Technical Framework,0.2925070028011204,1
+Mathematical Formalization Using Domain Notation,0.29040616246498596,1
+Computational Aspects with Domain Tools,0.2883053221288515,1
+Implementation Considerations,0.28620448179271707,1
+Integration Strategies,0.3131652661064426,2
+Best Practices and Guidelines,0.031512605042016806,1
+Common Pitfalls and Solutions,0.029411764705882353,1
+Practical Applications,0.027310924369747896,1
+Domain-Specific Use Cases,0.025210084033613443,1
+Implementation Examples,0.02310924369747899,1
+Integration Strategies,0.3131652661064426,2
+Project Templates,0.2714985994397759,1
+Code Examples,0.26939775910364144,1
+Load historical data,0.267296918767507,1
+Split data into training and testing sets,0.26519607843137255,1
+Train a linear regression model,0.2630952380952381,1
+Make predictions on the test set,0.2609943977591036,1
+Integrate with WMS/TMS software,0.25889355742296916,1
+Evaluation Methods,0.2567927170868347,1
+Success Metrics,0.25469187675070026,1
+Advanced Topics,0.2525910364145658,1
+Cutting-Edge Research Relevant to Domain,0.25049019607843137,1
+Future Opportunities,0.2483893557422969,1
+Research Directions,0.24628851540616245,1
+Collaboration Possibilities,0.244187675070028,1
+Resources for Further Learning,0.24208683473389353,1
+Practical Implementation,0.23998599439775908,1
+Step-by-Step Guide,0.23788515406162464,1
+Theoretical Depth,0.2357843137254902,1
+Free Energy Principle,0.23368347338935572,1
+Key Concepts,0.4374649859943977,2
+Predictive Coding,0.3152310924369748,2
+Key Concepts,0.4374649859943977,2
+Cross-Domain Connections,0.3188375350140056,1
+Integration with IoT Devices,0.31673669467787113,1
+Social Learning in Logistics,0.3146358543417367,1
+Implications and Future Directions,0.31253501400560224,1
+Implications for Logistics,0.31043417366946774,1
+Future Research Directions,0.3083333333333333,1
+Conclusion,0.37303921568627446,2
+Further Reading,0.37093837535014,1
+References,0.03249299719887955,1
+Learning Pathways,0.02457983193277311,1
+Beginner's Path,0.016526610644257703,1
+Intermediate Path,0.008333333333333333,1
+Advanced Path,0.0,1

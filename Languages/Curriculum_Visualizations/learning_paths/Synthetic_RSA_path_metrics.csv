@@ -1,0 +1,100 @@
+section,centrality,in_degree
+Domain Analysis,0.0,0
+Domain Analysis: RSA Cryptography and Active Inference,0.010416666666666666,1
+Introduction,0.0206140350877193,1
+Domain Expert Profile,0.030592105263157896,1
+Typical Educational Background,0.04035087719298246,1
+Core Knowledge Areas and Expertise,0.049890350877192985,1
+Common Methodologies and Frameworks Used,0.05921052631578948,1
+Technical Vocabulary and Concepts,0.06831140350877193,1
+Professional Goals and Challenges,0.07719298245614035,1
+Industry Context and Trends,0.08585526315789474,1
+Learning Preferences and Approaches,0.09429824561403509,1
+Key Domain Concepts,0.1025219298245614,1
+Fundamental Principles and Theories,0.11052631578947368,1
+Important Methodologies and Techniques,0.11831140350877194,1
+Standard Tools and Technologies,0.12587719298245614,1
+Common Applications and Use Cases,0.13322368421052633,1
+Industry Best Practices,0.14035087719298245,1
+Current Challenges and Opportunities,0.14725877192982456,1
+Emerging Trends and Developments,0.15394736842105264,1
+Conceptual Bridges to Active Inference,0.16041666666666668,1
+Parallel Concepts Between Domain and Active Inference,0.16666666666666666,1
+Natural Analogies and Metaphors,0.17269736842105263,1
+Shared Mathematical or Theoretical Foundations,0.17850877192982456,1
+Potential Applications of Active Inference,0.18410087719298246,1
+Integration Opportunities,0.18947368421052632,1
+Value Proposition for the Domain,0.19462719298245615,1
+Learning Considerations,0.19956140350877194,1
+Existing Knowledge That Can Be Leveraged,0.2042763157894737,1
+Potential Conceptual Barriers,0.20877192982456141,1
+Required Prerequisites,0.2130482456140351,1
+Optimal Learning Sequence,0.21710526315789475,1
+Practical Application Opportunities,0.22094298245614036,1
+Assessment Approaches,0.22456140350877193,1
+Support Needs,0.22796052631578947,1
+Practical Implementation Examples,0.23114035087719298,1
+RSA Key Generation,0.23410087719298245,1
+Generate two random prime numbers,0.2368421052631579,1
+Ensure p and q are prime numbers,0.2393640350877193,1
+Generate key pair,0.24166666666666667,1
+Active Inference Implementation,0.24375,1
+Example usage:,0.2456140350877193,1
+Calculate variational free energy:,0.24725877192982457,1
+Conclusion,0.24868421052631579,1
+Curriculum Content,0.249890350877193,1
+Integrating Active Inference with RSA Cryptography: A Comprehensive Guide,0.25087719298245614,1
+Domain-Specific Introduction,0.25164473684210525,1
+Welcome Message,0.25219298245614036,1
+Relevance of Active Inference to the Domain,0.2525219298245614,1
+Value Proposition and Potential Applications,0.25263157894736843,1
+Connection to Existing Domain Knowledge,0.2525219298245614,1
+Overview of Learning Journey,0.25219298245614036,1
+Success Stories and Examples,0.25164473684210525,1
+Conceptual Foundations,0.25087719298245614,1
+Core Active Inference Concepts Using Domain Analogies,0.249890350877193,1
+Mathematical Principles with Domain-Relevant Examples,0.24868421052631579,1
+Practical Applications in Domain Context,0.24725877192982457,1
+Case Studies from the Domain,0.2456140350877193,1
+Interactive Examples and Exercises,0.24375,1
+Technical Framework,0.24166666666666667,1
+Mathematical Formalization Using Domain Notation,0.2393640350877193,1
+Computational Aspects with Domain Tools,0.2368421052631579,1
+Best Practices and Guidelines,0.23410087719298245,1
+Common Pitfalls and Solutions,0.23114035087719298,1
+Practical Applications,0.22796052631578947,1
+Domain-Specific Use Cases,0.22456140350877193,1
+Implementation Examples,0.22094298245614036,1
+Integration Strategies,0.21710526315789475,1
+Code Examples,0.2130482456140351,1
+Advanced Topics,0.20877192982456141,1
+Cutting-Edge Research Relevant to Domain,0.2042763157894737,1
+Future Opportunities,0.19956140350877194,1
+Research Directions,0.19462719298245615,1
+Collaboration Possibilities,0.18947368421052632,1
+Resources for Further Learning,0.18410087719298246,1
+Free Energy Principle & Active Inference,0.17850877192982456,1
+Definition,0.17269736842105263,1
+Examples,0.16666666666666666,1
+Mathematical Formalization,0.16041666666666668,1
+Generative Models,0.15394736842105264,1
+Learning,0.14725877192982456,1
+Adaptation to Rapidly Changing Environments,0.14035087719298245,1
+Limitations of Artificial Generative Models,0.13322368421052633,1
+Variational Free Energy,0.12587719298245614,1
+Predictive Coding,0.11831140350877194,1
+Partially Observable Markov Decision Processes (POMDPs),0.11052631578947368,1
+Practical Implementation,0.1025219298245614,1
+Example Code for RSA Encryption with Active Inference,0.09429824561403509,1
+Generate RSA keys,0.08585526315789474,1
+Serialize private key for use in Active Inference,0.07719298245614035,1
+Define generative model architecture using TensorFlow,0.06995614035087719,2
+Compile model with appropriate loss function and optimizer,0.060526315789473685,1
+Train model on encrypted data,0.02017543859649123,1
+Use trained model to predict anomalies in encrypted data,0.01074561403508772,1
+Example Code for Generative Model Simulation,0.0013157894736842105,1
+Define generative model architecture using TensorFlow,0.06995614035087719,2
+Compile model with appropriate loss function and optimizer,0.060526315789473685,1
+Train model on visual perception data,0.0206140350877193,1
+Use trained model to simulate visual perception,0.010416666666666666,1
+Further Reading and Exploration Paths,0.0,1

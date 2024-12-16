@@ -1,0 +1,90 @@
+section,centrality,in_degree
+Domain Analysis,0.0,0
+Domain Analysis in Game Design,0.011764705882352941,1
+1. Domain Expert Profile,0.023249299719887952,1
+1.1 Typical Educational Background,0.03445378151260504,1
+1.2 Core Knowledge Areas and Expertise,0.0453781512605042,1
+1.3 Common Methodologies and Frameworks Used,0.05602240896358543,1
+1.4 Technical Vocabulary and Concepts,0.06638655462184874,1
+1.5 Professional Goals and Challenges,0.07647058823529411,1
+1.6 Industry Context and Trends,0.08627450980392157,1
+1.7 Learning Preferences and Approaches,0.09579831932773109,1
+2. Key Domain Concepts,0.10504201680672268,1
+2.1 Fundamental Principles and Theories,0.11400560224089636,1
+2.2 Important Methodologies and Techniques,0.1226890756302521,1
+2.3 Standard Tools and Technologies,0.1310924369747899,1
+2.4 Common Applications and Use Cases,0.13921568627450978,1
+2.5 Industry Best Practices,0.14705882352941174,1
+2.6 Current Challenges and Opportunities,0.15462184873949578,1
+2.7 Emerging Trends and Developments,0.16190476190476188,1
+3. Conceptual Bridges to Active Inference,0.16890756302521007,1
+3.1 Parallel Concepts Between Domain and Active Inference,0.17563025210084032,1
+3.2 Natural Analogies and Metaphors,0.18207282913165265,1
+3.3 Shared Mathematical or Theoretical Foundations,0.18823529411764706,1
+3.4 Potential Applications of Active Inference,0.1941176470588235,1
+3.5 Integration Opportunities,0.19971988795518206,1
+3.6 Value Propositions for the Domain,0.20504201680672268,1
+4. Learning Considerations,0.21008403361344535,1
+4.1 Existing Knowledge That Can Be Leveraged,0.21484593837535013,1
+4.2 Potential Conceptual Barriers,0.21932773109243697,1
+4.3 Required Prerequisites,0.22352941176470587,1
+4.4 Optimal Learning Sequence,0.22745098039215686,1
+4.5 Practical Application Opportunities,0.2310924369747899,1
+4.6 Assessment Approaches,0.23445378151260501,1
+4.7 Support Needs,0.23753501400560223,1
+5. Conceptual Frameworks,0.2403361344537815,1
+5.1 Predictive Coding,0.24285714285714283,1
+5.2 Variational Free Energy,0.24509803921568626,1
+5.3 Generative Models,0.24705882352941175,1
+6. Practical Applications,0.2487394957983193,1
+6.1 Integrating Active Inference into Game Development,0.25014005602240896,1
+Define a simple generative model for player behavior,0.25126050420168067,1
+Define an active inference function to update beliefs,0.25210084033613445,1
+Example usage in a game loop,0.2645658263305322,2
+6.2 Dynamic Difficulty Adjustment,0.0058823529411764705,1
+Define a function to adjust difficulty based on player performance,0.006022408963585434,1
+Example usage in a game loop,0.2645658263305322,2
+7. Implications for Mental Health,0.2526610644257703,1
+7.1 Understanding Anxiety Disorders,0.25210084033613445,1
+7.2 Understanding Depression,0.25126050420168067,1
+8. Further Reading and Exploration Paths,0.25014005602240896,1
+8.1 Key Resources,0.2487394957983193,1
+References,0.3323529411764706,2
+Curriculum Content,0.3254901960784313,1
+Curriculum Content: Integrating Active Inference and the Free Energy Principle into Game Development,0.31862745098039214,1
+Domain-Specific Introduction,0.31176470588235294,1
+Welcome Message,0.3049019607843137,1
+Relevance of Active Inference to the Domain,0.2980392156862745,1
+Value Proposition and Potential Applications,0.29117647058823526,1
+Connection to Existing Domain Knowledge,0.28431372549019607,1
+Overview of Learning Journey,0.2774509803921568,1
+Success Stories and Examples,0.27058823529411763,1
+Conceptual Foundations,0.26372549019607844,1
+Core Active Inference Concepts Using Domain Analogies,0.2568627450980392,1
+Mathematical Principles with Domain-Relevant Examples,0.24999999999999997,1
+Practical Applications in Domain Context,0.24313725490196078,1
+Integration with Existing Domain Frameworks,0.23627450980392156,1
+Case Studies from the Domain,0.22941176470588234,1
+Interactive Examples and Exercises,0.22254901960784312,1
+Technical Framework,0.2156862745098039,1
+Mathematical Formalization Using Domain Notation,0.20882352941176469,1
+Computational Aspects with Domain Tools,0.20196078431372547,1
+Implementation Considerations,0.19509803921568625,1
+Practical Applications,0.18823529411764706,1
+Domain-Specific Use Cases,0.18137254901960784,1
+Implementation Examples,0.17450980392156862,1
+Integration Strategies,0.1676470588235294,1
+Evaluation Methods,0.16078431372549018,1
+Advanced Topics,0.15392156862745096,1
+Cutting-Edge Research Relevant to Domain,0.14705882352941174,1
+Future Opportunities,0.14019607843137255,1
+Resources for Further Learning,0.13333333333333333,1
+Conclusion,0.15462184873949578,2
+Further Reading and Exploration Paths,0.05742296918767507,1
+Practical Implementation Steps,0.05056022408963585,1
+Addressing Potential Questions,0.043697478991596636,1
+Q: How does Active Inference differ from other AI techniques?,0.03683473389355742,1
+Q: What are the limitations of current artificial generative models compared to biological ones?,0.029971988795518205,1
+Q: How can I integrate Active Inference with existing game development pipelines?,0.02310924369747899,1
+Conclusion,0.15462184873949578,2
+References,0.3323529411764706,2

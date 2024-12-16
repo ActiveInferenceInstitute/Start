@@ -1,0 +1,109 @@
+section,centrality,in_degree
+Domain Analysis,0.0,0
+Domain Analysis: Integrating Active Inference with Chemistry,0.010989010989010988,1
+Domain Expert Profile,0.021733821733821733,1
+Typical Educational Background,0.03223443223443223,1
+Core Knowledge Areas and Expertise,0.04249084249084249,1
+Common Methodologies and Frameworks Used,0.052503052503052504,1
+Technical Vocabulary and Concepts,0.06227106227106227,1
+Professional Goals and Challenges,0.07179487179487179,1
+Industry Context and Trends,0.08107448107448108,1
+Learning Preferences and Approaches,0.09010989010989011,1
+Key Domain Concepts,0.0989010989010989,1
+Fundamental Principles and Theories,0.10744810744810745,1
+Important Methodologies and Techniques,0.11575091575091576,1
+Standard Tools and Technologies,0.12380952380952381,1
+Common Applications and Use Cases,0.13162393162393163,1
+Industry Best Practices,0.1391941391941392,1
+Current Challenges and Opportunities,0.14652014652014653,1
+Emerging Trends and Developments,0.1536019536019536,1
+Conceptual Bridges to Active Inference,0.16043956043956045,1
+Parallel Concepts Between Domain and Active Inference,0.16703296703296702,1
+Natural Analogies and Metaphors,0.17338217338217338,1
+Shared Mathematical or Theoretical Foundations,0.1794871794871795,1
+Potential Applications of Active Inference,0.18534798534798536,1
+Integration Opportunities,0.19096459096459095,1
+Value Proposition for the Domain,0.19633699633699633,1
+Learning Considerations,0.20146520146520147,1
+Existing Knowledge That Can Be Leveraged,0.20634920634920634,1
+Potential Conceptual Barriers,0.210989010989011,1
+Required Prerequisites,0.2153846153846154,1
+Optimal Learning Sequence,0.21953601953601953,1
+Practical Application Opportunities,0.22344322344322345,1
+Assessment Approaches,0.2271062271062271,1
+Support Needs,0.45433455433455433,2
+The Free Energy Principle & Active Inference,0.1758241758241758,1
+Definition,0.20122100122100123,5
+Examples,0.2188034188034188,3
+Mathematical Formalization,0.010989010989010988,1
+Active Inference,0.007081807081807082,1
+Examples,0.2188034188034188,3
+Generative Models,0.0001221001221001221,1
+Definition,0.20122100122100123,5
+Examples,0.2188034188034188,3
+Variational Free Energy,0.0001221001221001221,1
+Definition,0.20122100122100123,5
+Examples,0.2188034188034188,3
+Predictive Coding,0.0001221001221001221,1
+Definition,0.20122100122100123,5
+Examples,0.2188034188034188,3
+Partially Observable Markov Decision Processes (POMDPs),0.0001221001221001221,1
+Definition,0.20122100122100123,5
+Examples,0.2188034188034188,3
+Implications for Artificial Intelligence and Machine Learning,0.0,1
+Examples,0.2188034188034188,3
+Practical Applications and Implementations,0.13675213675213677,1
+Example: Automating Laboratory Experiments,0.13284493284493284,1
+Example: Optimizing Reaction Conditions,0.12893772893772892,1
+Example: Predictive Analytics in Chemistry,0.12503052503052503,1
+Learning Pathways,0.12112332112332112,1
+Step-by-Step Learning Sequence,0.11721611721611722,1
+Practical Assignments,0.304029304029304,2
+Support Needs,0.45433455433455433,2
+Further Reading and Exploration Paths,0.288034188034188,2
+Recommended Resources,0.07692307692307693,1
+Suggested Exploration Paths,0.07301587301587302,1
+Code Implementation Example,0.06910866910866911,1
+Define the generative model parameters,0.0652014652014652,1
+Define the observation model parameters,0.06129426129426129,1
+Define the variational parameters,0.057387057387057384,1
+Calculate the variational free energy,0.05347985347985348,2
+Calculate the variational free energy,0.05347985347985348,2
+Conclusion,0.10634920634920635,2
+References,0.2772893772893773,2
+Curriculum Content,0.27338217338217335,1
+Comprehensive Expansion of Active Inference in Chemistry,0.26947496947496946,1
+Introduction,0.26556776556776557,1
+Relevance of Active Inference to the Domain,0.2616605616605617,1
+Value Proposition and Potential Applications,0.2577533577533577,1
+Connection to Existing Domain Knowledge,0.25384615384615383,1
+Overview of Learning Journey,0.24993894993894994,1
+Conceptual Foundations,0.24603174603174602,1
+Core Active Inference Concepts Using Domain Analogies,0.24212454212454212,1
+Mathematical Principles with Domain-Relevant Examples,0.2382173382173382,1
+Practical Applications in Domain Context,0.2343101343101343,1
+Technical Framework,0.2304029304029304,1
+Mathematical Formalization Using Domain Notation,0.2264957264957265,1
+Computational Aspects with Domain Tools,0.22258852258852257,1
+Implementation Considerations,0.21868131868131868,1
+Practical Applications,0.21477411477411476,1
+Domain-Specific Use Cases,0.21086691086691087,1
+Advanced Topics,0.20695970695970695,1
+Cutting-Edge Research Relevant to Domain,0.20305250305250305,1
+Future Opportunities,0.19914529914529913,1
+Implementation Examples,0.19523809523809524,1
+Code Examples,0.19133089133089132,1
+Assessment Methods,0.18742368742368742,1
+Theoretical Exams,0.1835164835164835,1
+Practical Assignments,0.304029304029304,2
+Case Studies,0.06910866910866911,1
+Code Reviews,0.0652014652014652,1
+Further Resources,0.06129426129426129,1
+Books and Articles,0.057387057387057384,1
+Online Resources,0.05347985347985348,1
+Tools and Software,0.04957264957264957,1
+Conclusion,0.10634920634920635,2
+Key Concepts Summary,0.021245421245421246,1
+Practical Implementation Pathways,0.01733821733821734,1
+Further Reading and Exploration Paths,0.288034188034188,2
+References,0.2772893772893773,2

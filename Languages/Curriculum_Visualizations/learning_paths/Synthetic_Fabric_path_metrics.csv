@@ -1,0 +1,126 @@
+section,centrality,in_degree
+Domain Analysis,0.0,0
+Domain Analysis: Integrating Active Inference into Textile Production,0.009615384615384616,1
+1. Domain Expert Profile,0.019044062733383122,1
+Typical Educational Background,0.028286034353995522,1
+Core Knowledge Areas and Expertise,0.03734129947722181,1
+Common Methodologies and Frameworks Used,0.04620985810306199,1
+Technical Vocabulary and Concepts,0.05489171023151606,1
+Professional Goals and Challenges,0.06338685586258402,1
+Industry Context and Trends,0.07169529499626587,1
+Learning Preferences and Approaches,0.07981702763256161,1
+2. Key Domain Concepts,0.08775205377147126,1
+Fundamental Principles and Theories,0.09550037341299478,1
+Important Methodologies and Techniques,0.1030619865571322,1
+Standard Tools and Technologies,0.1104368932038835,1
+Common Applications and Use Cases,0.11762509335324871,1
+Industry Best Practices,0.12462658700522779,1
+Current Challenges and Opportunities,0.13144137415982077,1
+Emerging Trends and Developments,0.13806945481702765,1
+3. Conceptual Bridges to Active Inference,0.14451082897684842,1
+Parallel Concepts Between Domain and Active Inference,0.15076549663928307,1
+Natural Analogies and Metaphors,0.1568334578043316,1
+Shared Mathematical or Theoretical Foundations,0.16271471247199404,1
+Potential Applications of Active Inference,0.16840926064227035,1
+Integration Opportunities,0.17391710231516058,1
+Value Proposition for the Domain,0.1792382374906647,1
+4. Learning Considerations,0.18437266616878267,1
+Existing Knowledge That Can Be Leveraged,0.1893203883495146,1
+Potential Conceptual Barriers,0.19408140403286037,1
+Required Prerequisites,0.19865571321882003,1
+Optimal Learning Sequence,0.20304331590739358,1
+Practical Application Opportunities,0.20724421209858104,1
+Assessment Approaches,0.2112584017923824,1
+Support Needs,0.21508588498879763,1
+5. Integrating Active Inference into Textile Production,0.21872666168782676,1
+Predictive Maintenance,0.22218073188946977,1
+Example of predictive maintenance using Active Inference,0.22544809559372667,1
+Define the state space (fabric condition),0.22852875280059748,1
+Define the transition model (probability of moving from one state to another),0.29247572815533984,4
+Define the observation model (probability of observing a certain condition given the true state),0.2939693801344287,1
+Initialize the belief state (prior distribution over states),0.2954630321135176,1
+Perform active inference to update the belief state based on observations,0.29695668409260645,1
+Simulate observations over time,0.2984503360716953,1
+Quality Control,0.00970873786407767,1
+Example of quality control using Active Inference,0.011202389843166544,1
+Define the state space (fabric quality),0.012696041822255415,1
+Define the transition model (probability of moving from one state to another),0.29247572815533984,4
+Define the observation model (probability of observing a certain condition given the true state),0.2939693801344287,1
+Initialize the belief state (prior distribution over states),0.2954630321135176,1
+Perform active inference to update the belief state based on observations,0.29695668409260645,1
+Simulate observations over time,0.2984503360716953,1
+6. Practical Applications and Implementations,0.013722927557879015,1
+Automated Fabric Design,0.015216579536967888,1
+Example of automated fabric design using Active Inference,0.01671023151605676,1
+Define the state space (design parameters),0.018203883495145633,1
+Define the transition model (probability of moving from one state to another),0.29247572815533984,4
+Define the observation model (probability of observing a certain condition given the true state),0.2939693801344287,1
+Initialize the belief state (prior distribution over states),0.2954630321135176,1
+Perform active inference to update the belief state based on observations,0.29695668409260645,1
+Simulate observations over time,0.2984503360716953,1
+Optimized Production Planning,0.00970873786407767,1
+Example of optimized production planning using Active Inference,0.011202389843166544,1
+Define the state space (production conditions),0.012696041822255415,1
+Define the transition model (probability of moving from one state to another),0.29247572815533984,4
+Define the observation model (probability of observing a certain condition given the true state),0.2939693801344287,1
+Initialize the belief state (prior distribution over states),0.2954630321135176,1
+Perform active inference to update the belief state based on observations,0.29695668409260645,1
+Simulate observations over time,0.2984503360716953,1
+7. Implications and Future Directions,0.2524271844660194,1
+Implications for Textile Industry,0.2523338312173264,1
+Future Directions,0.2520537714712472,1
+8. Conclusion,0.25158700522778193,1
+9. Further Reading and Exploration Paths,0.25093353248693057,1
+References,0.35007468259895447,2
+Curriculum Content,0.3447535474234504,1
+Comprehensive Expansion of Active Inference in the Textile Industry,0.33943241224794624,1
+Domain-Specific Introduction,0.33411127707244215,1
+Welcome Message,0.32879014189693806,1
+Relevance of Active Inference to the Domain,0.3234690067214339,1
+Value Proposition and Potential Applications,0.31814787154592983,1
+Connection to Existing Domain Knowledge,0.31282673637042574,1
+Overview of Learning Journey,0.3075056011949216,1
+Success Stories and Examples,0.3021844660194175,1
+Conceptual Foundations,0.29686333084391336,1
+Core Active Inference Concepts Using Domain Analogies,0.2915421956684093,1
+Mathematical Principles with Domain-Relevant Examples,0.2862210604929052,1
+Practical Applications in Domain Context,0.28089992531740104,1
+Integration with Existing Domain Frameworks,0.27557879014189696,1
+Case Studies from the Domain,0.27025765496639287,1
+Technical Framework,0.2649365197908887,1
+Mathematical Formalization Using Domain Notation,0.25961538461538464,1
+Computational Aspects with Domain Tools,0.25429424943988055,1
+Practical Applications,0.2489731142643764,1
+Domain-Specific Use Cases,0.24365197908887232,1
+Implementation Examples,0.2383308439133682,1
+Integration Strategies,0.23300970873786409,1
+Advanced Topics,0.22768857356236,1
+Cutting-Edge Research Relevant to Domain,0.22236743838685588,1
+Future Opportunities,0.21704630321135177,1
+Research Directions,0.21172516803584765,1
+Collaboration Possibilities,0.20640403286034356,1
+Resources for Further Learning,0.20108289768483945,1
+Books and Papers,0.19576176250933533,1
+Online Courses,0.19044062733383124,1
+Community Engagement,0.18511949215832713,1
+Join Active Inference Communities,0.179798356982823,1
+Contribute to Open-Source Projects,0.1744772218073189,1
+Implications for Artificial Intelligence and Machine Learning,0.1691560866318148,1
+Active Inference in AI,0.1638349514563107,1
+Example: Artificial Neural Networks,0.15851381628080657,1
+Example: Robotics Systems,0.1531926811053025,1
+Example: Generative Models,0.14787154592979837,1
+Variational Free Energy,0.14255041075429425,1
+Definition,0.15039208364451084,3
+Example,0.14507094846900673,1
+Mathematical Formalization,0.009615384615384616,1
+Predictive Coding,0.004294249439880508,1
+Definition,0.15039208364451084,3
+Example,0.14507094846900673,1
+Partially Observable Markov Decision Processes (POMDPs),9.335324869305452e-05,1
+Definition,0.15039208364451084,3
+Example,0.14507094846900673,1
+Conclusion,0.11062359970126961,1
+Further Reading,0.1053024645257655,1
+Learning Pathways,0.0999813293502614,1
+References,0.35007468259895447,2

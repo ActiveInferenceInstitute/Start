@@ -1,0 +1,74 @@
+section,centrality,in_degree
+Research Content,0.0,0
+Free Energy Principle and Active Inference: A Comprehensive Overview,0.015384615384615385,1
+Introduction,0.030288461538461542,1
+Audience Background Analysis,0.04471153846153846,1
+Academic and Professional Background,0.058653846153846154,1
+Current Knowledge Domains and Expertise Levels,0.07211538461538462,1
+Research Interests and Methodological Experience,0.08509615384615385,1
+Learning Style Preferences and Cognitive Approaches,0.09759615384615385,1
+Potential Knowledge Gaps and Prerequisites,0.10961538461538461,1
+Cultural and Linguistic Considerations,0.12115384615384617,1
+Professional Goals and Motivations,0.13221153846153846,1
+Conceptual Bridges,0.14278846153846156,1
+Identifying Concepts from Their Domain,0.1528846153846154,1
+Predictive Coding,0.1625,1
+Bayesian Brain Hypothesis,0.17163461538461539,1
+Hierarchical Predictive Processing,0.18028846153846154,1
+Analogies and Metaphors,0.18846153846153846,1
+Markov Blankets,0.19615384615384618,1
+Variational Inference,0.20336538461538461,1
+Mapping Familiar Frameworks to FEP Concepts,0.21009615384615385,1
+Optimal Control Theory,0.21634615384615385,1
+Reinforcement Learning,0.22211538461538463,1
+Highlighting Overlapping Principles and Methodologies,0.22740384615384618,1
+Information Theory,0.23221153846153847,1
+Cybernetic Theories,0.23653846153846156,1
+Learning Challenges,0.2403846153846154,1
+Potential Conceptual Hurdles and Misconceptions,0.24375000000000002,1
+Mathematical Complexity,0.2466346153846154,1
+Technical Prerequisites,0.24903846153846154,1
+Areas Needing Extra Support or Scaffolding,0.25096153846153846,1
+Mathematical Foundations,0.25240384615384615,1
+Practical Applications,0.32379807692307694,2
+Common Misconceptions to Address,0.08413461538461539,1
+Free Energy Minimization vs. Maximization,0.08221153846153846,1
+Surprise vs. Prediction Errors,0.08028846153846154,1
+Conceptual Frameworks,0.07836538461538461,1
+The Free Energy Principle,0.0764423076923077,1
+Definition,0.10721153846153847,4
+Examples,0.10528846153846154,1
+Mathematical Formalization,0.00985576923076923,1
+Active Inference,0.007932692307692307,1
+Definition,0.10721153846153847,4
+Examples,0.10528846153846154,1
+Generative Models,0.0001201923076923077,1
+Definition,0.10721153846153847,4
+Examples,0.10528846153846154,1
+Variational Free Energy,0.0001201923076923077,1
+Definition,0.10721153846153847,4
+Examples,0.10528846153846154,1
+Practical Applications,0.32379807692307694,2
+Generative Models in AI,0.22740384615384618,1
+Active Inference in Robotics,0.22211538461538463,1
+Variational Free Energy in Machine Learning,0.21634615384615385,1
+Implications for Creativity and Innovation,0.21009615384615385,1
+Scientific Discoveries,0.20336538461538461,1
+Artistic Creativity,0.19615384615384618,1
+Implications for Artificial Intelligence,0.18846153846153846,1
+Improved Predictive Capabilities,0.18028846153846154,1
+Enhanced Decision-Making Processes,0.17163461538461539,1
+Implications for Mental Health,0.1625,1
+Anxiety Disorders,0.1528846153846154,1
+Depression,0.14278846153846156,1
+Conclusion,0.13221153846153846,1
+Further Reading and Exploration Paths,0.12115384615384617,1
+Practical Implementation Examples,0.10961538461538461,1
+Using Pymdp for Active Inference,0.09759615384615385,1
+Define the model,0.08509615384615385,1
+Define the states and actions,0.07211538461538462,1
+Define the transition model,0.058653846153846154,1
+Define the observation model,0.04471153846153846,1
+Define the belief update function,0.030288461538461542,1
+Initialize the belief,0.015384615384615385,1
+Perform active inference,0.0,1

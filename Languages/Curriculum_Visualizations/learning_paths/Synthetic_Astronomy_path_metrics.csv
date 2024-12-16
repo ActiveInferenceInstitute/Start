@@ -1,0 +1,98 @@
+section,centrality,in_degree
+Domain Analysis,0.0,0
+Domain Analysis: Integrating Active Inference into Astronomy,0.011235955056179775,1
+Introduction,0.5501787538304392,2
+Core Concepts of Active Inference,0.296220633299285,1
+Parallel Concepts Between Domain and Active Inference,0.29596527068437184,1
+Natural Analogies and Metaphors,0.2957099080694586,1
+Shared Mathematical or Theoretical Foundations,0.29545454545454547,1
+Potential Applications of Active Inference in Astronomy,0.2951991828396323,1
+Integration Opportunities,0.2949438202247191,1
+Value Proposition for the Domain,0.29468845760980594,1
+Learning Considerations,0.29443309499489273,1
+Existing Knowledge That Can Be Leveraged,0.2941777323799796,1
+Potential Conceptual Barriers,0.2939223697650664,1
+Required Prerequisites,0.2936670071501532,1
+Optimal Learning Sequence,0.29341164453524005,1
+Practical Application Opportunities,0.2931562819203269,1
+Assessment Approaches,0.2929009193054137,1
+Support Needs,0.2926455566905005,1
+Key Domain Concepts,0.29239019407558736,1
+Fundamental Principles and Theories,0.29213483146067415,1
+Important Methodologies and Techniques,0.291879468845761,1
+Standard Tools and Technologies,0.29162410623084783,1
+Common Applications and Use Cases,0.2913687436159346,1
+Industry Best Practices,0.29111338100102147,1
+Current Challenges and Opportunities,0.2908580183861083,1
+Emerging Trends and Developments,0.2906026557711951,1
+Conceptual Bridges to Active Inference,0.29034729315628194,1
+Generative Models in Astronomy,0.2900919305413687,1
+Learning in Generative Models,0.28983656792645557,1
+Adaptation to Rapidly Changing Environments,0.2895812053115424,1
+Variational Free Energy in Astronomy,0.2893258426966292,1
+Predictive Coding in Astronomy,0.28907048008171604,1
+Partially Observable Markov Decision Processes (POMDPs) in Astronomy,0.2888151174668029,1
+Practical Applications and Implementations,0.28855975485188967,1
+Automated Data Analysis Tools,0.2883043922369765,1
+Example of automated data analysis tool using Active Inference,0.28804902962206336,1
+Example usage,0.43271195097037796,3
+Predictive Modeling Tools,0.011235955056179775,1
+Example of predictive modeling tool using Active Inference,0.010980592441266599,1
+Example usage,0.43271195097037796,3
+Decision Support Systems,0.3806179775280899,2
+Example of decision support system using Active Inference,0.11172114402451482,1
+Example usage,0.43271195097037796,3
+Learning Pathways,0.28804902962206336,2
+Foundational Courses,0.28779366700715014,1
+Hands-on Experience,0.287538304392237,1
+Collaborative Projects,0.28728294177732383,1
+Further Reading and Exploration Paths,0.2870275791624106,1
+References,0.5482635342185904,2
+Curriculum Content,0.5282175689479061,1
+Free Energy Principle and Active Inference in Astronomy,0.5279622063329928,1
+Introduction,0.5501787538304392,2
+Core Concepts of Free Energy Principle and Active Inference,0.2423391215526047,1
+Definition of Free Energy Principle,0.24208375893769152,1
+Key Quantities in FEP,0.24182839632277836,1
+Active Inference,0.24157303370786518,1
+Predictive Coding,0.241317671092952,1
+Generative Models,0.24106230847803883,1
+Variational Free Energy,0.24080694586312565,1
+Relevance of Active Inference to Astronomy,0.24055158324821246,1
+Domain-Specific Introduction,0.24029622063329928,1
+Connection to Existing Domain Knowledge,0.24004085801838612,1
+Practical Applications in Astronomy,0.23978549540347294,1
+Automated Data Analysis,0.23953013278855975,1
+Predictive Modeling,0.2392747701736466,1
+Decision Support Systems,0.3806179775280899,2
+Case Studies from the Domain,0.25727783452502556,1
+Gravitational Wave Analysis,0.25702247191011235,1
+Exoplanet Research,0.2567671092951992,1
+Astrophysical Modeling,0.25651174668028603,1
+Technical Framework,0.2562563840653728,1
+Mathematical Formalization Using Domain Notation,0.25600102145045966,1
+Computational Aspects with Domain Tools,0.2557456588355465,1
+Implementation Considerations,0.2554902962206333,1
+Integration Strategies,0.25523493360572014,1
+Practical Applications,0.254979570990807,1
+Domain-Specific Use Cases,0.25472420837589377,1
+Implementation Examples,0.2981358529111338,2
+Advanced Topics,0.03332482124616956,1
+Cutting-Edge Research Relevant to Domain,0.03306945863125638,1
+Future Opportunities,0.032814096016343205,1
+Research Directions,0.032558733401430034,1
+Implementation Examples,0.2981358529111338,2
+Code Examples,0.2531920326864147,1
+Example of a simple generative model for spectral line analysis,0.25293667007150156,1
+Example of using Active Inference for gravitational wave prediction,0.25268130745658834,1
+Define generative model for gravitational waveforms,0.2524259448416752,1
+Compile model with appropriate loss function and optimizer,0.25217058222676203,1
+Example of using Active Inference for exoplanet atmosphere prediction,0.2519152196118488,1
+Train random forest regressor on exoplanet data,0.25165985699693566,1
+Evaluation Methods,0.2514044943820225,1
+Success Metrics,0.2511491317671093,1
+Conclusion,0.25089376915219613,1
+Further Reading,0.250638406537283,1
+Community Engagement,0.25038304392236976,1
+References,0.5482635342185904,2
+Learning Pathways,0.28804902962206336,2

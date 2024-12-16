@@ -1,0 +1,198 @@
+section,centrality,in_degree
+Domain Analysis,0.0,0
+Domain Analysis: Bayesian Inference and Active Inference,0.006535947712418301,1
+Domain Expert Profile,0.012985896112831097,1
+Typical Educational Background,0.019349845201238388,1
+Core Knowledge Areas and Expertise,0.02562779497764018,1
+Common Methodologies and Frameworks Used,0.03181974544203646,1
+Technical Vocabulary and Concepts,0.037925696594427245,1
+Professional Goals and Challenges,0.04394564843481252,1
+Industry Context and Trends,0.04987960096319229,1
+Learning Preferences and Approaches,0.05572755417956656,1
+Key Domain Concepts,0.06148950808393533,1
+Fundamental Principles and Theories,0.06716546267629858,1
+Important Methodologies and Techniques,0.07275541795665634,1
+Standard Tools and Technologies,0.0782593739250086,1
+Conceptual Bridges to Active Inference,0.08367733058135535,1
+Parallel Concepts Between Domain and Active Inference,0.0890092879256966,1
+Natural Analogies and Metaphors,0.09425524595803234,1
+Shared Mathematical or Theoretical Foundations,0.09941520467836257,1
+Free Energy Principle & Active Inference,0.1044891640866873,1
+Definition,0.17475060199518402,9
+Example Applications,0.0,1
+Mathematical Formalization,0.020940832473340214,2
+Active Inference,0.048265578161089,3
+Markov Blankets,0.0001719986240110079,1
+Variational Free Energy,0.005808792815371763,2
+Generative Models,4.68389110029977e-05,2
+Definition,0.17475060199518402,9
+Examples,0.38732477640178875,2
+Learning Process,0.006277949776401789,1
+Counterfactual Reasoning,0.005718954248366013,1
+Practical Applications,0.4026702786377709,4
+Robotics and Autonomous Systems,0.12280701754385964,1
+Cognitive Science,0.12224802201582387,1
+Neuroscience,0.1216890264877881,1
+Integration Opportunities,0.12113003095975232,1
+Hybrid Models,0.12057103543171654,1
+Real-time Applications,0.12001203990368077,1
+Learning Considerations,0.119453044375645,1
+Existing Knowledge That Can Be Leveraged,0.11889404884760922,1
+Potential Conceptual Barriers,0.11833505331957345,1
+Required Prerequisites,0.11777605779153766,1
+Optimal Learning Sequence,0.11721706226350188,1
+Assessment Approaches,0.11665806673546611,1
+Theoretical Questions,0.11609907120743033,1
+Practical Assignments,0.11554007567939456,1
+Support Needs,0.11498108015135879,1
+Tutorials and Guides,0.11442208462332301,1
+Community Support,0.11386308909528724,1
+Practical Implementation,0.11330409356725146,1
+Example Code,0.11274509803921569,1
+Define the model,0.11218610251117991,1
+Sample from the posterior distribution,0.11162710698314413,1
+Plot the posterior distribution,0.11106811145510835,1
+Further Reading,0.3022015823873409,2
+Key Takeaways,0.0,1
+References,0.46796525627794977,4
+Further Exploration Paths,0.18719900240798074,1
+Curriculum Content,0.18664000687994495,1
+"Active Inference: A Comprehensive Framework for Perception, Learning, and Decision-Making",0.1860810113519092,1
+Introduction,0.2986111111111111,3
+Relevance of Active Inference to the Domain,0.030959752321981424,1
+Value Proposition and Potential Applications,0.030400756793945646,1
+Connection to Existing Domain Knowledge,0.029841761265909872,1
+Conceptual Foundations,0.029282765737874097,1
+Core Active Inference Concepts Using Domain Analogies,0.02872377020983832,1
+Mathematical Principles with Domain-Relevant Examples,0.028164774681802545,1
+Practical Applications,0.4026702786377709,4
+Domain-Specific Use Cases,0.024853801169590642,1
+Integration Strategies,0.024294805641554867,1
+Technical Framework,0.02373581011351909,1
+Mathematical Formalization Using Domain Notation,0.023176814585483315,1
+Computational Aspects with Domain Tools,0.02261781905744754,1
+Define generative model parameters,0.2523004815961472,3
+Define approximate posterior distribution,0.2517414860681115,1
+Compute variational free energy,0.2511824905400757,1
+Implementation Considerations,0.09920020639834881,1
+Practical Applications and Case Studies,0.09864121087031304,1
+Robotics Case Study,0.09808221534227726,1
+Cognitive Science Case Study,0.09752321981424149,1
+Interactive Examples and Exercises,0.09696422428620571,1
+Interactive Example 1,0.09640522875816993,1
+Interactive Exercise 1,0.09584623323013415,1
+Advanced Topics and Implications,0.09528723770209838,1
+Variational Free Energy and Information-Theoretic Measures,0.0947282421740626,1
+Implications for Mental Health Disorders,0.09416924664602683,1
+Connection to Broader Contexts,0.09361025111799105,1
+Further Reading and Exploration Paths,0.20502235982112144,2
+References,0.46796525627794977,4
+Practical Implementation Example,0.11199260405916753,1
+Define generative model parameters,0.2523004815961472,3
+Define approximate posterior distribution,0.2517414860681115,1
+Compute variational free energy,0.2511824905400757,1
+Example usage:,0.14510233918128654,1
+Overview,0.11781905744754041,2
+Overview of Active Inference in Autonomous Vehicle Navigation,0.06789645682834537,1
+Introduction,0.2986111111111111,3
+Key Concepts,0.2518704850361197,2
+Free Energy Principle (FEP),0.010357542139662883,1
+Active Inference,0.048265578161089,3
+Application in Autonomous Vehicle Navigation,0.03138974888200894,1
+Overview,0.11781905744754041,2
+Hierarchical Active Inference Model,0.04304265565875473,1
+Implementation,0.042483660130718956,1
+Example: Navigating a Maze,0.041924664602683175,1
+Initialize internal model with coarse representation of environment,0.0413656690746474,1
+Update internal model with pixel-based visual observations,0.040806673546611626,1
+Generate predictions about future trajectory,0.04024767801857585,1
+Select actions to gather information and reduce uncertainty,0.03968868249054008,1
+Main loop for active inference,0.0391296869625043,1
+Practical Applications,0.4026702786377709,4
+Navigation in Unmarked Roads,0.1287624699002408,1
+Dynamic Cognitive Map,0.12820347437220503,1
+Implications and Future Directions,0.12764447884416924,1
+Implications for Artificial Intelligence and Machine Learning,0.12708548331613348,1
+Limitations and Future Directions,0.1265264877880977,1
+Conclusion,0.18593051255589954,2
+Further Reading,0.3022015823873409,2
+Practical Implementation Pathways,0.0,1
+References,0.46796525627794977,4
+Steps,0.1173890608875129,1
+Steps in Implementing the Free Energy Principle and Active Inference,0.11683006535947713,1
+1. Define Generative Model Parameters,0.11627106983144135,1
+**Generative Models in Biological Systems**,0.11571207430340556,1
+**Formalization of Generative Models**,0.11515307877536979,1
+2. Implement Approximate Posterior Distribution,0.11459408324733401,1
+**Variational Approach**,0.11403508771929824,1
+**Implementation in Machine Learning**,0.11347609219126246,1
+3. Compute Variational Free Energy,0.11291709666322669,1
+**Definition and Mathematical Formalization**,0.11235810113519092,1
+**Computational Implementation**,0.11179910560715514,1
+4. Select Actions Based on Reduced Uncertainty,0.11124011007911937,1
+**Active Inference**,0.11068111455108359,1
+**Formalization in POMDPs**,0.11012211902304782,1
+**Temporal Aspects in Active Inference**,0.10956312349501204,1
+Practical Applications and Implementations,0.10900412796697626,1
+**Artificial Intelligence and Machine Learning**,0.10844513243894048,1
+**Generative Models in AI**,0.1078861369109047,1
+Implications and Limitations,0.10732714138286893,1
+**Implications for Mental Health Disorders**,0.10676814585483316,1
+**Limitations of Current Artificial Generative Models**,0.10620915032679738,1
+Further Reading and Exploration Paths,0.20502235982112144,2
+**Recommended Resources**,0.03702270381836945,1
+**Key Concepts and Definitions**,0.03646370829033368,1
+**Implementation Steps**,0.035904712762297904,1
+**Practical Applications**,0.03534571723426212,1
+**Further Reading**,0.03478672170622635,1
+Code Example,0.03422772617819057,1
+Comprehensive Expansion of Active Inference and Free Energy Principle,0.0336687306501548,1
+Introduction,0.2986111111111111,3
+The Free Energy Principle,0.014705882352941176,1
+Definition,0.17475060199518402,9
+Mathematical Formalization,0.020940832473340214,2
+Key Concepts,0.2518704850361197,2
+Examples,0.38732477640178875,2
+Active Inference,0.048265578161089,3
+Definition,0.17475060199518402,9
+Examples,0.38732477640178875,2
+Generative Models,4.68389110029977e-05,2
+Definition,0.17475060199518402,9
+Examples,0.38732477640178875,2
+Model Evidence,4.68389110029977e-05,1
+Definition,0.17475060199518402,9
+Examples,0.38732477640178875,2
+Learning and Adaptation,4.68389110029977e-05,1
+Definition,0.17475060199518402,9
+Examples,0.38732477640178875,2
+Variational Free Energy,0.005808792815371763,2
+Definition,0.17475060199518402,9
+Examples,0.38732477640178875,2
+Predictive Coding,4.68389110029977e-05,1
+Definition,0.17475060199518402,9
+Examples,0.38732477640178875,2
+Partially Observable Markov Decision Processes (POMDPs),4.68389110029977e-05,1
+Definition,0.17475060199518402,9
+Examples,0.38732477640178875,2
+Practical Applications,0.4026702786377709,4
+Implementation Example,0.1067251461988304,1
+Define generative model parameters,0.2523004815961472,3
+Define approximate posterior distribution,0.2517414860681115,1
+Compute variational free energy,0.2511824905400757,1
+Example usage:,0.14510233918128654,1
+Advanced Topics,0.057555039559683524,1
+Integration with Deep Learning,0.05699604403164774,1
+Causal Inference Methods,0.05643704850361197,1
+Future Opportunities,0.055878052975576194,1
+Research Directions,0.05531905744754042,1
+Collaboration Possibilities,0.054760061919504645,1
+Resources for Further Learning,0.05420106639146886,1
+Conclusion,0.18593051255589954,2
+Further Reading,0.3022015823873409,2
+References,0.46796525627794977,4
+Implementation Example in Pymdp,0.03181974544203646,1
+"instantiate a quick agent using your A, B and C arrays",0.02562779497764018,1
+give the agent a random observation and get the optimized posterior beliefs...,0.019349845201238388,1
+get posterior over hidden states (a multi-factor belief),0.012985896112831097,1
+return the policy posterior and return (negative) expected free energies of each policy as well...,0.006535947712418301,1
+sample an action...,0.0,1
