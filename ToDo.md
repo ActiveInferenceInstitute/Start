@@ -1,8 +1,9 @@
 # Development Roadmap
 
 ## Phase 1: Core Infrastructure Enhancement
-### Researcher Integration
-- [ ] Implement ORCID API integration
+
+### Entity (Domains, Researchers, Organizations) Information Integration
+- [ ] Implement ORCID and other Identity API integrations
   - [ ] Profile data fetching
   - [ ] Publication scraping
   - [ ] Research domain analysis
@@ -12,7 +13,7 @@
   - [ ] Add validation rules
 
 ### Database Implementation
-- [ ] Design database schema
+- [ ] Design and Clarify/Document database schema
   - [ ] Entity relationships
   - [ ] Metadata structure
   - [ ] Version control system

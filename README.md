@@ -60,11 +60,6 @@ A sophisticated pipeline for generating, analyzing, and visualizing personalized
 # Clone the repository
 git clone https://github.com/ActiveInferenceInstitute/Start.git
 
-# Install dependencies
-pip install -r requirements.txt
-
-# Install spaCy model
-python -m spacy download en_core_web_sm
 ```
 
 ## 🎯 Usage
@@ -179,7 +174,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📬 Contact
 
 - GitHub Issues: [Project Issues](https://github.com/ActiveInferenceInstitute/Start/issues)
-- Email: [contact@activeinference.org](mailto:contact@activeinference.org)
+- Email: [contact@activeinference.org](mailto:blanket@activeinference.institute)
 
 ## 🌟 Join the Community
 
