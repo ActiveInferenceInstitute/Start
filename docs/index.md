@@ -107,17 +107,13 @@ graph TD
 
 ### Active Inference Institute Ecosystem
 
-- **Institute website**: [activeinference.org](https://www.activeinference.org/)
-- **Livestreams**: [activeinference.institute/livestreams](https://www.activeinference.institute/livestreams)
-- **Courses**: [activeinference.institute/courses](https://www.activeinference.institute/courses)
-- **Journal**: [Active Inference Journal](https://www.activeinference.org/research/journal)
-- **Research resources**: [activeinference.org/research/resources](https://www.activeinference.org/research/resources)
-- **Volunteer & internships**: [activeinference.org/education/volunteer](https://www.activeinference.org/education/volunteer)
-- **Partnerships**: [activeinference.institute/partnership](https://www.activeinference.institute/partnership)
-- **TNB Group (Theoretical Neurobiology)**: [activeinference.institute/tnb](https://www.activeinference.institute/tnb)
-- **Welcome portal**: [welcome.activeinference.institute](https://welcome.activeinference.institute/)
-- **Knowledge graph**: [obsidian.activeinference.institute](https://obsidian.activeinference.institute/)
-- **Cognitive repository**: [ActiveInferenceInstitute/cognitive](https://github.com/ActiveInferenceInstitute/cognitive)
+- **Website**: [activeinference.institute](https://www.activeinference.institute/)
+- **Activities**: [activities.activeinference.institute](https://activities.activeinference.institute/)
+- **X (Twitter)**: [x.com/InferenceActive](https://x.com/InferenceActive)
+- **Discord**: [discord.activeinference.institute](https://discord.activeinference.institute/)
+- **Donate**: [donate.activeinference.institute](http://donate.activeinference.institute/)
+- **YouTube**: [youtube.com/c/ActiveInference](https://www.youtube.com/c/ActiveInference/)
+- **Livestreams**: [video.activeinference.institute](https://video.activeinference.institute/)
 
 ### Math & Programming Resources
 
@@ -136,14 +132,14 @@ graph TD
 
 ### Research & Analysis
 
-- **16 Professional Domains**: Life sciences, technology, business, healthcare, education
-- **8 Target Entities**: Political figures, scientists, tech leaders, educators
+- ** Professional Domains**: Life sciences, technology, business, healthcare, education, and whatever you prefer. 
+- **8 Target Entities**: Political figures, scientists, tech leaders, educators, any entity or audience you prefer
 - **Real-time Research**: Current industry insights and professional analysis
 - **Comprehensive Analysis**: 3,000-5,000 word domain reports
 
 ### Content Generation
 
-- **Professional-Grade Curricula**: 40-60 hour structured learning programs
+- **Professional-Grade Curricula**: 40-60 hour structured learning programs, eventually with more granular and custom productions possible in this repo
 - **Personalized Learning**: 5,000-8,000 word tailored strategies
 - **Modular Design**: 3-5 hour comprehensive learning units
 - **Assessment Integration**: Built-in evaluation and progress tracking
@@ -238,3 +234,42 @@ START/
 ---
 
 **START** represents a new paradigm in educational content creation, combining cutting-edge AI research capabilities with comprehensive pedagogical design to produce world-class Active Inference curricula tailored to any professional domain or individual learner.
+
+## Institute Shortlinks (email-friendly)
+
+- 2025: [2025.activeinference.institute](https://2025.activeinference.institute/)
+- Active Blockference: [active-blockference.activeinference.institute](https://active-blockference.activeinference.institute)
+- Activities: [activities.activeinference.institute](https://activities.activeinference.institute)
+- Affordances: [affordances.activeinference.institute](https://affordances.activeinference.institute/)
+- Board of Directors (BoD): [bod.activeinference.institute](https://bod.activeinference.institute)
+- Discord: [discord.activeinference.institute](https://discord.activeinference.institute)
+- Donate: [donate.activeinference.institute](http://donate.activeinference.institute)
+- Ecosystem: [ecosystem.activeinference.institute](https://ecosystem.activeinference.institute)
+- EduActive: [eduactive.activeinference.institute](https://eduactive.activeinference.institute)
+- Fellows: [fellows.activeinference.institute](https://fellows.activeinference.institute)
+- Fellowship: [fellowship.activeinference.institute](https://fellowship.activeinference.institute)
+- Internships: [intern.activeinference.institute](https://intern.activeinference.institute)
+- Knowledge Engineering: [knowledge-engineering.activeinference.institute](https://knowledge-engineering.activeinference.institute)
+- Measure: [measure.activeinference.institute](https://measure.activeinference.institute)
+- Mentorship: [mentorship.activeinference.institute](https://mentorship.activeinference.institute/)
+- Newsletter: [newsletter.activeinference.institute](https://newsletter.activeinference.institute)
+- Obsidian (Knowledge Graph): [obsidian.activeinference.institute](https://obsidian.activeinference.institute)
+- Ontology: [ontology.activeinference.institute](https://ontology.activeinference.institute)
+- Partnership: [partnership.activeinference.institute](https://partnership.activeinference.institute)
+- Partnerships: [partnerships.activeinference.institute](https://partnerships.activeinference.institute)
+- PayPal: [paypal.activeinference.institute](https://paypal.activeinference.institute)
+- Prepare: [prepare.activeinference.institute](https://prepare.activeinference.institute)
+- Projects: [projects.activeinference.institute](https://projects.activeinference.institute)
+- ReInference: [reinference.activeinference.institute](https://reinference.activeinference.institute)
+- RxInfer: [rxinfer.activeinference.institute](https://rxinfer.activeinference.institute)
+- SAB: [sab.activeinference.institute](https://sab.activeinference.institute)
+- Strategy: [strategy.activeinference.institute](https://strategy.activeinference.institute)
+- Support: [support.activeinference.institute](https://support.activeinference.institute)
+- Symposium: [symposium.activeinference.institute](https://symposium.activeinference.institute/)
+- Textbook Group: [textbook-group.activeinference.institute](https://textbook-group.activeinference.institute)
+- TNB: [tnb.activeinference.institute](https://tnb.activeinference.institute/)
+- Video: [video.activeinference.institute](https://video.activeinference.institute)
+- Volunteer: [volunteer.activeinference.institute](https://volunteer.activeinference.institute)
+- Wave Hypothesis: [wave-hypothesis.activeinference.institute](https://wave-hypothesis.activeinference.institute/)
+- Weekly: [weekly.activeinference.institute](https://weekly.activeinference.institute/)
+- Welcome: [welcome.activeinference.institute](https://welcome.activeinference.institute)

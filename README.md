@@ -5,7 +5,7 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 > **An advanced AI-powered system for creating personalized Active Inference and Free Energy Principle curricula**
-> Quick links: [Active Inference Institute Welcome](https://welcome.activeinference.institute/) • [Obsidian Knowledge Graph](https://obsidian.activeinference.institute/) (maps to cognitive repo)
+> Quick links: [activeinference.institute](https://www.activeinference.institute/) • [activities.activeinference.institute](https://activities.activeinference.institute/) • [x.com/InferenceActive](https://x.com/InferenceActive) • [discord.activeinference.institute](https://discord.activeinference.institute/) • [donate.activeinference.institute](http://donate.activeinference.institute/) • [youtube.com/c/ActiveInference](https://www.youtube.com/c/ActiveInference/) • [video.activeinference.institute](https://video.activeinference.institute/)
 
 START combines real-time research capabilities with sophisticated content generation to produce professional-grade, personalized educational materials for Active Inference and the Free Energy Principle. The system integrates multiple APIs, comprehensive prompt engineering, and multilingual capabilities to create world-class curricula tailored to specific domains and individual learners.
 
@@ -13,7 +13,7 @@ START combines real-time research capabilities with sophisticated content genera
 
 ## 🌐 Documentation (Live)
 
-- GitHub Pages site: https://activeinferenceinstitute.github.io/Start/
+- GitHub Pages site: [activeinferenceinstitute.github.io/Start](https://activeinferenceinstitute.github.io/Start/)
 
 ## 🔗 Quick Links
 
@@ -38,16 +38,16 @@ START combines real-time research capabilities with sophisticated content genera
 ./run.sh
 ```
 
-- **Documentation Website** (serve or build):
+- **Documentation Website** (serve, build, deploy):
 
 ```bash
 # Serve locally with live reload
 ./run_docs.sh --serve
 
-# Or build static site to ./site and open it
+# Build static site to ./site and open it
 ./run_docs.sh --build
 
-# Or deploy to GitHub Pages and open the URL
+# Deploy to GitHub Pages and open the URL
 ./run_docs.sh --deploy
 ```
 
@@ -271,18 +271,15 @@ See `docs/examples.md` for example outputs and paths.
 
 ## 🤝 **Active Inference Ecosystem Integration**
 
-START connects with the broader Active Inference Institute ecosystem:
+- **Website**: [activeinference.institute](https://www.activeinference.institute/)
+- **Activities**: [activities.activeinference.institute](https://activities.activeinference.institute/)
+- **X (Twitter)**: [x.com/InferenceActive](https://x.com/InferenceActive)
+- **Discord**: [discord.activeinference.institute](https://discord.activeinference.institute/)
+- **Donate**: [donate.activeinference.institute](http://donate.activeinference.institute/)
+- **YouTube**: [youtube.com/c/ActiveInference](https://www.youtube.com/c/ActiveInference/)
+- **Livestreams**: [video.activeinference.institute](https://video.activeinference.institute/)
 
-- **[Welcome Portal](https://welcome.activeinference.institute/)** - Community entry point and resources
-- **[Knowledge Graph](https://obsidian.activeinference.institute/)** - Comprehensive concept mapping
-- **[Cognitive Repository](https://github.com/ActiveInferenceInstitute/cognitive)** - Structured knowledge base
-- **[Implementation Packages](docs/clones.md)** - Julia and Python Active Inference tools
-
-### External Knowledge Resources
-- **cognitive** knowledge base: [github.com/ActiveInferenceInstitute/cognitive](https://github.com/ActiveInferenceInstitute/cognitive)
-- **RxInfer examples**: [github.com/docxology/RxInferExamples.jl](https://github.com/docxology/RxInferExamples.jl/)
-- **ActiveInference.jl (textbook)**: [github.com/docxology/ActiveInference.jl/tree/textbook](https://github.com/docxology/ActiveInference.jl/tree/textbook)
-- **pymdp (textbook)**: [github.com/docxology/pymdp/tree/textbook](https://github.com/docxology/pymdp/tree/textbook)
+See also: implementation repos and knowledge resources in [docs/clones.md](docs/clones.md).
 
 ## 🔄 **Development Roadmap**
 
@@ -411,3 +408,42 @@ Licensed under Creative Commons Attribution-ShareAlike 4.0 International
 Together we're building tools to make Active Inference accessible and adaptable across domains, languages, and perspectives. **START** represents a new paradigm in AI-powered educational content creation - join us in making advanced neuroscience and cognitive science accessible to learners worldwide!
 
 **[📚 Explore Documentation](docs/README.md) | [🚀 Get Started](#-quick-installation) | [🤝 Join Community](https://www.activeinference.institute/)**
+
+## Institute Shortlinks (email-friendly)
+
+- 2025: [2025.activeinference.institute](https://2025.activeinference.institute/)
+- Active Blockference: [active-blockference.activeinference.institute](https://active-blockference.activeinference.institute)
+- Activities: [activities.activeinference.institute](https://activities.activeinference.institute)
+- Affordances: [affordances.activeinference.institute](https://affordances.activeinference.institute/)
+- BoD: [bod.activeinference.institute](https://bod.activeinference.institute)
+- Discord: [discord.activeinference.institute](https://discord.activeinference.institute)
+- Donate: [donate.activeinference.institute](http://donate.activeinference.institute)
+- Ecosystem: [ecosystem.activeinference.institute](https://ecosystem.activeinference.institute)
+- EduActive: [eduactive.activeinference.institute](https://eduactive.activeinference.institute)
+- Fellows: [fellows.activeinference.institute](https://fellows.activeinference.institute)
+- Fellowship: [fellowship.activeinference.institute](https://fellowship.activeinference.institute)
+- Intern: [intern.activeinference.institute](https://intern.activeinference.institute)
+- Knowledge Engineering: [knowledge-engineering.activeinference.institute](https://knowledge-engineering.activeinference.institute)
+- Measure: [measure.activeinference.institute](https://measure.activeinference.institute)
+- Mentorship: [mentorship.activeinference.institute](https://mentorship.activeinference.institute/)
+- Newsletter: [newsletter.activeinference.institute](https://newsletter.activeinference.institute)
+- Obsidian: [obsidian.activeinference.institute](https://obsidian.activeinference.institute)
+- Ontology: [ontology.activeinference.institute](https://ontology.activeinference.institute)
+- Partnership: [partnership.activeinference.institute](https://partnership.activeinference.institute)
+- Partnerships: [partnerships.activeinference.institute](https://partnerships.activeinference.institute)
+- PayPal: [paypal.activeinference.institute](https://paypal.activeinference.institute)
+- Prepare: [prepare.activeinference.institute](https://prepare.activeinference.institute)
+- Projects: [projects.activeinference.institute](https://projects.activeinference.institute)
+- ReInference: [reinference.activeinference.institute](https://reinference.activeinference.institute)
+- RxInfer: [rxinfer.activeinference.institute](https://rxinfer.activeinference.institute)
+- SAB: [sab.activeinference.institute](https://sab.activeinference.institute)
+- Strategy: [strategy.activeinference.institute](https://strategy.activeinference.institute)
+- Support: [support.activeinference.institute](https://support.activeinference.institute)
+- Symposium: [symposium.activeinference.institute](https://symposium.activeinference.institute/)
+- Textbook Group: [textbook-group.activeinference.institute](https://textbook-group.activeinference.institute)
+- TNB: [tnb.activeinference.institute](https://tnb.activeinference.institute/)
+- Video: [video.activeinference.institute](https://video.activeinference.institute)
+- Volunteer: [volunteer.activeinference.institute](https://volunteer.activeinference.institute)
+- Wave Hypothesis: [wave-hypothesis.activeinference.institute](https://wave-hypothesis.activeinference.institute/)
+- Weekly: [weekly.activeinference.institute](https://weekly.activeinference.institute/)
+- Welcome: [welcome.activeinference.institute](https://welcome.activeinference.institute)

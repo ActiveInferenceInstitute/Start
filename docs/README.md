@@ -95,7 +95,7 @@ graph TD
 #### 🔧 **Configuration Reference**
 
 - **Entity Configuration**: `data/config/entities.yaml` - Target learner profiles
-- **Domain Configuration**: `data/config/domains.yaml` - Professional domain definitions
+- **Domain Configuration**: `data/config/domains.yaml` - Professional domain definitions  
 - **Language Configuration**: `data/config/languages.yaml` - Translation targets
 
 #### 📝 **Prompt Engineering**
@@ -113,7 +113,7 @@ graph TD
 2. **[Pipeline Overview](./pipeline.md)** - Understand the system
 3. **[Usage Guide](../learning/curriculum_creation/USAGE_GUIDE.md)** - Create your first curriculum
 
-### For Developers
+### For Developers  
 
 1. **[Environment Setup](./environment.md)** - Development environment
 2. **[API Documentation](../learning/curriculum_creation/README.md)** - Technical integration
@@ -121,7 +121,7 @@ graph TD
 
 ### For Researchers
 
-1. **[Pipeline Overview](./pipeline.md)** - Research capabilities
+1. **[Pipeline Overview](./pipeline.md)** - Research capabilities 
 2. **[Clone Management](./clones.md)** - Access research repositories
 3. **Configuration Files** - Customize research targets
 
@@ -129,30 +129,19 @@ graph TD
 
 ### Active Inference Institute Ecosystem
 
-- **Institute website**: [activeinference.org](https://www.activeinference.org/)
-- **Livestreams**: [activeinference.institute/livestreams](https://www.activeinference.institute/livestreams)
-- **Courses**: [activeinference.institute/courses](https://www.activeinference.institute/courses)
-- **Journal**: [Active Inference Journal](https://www.activeinference.org/research/journal)
-- **Research resources**: [activeinference.org/research/resources](https://www.activeinference.org/research/resources)
-- **Volunteer & internships**: [activeinference.org/education/volunteer](https://www.activeinference.org/education/volunteer)
-- **Partnerships**: [activeinference.institute/partnership](https://www.activeinference.institute/partnership)
-- **TNB Group (Theoretical Neurobiology)**: [activeinference.institute/tnb](https://www.activeinference.institute/tnb)
-- **Welcome portal**: [welcome.activeinference.institute](https://welcome.activeinference.institute/)
-- **Knowledge graph**: [obsidian.activeinference.institute](https://obsidian.activeinference.institute/)
-- **Cognitive repository**: [ActiveInferenceInstitute/cognitive](https://github.com/ActiveInferenceInstitute/cognitive)
+- **Website**: [activeinference.institute](https://www.activeinference.institute/)
+- **Activities**: [activities.activeinference.institute](https://activities.activeinference.institute/)
+- **X (Twitter)**: [x.com/InferenceActive](https://x.com/InferenceActive)
+- **Discord**: [discord.activeinference.institute](https://discord.activeinference.institute/)
+- **Donate**: [donate.activeinference.institute](http://donate.activeinference.institute/)
+- **YouTube**: [youtube.com/c/ActiveInference](https://www.youtube.com/c/ActiveInference/)
+- **Livestreams**: [video.activeinference.institute](https://video.activeinference.institute/)
 
-### Math & Programming Resources
+### Research & Development
 
-- **pymdp (official)**: [infer-actively/pymdp](https://github.com/infer-actively/pymdp)
-- **Active Inference Tutorial Scripts**: [rssmith33/Active-Inference-Tutorial-Scripts](https://github.com/rssmith33/Active-Inference-Tutorial-Scripts)
-- **Free Energy Principle papers**: [activeinference.github.io](https://activeinference.github.io/)
-- **Active Inference: Demystified and Compared**: [arXiv:1909.10863](https://arxiv.org/abs/1909.10863)
-- **Step-by-Step Tutorial**: [PMC](https://pmc.ncbi.nlm.nih.gov/articles/PMC8956124/)
-
-### In-Repo Entry Points
-
-- **Top-level landing page**: [Here — starting at start/here](../here.md)
-- **Other materials**: [docs/other/inferant_stream_015-1.md](../docs/other/inferant_stream_015-1.md)
+- **Active Inference Institute**: Primary research organization
+- **Implementation Repositories**: Julia and Python Active Inference packages
+- **Educational Resources**: Comprehensive examples and tutorials
 
 ## 📋 **System Capabilities**
 
@@ -192,8 +181,8 @@ entities:
   - name: "karl_friston"
     category: "scientist"
     priority: "high"
-
-# data/config/domains.yaml
+    
+# data/config/domains.yaml  
 domains:
   - name: "biochemistry"
     category: "life_sciences"
@@ -206,7 +195,7 @@ domains:
 # Research high-priority entities
 python 1_Research_Entity.py --priority high
 
-# Generate domain-specific curricula
+# Generate domain-specific curricula  
 python 1_Research_Domain.py --domain biochemistry
 
 # Create multilingual content
@@ -220,7 +209,7 @@ START/
 ├── src/                      # Core system implementation
 ├── learning/                 # Curriculum creation scripts
 ├── data/                     # Generated content and configuration
-├── docs/                     # Comprehensive documentation
+├── docs/                     # Comprehensive documentation  
 ├── tests/                    # Test suite and validation
 └── README.md                 # Project overview and quick start
 ```
@@ -251,7 +240,7 @@ START/
 - **Example usage** in test files and usage guides
 - **Configuration examples** in YAML files
 
-### Community & Support
+### Community & Support  
 
 - **Active Inference Institute** for research questions
 - **GitHub Issues** for technical problems and feature requests
@@ -260,3 +249,42 @@ START/
 ---
 
 **START** represents a new paradigm in educational content creation, combining cutting-edge AI research capabilities with comprehensive pedagogical design to produce world-class Active Inference curricula tailored to any professional domain or individual learner.
+
+## Institute Shortlinks (email-friendly)
+
+- 2025: [2025.activeinference.institute](https://2025.activeinference.institute/)
+- Active Blockference: [active-blockference.activeinference.institute](https://active-blockference.activeinference.institute)
+- Activities: [activities.activeinference.institute](https://activities.activeinference.institute)
+- Affordances: [affordances.activeinference.institute](https://affordances.activeinference.institute/)
+- Board of Directors (BoD): [bod.activeinference.institute](https://bod.activeinference.institute)
+- Discord: [discord.activeinference.institute](https://discord.activeinference.institute)
+- Donate: [donate.activeinference.institute](http://donate.activeinference.institute)
+- Ecosystem: [ecosystem.activeinference.institute](https://ecosystem.activeinference.institute)
+- EduActive: [eduactive.activeinference.institute](https://eduactive.activeinference.institute)
+- Fellows: [fellows.activeinference.institute](https://fellows.activeinference.institute)
+- Fellowship: [fellowship.activeinference.institute](https://fellowship.activeinference.institute)
+- Internships: [intern.activeinference.institute](https://intern.activeinference.institute)
+- Knowledge Engineering: [knowledge-engineering.activeinference.institute](https://knowledge-engineering.activeinference.institute)
+- Measure: [measure.activeinference.institute](https://measure.activeinference.institute)
+- Mentorship: [mentorship.activeinference.institute](https://mentorship.activeinference.institute/)
+- Newsletter: [newsletter.activeinference.institute](https://newsletter.activeinference.institute)
+- Obsidian (Knowledge Graph): [obsidian.activeinference.institute](https://obsidian.activeinference.institute)
+- Ontology: [ontology.activeinference.institute](https://ontology.activeinference.institute)
+- Partnership: [partnership.activeinference.institute](https://partnership.activeinference.institute)
+- Partnerships: [partnerships.activeinference.institute](https://partnerships.activeinference.institute)
+- PayPal: [paypal.activeinference.institute](https://paypal.activeinference.institute)
+- Prepare: [prepare.activeinference.institute](https://prepare.activeinference.institute)
+- Projects: [projects.activeinference.institute](https://projects.activeinference.institute)
+- ReInference: [reinference.activeinference.institute](https://reinference.activeinference.institute)
+- RxInfer: [rxinfer.activeinference.institute](https://rxinfer.activeinference.institute)
+- SAB: [sab.activeinference.institute](https://sab.activeinference.institute)
+- Strategy: [strategy.activeinference.institute](https://strategy.activeinference.institute)
+- Support: [support.activeinference.institute](https://support.activeinference.institute)
+- Symposium: [symposium.activeinference.institute](https://symposium.activeinference.institute/)
+- Textbook Group: [textbook-group.activeinference.institute](https://textbook-group.activeinference.institute)
+- TNB: [tnb.activeinference.institute](https://tnb.activeinference.institute/)
+- Video: [video.activeinference.institute](https://video.activeinference.institute)
+- Volunteer: [volunteer.activeinference.institute](https://volunteer.activeinference.institute)
+- Wave Hypothesis: [wave-hypothesis.activeinference.institute](https://wave-hypothesis.activeinference.institute/)
+- Weekly: [weekly.activeinference.institute](https://weekly.activeinference.institute/)
+- Welcome: [welcome.activeinference.institute](https://welcome.activeinference.institute)
