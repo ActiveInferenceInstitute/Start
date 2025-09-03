@@ -26,8 +26,8 @@ START is a complete educational content generation pipeline that combines:
 - Examples: [Examples & outputs](./examples.md)
 - Clone Management: [External repos](./clones.md)
 - Learning Guides:
-  - Usage Guide: https://github.com/ActiveInferenceInstitute/Start/blob/main/learning/curriculum_creation/USAGE_GUIDE.md
-  - API Integration: https://github.com/ActiveInferenceInstitute/Start/blob/main/learning/curriculum_creation/README.md
+  - Usage Guide: [Learning Usage Guide](./learning_usage_guide.md)
+  - API Integration: [Learning API Integration](./learning_api_integration.md)
 
 ### Core Guides
 

@@ -22,8 +22,8 @@ nav:
       - Overview: other/index.md
       - Inferant Stream 015-1: other/inferant_stream_015-1.md
   - Learning Guides:
-      - Usage Guide: https://github.com/ActiveInferenceInstitute/Start/blob/main/learning/curriculum_creation/USAGE_GUIDE.md
-      - API Integration: https://github.com/ActiveInferenceInstitute/Start/blob/main/learning/curriculum_creation/README.md
+      - Usage Guide: learning_usage_guide.md
+      - API Integration: learning_api_integration.md
 markdown_extensions:
   - toc:
       permalink: true
