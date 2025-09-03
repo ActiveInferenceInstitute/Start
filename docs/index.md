@@ -129,7 +129,7 @@ graph TD
 
 ### In-Repo Entry Points
 
-- **Top-level landing page**: [Here — starting at start/here](../here.md)
+- **Top-level landing page**: [Here — starting at start/here](https://github.com/ActiveInferenceInstitute/Start/blob/main/here.md)
 - **Other materials**: [docs/other/inferant_stream_015-1.md](./other/inferant_stream_015-1.md)
 
 ## 📋 **System Capabilities**

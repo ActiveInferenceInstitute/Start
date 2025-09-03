@@ -1,4 +1,5 @@
 site_name: START Documentation
+site_url: https://activeinferenceinstitute.github.io/Start/
 repo_url: https://github.com/ActiveInferenceInstitute/Start
 nav:
   - Home: index.md
