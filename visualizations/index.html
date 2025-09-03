@@ -192,7 +192,20 @@
 <h2 id="how-to-regenerate">How to Regenerate<a class="headerlink" href="#how-to-regenerate" title="Permanent link">&para;</a></h2>
 <p>Run from <code>learning/curriculum_creation/</code>:</p>
 <pre class="codehilite"><code class="language-bash">uv run python 3_Introduction_Visualizations.py
-</code></pre></div>
+</code></pre>
+
+<h3 id="headlessci-environments">Headless/CI environments<a class="headerlink" href="#headlessci-environments" title="Permanent link">&para;</a></h3>
+<p>If running without a display (servers, CI), set a non-GUI backend for matplotlib:</p>
+<pre class="codehilite"><code class="language-bash">export MPLBACKEND=Agg
+uv run python learning/curriculum_creation/3_Introduction_Visualizations.py
+</code></pre>
+
+<h3 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Ensure inputs exist in <code>data/written_curriculums/</code> before generating charts.</li>
+<li>Confirm write permissions for <code>data/visualizations/</code>.</li>
+<li>Check <code>data/visualizations/curriculum_metrics.json</code> for schema if charts appear empty.</li>
+</ul></div>
             </div>
         </div>
 

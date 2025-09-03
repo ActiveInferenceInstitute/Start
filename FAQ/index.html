@@ -177,6 +177,30 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-bs-level="2"><a href="#what-keys-do-i-need" class="nav-link">What keys do I need?</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#do-tests-use-the-network" class="nav-link">Do tests use the network?</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#docs-site-wont-start-what-should-i-check" class="nav-link">Docs site won’t start — what should I check?</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#visualizations-not-generating" class="nav-link">Visualizations not generating?</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#cli-examples-dont-work-from-my-cwd" class="nav-link">CLI examples don’t work from my cwd</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#where-do-outputs-go_1" class="nav-link">Where do outputs go?</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
               </ul>
             </li>
         </ul>
@@ -200,9 +224,21 @@ uv run pytest -q
 <h2 id="how-do-i-see-the-docs-site">How do I see the docs site?<a class="headerlink" href="#how-do-i-see-the-docs-site" title="Permanent link">&para;</a></h2>
 <p>Run <code>./run_docs.sh --serve</code> (local) or visit GitHub Pages at the project site.</p>
 <h2 id="how-can-i-contribute">How can I contribute?<a class="headerlink" href="#how-can-i-contribute" title="Permanent link">&para;</a></h2>
-<p>See Contributing: ./contributing.md.</p>
+<p>See Contributing: ./CONTRIBUTING.md.</p>
 <h2 id="where-are-examples">Where are examples?<a class="headerlink" href="#where-are-examples" title="Permanent link">&para;</a></h2>
-<p>See Examples: ./examples.md and tests in <code>tests/</code>.</p></div>
+<p>See Examples: ./examples.md and tests in <code>tests/</code>.</p>
+<h2 id="what-keys-do-i-need">What keys do I need?<a class="headerlink" href="#what-keys-do-i-need" title="Permanent link">&para;</a></h2>
+<p>Required: <code>PERPLEXITY_API_KEY</code> and <code>OPENROUTER_API_KEY</code>. Optional: <code>OPENAI_API_KEY</code>. Copy <code>.env.example</code> to <code>.env</code> and fill in values.</p>
+<h2 id="do-tests-use-the-network">Do tests use the network?<a class="headerlink" href="#do-tests-use-the-network" title="Permanent link">&para;</a></h2>
+<p>No by default. Network tests only run if <code>CI=true</code> and are marked with <code>@network</code>. See ./TESTING.md.</p>
+<h2 id="docs-site-wont-start-what-should-i-check">Docs site won’t start — what should I check?<a class="headerlink" href="#docs-site-wont-start-what-should-i-check" title="Permanent link">&para;</a></h2>
+<p>Use <code>./run_docs.sh --serve</code>. Ensure <code>mkdocs.yml</code> exists at repo root. The script prefers <code>uvx mkdocs</code>, then <code>mkdocs</code>, then a temporary <code>uv run</code> install of mkdocs.</p>
+<h2 id="visualizations-not-generating">Visualizations not generating?<a class="headerlink" href="#visualizations-not-generating" title="Permanent link">&para;</a></h2>
+<p>Run <code>uv run python learning/curriculum_creation/3_Introduction_Visualizations.py</code>. If running headless (servers/CI), set <code>MPLBACKEND=Agg</code>.</p>
+<h2 id="cli-examples-dont-work-from-my-cwd">CLI examples don’t work from my cwd<a class="headerlink" href="#cli-examples-dont-work-from-my-cwd" title="Permanent link">&para;</a></h2>
+<p>Either prefix scripts with their path (e.g., <code>uv run python learning/curriculum_creation/1_Research_Domain.py ...</code>) or <code>cd learning/curriculum_creation/</code> first.</p>
+<h2 id="where-do-outputs-go_1">Where do outputs go?<a class="headerlink" href="#where-do-outputs-go_1" title="Permanent link">&para;</a></h2>
+<p>Research in <code>data/audience_research/</code> and <code>data/domain_research/</code>; curricula in <code>data/written_curriculums/</code>; visuals in <code>data/visualizations/</code>; translations in <code>data/translated_curriculums/</code>. See ./data_outputs.md.</p></div>
             </div>
         </div>
 

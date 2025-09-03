@@ -215,15 +215,46 @@
 <li><strong>Purpose</strong>: Python implementation of Active Inference and Free Energy Principle</li>
 <li><strong>Integration</strong>: Hands-on programming exercises and computational examples</li>
 </ul>
+<h4 id="lean_niche-lean-theorem-proving-verification"><strong>lean_niche</strong> (Lean Theorem Proving &amp; Verification)<a class="headerlink" href="#lean_niche-lean-theorem-proving-verification" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>URL</strong>: <a href="https://github.com/docxology/lean_niche">github.com/docxology/lean_niche</a></li>
+<li><strong>Destination</strong>: <code>src/_clones/lean_niche</code></li>
+<li><strong>Purpose</strong>: Lean environment for formal methods, proofs, and verification</li>
+<li><strong>Integration</strong>: Formal verification examples and references for rigorous curricula</li>
+</ul>
+<h4 id="template-thin-orchestrator-research-template"><strong>template</strong> (Thin Orchestrator Research Template)<a class="headerlink" href="#template-thin-orchestrator-research-template" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>URL</strong>: <a href="https://github.com/docxology/template">github.com/docxology/template</a></li>
+<li><strong>Destination</strong>: <code>src/_clones/template</code></li>
+<li><strong>Purpose</strong>: Research manuscript utilities using thin orchestrator pattern</li>
+<li><strong>Integration</strong>: Reference for TDD-first pipelines and PDF generation</li>
+</ul>
+<h4 id="axiom-verses-axiom"><strong>axiom</strong> (VERSES AXIOM)<a class="headerlink" href="#axiom-verses-axiom" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>URL</strong>: <a href="https://github.com/VersesTech/axiom">github.com/VersesTech/axiom</a></li>
+<li><strong>Destination</strong>: <code>src/_clones/axiom</code></li>
+<li><strong>Purpose</strong>: Knowledge operating system components and interfaces</li>
+<li><strong>Integration</strong>: Reference architecture and potential data integration</li>
+</ul>
 <h2 id="clone-management">Clone Management<a class="headerlink" href="#clone-management" title="Permanent link">&para;</a></h2>
-<p>Steps
-- Select repository (knowledge, implementation, examples)
-- If not present, run clone utility
-- If present, update via <code>git pull</code>
-- Verify destination and integration
-- Use in pipeline (concept validation, examples, exercises)</p>
-<p>Links
-- Clone utility: <code>src/repos/clone_repo.py</code></p>
+<p>Steps</p>
+<ul>
+<li>Select repository (knowledge, implementation, examples)</li>
+<li>If not present, run clone utility</li>
+<li>If present, update via <code>git pull</code></li>
+<li>Verify destination and integration</li>
+<li>Use in pipeline (concept validation, examples, exercises)</li>
+</ul>
+<p>Links</p>
+<ul>
+<li>Clone utility: <code>src/repos/clone_repo.py</code></li>
+</ul>
+<h3 id="interactive-recommended">Interactive (recommended)<a class="headerlink" href="#interactive-recommended" title="Permanent link">&para;</a></h3>
+<p>Use the Repository Manager from the main runner for a guided flow:</p>
+<pre class="codehilite"><code class="language-bash">./run.sh
+# Choose: &quot;Repository Manager&quot;
+</code></pre>
+
 <h3 id="automated-cloning">Automated Cloning<a class="headerlink" href="#automated-cloning" title="Permanent link">&para;</a></h3>
 <p>Use the integrated clone utility for consistent repository management:</p>
 <pre class="codehilite"><code class="language-bash"># Core knowledge graph
@@ -237,6 +268,15 @@ uv run python src/repos/clone_repo.py --url https://github.com/docxology/ActiveI
 
 # Python Active Inference (textbook branch)  
 uv run python src/repos/clone_repo.py --url https://github.com/docxology/pymdp --dest src/_clones/pymdp --branch textbook --shallow
+
+# Lean theorem proving (LeanNiche)
+uv run python src/repos/clone_repo.py --url https://github.com/docxology/lean_niche --dest src/_clones/lean_niche --shallow
+
+# Research manuscript template (Thin Orchestrator)
+uv run python src/repos/clone_repo.py --url https://github.com/docxology/template --dest src/_clones/template --shallow
+
+# VERSES AXIOM
+uv run python src/repos/clone_repo.py --url https://github.com/VersesTech/axiom --dest src/_clones/axiom --shallow
 </code></pre>
 
 <h3 id="manual-repository-management">Manual Repository Management<a class="headerlink" href="#manual-repository-management" title="Permanent link">&para;</a></h3>
@@ -268,7 +308,7 @@ cd src/_clones/pymdp &amp;&amp; git pull origin textbook
 <li>Examples adapted for domain-specific curriculum applications</li>
 </ul>
 <h2 id="repository-structure-after-cloning">Repository Structure After Cloning<a class="headerlink" href="#repository-structure-after-cloning" title="Permanent link">&para;</a></h2>
-<pre class="codehilite"><code>src/_clones/
+<pre class="codehilite"><code class="language-text">src/_clones/
 ├── cognitive/                 # Knowledge graph and concept definitions
 │   ├── content/              # Structured Active Inference content
 │   └── ontologies/           # Formal concept relationships
@@ -283,6 +323,10 @@ cd src/_clones/pymdp &amp;&amp; git pull origin textbook
     ├── notebooks/            # Educational notebooks
     ├── examples/             # Example scripts and demonstrations
     └── pymdp/                # Core Python package
+└── lean_niche/               # Lean theorem proving &amp; verification environment
+    ├── src/                  # Lean and Python sources
+    ├── docs/                 # Project docs and verification workflows
+    └── examples/             # Example proofs and verification scripts
 </code></pre>
 
 <h2 id="usage-in-curriculum-development">Usage in Curriculum Development<a class="headerlink" href="#usage-in-curriculum-development" title="Permanent link">&para;</a></h2>

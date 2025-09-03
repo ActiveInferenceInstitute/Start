@@ -153,6 +153,10 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-bs-level="2"><a href="#prerequisites" class="nav-link">Prerequisites</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
             <li class="nav-item" data-bs-level="2"><a href="#github-pages" class="nav-link">GitHub Pages</a>
               <ul class="nav flex-column">
               </ul>
@@ -182,6 +186,12 @@
 </code></pre>
 
 <p>The script auto-selects a MkDocs runner in this order: <code>uvx mkdocs</code>, <code>mkdocs</code>, or <code>uv run --with mkdocs --with mkdocs-material mkdocs</code>.</p>
+<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>mkdocs.yml</code> at repository root</li>
+<li>Either <code>uvx</code> (recommended), <code>mkdocs</code>, or <code>uv</code></li>
+<li>Network access for GitHub Pages deploy</li>
+</ul>
 <h2 id="github-pages">GitHub Pages<a class="headerlink" href="#github-pages" title="Permanent link">&para;</a></h2>
 <h3 id="deploy-from-branch">Deploy from Branch<a class="headerlink" href="#deploy-from-branch" title="Permanent link">&para;</a></h3>
 <ul>
@@ -197,6 +207,12 @@
 <li>If <code>mkdocs</code> is not installed, the script falls back to <code>uvx</code> or a temporary <code>uv run</code> install.</li>
 <li>Ensure <code>mkdocs.yml</code> exists at the repo root.</li>
 <li>Conflicts warning (README vs index): ensure only one maps to the root path in <code>nav</code>.</li>
+</ul>
+<h3 id="common-errors">Common errors<a class="headerlink" href="#common-errors" title="Permanent link">&para;</a></h3>
+<ul>
+<li>"mkdocs: command not found": Install <code>uv</code> and rely on <code>uvx mkdocs</code>, or <code>pipx install mkdocs</code>.</li>
+<li>404 on GitHub Pages: Confirm repository settings → Pages → Deploy from <code>gh-pages</code> branch.</li>
+<li>Broken internal links: Verify paths in <code>mkdocs.yml</code> <code>nav:</code> entries match file names.</li>
 </ul></div>
             </div>
         </div>

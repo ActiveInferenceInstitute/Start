@@ -367,14 +367,17 @@ domains:
 </code></pre>
 
 <h3 id="command-line-interface">Command-Line Interface<a class="headerlink" href="#command-line-interface" title="Permanent link">&para;</a></h3>
-<pre class="codehilite"><code class="language-bash"># Research high-priority entities
-python 1_Research_Entity.py --priority high
+<pre class="codehilite"><code class="language-bash"># From repository root
+export PYTHONPATH=$(pwd):$PYTHONPATH
+
+# Research high-priority entities
+uv run python learning/curriculum_creation/1_Research_Entity.py --priority high
 
 # Generate domain-specific curricula
-python 1_Research_Domain.py --domain biochemistry
+uv run python learning/curriculum_creation/1_Research_Domain.py --domain biochemistry
 
 # Create multilingual content
-python 4_Translate_Introductions.py --languages Spanish French
+uv run python learning/curriculum_creation/4_Translate_Introductions.py --languages Spanish French
 </code></pre>
 
 <h2 id="project-structure">📊 <strong>Project Structure</strong><a class="headerlink" href="#project-structure" title="Permanent link">&para;</a></h2>
@@ -547,5 +550,5 @@ python 4_Translate_Introductions.py --languages Spanish French
 
 <!--
 MkDocs version : 1.6.1
-Build Date UTC : 2025-09-03 22:05:04.596904+00:00
+Build Date UTC : 2025-09-03 22:47:58.726887+00:00
 -->

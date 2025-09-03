@@ -161,6 +161,14 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-bs-level="2"><a href="#configuration" class="nav-link">Configuration</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#tips" class="nav-link">Tips</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
             <li class="nav-item" data-bs-level="2"><a href="#prompt-template" class="nav-link">Prompt Template</a>
               <ul class="nav flex-column">
               </ul>
@@ -181,7 +189,7 @@
 <pre class="codehilite"><code class="language-bash">uv run python 4_Translate_Introductions.py --languages Spanish French Chinese
 </code></pre>
 
-<p>If omitted, the script may default to languages defined in <code>data/config/languages.yaml</code>.</p>
+<p>If <code>--languages</code> is omitted, languages are read from <code>data/config/languages.yaml</code>.</p>
 <h2 id="outputs">Outputs<a class="headerlink" href="#outputs" title="Permanent link">&para;</a></h2>
 <p>Artifacts are organized under <code>data/translated_curriculums/</code> by language:</p>
 <pre class="codehilite"><code class="language-text">data/translated_curriculums/
@@ -192,6 +200,17 @@
 </code></pre>
 
 <p>Each language folder mirrors the source curriculum file structure and filenames.</p>
+<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
+<p>Languages are defined in:</p>
+<pre class="codehilite"><code class="language-text">data/config/languages.yaml
+</code></pre>
+
+<p>Add or remove language keys as needed. The translation script validates requested languages against this file.</p>
+<h2 id="tips">Tips<a class="headerlink" href="#tips" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Ensure source curricula exist under <code>data/written_curriculums/</code> before translating.</li>
+<li>Large translation sets can be slow; specify a subset with <code>--languages</code> to iterate quickly.</li>
+</ul>
 <h2 id="prompt-template">Prompt Template<a class="headerlink" href="#prompt-template" title="Permanent link">&para;</a></h2>
 <p>Translation guidance lives in:</p>
 <pre class="codehilite"><code class="language-text">data/prompts/translation.md
