@@ -9,10 +9,7 @@ def setup_logging(level: int = logging.INFO, name: str | None = None) -> logging
         logger.setLevel(level)
         console_handler = logging.StreamHandler()
         console_handler.setLevel(level)
-        formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+        formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
         console_handler.setFormatter(formatter)
         logger.addHandler(console_handler)
     return logger
-
-
-

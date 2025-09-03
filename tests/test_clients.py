@@ -91,15 +91,15 @@ def test_missing_api_keys_error():
     # Clear environment variables
     old_perplexity = os.environ.get("PERPLEXITY_API_KEY")
     old_openrouter = os.environ.get("OPENROUTER_API_KEY")
-    
+
     try:
         if "PERPLEXITY_API_KEY" in os.environ:
             del os.environ["PERPLEXITY_API_KEY"]
         if "OPENROUTER_API_KEY" in os.environ:
             del os.environ["OPENROUTER_API_KEY"]
-            
+
         # Test error handling for missing keys - may succeed due to dependency issues
-        
+
         try:
             result = build_perplexity_client()
             # If we get here, check if it's a mock/dummy client
@@ -108,7 +108,7 @@ def test_missing_api_keys_error():
                 pass
         except (EnvironmentError, ImportError, ModuleNotFoundError):
             pass
-            
+
         try:
             result = build_openrouter_client()
             # If we get here, check if it's a mock/dummy client
@@ -117,17 +117,15 @@ def test_missing_api_keys_error():
                 pass
         except (EnvironmentError, ImportError, ModuleNotFoundError):
             pass
-            
+
         # At least verify that the functions are callable and handle the missing key scenario
         # (Whether they raise errors or create clients with defaults, both are valid behaviors)
         assert callable(build_perplexity_client)
         assert callable(build_openrouter_client)
-            
+
     finally:
         # Restore environment variables
         if old_perplexity:
             os.environ["PERPLEXITY_API_KEY"] = old_perplexity
         if old_openrouter:
             os.environ["OPENROUTER_API_KEY"] = old_openrouter
-
-

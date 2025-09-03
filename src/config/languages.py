@@ -8,8 +8,17 @@ from src.common.config import load_config
 
 DEFAULT_LANGUAGES_CONFIG = {
     "target_languages": [
-        "Chinese", "Spanish", "Arabic", "Hindi", "French", "Japanese", "German",
-        "Russian", "Portuguese", "Swahili", "Tagalog"
+        "Chinese",
+        "Spanish",
+        "Arabic",
+        "Hindi",
+        "French",
+        "Japanese",
+        "German",
+        "Russian",
+        "Portuguese",
+        "Swahili",
+        "Tagalog",
     ],
     "script_mappings": {
         "Arabic": "Modern Standard Arabic",
@@ -40,14 +49,14 @@ DEFAULT_LANGUAGES_CONFIG = {
         "Malayalam": "Malayalam Script",
         "Tibetan": "Tibetan Script",
         "Yiddish": "Hebrew Script",
-        "Sanskrit": "Devanagari"
-    }
+        "Sanskrit": "Devanagari",
+    },
 }
 
 
 def load_languages_config() -> Dict[str, Any]:
     """Load languages configuration from data/config/languages.yaml or .md.
-    
+
     Returns:
         Dictionary containing the languages configuration
     """
@@ -59,10 +68,10 @@ def load_languages_config() -> Dict[str, Any]:
 
 def get_target_languages(config: Optional[Dict[str, Any]] = None) -> List[str]:
     """Get the list of target languages for translation.
-    
+
     Args:
         config: Optional config dict, loads from file if not provided
-        
+
     Returns:
         List of target language names
     """
@@ -72,11 +81,11 @@ def get_target_languages(config: Optional[Dict[str, Any]] = None) -> List[str]:
 
 def get_script_mapping(language: str, config: Optional[Dict[str, Any]] = None) -> str:
     """Get the script mapping for a language.
-    
+
     Args:
         language: Language name
         config: Optional config dict, loads from file if not provided
-        
+
     Returns:
         Script name for the language, or the language name if no mapping exists
     """

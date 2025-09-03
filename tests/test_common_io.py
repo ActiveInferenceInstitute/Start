@@ -7,7 +7,7 @@ from src.common import io, paths
 
 def test_list_domain_markdown_files_excludes_fep_actinf():
     domain_path = paths.domain_dir()
-    files = io.list_domain_markdown_files(domain_path, exclude_stems=["Synthetic_FEP-ActInf"]) 
+    files = io.list_domain_markdown_files(domain_path, exclude_stems=["Synthetic_FEP-ActInf"])
     # Ensure we are reading real data and exclusion works
     assert all(p.suffix == ".md" for p in files)
     assert all(p.stem != "Synthetic_FEP-ActInf" for p in files)
@@ -29,5 +29,3 @@ def test_read_and_write_json(tmp_path: Path):
     out = io.write_json(file_path, data)
     assert out.exists()
     assert io.read_json(out) == data
-
-

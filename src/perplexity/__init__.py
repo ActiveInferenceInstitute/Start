@@ -1,5 +1,3 @@
 """LLM client modules supporting Perplexity (research) and OpenRouter (content generation)."""
 
-from . import clients, entity, domain, curriculum, translation  # noqa: F401
-
-
+from . import clients, curriculum, domain, entity, translation  # noqa: F401

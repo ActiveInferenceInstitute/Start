@@ -80,9 +80,9 @@ def test_ensure_dir_new(tmp_path):
     """Test creating a new directory."""
     new_dir = tmp_path / "new_directory"
     assert not new_dir.exists()
-    
+
     result = ensure_dir(new_dir)
-    
+
     assert result.exists()
     assert result.is_dir()
     assert result.resolve() == new_dir.resolve()
@@ -92,9 +92,9 @@ def test_ensure_dir_existing(tmp_path):
     """Test ensuring an existing directory."""
     existing_dir = tmp_path / "existing"
     existing_dir.mkdir()
-    
+
     result = ensure_dir(existing_dir)
-    
+
     assert result.exists()
     assert result.is_dir()
     assert result.resolve() == existing_dir.resolve()
@@ -104,9 +104,9 @@ def test_ensure_dir_nested(tmp_path):
     """Test creating nested directories."""
     nested_dir = tmp_path / "level1" / "level2" / "level3"
     assert not nested_dir.exists()
-    
+
     result = ensure_dir(nested_dir)
-    
+
     assert result.exists()
     assert result.is_dir()
     assert result.resolve() == nested_dir.resolve()
@@ -123,7 +123,7 @@ def test_data_root():
 def test_data_directories_structure():
     """Test that all data directory functions return correct paths."""
     root = data_root()
-    
+
     # Test each data directory
     assert data_written_curriculums_dir() == root / "written_curriculums"
     assert data_translated_curriculums_dir() == root / "translated_curriculums"
@@ -142,7 +142,7 @@ def test_data_directories_created():
         data_audience_research_dir(),
         data_domain_research_dir(),
     ]
-    
+
     for directory in dirs_to_check:
         assert directory.exists(), f"Directory not created: {directory}"
         assert directory.is_dir(), f"Path is not a directory: {directory}"
@@ -151,7 +151,7 @@ def test_data_directories_created():
 def test_path_relationships():
     """Test that paths have correct parent-child relationships."""
     root = repo_root()
-    
+
     # Test hierarchy
     assert languages_root().parent == root
     assert inputs_and_outputs_root().parent == languages_root()

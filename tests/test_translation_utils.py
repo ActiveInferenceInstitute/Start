@@ -23,5 +23,3 @@ def test_save_translation(tmp_path):
     text = out.read_text(encoding="utf-8")
     assert "language: Spanish" in text
     assert "original_entity: EntityX" in text
-
-

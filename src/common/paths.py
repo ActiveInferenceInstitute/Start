@@ -51,8 +51,8 @@ def ensure_dir(path: os.PathLike | str) -> Path:
     return p.resolve()
 
 
-
 # Data directories (outputs)
+
 
 def data_root() -> Path:
     return repo_root() / "data"
@@ -80,10 +80,8 @@ def data_domain_research_dir() -> Path:
 
 def config_dir() -> Path:
     """Get path to configuration directory.
-    
+
     Returns:
         Path to data/config directory
     """
     return ensure_dir(data_root() / "config")
-
-

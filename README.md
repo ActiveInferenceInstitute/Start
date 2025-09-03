@@ -9,6 +9,59 @@
 
 START combines real-time research capabilities with sophisticated content generation to produce professional-grade, personalized educational materials for Active Inference and the Free Energy Principle. The system integrates multiple APIs, comprehensive prompt engineering, and multilingual capabilities to create world-class curricula tailored to specific domains and individual learners.
 
+> 📌 Start here: **[here.md](here.md)** — interactive landing for the full experience. Also see the **[Docs Hub](docs/README.md)** and this **README** for GitHub-oriented navigation.
+
+## 🌐 Documentation (Live)
+
+- GitHub Pages site: https://activeinferenceinstitute.github.io/Start/
+
+## 🔗 Quick Links
+
+- **Docs Hub**: [docs/README.md](docs/README.md)
+- **Start Here (interactive)**: [here.md](here.md)
+- **Getting Started**: [docs/getting_started.md](docs/getting_started.md)
+- **Environment Setup**: [docs/environment.md](docs/environment.md)
+- **Pipeline Overview**: [docs/pipeline.md](docs/pipeline.md)
+- **Testing Guide**: [docs/TESTING.md](docs/TESTING.md)
+- **Configuration Reference**: [docs/configuration.md](docs/configuration.md)
+- **Examples & Outputs**: [docs/examples.md](docs/examples.md)
+- **Clone Management**: [docs/clones.md](docs/clones.md)
+- **Conventions**: [docs/conventions.md](docs/conventions.md)
+- **User Usage Guide (GitHub)**: https://github.com/ActiveInferenceInstitute/Start/blob/main/learning/curriculum_creation/USAGE_GUIDE.md
+- **API Integration (GitHub)**: https://github.com/ActiveInferenceInstitute/Start/blob/main/learning/curriculum_creation/README.md
+
+## ▶️ Run the Experience
+
+- **Matrix Terminal UI** (end-to-end interactive):
+
+```bash
+./run.sh
+```
+
+- **Documentation Website** (serve or build):
+
+```bash
+# Serve locally with live reload
+./run_docs.sh --serve
+
+# Or build static site to ./site and open it
+./run_docs.sh --build
+
+# Or deploy to GitHub Pages and open the URL
+./run_docs.sh --deploy
+```
+
+## 📚 Documentation Overview
+
+- High-level docs live under `docs/`. Each page is modular and links to deeper guides.
+- Start with the **[Docs Hub](docs/README.md)**, then dive into:
+  - **[Getting Started](docs/getting_started.md)** — install, first research session, generate outputs
+  - **[Environment](docs/environment.md)** — prerequisites, API keys, CI parity
+  - **[Pipeline](docs/pipeline.md)** — architecture, stages, data layout
+  - **[Testing](docs/TESTING.md)** — policies, markers, offline/CI rules
+  - **[Configuration](docs/configuration.md)** — YAML schemas and CLI usage
+  - **[Examples](docs/examples.md)** — where to find generated artifacts
+
 ## 🚀 **Key Features**
 
 ```mermaid

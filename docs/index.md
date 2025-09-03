@@ -2,28 +2,6 @@
 
 Welcome to the comprehensive documentation for the START (Scalable, Tailored Active-inference Research & Training) project - an advanced AI-powered system for creating personalized Active Inference and Free Energy Principle curricula.
 
-## Build/View as a Website
-
-- Ensure MkDocs is available: `uv run python -m pip install mkdocs mkdocs-material`
-
-- Serve locally:
-
-```bash
-uv run mkdocs serve -a 0.0.0.0:8000
-```
-
-- Build static site into `site/`:
-
-```bash
-uv run mkdocs build
-```
-
-- Deploy to GitHub Pages (gh-pages branch):
-
-```bash
-uv run mkdocs gh-deploy --force
-```
-
 ## 🚀 **What is START?**
 
 START is a complete educational content generation pipeline that combines:
@@ -55,8 +33,8 @@ graph TD
   click C "./pipeline.md" "Pipeline Overview"
   click D "./clones.md" "Repository & Clone Management"
   click E "./TESTING.md" "Testing Guide"
-  click F1 "../learning/curriculum_creation/USAGE_GUIDE.md" "Usage Guide"
-  click F2 "../learning/curriculum_creation/README.md" "API Integration Guide"
+  click F1 "https://github.com/ActiveInferenceInstitute/Start/blob/main/learning/curriculum_creation/USAGE_GUIDE.md" "Usage Guide"
+  click F2 "https://github.com/ActiveInferenceInstitute/Start/blob/main/learning/curriculum_creation/README.md" "API Integration Guide"
   click I "./getting_started.md" "Getting Started"
   click J "./configuration.md" "Configuration"
   click K "./examples.md" "Examples"
@@ -89,8 +67,8 @@ graph TD
 
 #### 📖 **User Guides**
 
-- **[Curriculum Creation Usage Guide](../learning/curriculum_creation/USAGE_GUIDE.md)** - Step-by-step workflows
-- **[API Integration Guide](../learning/curriculum_creation/README.md)** - Technical API documentation
+- **[Usage Guide](https://github.com/ActiveInferenceInstitute/Start/blob/main/learning/curriculum_creation/USAGE_GUIDE.md)**
+- **[API Integration Guide](https://github.com/ActiveInferenceInstitute/Start/blob/main/learning/curriculum_creation/README.md)**
 
 #### 🔧 **Configuration Reference**
 
@@ -111,13 +89,13 @@ graph TD
 
 1. **[Environment Setup](./environment.md)** - Get up and running
 2. **[Pipeline Overview](./pipeline.md)** - Understand the system
-3. **[Usage Guide](../learning/curriculum_creation/USAGE_GUIDE.md)** - Create your first curriculum
+3. **[Usage Guide (GitHub)](https://github.com/ActiveInferenceInstitute/Start/blob/main/learning/curriculum_creation/USAGE_GUIDE.md)**
 
 ### For Developers
 
 1. **[Environment Setup](./environment.md)** - Development environment
-2. **[API Documentation](../learning/curriculum_creation/README.md)** - Technical integration
-3. **[Test Suite](../tests/)** - Testing and validation
+2. **[API Docs (GitHub)](https://github.com/ActiveInferenceInstitute/Start/blob/main/learning/curriculum_creation/README.md)**
+3. **[Tests (GitHub)](https://github.com/ActiveInferenceInstitute/Start/tree/main/tests)**
 
 ### For Researchers
 
@@ -152,7 +130,7 @@ graph TD
 ### In-Repo Entry Points
 
 - **Top-level landing page**: [Here — starting at start/here](../here.md)
-- **Other materials**: [docs/other/inferant_stream_015-1.md](../docs/other/inferant_stream_015-1.md)
+- **Other materials**: [docs/other/inferant_stream_015-1.md](./other/inferant_stream_015-1.md)
 
 ## 📋 **System Capabilities**
 

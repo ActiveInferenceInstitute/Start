@@ -9,7 +9,6 @@ from __future__ import annotations
 import os
 import subprocess
 from pathlib import Path
-from unittest.mock import Mock, patch
 
 import pytest
 
@@ -18,19 +17,19 @@ from src.common.paths import repo_root
 
 class TestRunScriptIntegration:
     """Test integration aspects of the main run.sh script."""
-    
+
     def test_run_script_exists_and_executable(self):
         """Test that run.sh exists and is executable."""
         script_path = repo_root() / "run.sh"
-        
+
         assert script_path.exists(), "run.sh script not found"
         assert os.access(script_path, os.X_OK), "run.sh script not executable"
-    
+
     def test_run_script_basic_structure(self):
         """Test that run.sh has expected basic structure."""
         script_path = repo_root() / "run.sh"
         content = script_path.read_text()
-        
+
         # Check for essential elements
         assert "#!/usr/bin/env bash" in content
         assert "set -euo pipefail" in content
@@ -39,7 +38,7 @@ class TestRunScriptIntegration:
         assert "environment_setup" in content
         assert "run_curriculum_generator" in content
         assert "repo_management" in content
-    
+
     def test_python_system_reporting_integration(self):
         """Test that system reporting Python code works."""
         # Test the exact Python code called by run.sh
@@ -62,16 +61,16 @@ assert len(dep_formatted) > 100
 colored = matrix_text('TEST', 'gold')
 assert isinstance(colored, str)
 """
-        
+
         result = subprocess.run(
             ["python", "-c", python_code],
             cwd=repo_root(),
             capture_output=True,
             text=True,
         )
-        
+
         assert result.returncode == 0, f"Python integration failed: {result.stderr}"
-    
+
     def test_repository_manager_integration(self):
         """Test that repository manager Python code works."""
         python_code = """
@@ -85,16 +84,16 @@ assert isinstance(summary, dict)
 assert 'available_count' in summary
 assert len(formatted) > 50
 """
-        
+
         result = subprocess.run(
             ["python", "-c", python_code],
             cwd=repo_root(),
             capture_output=True,
             text=True,
         )
-        
+
         assert result.returncode == 0, f"Repository manager integration failed: {result.stderr}"
-    
+
     def test_environment_setup_integration(self):
         """Test that environment setup Python code works."""
         python_code = """
@@ -114,16 +113,16 @@ assert isinstance(fixed, list)
 text = matrix_text('Environment setup complete!', 'gold')
 assert isinstance(text, str)
 """
-        
+
         result = subprocess.run(
             ["python", "-c", python_code],
             cwd=repo_root(),
             capture_output=True,
             text=True,
         )
-        
+
         assert result.returncode == 0, f"Environment setup integration failed: {result.stderr}"
-    
+
     def test_menu_system_integration(self):
         """Test that menu system Python code works."""
         python_code = """
@@ -144,18 +143,20 @@ banner = matrix_banner('TEST BANNER')
 assert isinstance(banner, str)
 assert 'TEST BANNER' in banner
 """
-        
+
         result = subprocess.run(
             ["python", "-c", python_code],
             cwd=repo_root(),
             capture_output=True,
             text=True,
         )
-        
+
         assert result.returncode == 0, f"Menu system integration failed: {result.stderr}"
-    
-    @pytest.mark.skipif(not Path("/usr/bin/uv").exists() and not Path.home().joinpath(".cargo/bin/uv").exists(), 
-                       reason="uv not available")
+
+    @pytest.mark.skipif(
+        not Path("/usr/bin/uv").exists() and not Path.home().joinpath(".cargo/bin/uv").exists(),
+        reason="uv not available",
+    )
     def test_uv_integration(self):
         """Test that uv integration works if uv is available."""
         # Test basic uv command execution
@@ -164,10 +165,10 @@ assert 'TEST BANNER' in banner
             capture_output=True,
             text=True,
         )
-        
+
         if result.returncode == 0:
             assert "uv" in result.stdout.lower()
-            
+
             # Test uv run with simple Python code
             python_code = "print('UV integration test passed')"
             result = subprocess.run(
@@ -176,17 +177,19 @@ assert 'TEST BANNER' in banner
                 capture_output=True,
                 text=True,
             )
-            
+
             # Note: This might fail if dependencies aren't installed, which is okay
             # We're mainly testing that uv command works
             assert result.returncode in [0, 1]  # 0 for success, 1 for dependency issues
-    
+
     def test_curriculum_generator_accessibility(self):
         """Test that curriculum generator is accessible."""
-        generator_path = repo_root() / "learning" / "curriculum_creation" / "generate_custom_curriculum.py"
-        
+        generator_path = (
+            repo_root() / "learning" / "curriculum_creation" / "generate_custom_curriculum.py"
+        )
+
         assert generator_path.exists(), "Curriculum generator script not found"
-        
+
         # Test that the script can be imported (basic syntax check)
         python_code = f"""
 import sys
@@ -202,24 +205,24 @@ except Exception as e:
     print(f'Import failed: {{e}}')
     raise
 """
-        
+
         result = subprocess.run(
             ["python", "-c", python_code],
             cwd=repo_root(),
             capture_output=True,
             text=True,
         )
-        
+
         assert result.returncode == 0, f"Curriculum generator import failed: {result.stderr}"
         assert "Import successful" in result.stdout
-    
+
     def test_project_structure_integrity(self):
         """Test that project structure is intact for run.sh operations."""
         required_paths = [
             "src",
             "src/common",
             "src/terminal",
-            "src/system", 
+            "src/system",
             "src/repos",
             "src/perplexity",
             "data",
@@ -228,11 +231,11 @@ except Exception as e:
             "learning/curriculum_creation",
             "tests",
         ]
-        
+
         for path_str in required_paths:
             path = repo_root() / path_str
             assert path.exists(), f"Required path missing: {path}"
-            
+
         # Check for key files
         key_files = [
             "pyproject.toml",
@@ -242,11 +245,11 @@ except Exception as e:
             "src/system/__init__.py",
             "src/repos/__init__.py",
         ]
-        
+
         for file_str in key_files:
             file_path = repo_root() / file_str
             assert file_path.exists(), f"Key file missing: {file_path}"
-    
+
     def test_terminal_animations_performance(self):
         """Test that terminal animations don't cause performance issues."""
         python_code = """
@@ -268,17 +271,17 @@ assert elapsed < 2.0, f"Matrix rain too slow: {elapsed}s"
 
 print("Performance tests passed")
 """
-        
+
         result = subprocess.run(
             ["python", "-c", python_code],
             cwd=repo_root(),
             capture_output=True,
             text=True,
         )
-        
+
         assert result.returncode == 0, f"Performance test failed: {result.stderr}"
         assert "Performance tests passed" in result.stdout
-    
+
     def test_error_handling_robustness(self):
         """Test that error handling works robustly."""
         python_code = """
@@ -305,40 +308,40 @@ assert not is_valid
 
 print("Error handling tests passed")
 """
-        
+
         result = subprocess.run(
             ["python", "-c", python_code],
             cwd=repo_root(),
             capture_output=True,
             text=True,
         )
-        
+
         assert result.returncode == 0, f"Error handling test failed: {result.stderr}"
         assert "Error handling tests passed" in result.stdout
 
 
 class TestScriptDependencyCheck:
     """Test that script dependencies are correctly handled."""
-    
+
     def test_bash_dependencies_available(self):
         """Test that required bash commands are available."""
         required_commands = ["git", "python3", "curl", "bash"]
-        
+
         for command in required_commands:
             result = subprocess.run(
                 ["which", command],
                 capture_output=True,
                 text=True,
             )
-            
+
             if result.returncode != 0:
                 pytest.skip(f"Required command '{command}' not available in test environment")
-    
+
     def test_python_import_dependencies(self):
         """Test that Python imports work correctly."""
         critical_imports = [
             "src.terminal.colors",
-            "src.terminal.animations", 
+            "src.terminal.animations",
             "src.terminal.menu",
             "src.system.reporting",
             "src.system.dependencies",
@@ -346,7 +349,7 @@ class TestScriptDependencyCheck:
             "src.repos.manager",
             "src.repos.cloning",
         ]
-        
+
         for import_name in critical_imports:
             python_code = f"""
 try:
@@ -356,16 +359,16 @@ except Exception as e:
     print(f"Failed to import {import_name}: {{e}}")
     raise
 """
-            
+
             result = subprocess.run(
                 ["python", "-c", python_code],
                 cwd=repo_root(),
                 capture_output=True,
                 text=True,
             )
-            
+
             assert result.returncode == 0, f"Failed to import {import_name}: {result.stderr}"
-    
+
     def test_configuration_files_accessible(self):
         """Test that configuration files are accessible."""
         python_code = """
@@ -391,14 +394,14 @@ for filename in expected_files:
 
 print("Configuration check completed")
 """
-        
+
         result = subprocess.run(
             ["python", "-c", python_code],
             cwd=repo_root(),
             capture_output=True,
             text=True,
         )
-        
+
         assert result.returncode == 0, f"Configuration check failed: {result.stderr}"
         assert "Configuration check completed" in result.stdout
 
@@ -406,13 +409,13 @@ print("Configuration check completed")
 @pytest.mark.slow
 class TestScriptPerformance:
     """Test performance aspects of the script."""
-    
+
     def test_startup_performance(self):
         """Test that Python startup time is reasonable."""
         import time
-        
+
         start_time = time.time()
-        
+
         python_code = """
 from src.terminal.colors import matrix_text
 from src.system.reporting import get_basic_system_info
@@ -425,20 +428,20 @@ manager = create_repository_manager()
 
 print("Startup completed")
 """
-        
+
         result = subprocess.run(
             ["python", "-c", python_code],
             cwd=repo_root(),
             capture_output=True,
             text=True,
         )
-        
+
         elapsed = time.time() - start_time
-        
+
         assert result.returncode == 0, f"Startup test failed: {result.stderr}"
         assert "Startup completed" in result.stdout
         assert elapsed < 5.0, f"Startup too slow: {elapsed:.2f}s"
-    
+
     def test_memory_usage_reasonable(self):
         """Test that memory usage is reasonable."""
         python_code = """
@@ -457,14 +460,14 @@ gc.collect()
 
 print("Memory test completed")
 """
-        
+
         result = subprocess.run(
             ["python", "-c", python_code],
             cwd=repo_root(),
             capture_output=True,
             text=True,
         )
-        
+
         assert result.returncode == 0, f"Memory test failed: {result.stderr}"
         assert "Memory test completed" in result.stdout
 
@@ -472,7 +475,7 @@ print("Memory test completed")
 @pytest.mark.integration
 class TestEndToEndIntegration:
     """End-to-end integration tests."""
-    
+
     def test_complete_module_integration(self):
         """Test that all modules work together."""
         python_code = """
@@ -510,17 +513,17 @@ assert isinstance(repo_summary, dict)
 
 print("End-to-end integration successful")
 """
-        
+
         result = subprocess.run(
             ["python", "-c", python_code],
             cwd=repo_root(),
             capture_output=True,
             text=True,
         )
-        
+
         assert result.returncode == 0, f"Integration test failed: {result.stderr}"
         assert "End-to-end integration successful" in result.stdout
-    
+
     def test_error_recovery_integration(self):
         """Test that the system recovers from errors gracefully."""
         python_code = """
@@ -558,13 +561,13 @@ except Exception:
 print(f"Error recovery test: {errors_handled}/3 tests handled gracefully")
 assert errors_handled >= 2, "Not enough error cases handled gracefully"
 """
-        
+
         result = subprocess.run(
             ["python", "-c", python_code],
             cwd=repo_root(),
             capture_output=True,
             text=True,
         )
-        
+
         assert result.returncode == 0, f"Error recovery test failed: {result.stderr}"
         assert "Error recovery test" in result.stdout

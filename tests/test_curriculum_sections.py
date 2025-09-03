@@ -23,5 +23,3 @@ def test_extract_sections_without_headers():
     sections = extract_sections(content)
     assert list(sections.keys()) == ["Research Content"]
     assert sections["Research Content"] == content
-
-

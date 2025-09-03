@@ -39,7 +39,9 @@ def write_json(file_path: os.PathLike | str, data: Any, indent: int = 2) -> Path
     return path.resolve()
 
 
-def list_files(directory: os.PathLike | str, patterns: Optional[Iterable[str]] = None) -> list[Path]:
+def list_files(
+    directory: os.PathLike | str, patterns: Optional[Iterable[str]] = None
+) -> list[Path]:
     base = Path(directory).expanduser()
     if not base.exists():
         return []
@@ -59,22 +61,19 @@ def load_key_from_file(key_file_path: os.PathLike | str, key_name: str) -> str:
         raise FileNotFoundError(f"Key file not found: {path}")
     with open(path, "r", encoding="utf-8") as handle:
         lines = [line.strip() for line in handle if line.strip()]
-    key_pairs = dict(
-        pair.split("=", 1) for pair in lines if "=" in pair
-    )
+    key_pairs = dict(pair.split("=", 1) for pair in lines if "=" in pair)
     value = key_pairs.get(key_name)
     if not value:
         raise ValueError(f"{key_name} not found in {path}")
     return value
 
 
-def list_domain_markdown_files(domain_dir: os.PathLike | str, exclude_stems: Optional[Iterable[str]] = None) -> list[Path]:
+def list_domain_markdown_files(
+    domain_dir: os.PathLike | str, exclude_stems: Optional[Iterable[str]] = None
+) -> list[Path]:
     base = Path(domain_dir).expanduser()
     if not base.exists():
         return []
     excludes = {Path(stem).stem for stem in (exclude_stems or [])}
     files = [p for p in base.glob("*.md") if p.stem not in excludes]
     return sorted(p.resolve() for p in files)
-
-
-

@@ -13,15 +13,16 @@ from typing import Optional
 
 from openai import OpenAI
 
-from src.common.env import load_project_env, require_env
+from src.common.env import load_project_env
 
 
 @dataclass(frozen=True)
 class PerplexityConfig:
     """Configuration for Perplexity AI client.
-    
+
     Used for research tasks that require online/real-time information access.
     """
+
     api_key: str
     base_url: str = "https://api.perplexity.ai"
     model: str = os.environ.get("PERPLEXITY_MODEL", "llama-3.1-sonar-small-128k-online")
@@ -30,9 +31,10 @@ class PerplexityConfig:
 @dataclass(frozen=True)
 class OpenRouterConfig:
     """Configuration for OpenRouter client.
-    
+
     Used for content generation tasks like translation and curriculum creation.
     """
+
     api_key: str
     base_url: str = "https://openrouter.ai/api/v1"
     model: str = os.environ.get("OPENROUTER_MODEL", "anthropic/claude-3.5-sonnet")
@@ -40,13 +42,13 @@ class OpenRouterConfig:
 
 def build_perplexity_client(config: Optional[PerplexityConfig] = None) -> OpenAI:
     """Build Perplexity client for research tasks.
-    
+
     Args:
         config: Optional configuration. If None, loads from environment.
-        
+
     Returns:
         OpenAI client configured for Perplexity API
-        
+
     Raises:
         EnvironmentError: If PERPLEXITY_API_KEY is not found or invalid
         ValueError: If configuration parameters are invalid
@@ -59,23 +61,23 @@ def build_perplexity_client(config: Optional[PerplexityConfig] = None) -> OpenAI
                 "PERPLEXITY_API_KEY environment variable is required. "
                 "Please set it in your .env file or environment."
             )
-        
+
         # Basic validation of API key format
         if len(api_key.strip()) < 10:
             raise ValueError("PERPLEXITY_API_KEY appears to be invalid (too short)")
-        
+
         config = PerplexityConfig(api_key=api_key.strip())
-    
+
     # Validate config parameters
     if not config.api_key or not config.api_key.strip():
         raise ValueError("API key cannot be empty")
-    
-    if not config.base_url or not config.base_url.startswith('http'):
+
+    if not config.base_url or not config.base_url.startswith("http"):
         raise ValueError(f"Invalid base URL: {config.base_url}")
-    
+
     if not config.model or not config.model.strip():
         raise ValueError("Model name cannot be empty")
-    
+
     try:
         return OpenAI(api_key=config.api_key, base_url=config.base_url)
     except Exception as e:
@@ -84,13 +86,13 @@ def build_perplexity_client(config: Optional[PerplexityConfig] = None) -> OpenAI
 
 def build_openrouter_client(config: Optional[OpenRouterConfig] = None) -> OpenAI:
     """Build OpenRouter client for content generation tasks.
-    
+
     Args:
         config: Optional configuration. If None, loads from environment.
-        
+
     Returns:
         OpenAI client configured for OpenRouter API
-        
+
     Raises:
         EnvironmentError: If OPENROUTER_API_KEY is not found or invalid
         ValueError: If configuration parameters are invalid
@@ -103,27 +105,24 @@ def build_openrouter_client(config: Optional[OpenRouterConfig] = None) -> OpenAI
                 "OPENROUTER_API_KEY environment variable is required. "
                 "Please set it in your .env file or environment."
             )
-        
+
         # Basic validation of API key format
         if len(api_key.strip()) < 10:
             raise ValueError("OPENROUTER_API_KEY appears to be invalid (too short)")
-        
+
         config = OpenRouterConfig(api_key=api_key.strip())
-    
+
     # Validate config parameters
     if not config.api_key or not config.api_key.strip():
         raise ValueError("API key cannot be empty")
-    
-    if not config.base_url or not config.base_url.startswith('http'):
+
+    if not config.base_url or not config.base_url.startswith("http"):
         raise ValueError(f"Invalid base URL: {config.base_url}")
-    
+
     if not config.model or not config.model.strip():
         raise ValueError("Model name cannot be empty")
-    
+
     try:
         return OpenAI(api_key=config.api_key, base_url=config.base_url)
     except Exception as e:
         raise EnvironmentError(f"Failed to create OpenRouter client: {str(e)}") from e
-
-
-

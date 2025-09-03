@@ -26,6 +26,3 @@ def require_env(key: str) -> str:
     if not value:
         raise EnvironmentError(f"Missing required environment variable: {key}")
     return value
-
-
-
