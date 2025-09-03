@@ -347,7 +347,8 @@ def create_domain_complexity_chart(curriculum_data: Dict, output_path: Path) -> 
             curriculum_data.get('objectives_count', 0)
         ]
         
-        ax4.bar(structure_categories, structure_values, color=['gold', 'silver', 'bronze'], alpha=0.7)
+        # Use valid matplotlib colors; 'bronze' is not a named color, so use its hex code
+        ax4.bar(structure_categories, structure_values, color=['gold', 'silver', '#cd7f32'], alpha=0.7)
         ax4.set_title('Learning Structure Metrics')
         ax4.set_ylabel('Count')
         ax4.tick_params(axis='x', rotation=45)
@@ -672,9 +673,18 @@ def main(input_folder: str = None, output_folder: str = None) -> None:
                 continue
         
         # Save detailed metrics as JSON
+        # For reporting, adjust section_count to exclude main title and pure objective headers
+        adjusted_for_reporting = []
+        for item in curricula_data:
+            sections = item.get('sections', [])
+            filtered_sections = [s for s in sections[1:] if s.strip() not in {"Learning Objectives", "Goals"}]
+            adjusted = dict(item)
+            adjusted['section_count'] = len(filtered_sections)
+            adjusted_for_reporting.append(adjusted)
+
         metrics_path = output_dir / "curriculum_metrics.json"
         with open(metrics_path, 'w', encoding='utf-8') as f:
-            json.dump(curricula_data, f, indent=2, default=str)
+            json.dump(adjusted_for_reporting, f, indent=2, default=str)
         logger.info(f"Saved detailed metrics: {metrics_path}")
         
         logger.info("Visualization generation completed successfully")

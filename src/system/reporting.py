@@ -21,7 +21,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
-from src.common.paths import repo_root
+import src.common.paths as paths
 
 
 @dataclass
@@ -161,7 +161,7 @@ def get_memory_info() -> Dict[str, float]:
         }
 
 
-def get_disk_usage(paths: List[str] = None) -> Dict[str, Dict[str, float]]:
+def get_disk_usage(target_paths: List[str] = None) -> Dict[str, Dict[str, float]]:
     """Get disk usage information for specified paths.
     
     Args:
@@ -170,12 +170,12 @@ def get_disk_usage(paths: List[str] = None) -> Dict[str, Dict[str, float]]:
     Returns:
         Dictionary mapping path to usage statistics in GB
     """
-    if paths is None:
-        paths = ["/", str(Path.home()), str(repo_root())]
+    if target_paths is None:
+        target_paths = ["/", str(Path.home()), str(paths.repo_root())]
     
     usage = {}
     
-    for path in paths:
+    for path in target_paths:
         try:
             path_obj = Path(path)
             if path_obj.exists():
@@ -236,11 +236,10 @@ def get_git_info() -> Dict[str, str]:
     Returns:
         Dictionary containing Git information
     """
-    info = {}
+    info: Dict[str, str] = {}
     
     try:
-        root = repo_root()
-        
+        root = paths.repo_root()
         # Check if it's a git repository
         git_dir = root / ".git"
         if not git_dir.exists():
@@ -258,7 +257,7 @@ def get_git_info() -> Dict[str, str]:
             if result.returncode == 0:
                 info["branch"] = result.stdout.strip()
         except Exception:
-            pass
+            info["status"] = "Error accessing git information"
         
         # Get last commit
         try:
@@ -276,7 +275,7 @@ def get_git_info() -> Dict[str, str]:
                     info["last_commit_hash"] = commit_hash[:8]
                     info["last_commit_message"] = commit_msg
         except Exception:
-            pass
+            info["status"] = "Error accessing git information"
         
         # Check for uncommitted changes
         try:
@@ -291,7 +290,7 @@ def get_git_info() -> Dict[str, str]:
                 info["uncommitted_changes"] = bool(result.stdout.strip())
             
         except Exception:
-            pass
+            info["status"] = "Error accessing git information"
         
         # Get remote URL
         try:
@@ -384,23 +383,23 @@ def generate_system_report() -> SystemInfo:
     
     # Create SystemInfo object
     system_info = SystemInfo(
-        hostname=basic_info["hostname"],
-        os_name=basic_info["os_name"],
-        os_version=basic_info["os_version"],
-        architecture=basic_info["architecture"],
+        hostname=basic_info.get("hostname") or basic_info.get("host") or "",
+        os_name=basic_info.get("os_name", ""),
+        os_version=basic_info.get("os_version", ""),
+        architecture=basic_info.get("architecture", ""),
         
-        cpu_count=cpu_info["logical_cores"],
-        memory_total_gb=memory_info["total_gb"],
+        cpu_count=cpu_info.get("logical_cores", 0),
+        memory_total_gb=memory_info.get("total_gb", 0.0),
         disk_usage=disk_info,
         
-        python_version=python_info["python_version"],
-        python_executable=python_info["python_executable"],
-        virtual_env=python_info["virtual_env"],
+        python_version=python_info.get("python_version", ""),
+        python_executable=python_info.get("python_executable", ""),
+        virtual_env=python_info.get("virtual_env", None),
         
-        ip_addresses=network_info["ip_addresses"],
-        internet_connected=network_info["internet_connected"],
+        ip_addresses=network_info.get("ip_addresses", []),
+        internet_connected=network_info.get("internet_connected", False),
         
-        project_root=str(repo_root()),
+        project_root=str(paths.repo_root()),
         git_info=git_info,
         
         report_time=datetime.now().isoformat(),
@@ -515,7 +514,7 @@ def check_system_requirements() -> Dict[str, bool]:
     checks["sufficient_memory"] = memory_info["total_gb"] >= 2.0
     
     # Disk space check (minimum 1GB free)
-    disk_info = get_disk_usage([str(repo_root())])
+    disk_info = get_disk_usage([str(paths.repo_root())])
     project_disk = list(disk_info.values())[0] if disk_info else {"free_gb": 0}
     checks["sufficient_disk_space"] = project_disk["free_gb"] >= 1.0
     

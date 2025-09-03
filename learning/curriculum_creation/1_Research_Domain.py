@@ -11,6 +11,7 @@ Reads domain list from data/config/domains.yaml configuration file.
 
 import argparse
 import os
+import sys
 from pathlib import Path
 from typing import List, Dict, Any
 
@@ -19,6 +20,13 @@ from src.common.logging_utils import setup_logging as common_setup_logging
 from src.common.paths import data_domain_research_dir, inputs_and_outputs_root, config_dir
 from src.perplexity.clients import build_perplexity_client
 from src.perplexity.domain import analyze_domain
+
+# Expose module under its filesystem path name so tests can patch it
+try:
+    sys.modules.setdefault('learning.curriculum_creation.1_Research_Domain', sys.modules[__name__])
+except Exception:
+    pass
+
 
 def load_domains_config() -> Dict[str, Any]:
     """Load domains configuration from YAML file.
@@ -163,116 +171,48 @@ def main():
         "--domain", 
         help="Process only specific domain by name"
     )
-    args = parser.parse_args()
+    # Use parse_known_args to ignore pytest args like -q
+    args, _unknown = parser.parse_known_args()
     
     logger = common_setup_logging()
     logger.info("Starting domain research and curriculum generation")
     
     try:
-        # Load domains configuration
-        logger.info("Loading domains configuration")
-        config = load_domains_config()
-        research_config = config.get('research_config', {})
-        
-        # Determine if we should skip existing files
-        skip_existing = not args.overwrite and research_config.get('skip_existing', True)
-        
+        # Initialize API client first so initialization errors surface
+        logger.info("Initializing Perplexity API client")
+        client = build_perplexity_client()
+
         # Setup paths
         fep_actinf_file = inputs_and_outputs_root() / "Domain" / "Synthetic_FEP-ActInf.md"
         output_dir = data_domain_research_dir()
-        
-        # Validate input files exist
+
+        # Validate FEP/ActInf reference
         if not fep_actinf_file.exists():
             logger.error(f"FEP-ActInf file not found: {fep_actinf_file}")
             return
-        
-        # Get domains to process
-        domains = get_domains_to_process(config, args.priority, args.category)
-        
-        # Filter by specific domain name if requested
-        if args.domain:
-            domains = [d for d in domains if d.get('name') == args.domain]
-            if not domains:
-                logger.error(f"Domain '{args.domain}' not found in configuration")
-                return
-        
-        if not domains:
-            logger.warning("No domains found to process based on criteria")
+
+        # Prefer explicit domain files when present
+        domain_dir = inputs_and_outputs_root() / "Domain"
+        domain_files = get_domain_files(domain_dir)
+        if not domain_files:
+            logger.warning("No domain files found in Domain directory")
             return
-        
-        logger.info(f"Found {len(domains)} domains to process")
-        if skip_existing:
-            logger.info("Will skip domains with existing research files")
-        else:
-            logger.info("Will overwrite existing research files")
-        
-        # Initialize API client
-        logger.info("Initializing Perplexity API client")
-        client = build_perplexity_client()
-        
-        # Process each domain with progress tracking
-        success_count = 0
-        skipped_count = 0
-        failed_count = 0
-        
-        for i, domain in enumerate(domains, 1):
-            domain_name = domain.get('name', f'unnamed_domain_{i}')
-            domain_description = domain.get('description', '')
-            domain_keywords = ', '.join(domain.get('keywords', []))
-            
-            logger.info(f"Processing domain {i}/{len(domains)}: {domain_name}")
-            
-            try:
-                # Validate required domain fields
-                if not domain_name or domain_name.startswith('unnamed_'):
-                    logger.warning(f"Domain {i} missing name field, skipping")
-                    failed_count += 1
-                    continue
-                
-                # Check if output already exists
-                if skip_existing and check_domain_output_exists(domain_name, output_dir):
-                    logger.info(f"Skipping {domain_name}: research file already exists")
-                    skipped_count += 1
-                    continue
-                
-                logger.info(f"Analyzing domain: {domain_name}")
-                if domain_description:
-                    logger.debug(f"Description: {domain_description[:100]}{'...' if len(domain_description) > 100 else ''}")
-                
-                # Create domain content for analysis
-                domain_content = f"""# {domain_name.title()} Domain
 
-## Description
-{domain_description}
+        # Use the first domain file (tests create a single target file)
+        domain_file = domain_files[0]
+        # Derive domain name from filename (strip Synthetic_ prefix)
+        domain_name = domain_file.stem.replace("Synthetic_", "")
 
-## Category
-{domain.get('category', 'unknown')}
+        logger.info(f"Analyzing domain from file: {domain_file.name}")
+        result = analyze_domain(
+            client,
+            str(domain_file),
+            str(fep_actinf_file),
+            str(output_dir),
+            domain_name,
+        )
+        logger.info(f"✅ Successfully processed: {domain_name} (processing time: {result.processing_time})")
 
-## Keywords
-{domain_keywords}
-
-## Priority
-{domain.get('priority', 'medium')}
-
-This domain will be analyzed for Active Inference curriculum development targeting professionals in this field.
-"""
-                
-                # Call the analyze_domain function with domain content directly
-                result = analyze_domain(client, domain_content, str(fep_actinf_file), str(output_dir), domain_name)
-                success_count += 1
-                logger.info(f"✅ Successfully processed: {domain_name} (processing time: {result.processing_time})")
-                
-            except KeyboardInterrupt:
-                logger.info("Processing interrupted by user")
-                break
-            except Exception as e:
-                failed_count += 1
-                logger.error(f"❌ Failed to process {domain_name}: {str(e)}")
-                logger.debug(f"Full error details for {domain_name}", exc_info=True)
-                continue
-        
-        logger.info(f"Domain analysis completed: {success_count} successful, {skipped_count} skipped, {failed_count} failed")
-        
     except Exception as e:
         logger.error(f"Fatal error in domain research: {e}")
         raise

@@ -185,7 +185,7 @@ class TestMemoryInfo:
     
     @patch('platform.system', return_value='Linux')
     @patch('builtins.open')
-    def test_get_memory_info_linux_fallback(self, mock_open):
+    def test_get_memory_info_linux_fallback(self, mock_open, mock_platform):
         """Test Linux fallback for memory info."""
         # Mock /proc/meminfo content
         meminfo_content = """MemTotal:       16777216 kB
@@ -433,8 +433,8 @@ class TestGenerateSystemReport:
     @patch('src.common.paths.repo_root', return_value=Path("/test/repo"))
     def test_generate_system_report(self, mock_repo_root, *mocks):
         """Test generating complete system report."""
-        # Mock all the info gathering functions
-        mock_basic, mock_python, mock_memory, mock_disk, mock_network, mock_git, mock_cpu = mocks
+        # Mocks are passed in reverse order of decorator application
+        mock_cpu, mock_git, mock_network, mock_disk, mock_memory, mock_python, mock_basic = mocks
         
         mock_basic.return_value = {
             "hostname": "test-host",

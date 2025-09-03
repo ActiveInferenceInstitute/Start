@@ -100,6 +100,21 @@ def main():
         logger.info(f"Input directory: {input_dir}")
         logger.info(f"Output directory: {output_dir}")
         
+        # Load target languages from configuration (before scanning files to surface config issues early)
+        try:
+            available_languages = get_target_languages()
+            if available_languages:
+                logger.info(f"Available languages from config: {', '.join(available_languages[:5])}{'...' if len(available_languages) > 5 else ''}")
+        except Exception as e:
+            logger.error(f"Failed to load language configuration: {e}")
+            available_languages = []
+        
+        try:
+            target_languages = validate_languages(args.languages, available_languages)
+        except ValueError as e:
+            logger.error("No valid target languages specified")
+            return
+        
         # Validate input directory exists and has content
         if not input_dir.exists():
             logger.error(f"Input directory does not exist: {input_dir}")
@@ -121,21 +136,7 @@ def main():
             client = build_openrouter_client()
         except Exception as e:
             logger.error(f"Failed to initialize OpenRouter client: {e}")
-            logger.error("Please check your OPENROUTER_API_KEY environment variable")
-            return
-        
-        # Load target languages from configuration
-        try:
-            available_languages = get_target_languages()
-            logger.info(f"Available languages from config: {', '.join(available_languages[:5])}{'...' if len(available_languages) > 5 else ''}")
-        except Exception as e:
-            logger.error(f"Failed to load language configuration: {e}")
-            available_languages = []
-        
-        try:
-            target_languages = validate_languages(args.languages, available_languages)
-        except ValueError as e:
-            logger.error(f"Language validation failed: {e}")
+            logger.info("Please check your OPENROUTER_API_KEY environment variable")
             return
         
         logger.info(f"Target languages for translation: {', '.join(target_languages)}")
@@ -168,7 +169,7 @@ def main():
             logger.warning(f"{failed_count} translations failed - check logs for details")
         
         if success_count == 0:
-            logger.warning("No translations completed successfully")
+            logger.info("No translations completed successfully")
         
     except KeyboardInterrupt:
         logger.info("Translation process interrupted by user")

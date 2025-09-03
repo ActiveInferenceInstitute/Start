@@ -11,6 +11,7 @@ from unittest.mock import Mock, patch
 
 import pytest
 
+import src.system.dependencies as deps
 from src.system.dependencies import (
     DependencyCheck,
     DependencyReport,
@@ -129,7 +130,8 @@ class TestCheckPythonPackage:
         mock_module = Mock(spec=[])  # No attributes
         mock_import.return_value = mock_module
         
-        with patch('importlib.metadata.version', return_value="2.0.0"):
+        # Patch version on the module used by implementation avoiding resolve_name
+        with patch.object(deps.importlib_metadata, 'version', return_value="2.0.0"):
             check = check_python_package("test-package")
         
         assert check.available is True
@@ -141,7 +143,8 @@ class TestCheckPythonPackage:
         mock_module = Mock(spec=[])  # No version attributes
         mock_import.return_value = mock_module
         
-        with patch('importlib.metadata.version', side_effect=Exception("No metadata")):
+        # Patch version on the module used by implementation avoiding resolve_name
+        with patch.object(deps.importlib_metadata, 'version', side_effect=Exception("No metadata")):
             check = check_python_package("test-package")
         
         assert check.available is True
@@ -261,8 +264,8 @@ class TestCheckUvEnvironment:
     @patch('src.common.paths.repo_root', return_value=Path('/test/repo'))
     @patch('pathlib.Path.exists', return_value=True)
     @patch('shutil.which', return_value='/usr/bin/uv')
-    @patch('sys.prefix', '/test/.venv')
-    def test_check_uv_environment_success(self, mock_prefix, mock_which, mock_exists, mock_repo_root):
+    @patch('src.system.dependencies.sys.prefix', '/test/.venv')
+    def test_check_uv_environment_success(self, *args):
         """Test successful uv environment check."""
         check = check_uv_environment()
         
@@ -294,8 +297,8 @@ class TestCheckUvEnvironment:
     @patch('src.common.paths.repo_root', return_value=Path('/test/repo'))
     @patch('pathlib.Path.exists', return_value=True)
     @patch('shutil.which', return_value='/usr/bin/uv')
-    @patch('sys.prefix', '/usr')
-    def test_check_uv_environment_not_in_venv(self, mock_prefix, mock_which, mock_exists, mock_repo_root):
+    @patch('src.system.dependencies.sys.prefix', '/usr')
+    def test_check_uv_environment_not_in_venv(self, *args):
         """Test uv environment check when not in venv."""
         check = check_uv_environment()
         

@@ -12,7 +12,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
-from src.common.paths import repo_root
+import src.common.paths as paths
 
 
 @dataclass
@@ -93,7 +93,7 @@ def get_clone_destination(repo_name: str, base_dir: Optional[Path] = None) -> Pa
         Path where repository should be cloned
     """
     if base_dir is None:
-        base_dir = repo_root() / "src" / "_clones"
+        base_dir = paths.repo_root() / "src" / "_clones"
     
     return base_dir / repo_name
 
@@ -292,14 +292,14 @@ def get_cloned_repositories() -> List[Tuple[str, Path]]:
     Returns:
         List of (repo_name, path) tuples for existing clones
     """
-    clones_dir = repo_root() / "src" / "_clones"
+    clones_dir = paths.repo_root() / "src" / "_clones"
     
-    if not clones_dir.exists():
+    if not Path.exists(clones_dir):
         return []
     
     cloned = []
     for item in clones_dir.iterdir():
-        if item.is_dir() and (item / ".git").exists():
+        if item.is_dir() and Path.exists(item / ".git"):
             cloned.append((item.name, item))
     
     return sorted(cloned)
@@ -443,9 +443,9 @@ def cleanup_failed_clones() -> List[str]:
     Returns:
         List of cleaned up directory names
     """
-    clones_dir = repo_root() / "src" / "_clones"
+    clones_dir = paths.repo_root() / "src" / "_clones"
     
-    if not clones_dir.exists():
+    if not Path.exists(clones_dir):
         return []
     
     cleaned = []
@@ -453,7 +453,7 @@ def cleanup_failed_clones() -> List[str]:
     for item in clones_dir.iterdir():
         if item.is_dir():
             # Check if it's a proper git repository
-            if not (item / ".git").exists():
+            if not Path.exists(item / ".git"):
                 # Remove incomplete clone
                 try:
                     import shutil

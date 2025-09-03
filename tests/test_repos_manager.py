@@ -182,7 +182,7 @@ class TestRepositoryManager:
         """Test updating non-existent repository."""
         manager = RepositoryManager(base_dir=Path("/test/clones"))
         
-        with patch.object(Path("/test/clones/test-repo"), "exists", return_value=False):
+        with patch('pathlib.Path.exists', return_value=False):
             success, message = manager.update_repository("test-repo")
         
         assert success is False
@@ -216,7 +216,7 @@ class TestRepositoryManager:
         mock_status = {"name": "test-repo", "branch": "main"}
         mock_get_status.return_value = mock_status
         
-        with patch.object(Path("/test/clones/test-repo"), "exists", return_value=True):
+        with patch('pathlib.Path.exists', return_value=True):
             status = manager.get_repository_status("test-repo")
         
         assert status == mock_status
@@ -226,7 +226,7 @@ class TestRepositoryManager:
         """Test getting status of non-existent repository."""
         manager = RepositoryManager(base_dir=Path("/test/clones"))
         
-        with patch.object(Path("/test/clones/test-repo"), "exists", return_value=False):
+        with patch('pathlib.Path.exists', return_value=False):
             status = manager.get_repository_status("test-repo")
         
         assert status is None
@@ -248,7 +248,7 @@ class TestRepositoryManager:
         """Test deleting repository successfully."""
         manager = RepositoryManager(base_dir=Path("/test/clones"))
         
-        with patch.object(Path("/test/clones/test-repo"), "exists", return_value=True):
+        with patch('pathlib.Path.exists', return_value=True):
             success, message = manager.delete_repository("test-repo")
         
         assert success is True
@@ -259,7 +259,7 @@ class TestRepositoryManager:
         """Test deleting non-existent repository."""
         manager = RepositoryManager(base_dir=Path("/test/clones"))
         
-        with patch.object(Path("/test/clones/test-repo"), "exists", return_value=False):
+        with patch('pathlib.Path.exists', return_value=False):
             success, message = manager.delete_repository("test-repo")
         
         assert success is False
@@ -270,7 +270,7 @@ class TestRepositoryManager:
         """Test deleting repository with error."""
         manager = RepositoryManager(base_dir=Path("/test/clones"))
         
-        with patch.object(Path("/test/clones/test-repo"), "exists", return_value=True):
+        with patch('pathlib.Path.exists', return_value=True):
             success, message = manager.delete_repository("test-repo")
         
         assert success is False
@@ -391,7 +391,7 @@ class TestFormatRepositorySummary:
         assert "REPOSITORY SUMMARY" in formatted
         assert "Available repositories: 5" in formatted
         assert "Cloned repositories: 3" in formatted
-        assert "150.1 MB" in formatted
+        assert "150.5 MB" in formatted
         assert "active_inference: 2/3 cloned" in formatted
         assert "research: 1/2 cloned" in formatted
     

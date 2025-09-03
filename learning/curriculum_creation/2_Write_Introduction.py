@@ -158,7 +158,11 @@ def main():
         
         # Initialize API client (using OpenRouter for content generation)
         logger.info("Initializing OpenRouter API client")
-        client = build_openrouter_client()
+        try:
+            client = build_openrouter_client()
+        except Exception as e:
+            logger.error(f"Failed to initialize OpenRouter client: {e}. Please check your OPENROUTER_API_KEY environment variable")
+            return
         
         total_success = 0
         total_error = 0

@@ -109,8 +109,8 @@ class TestMainFunction:
         assert "Synthetic_TestDomain.md" in call_args[1]  # domain_file
         assert "Synthetic_FEP-ActInf.md" in call_args[2]  # fep_actinf_file
 
-    @patch('learning.curriculum_creation.1_Research_Domain.common_setup_logging')
-    @patch('learning.curriculum_creation.1_Research_Domain.inputs_and_outputs_root')
+    @patch('research_domain.common_setup_logging')
+    @patch('research_domain.inputs_and_outputs_root')
     def test_main_missing_fep_file(
         self,
         mock_io_root,

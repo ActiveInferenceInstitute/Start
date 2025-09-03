@@ -343,8 +343,7 @@ Licensed under Creative Commons Attribution-ShareAlike 4.0 International
 ## 🙏 **Acknowledgments**
 
 - **Active Inference Institute** for foundational research and community support
-- **Karl Friston** for the Free Energy Principle and Active Inference frameworks  
-- **Contributors** to pymdp, ActiveInference.jl, and related implementation packages
+- **Contributors** to pymdp, ActiveInference.jl, RxInfer.jl, and related implementation packages
 - **Educational partners** providing feedback and validation for curriculum effectiveness
 - **Open source community** for tools, libraries, and collaborative development
 
@@ -352,7 +351,7 @@ Licensed under Creative Commons Attribution-ShareAlike 4.0 International
 
 - **GitHub Issues**: [Project Issues](https://github.com/ActiveInferenceInstitute/Start/issues)
 - **Community**: [Active Inference Institute](https://www.activeinference.institute/)
-- **Email**: [contact@activeinference.institute](mailto:contact@activeinference.institute)
+- **Email**: [blanket@activeinference.institute](mailto:blanket@activeinference.institute)
 
 ## 🌟 **Join the Community**
 

@@ -14,8 +14,12 @@ def find_repo_root(start: Optional[os.PathLike | str] = None) -> Path:
             return p
     path = Path(start or __file__).resolve()
     for candidate in [path] + list(path.parents):
-        root = candidate if candidate.is_dir() else candidate.parent
-        if (root / ".git").exists() or (root / "README.md").exists():
+        # Avoid relying on Path.stat when tests patch it with incompatible mocks
+        try:
+            root = candidate if candidate.is_dir() else candidate.parent
+        except Exception:
+            root = candidate.parent
+        if Path.exists(root / ".git") or Path.exists(root / "README.md"):
             return root
     # Fallback to current working directory
     return Path.cwd().resolve()

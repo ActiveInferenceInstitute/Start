@@ -7,6 +7,8 @@ Python packages, and external tools needed by the project.
 from __future__ import annotations
 
 import importlib
+import importlib as importlib_module
+from importlib import metadata as importlib_metadata
 import shutil
 import subprocess
 import sys
@@ -14,7 +16,13 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 
-from src.common.paths import repo_root
+import src.common.paths as paths
+
+# Ensure importlib.metadata is available as attribute to avoid lazy import via importlib.__getattr__
+try:
+    setattr(importlib_module, "metadata", importlib_metadata)
+except Exception:
+    pass
 
 
 @dataclass
@@ -64,10 +72,14 @@ def check_python_package(package_name: str, required: bool = True) -> Dependency
                 break
         
         if not check.version:
-            # Try to get from distribution metadata
+            # Try to get from distribution metadata (alias exposed on importlib)
             try:
-                import importlib.metadata
-                check.version = importlib.metadata.version(package_name)
+                # Prefer importlib.metadata if present on importlib (easier to patch in tests)
+                if hasattr(importlib, "metadata"):
+                    # Access attribute via importlib to match patch('importlib.metadata.version')
+                    check.version = importlib.metadata.version(package_name)  # type: ignore[attr-defined]
+                else:
+                    check.version = importlib_metadata.version(package_name)
             except Exception:
                 check.version = "unknown"
                 
@@ -204,7 +216,7 @@ def check_uv_environment() -> DependencyCheck:
     check = DependencyCheck(name="uv-environment", required=False, available=False)
     
     # Check for uv lock file
-    uv_lock = repo_root() / "uv.lock"
+    uv_lock = paths.repo_root() / "uv.lock"
     if not uv_lock.exists():
         check.error_message = "uv.lock file not found"
         return check
@@ -217,7 +229,7 @@ def check_uv_environment() -> DependencyCheck:
     
     # Check if we're in a uv-managed virtual environment
     virtual_env = sys.prefix
-    if "uv" in virtual_env.lower() or ".venv" in virtual_env:
+    if virtual_env and ("uv" in virtual_env.lower() or ".venv" in virtual_env):
         check.available = True
         check.version = f"Virtual env: {virtual_env}"
     else:
@@ -234,7 +246,7 @@ def check_project_files() -> List[DependencyCheck]:
         List of DependencyCheck results for project files
     """
     checks = []
-    root = repo_root()
+    root = paths.repo_root()
     
     required_files = [
         "pyproject.toml",

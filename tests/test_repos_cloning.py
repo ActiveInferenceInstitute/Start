@@ -449,8 +449,17 @@ class TestGetClonedRepositories:
         
         mock_iterdir.return_value = [repo1_dir, repo2_dir, non_git_dir]
         
-        def exists_side_effect_for_cloned(self: Path) -> bool:
-            s = str(self)
+        def exists_side_effect_for_cloned(p: Path) -> bool:
+            s = str(p)
+            if s == str(clones_dir):
+                return True
+            if s == str(repo1_dir / ".git"):
+                return True
+            if s == str(repo2_dir / ".git"):
+                return True
+            if s == str(non_git_dir / ".git"):
+                return False
+            return True
             if s == str(clones_dir):
                 return True
             if s == str(repo1_dir / ".git"):
@@ -641,8 +650,15 @@ class TestCleanupFailedClones:
         
         mock_iterdir.return_value = [good_repo, failed_repo]
         
-        def exists_side_effect_for_cleanup(self: Path) -> bool:
-            s = str(self)
+        def exists_side_effect_for_cleanup(p: Path) -> bool:
+            s = str(p)
+            if s == str(clones_dir):
+                return True
+            if s == str(good_repo / ".git"):
+                return True
+            if s == str(failed_repo / ".git"):
+                return False
+            return True
             if s == str(clones_dir):
                 return True
             if s == str(good_repo / ".git"):
