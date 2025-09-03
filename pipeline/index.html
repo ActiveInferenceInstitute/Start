@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>Pipeline - START Documentation</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../css/brands.min.css" rel="stylesheet">
+        <link href="../css/solid.min.css" rel="stylesheet">
+        <link href="../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="..">START Documentation</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href=".." class="nav-link">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../getting_started/" class="nav-link">Getting Started</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../environment/" class="nav-link">Environment</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="./" class="nav-link active" aria-current="page">Pipeline</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../configuration/" class="nav-link">Configuration</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../TESTING/" class="nav-link">Testing</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../examples/" class="nav-link">Examples</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../clones/" class="nav-link">Clone Management</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../conventions/" class="nav-link">Conventions</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Other</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../other/" class="dropdown-item">Overview</a>
+</li>
+                                    
+<li>
+    <a href="../other/inferant_stream_015-1/" class="dropdown-item">Inferant Stream 015-1</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Learning Guides</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="https://github.com/ActiveInferenceInstitute/Start/blob/main/learning/curriculum_creation/USAGE_GUIDE.md" class="dropdown-item">Usage Guide</a>
+</li>
+                                    
+<li>
+    <a href="https://github.com/ActiveInferenceInstitute/Start/blob/main/learning/curriculum_creation/README.md" class="dropdown-item">API Integration</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../environment/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../configuration/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/ActiveInferenceInstitute/Start/edit/master/docs/pipeline.md" class="nav-link"><i class="fa-brands fa-github"></i> Edit on GitHub</a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#active-inference-curriculum-creation-pipeline" class="nav-link">Active Inference Curriculum Creation Pipeline</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#overview" class="nav-link">Overview</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#pipeline-stages" class="nav-link">Pipeline Stages</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#script-entrypoints" class="nav-link">Script Entrypoints</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#data-architecture" class="nav-link">Data Architecture</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#enhanced-features" class="nav-link">Enhanced Features</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#api-integration" class="nav-link">API Integration</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#quality-assurance" class="nav-link">Quality Assurance</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="active-inference-curriculum-creation-pipeline">Active Inference Curriculum Creation Pipeline<a class="headerlink" href="#active-inference-curriculum-creation-pipeline" title="Permanent link">&para;</a></h1>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>The START project provides a comprehensive, AI-powered pipeline for creating personalized Active Inference and Free Energy Principle curricula. The system uses real-time research via Perplexity API and advanced LLM-based content generation to produce professional-grade educational materials.</p>
+<h2 id="pipeline-stages">Pipeline Stages<a class="headerlink" href="#pipeline-stages" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><code><span class="n">flowchart</span><span class="w"> </span><span class="n">TD</span>
+<span class="w">  </span><span class="n">A</span><span class="p">[</span><span class="n">Configuration</span><span class="w"> </span><span class="n">YAMLs</span><span class="p">]</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">B</span><span class="p">[</span><span class="n">Research</span><span class="p">]</span>
+<span class="w">  </span><span class="n">B</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">C</span><span class="p">[</span><span class="n">Curriculum</span><span class="w"> </span><span class="n">Generation</span><span class="p">]</span>
+<span class="w">  </span><span class="n">C</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">D</span><span class="p">[</span><span class="n">Visualization</span><span class="p">]</span>
+<span class="w">  </span><span class="n">D</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">E</span><span class="p">[</span><span class="n">Translation</span><span class="p">]</span>
+<span class="w">  </span><span class="n">E</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">F</span><span class="p">[</span><span class="n">Outputs</span><span class="p">]</span>
+
+<span class="w">  </span><span class="n">subgraph</span><span class="w"> </span><span class="n">Inputs</span>
+<span class="w">    </span><span class="n">A1</span><span class="p">[</span><span class="n">data</span><span class="o">/</span><span class="n">config</span><span class="o">/</span><span class="n">entities</span><span class="p">.</span><span class="n">yaml</span><span class="p">]</span>
+<span class="w">    </span><span class="n">A2</span><span class="p">[</span><span class="n">data</span><span class="o">/</span><span class="n">config</span><span class="o">/</span><span class="n">domains</span><span class="p">.</span><span class="n">yaml</span><span class="p">]</span>
+<span class="w">    </span><span class="n">A3</span><span class="p">[</span><span class="n">data</span><span class="o">/</span><span class="n">config</span><span class="o">/</span><span class="n">languages</span><span class="p">.</span><span class="n">yaml</span><span class="p">]</span>
+<span class="w">  </span><span class="n">end</span>
+<span class="w">  </span><span class="n">A1</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">A</span>
+<span class="w">  </span><span class="n">A2</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">A</span>
+<span class="w">  </span><span class="n">A3</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">A</span>
+
+<span class="w">  </span><span class="n">click</span><span class="w"> </span><span class="n">A1</span><span class="w"> </span><span class="s">&quot;../data/config/entities.yaml&quot;</span><span class="w"> </span><span class="s">&quot;Entities config&quot;</span>
+<span class="w">  </span><span class="n">click</span><span class="w"> </span><span class="n">A2</span><span class="w"> </span><span class="s">&quot;../data/config/domains.yaml&quot;</span><span class="w"> </span><span class="s">&quot;Domains config&quot;</span>
+<span class="w">  </span><span class="n">click</span><span class="w"> </span><span class="n">A3</span><span class="w"> </span><span class="s">&quot;../data/config/languages.yaml&quot;</span><span class="w"> </span><span class="s">&quot;Languages config&quot;</span>
+</code></pre></div>
+
+<h3 id="1-research-phase">1. <strong>Research Phase</strong> 🔍<a class="headerlink" href="#1-research-phase" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Domain Research</strong>: Analyze professional domains (biochemistry, AI, neuroscience, etc.)</li>
+<li><strong>Entity Research</strong>: Create personalized profiles for target learners</li>
+<li><strong>Configuration-Driven</strong>: Uses YAML configs for scalable, organized research</li>
+</ul>
+<h3 id="2-curriculum-generation">2. <strong>Curriculum Generation</strong> ✍️<a class="headerlink" href="#2-curriculum-generation" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Comprehensive Content</strong>: 40-60 hour professional development programs</li>
+<li><strong>Personalized</strong>: Tailored to specific domains and individual learning profiles</li>
+<li><strong>Structured Modules</strong>: Multi-section educational frameworks with assessments</li>
+</ul>
+<h3 id="3-visualization-creation">3. <strong>Visualization Creation</strong> 📊<a class="headerlink" href="#3-visualization-creation" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Data Visualizations</strong>: PNG charts showing curriculum metrics and analysis</li>
+<li><strong>Process Diagrams</strong>: Mermaid diagrams for curriculum structure and flow</li>
+<li><strong>Interactive Elements</strong>: Visual learning aids and conceptual frameworks</li>
+</ul>
+<h3 id="4-multilingual-translation">4. <strong>Multilingual Translation</strong> 🌍<a class="headerlink" href="#4-multilingual-translation" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Cultural Adaptation</strong>: Full localization beyond literal translation</li>
+<li><strong>Professional Quality</strong>: Native-speaker level fluency with technical accuracy</li>
+<li><strong>Multiple Languages</strong>: Support for 9+ target languages with script mapping</li>
+</ul>
+<h2 id="script-entrypoints">Script Entrypoints<a class="headerlink" href="#script-entrypoints" title="Permanent link">&para;</a></h2>
+<h3 id="core-curriculum-creation-scripts">Core Curriculum Creation Scripts<a class="headerlink" href="#core-curriculum-creation-scripts" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Configuration-based research (NEW APPROACH)</span>
+learning/curriculum_creation/1_Research_Domain.py<span class="w">    </span><span class="c1"># Domain analysis</span>
+learning/curriculum_creation/1_Research_Entity.py<span class="w">    </span><span class="c1"># Audience profiling  </span>
+learning/curriculum_creation/2_Write_Introduction.py<span class="w"> </span><span class="c1"># Curriculum generation</span>
+learning/curriculum_creation/3_Introduction_Visualizations.py<span class="w"> </span><span class="c1"># Charts &amp; diagrams</span>
+learning/curriculum_creation/4_Translate_Introductions.py<span class="w">     </span><span class="c1"># Multilingual output</span>
+</code></pre></div>
+
+<h3 id="supporting-infrastructure">Supporting Infrastructure<a class="headerlink" href="#supporting-infrastructure" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>src/perplexity/<span class="w">           </span><span class="c1"># Perplexity API integration</span>
+src/common/<span class="w">               </span><span class="c1"># Shared utilities (paths, config, prompts)</span>
+src/config/<span class="w">               </span><span class="c1"># Configuration management</span>
+src/visualization/<span class="w">        </span><span class="c1"># Visualization generation</span>
+</code></pre></div>
+
+<h2 id="data-architecture">Data Architecture<a class="headerlink" href="#data-architecture" title="Permanent link">&para;</a></h2>
+<h3 id="input-configuration">Input Configuration<a class="headerlink" href="#input-configuration" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>data/config/
+├── entities.yaml         # Target learner profiles (8 entities)
+├── domains.yaml          # Professional domains (16 domains) 
+└── languages.yaml        # Translation targets (9+ languages)
+</code></pre></div>
+
+<h3 id="research-outputs">Research Outputs<a class="headerlink" href="#research-outputs" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>data/
+├── audience_research/     # Personalized learner analysis
+├── domain_research/       # Professional domain analysis
+├── written_curriculums/   # Generated curriculum content
+├── translated_curriculums/ # Multilingual versions
+└── visualizations/        # Charts and diagrams
+</code></pre></div>
+
+<h3 id="template-system">Template System<a class="headerlink" href="#template-system" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>data/prompts/
+├── research_domain_analysis.md     # 6-section domain framework
+├── research_domain_curriculum.md   # 9-section curriculum generation
+├── research_entity.md              # 6-section personalization
+├── curriculum_section.md           # Comprehensive module creation
+└── translation.md                  # 7-section multilingual framework
+</code></pre></div>
+
+<h2 id="enhanced-features">Enhanced Features<a class="headerlink" href="#enhanced-features" title="Permanent link">&para;</a></h2>
+<h3 id="configuration-driven-research">Configuration-Driven Research<a class="headerlink" href="#configuration-driven-research" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>YAML-Based Control</strong>: All research targets defined in configuration files</li>
+<li><strong>Priority Filtering</strong>: Process high/medium/low priority items</li>
+<li><strong>Category Filtering</strong>: Focus on specific domain categories</li>
+<li><strong>Overwrite Control</strong>: Skip existing by default, force overwrite with flags</li>
+</ul>
+<h3 id="advanced-command-line-interface">Advanced Command-Line Interface<a class="headerlink" href="#advanced-command-line-interface" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Filter by priority and category</span>
+python<span class="w"> </span>1_Research_Domain.py<span class="w"> </span>--priority<span class="w"> </span>high<span class="w"> </span>--category<span class="w"> </span>life_sciences
+
+<span class="c1"># Process specific targets</span>
+python<span class="w"> </span>1_Research_Entity.py<span class="w"> </span>--entity<span class="w"> </span>karl_friston<span class="w"> </span>--overwrite
+
+<span class="c1"># Multilingual output with specific languages</span>
+python<span class="w"> </span>4_Translate_Introductions.py<span class="w"> </span>--languages<span class="w"> </span>Spanish<span class="w"> </span>French<span class="w"> </span>German
+</code></pre></div>
+
+<h3 id="comprehensive-content-generation">Comprehensive Content Generation<a class="headerlink" href="#comprehensive-content-generation" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Domain Analysis</strong>: 3,000-5,000 word professional landscape analysis</li>
+<li><strong>Curriculum Content</strong>: 40-60 hour structured learning programs</li>
+<li><strong>Personalization</strong>: 5,000-8,000 word tailored learning strategies</li>
+<li><strong>Section Modules</strong>: 3-5 hour comprehensive learning units</li>
+</ul>
+<h2 id="api-integration">API Integration<a class="headerlink" href="#api-integration" title="Permanent link">&para;</a></h2>
+<h3 id="perplexity-api-research">Perplexity API (Research)<a class="headerlink" href="#perplexity-api-research" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Real-time Research</strong>: Current online information and analysis</li>
+<li><strong>Professional Insights</strong>: Industry trends, challenges, opportunities</li>
+<li><strong>Comprehensive Analysis</strong>: Multi-perspective domain understanding</li>
+</ul>
+<h3 id="openrouter-api-content-generation">OpenRouter API (Content Generation)<a class="headerlink" href="#openrouter-api-content-generation" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Advanced LLMs</strong>: High-quality curriculum and translation generation</li>
+<li><strong>Structured Output</strong>: Consistent, professional educational content</li>
+<li><strong>Multilingual Capability</strong>: Native-quality translations with cultural adaptation</li>
+</ul>
+<h2 id="quality-assurance">Quality Assurance<a class="headerlink" href="#quality-assurance" title="Permanent link">&para;</a></h2>
+<h3 id="content-standards">Content Standards<a class="headerlink" href="#content-standards" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Professional Grade</strong>: University course and corporate training quality</li>
+<li><strong>Evidence-Based</strong>: Real research and current industry insights</li>
+<li><strong>Comprehensive Coverage</strong>: Multi-modal learning approaches</li>
+<li><strong>Assessment Integrated</strong>: Built-in evaluation and progress tracking</li>
+</ul>
+<h3 id="technical-standards">Technical Standards<a class="headerlink" href="#technical-standards" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Modular Architecture</strong>: Clean, maintainable, testable code</li>
+<li><strong>Error Handling</strong>: Robust failure recovery and logging</li>
+<li><strong>Performance Optimized</strong>: Efficient API usage and data processing</li>
+<li><strong>Standards Compliant</strong>: Following Python best practices and project conventions</li>
+</ul>
+<h3 id="cross-references">Cross-References<a class="headerlink" href="#cross-references" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Environment setup and CI workflow: <code>docs/environment.md</code></li>
+<li>Testing policy and markers: <code>docs/TESTING.md</code></li>
+<li>Clone management for optional resources: <code>docs/clones.md</code></li>
+</ul></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js"></script>
+        <script src="../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

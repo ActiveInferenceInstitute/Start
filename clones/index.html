@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>Clone Management - START Documentation</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../css/brands.min.css" rel="stylesheet">
+        <link href="../css/solid.min.css" rel="stylesheet">
+        <link href="../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="..">START Documentation</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href=".." class="nav-link">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../getting_started/" class="nav-link">Getting Started</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../environment/" class="nav-link">Environment</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../pipeline/" class="nav-link">Pipeline</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../configuration/" class="nav-link">Configuration</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../TESTING/" class="nav-link">Testing</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../examples/" class="nav-link">Examples</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="./" class="nav-link active" aria-current="page">Clone Management</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../conventions/" class="nav-link">Conventions</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Other</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../other/" class="dropdown-item">Overview</a>
+</li>
+                                    
+<li>
+    <a href="../other/inferant_stream_015-1/" class="dropdown-item">Inferant Stream 015-1</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Learning Guides</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="https://github.com/ActiveInferenceInstitute/Start/blob/main/learning/curriculum_creation/USAGE_GUIDE.md" class="dropdown-item">Usage Guide</a>
+</li>
+                                    
+<li>
+    <a href="https://github.com/ActiveInferenceInstitute/Start/blob/main/learning/curriculum_creation/README.md" class="dropdown-item">API Integration</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../examples/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../conventions/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/ActiveInferenceInstitute/Start/edit/master/docs/clones.md" class="nav-link"><i class="fa-brands fa-github"></i> Edit on GitHub</a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#external-repositories-clone-management" class="nav-link">External Repositories &amp; Clone Management</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#repository-ecosystem" class="nav-link">Repository Ecosystem</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#clone-management" class="nav-link">Clone Management</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#integration-with-curriculum-pipeline" class="nav-link">Integration with Curriculum Pipeline</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#repository-structure-after-cloning" class="nav-link">Repository Structure After Cloning</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#usage-in-curriculum-development" class="nav-link">Usage in Curriculum Development</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#verification-maintenance" class="nav-link">Verification &amp; Maintenance</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="external-repositories-clone-management">External Repositories &amp; Clone Management<a class="headerlink" href="#external-repositories-clone-management" title="Permanent link">&para;</a></h1>
+<p>The START project integrates with several Active Inference and computational neuroscience repositories to provide comprehensive educational resources and examples. These can be optionally cloned into <code>src/_clones/</code> for local development and curriculum enhancement.</p>
+<h2 id="repository-ecosystem">Repository Ecosystem<a class="headerlink" href="#repository-ecosystem" title="Permanent link">&para;</a></h2>
+<h3 id="core-knowledge-resources">Core Knowledge Resources<a class="headerlink" href="#core-knowledge-resources" title="Permanent link">&para;</a></h3>
+<h4 id="cognitive-active-inference-institute-knowledge-graph"><strong>cognitive</strong> (Active Inference Institute Knowledge Graph)<a class="headerlink" href="#cognitive-active-inference-institute-knowledge-graph" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>URL</strong>: <a href="https://github.com/ActiveInferenceInstitute/cognitive">github.com/ActiveInferenceInstitute/cognitive</a></li>
+<li><strong>Destination</strong>: <code>src/_clones/cognitive</code></li>
+<li><strong>Purpose</strong>: Knowledge graph backing for curriculum development, providing structured Active Inference concepts and relationships</li>
+<li><strong>Integration</strong>: Used as reference material for comprehensive curriculum content and concept validation</li>
+</ul>
+<h4 id="rxinferexamplesjl-bayesian-inference-examples"><strong>RxInferExamples.jl</strong> (Bayesian Inference Examples)<a class="headerlink" href="#rxinferexamplesjl-bayesian-inference-examples" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>URL</strong>: <a href="https://github.com/docxology/RxInferExamples.jl/">github.com/docxology/RxInferExamples.jl</a></li>
+<li><strong>Destination</strong>: <code>src/_clones/RxInferExamples.jl</code></li>
+<li><strong>Purpose</strong>: Practical examples of Bayesian inference and probabilistic programming</li>
+<li><strong>Integration</strong>: Source of hands-on exercises and computational examples for technical curricula</li>
+</ul>
+<h3 id="implementation-resources">Implementation Resources<a class="headerlink" href="#implementation-resources" title="Permanent link">&para;</a></h3>
+<h4 id="activeinferencejl-julia-implementation"><strong>ActiveInference.jl</strong> (Julia Implementation)<a class="headerlink" href="#activeinferencejl-julia-implementation" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>URL</strong>: <a href="https://github.com/docxology/ActiveInference.jl/tree/textbook">github.com/docxology/ActiveInference.jl/tree/textbook</a></li>
+<li><strong>Destination</strong>: <code>src/_clones/ActiveInference.jl</code></li>
+<li><strong>Branch</strong>: <code>textbook</code> (educational focus)</li>
+<li><strong>Purpose</strong>: Julia-based Active Inference implementation with educational documentation</li>
+<li><strong>Integration</strong>: Technical reference and code examples for programming-focused curricula</li>
+</ul>
+<h4 id="pymdp-python-active-inference"><strong>pymdp</strong> (Python Active Inference)<a class="headerlink" href="#pymdp-python-active-inference" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>URL</strong>: <a href="https://github.com/docxology/pymdp/tree/textbook">github.com/docxology/pymdp/tree/textbook</a></li>
+<li><strong>Destination</strong>: <code>src/_clones/pymdp</code></li>
+<li><strong>Branch</strong>: <code>textbook</code> (educational focus)</li>
+<li><strong>Purpose</strong>: Python implementation of Active Inference and Free Energy Principle</li>
+<li><strong>Integration</strong>: Hands-on programming exercises and computational examples</li>
+</ul>
+<h2 id="clone-management">Clone Management<a class="headerlink" href="#clone-management" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><code><span class="n">flowchart</span><span class="w"> </span><span class="n">LR</span>
+<span class="w">  </span><span class="n">A</span><span class="p">[</span><span class="n">Select</span><span class="w"> </span><span class="n">repo</span><span class="p">]</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">B</span><span class="p">{</span><span class="n">Already</span><span class="w"> </span><span class="n">cloned</span><span class="o">?</span><span class="p">}</span>
+<span class="w">  </span><span class="n">B</span><span class="w"> </span><span class="o">--</span><span class="w"> </span><span class="n">No</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">C</span><span class="p">[</span><span class="n">Run</span><span class="w"> </span><span class="n">clone</span><span class="w"> </span><span class="n">utility</span><span class="p">]</span>
+<span class="w">  </span><span class="n">B</span><span class="w"> </span><span class="o">--</span><span class="w"> </span><span class="n">Yes</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">D</span><span class="p">[</span><span class="n">Update</span><span class="w"> </span><span class="n">via</span><span class="w"> </span><span class="n">git</span><span class="w"> </span><span class="n">pull</span><span class="p">]</span>
+<span class="w">  </span><span class="n">C</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">E</span><span class="p">[</span><span class="n">Verify</span><span class="w"> </span><span class="n">destination</span><span class="w"> </span><span class="n">non</span><span class="o">-</span><span class="n">empty</span><span class="p">]</span>
+<span class="w">  </span><span class="n">E</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">F</span><span class="p">[</span><span class="n">Integration</span><span class="w"> </span><span class="n">checks</span><span class="p">]</span>
+<span class="w">  </span><span class="n">D</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">F</span><span class="p">[</span><span class="n">Integration</span><span class="w"> </span><span class="n">checks</span><span class="p">]</span>
+
+<span class="w">  </span><span class="n">F</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">G</span><span class="p">{</span><span class="n">Use</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">pipeline</span><span class="o">?</span><span class="p">}</span>
+<span class="w">  </span><span class="n">G</span><span class="w"> </span><span class="o">--</span><span class="w"> </span><span class="n">cognitive</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">H</span><span class="p">[</span><span class="n">Concept</span><span class="w"> </span><span class="n">validation</span><span class="p">]</span>
+<span class="w">  </span><span class="n">G</span><span class="w"> </span><span class="o">--</span><span class="w"> </span><span class="n">pymdp</span><span class="o">/</span><span class="n">ActiveInference</span><span class="p">.</span><span class="n">jl</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">I</span><span class="p">[</span><span class="n">Examples</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">labs</span><span class="p">]</span>
+<span class="w">  </span><span class="n">G</span><span class="w"> </span><span class="o">--</span><span class="w"> </span><span class="n">RxInferExamples</span><span class="p">.</span><span class="n">jl</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">J</span><span class="p">[</span><span class="n">Exercises</span><span class="p">]</span>
+
+<span class="w">  </span><span class="n">click</span><span class="w"> </span><span class="n">C</span><span class="w"> </span><span class="s">&quot;../src/repos/clone_repo.py&quot;</span><span class="w"> </span><span class="s">&quot;Clone utility&quot;</span>
+</code></pre></div>
+
+<h3 id="automated-cloning">Automated Cloning<a class="headerlink" href="#automated-cloning" title="Permanent link">&para;</a></h3>
+<p>Use the integrated clone utility for consistent repository management:</p>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Core knowledge graph</span>
+uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>src/repos/clone_repo.py<span class="w"> </span>--url<span class="w"> </span>https://github.com/ActiveInferenceInstitute/cognitive<span class="w"> </span>--dest<span class="w"> </span>src/_clones/cognitive<span class="w"> </span>--shallow
+
+<span class="c1"># Bayesian inference examples</span>
+uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>src/repos/clone_repo.py<span class="w"> </span>--url<span class="w"> </span>https://github.com/docxology/RxInferExamples.jl<span class="w"> </span>--dest<span class="w"> </span>src/_clones/RxInferExamples.jl<span class="w"> </span>--shallow
+
+<span class="c1"># Julia Active Inference (textbook branch)</span>
+uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>src/repos/clone_repo.py<span class="w"> </span>--url<span class="w"> </span>https://github.com/docxology/ActiveInference.jl<span class="w"> </span>--dest<span class="w"> </span>src/_clones/ActiveInference.jl<span class="w"> </span>--branch<span class="w"> </span>textbook<span class="w"> </span>--shallow
+
+<span class="c1"># Python Active Inference (textbook branch)  </span>
+uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>src/repos/clone_repo.py<span class="w"> </span>--url<span class="w"> </span>https://github.com/docxology/pymdp<span class="w"> </span>--dest<span class="w"> </span>src/_clones/pymdp<span class="w"> </span>--branch<span class="w"> </span>textbook<span class="w"> </span>--shallow
+</code></pre></div>
+
+<h3 id="manual-repository-management">Manual Repository Management<a class="headerlink" href="#manual-repository-management" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Clone with specific options</span>
+git<span class="w"> </span>clone<span class="w"> </span>--shallow-since<span class="o">=</span><span class="s2">&quot;2023-01-01&quot;</span><span class="w"> </span>--branch<span class="w"> </span>textbook<span class="w"> </span>https://github.com/docxology/ActiveInference.jl<span class="w"> </span>src/_clones/ActiveInference.jl
+
+<span class="c1"># Update existing clones</span>
+<span class="nb">cd</span><span class="w"> </span>src/_clones/cognitive<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>pull<span class="w"> </span>origin<span class="w"> </span>main
+<span class="nb">cd</span><span class="w"> </span>src/_clones/pymdp<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>pull<span class="w"> </span>origin<span class="w"> </span>textbook
+</code></pre></div>
+
+<h2 id="integration-with-curriculum-pipeline">Integration with Curriculum Pipeline<a class="headerlink" href="#integration-with-curriculum-pipeline" title="Permanent link">&para;</a></h2>
+<h3 id="knowledge-graph-integration">Knowledge Graph Integration<a class="headerlink" href="#knowledge-graph-integration" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>cognitive</strong> repository provides structured concept relationships</li>
+<li>Used by domain analysis scripts to validate Active Inference concepts</li>
+<li>Enhances curriculum content with authoritative concept definitions</li>
+</ul>
+<h3 id="code-example-integration">Code Example Integration<a class="headerlink" href="#code-example-integration" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>pymdp</strong> and <strong>ActiveInference.jl</strong> provide working code examples</li>
+<li>Integrated into hands-on curriculum sections</li>
+<li>Used for generating programming exercises and computational labs</li>
+</ul>
+<h3 id="educational-resource-enhancement">Educational Resource Enhancement<a class="headerlink" href="#educational-resource-enhancement" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>RxInferExamples.jl</strong> provides practical Bayesian inference examples</li>
+<li>Textbook branches focus on educational content and clear explanations</li>
+<li>Examples adapted for domain-specific curriculum applications</li>
+</ul>
+<h2 id="repository-structure-after-cloning">Repository Structure After Cloning<a class="headerlink" href="#repository-structure-after-cloning" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><code><span class="nx">src</span><span class="o">/</span><span class="nx">_clones</span><span class="o">/</span>
+<span class="err">├──</span><span class="w"> </span><span class="nx">cognitive</span><span class="o">/</span><span class="w">                 </span><span class="err">#</span><span class="w"> </span><span class="nx">Knowledge</span><span class="w"> </span><span class="nx">graph</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="nx">concept</span><span class="w"> </span><span class="nx">definitions</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="nx">content</span><span class="o">/</span><span class="w">              </span><span class="err">#</span><span class="w"> </span><span class="nx">Structured</span><span class="w"> </span><span class="nx">Active</span><span class="w"> </span><span class="nx">Inference</span><span class="w"> </span><span class="nx">content</span>
+<span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="nx">ontologies</span><span class="o">/</span><span class="w">           </span><span class="err">#</span><span class="w"> </span><span class="nx">Formal</span><span class="w"> </span><span class="nx">concept</span><span class="w"> </span><span class="nx">relationships</span>
+<span class="err">├──</span><span class="w"> </span><span class="nx">RxInferExamples</span><span class="p">.</span><span class="nx">jl</span><span class="o">/</span><span class="w">       </span><span class="err">#</span><span class="w"> </span><span class="nx">Bayesian</span><span class="w"> </span><span class="nx">inference</span><span class="w"> </span><span class="nx">examples</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="nx">notebooks</span><span class="o">/</span><span class="w">            </span><span class="err">#</span><span class="w"> </span><span class="nx">Jupyter</span><span class="w"> </span><span class="nx">notebooks</span><span class="w"> </span><span class="nx">with</span><span class="w"> </span><span class="nx">examples</span>
+<span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="nx">scripts</span><span class="o">/</span><span class="w">              </span><span class="err">#</span><span class="w"> </span><span class="nx">Standalone</span><span class="w"> </span><span class="nx">example</span><span class="w"> </span><span class="nx">scripts</span>
+<span class="err">├──</span><span class="w"> </span><span class="nx">ActiveInference</span><span class="p">.</span><span class="nx">jl</span><span class="o">/</span><span class="w">       </span><span class="err">#</span><span class="w"> </span><span class="nx">Julia</span><span class="w"> </span><span class="nx">Active</span><span class="w"> </span><span class="nx">Inference</span><span class="w"> </span><span class="nx">implementation</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="nx">docs</span><span class="o">/</span><span class="w">                 </span><span class="err">#</span><span class="w"> </span><span class="nx">Educational</span><span class="w"> </span><span class="nx">documentation</span>
+<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="nx">examples</span><span class="o">/</span><span class="w">             </span><span class="err">#</span><span class="w"> </span><span class="nx">Code</span><span class="w"> </span><span class="nx">examples</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="nx">tutorials</span>
+<span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="nx">src</span><span class="o">/</span><span class="w">                  </span><span class="err">#</span><span class="w"> </span><span class="nx">Core</span><span class="w"> </span><span class="nx">implementation</span>
+<span class="err">└──</span><span class="w"> </span><span class="nx">pymdp</span><span class="o">/</span><span class="w">                    </span><span class="err">#</span><span class="w"> </span><span class="nx">Python</span><span class="w"> </span><span class="nx">Active</span><span class="w"> </span><span class="nx">Inference</span>
+<span class="w">    </span><span class="err">├──</span><span class="w"> </span><span class="nx">notebooks</span><span class="o">/</span><span class="w">            </span><span class="err">#</span><span class="w"> </span><span class="nx">Educational</span><span class="w"> </span><span class="nx">notebooks</span>
+<span class="w">    </span><span class="err">├──</span><span class="w"> </span><span class="nx">examples</span><span class="o">/</span><span class="w">             </span><span class="err">#</span><span class="w"> </span><span class="nx">Example</span><span class="w"> </span><span class="nx">scripts</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="nx">demonstrations</span>
+<span class="w">    </span><span class="err">└──</span><span class="w"> </span><span class="nx">pymdp</span><span class="o">/</span><span class="w">                </span><span class="err">#</span><span class="w"> </span><span class="nx">Core</span><span class="w"> </span><span class="nx">Python</span><span class="w"> </span><span class="kn">package</span>
+</code></pre></div>
+
+<h2 id="usage-in-curriculum-development">Usage in Curriculum Development<a class="headerlink" href="#usage-in-curriculum-development" title="Permanent link">&para;</a></h2>
+<h3 id="content-enhancement">Content Enhancement<a class="headerlink" href="#content-enhancement" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Reference cloned repositories for authoritative Active Inference content</li>
+<li>Adapt examples from implementation repositories for specific domains</li>
+<li>Use knowledge graph structure to ensure comprehensive concept coverage</li>
+</ul>
+<h3 id="technical-integration">Technical Integration<a class="headerlink" href="#technical-integration" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Import code examples into curriculum programming sections</li>
+<li>Generate domain-specific computational exercises</li>
+<li>Provide working implementations for hands-on learning</li>
+</ul>
+<h3 id="quality-assurance">Quality Assurance<a class="headerlink" href="#quality-assurance" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Validate curriculum content against authoritative sources</li>
+<li>Ensure technical accuracy using reference implementations</li>
+<li>Maintain consistency with Active Inference Institute standards</li>
+</ul>
+<h2 id="verification-maintenance">Verification &amp; Maintenance<a class="headerlink" href="#verification-maintenance" title="Permanent link">&para;</a></h2>
+<h3 id="verify-clone-integrity">Verify Clone Integrity<a class="headerlink" href="#verify-clone-integrity" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Path exists and is a git repo</span>
+<span class="nb">test</span><span class="w"> </span>-d<span class="w"> </span>src/_clones/cognitive/.git<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span>OK
+
+<span class="c1"># Show remote and branch</span>
+git<span class="w"> </span>-C<span class="w"> </span>src/_clones/cognitive<span class="w"> </span>remote<span class="w"> </span>-v
+git<span class="w"> </span>-C<span class="w"> </span>src/_clones/cognitive<span class="w"> </span>branch<span class="w"> </span>--show-current
+</code></pre></div>
+
+<h3 id="update-clones-safely">Update Clones Safely<a class="headerlink" href="#update-clones-safely" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>git<span class="w"> </span>-C<span class="w"> </span>src/_clones/cognitive<span class="w"> </span>fetch<span class="w"> </span>--prune
+git<span class="w"> </span>-C<span class="w"> </span>src/_clones/cognitive<span class="w"> </span>pull<span class="w"> </span>--ff-only<span class="w"> </span>origin<span class="w"> </span>main
+
+git<span class="w"> </span>-C<span class="w"> </span>src/_clones/pymdp<span class="w"> </span>fetch<span class="w"> </span>--prune
+git<span class="w"> </span>-C<span class="w"> </span>src/_clones/pymdp<span class="w"> </span>pull<span class="w"> </span>--ff-only<span class="w"> </span>origin<span class="w"> </span>textbook
+</code></pre></div>
+
+<h3 id="re-clone-when-needed">Re-clone When Needed<a class="headerlink" href="#re-clone-when-needed" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code>rm<span class="w"> </span>-rf<span class="w"> </span>src/_clones/ActiveInference.jl
+uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>src/repos/clone_repo.py<span class="w"> </span>--url<span class="w"> </span>https://github.com/docxology/ActiveInference.jl<span class="w"> </span>--dest<span class="w"> </span>src/_clones/ActiveInference.jl<span class="w"> </span>--branch<span class="w"> </span>textbook<span class="w"> </span>--shallow
+</code></pre></div></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js"></script>
+        <script src="../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

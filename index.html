@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="None">
+        
+        
+        <link rel="shortcut icon" href="img/favicon.ico">
+        <title>START Documentation</title>
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/fontawesome.min.css" rel="stylesheet">
+        <link href="css/brands.min.css" rel="stylesheet">
+        <link href="css/solid.min.css" rel="stylesheet">
+        <link href="css/v4-font-face.min.css" rel="stylesheet">
+        <link href="css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body class="homepage">
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href=".">START Documentation</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href="." class="nav-link active" aria-current="page">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="getting_started/" class="nav-link">Getting Started</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="environment/" class="nav-link">Environment</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="pipeline/" class="nav-link">Pipeline</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="configuration/" class="nav-link">Configuration</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="TESTING/" class="nav-link">Testing</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="examples/" class="nav-link">Examples</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="clones/" class="nav-link">Clone Management</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="conventions/" class="nav-link">Conventions</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Other</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="other/" class="dropdown-item">Overview</a>
+</li>
+                                    
+<li>
+    <a href="other/inferant_stream_015-1/" class="dropdown-item">Inferant Stream 015-1</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Learning Guides</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="https://github.com/ActiveInferenceInstitute/Start/blob/main/learning/curriculum_creation/USAGE_GUIDE.md" class="dropdown-item">Usage Guide</a>
+</li>
+                                    
+<li>
+    <a href="https://github.com/ActiveInferenceInstitute/Start/blob/main/learning/curriculum_creation/README.md" class="dropdown-item">API Integration</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" class="nav-link disabled">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="getting_started/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/ActiveInferenceInstitute/Start/edit/master/docs/index.md" class="nav-link"><i class="fa-brands fa-github"></i> Edit on GitHub</a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#start-project-documentation-hub" class="nav-link">START Project Documentation Hub</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#what-is-start" class="nav-link">🚀 What is START?</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#documentation-structure" class="nav-link">📚 Documentation Structure</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#quick-start-paths" class="nav-link">🎯 Quick Start Paths</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#external-resources" class="nav-link">🌐 External Resources</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#system-capabilities" class="nav-link">📋 System Capabilities</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#configuration-overview" class="nav-link">🔧 Configuration Overview</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#project-structure" class="nav-link">📊 Project Structure</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#development-workflow" class="nav-link">🔄 Development Workflow</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#getting-help" class="nav-link">📞 Getting Help</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="start-project-documentation-hub">START Project Documentation Hub<a class="headerlink" href="#start-project-documentation-hub" title="Permanent link">&para;</a></h1>
+<p>Welcome to the comprehensive documentation for the START (Scalable, Tailored Active-inference Research &amp; Training) project - an advanced AI-powered system for creating personalized Active Inference and Free Energy Principle curricula.</p>
+<h2 id="what-is-start">🚀 <strong>What is START?</strong><a class="headerlink" href="#what-is-start" title="Permanent link">&para;</a></h2>
+<p>START is a complete educational content generation pipeline that combines:</p>
+<ul>
+<li><strong>Real-time research</strong> using Perplexity API for current domain insights</li>
+<li><strong>Advanced LLM-based content generation</strong> via OpenRouter for professional-quality curricula</li>
+<li><strong>Comprehensive personalization</strong> tailored to specific learners and professional domains</li>
+<li><strong>Multilingual capabilities</strong> with full cultural adaptation</li>
+<li><strong>Rich visualizations</strong> including charts, diagrams, and interactive elements</li>
+</ul>
+<h2 id="documentation-structure">📚 <strong>Documentation Structure</strong><a class="headerlink" href="#documentation-structure" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><code><span class="nf">graph</span><span class="w"> </span><span class="n">TD</span>
+<span class="w">  </span><span class="n">A</span><span class="p">[</span><span class="s">&quot;START Docs Hub&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">B</span><span class="p">[</span><span class="s">&quot;Environment Setup&quot;</span><span class="p">]</span>
+<span class="w">  </span><span class="n">A</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">C</span><span class="p">[</span><span class="s">&quot;Pipeline Overview&quot;</span><span class="p">]</span>
+<span class="w">  </span><span class="n">A</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">D</span><span class="p">[</span><span class="s">&quot;Repository &amp; Clone Management&quot;</span><span class="p">]</span>
+<span class="w">  </span><span class="n">A</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">E</span><span class="p">[</span><span class="s">&quot;Testing Guide&quot;</span><span class="p">]</span>
+<span class="w">  </span><span class="n">A</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">F</span><span class="p">[</span><span class="s">&quot;User &amp; API Guides&quot;</span><span class="p">]</span>
+<span class="w">  </span><span class="n">F</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">F1</span><span class="p">[</span><span class="s">&quot;Curriculum Creation Usage Guide&quot;</span><span class="p">]</span>
+<span class="w">  </span><span class="n">F</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">F2</span><span class="p">[</span><span class="s">&quot;API Integration Guide&quot;</span><span class="p">]</span>
+<span class="w">  </span><span class="n">A</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">I</span><span class="p">[</span><span class="s">&quot;Getting Started&quot;</span><span class="p">]</span>
+<span class="w">  </span><span class="n">A</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">J</span><span class="p">[</span><span class="s">&quot;Configuration&quot;</span><span class="p">]</span>
+<span class="w">  </span><span class="n">A</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">K</span><span class="p">[</span><span class="s">&quot;Examples&quot;</span><span class="p">]</span>
+<span class="w">  </span><span class="n">A</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">G</span><span class="p">[</span><span class="s">&quot;Configuration Reference&quot;</span><span class="p">]</span>
+<span class="w">  </span><span class="n">A</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">H</span><span class="p">[</span><span class="s">&quot;Prompt Templates&quot;</span><span class="p">]</span>
+
+<span class="w">  </span><span class="n">click</span><span class="w"> </span><span class="n">B</span><span class="w"> </span><span class="s">&quot;./environment.md&quot;</span><span class="w"> </span><span class="s">&quot;Environment Setup&quot;</span>
+<span class="w">  </span><span class="n">click</span><span class="w"> </span><span class="n">C</span><span class="w"> </span><span class="s">&quot;./pipeline.md&quot;</span><span class="w"> </span><span class="s">&quot;Pipeline Overview&quot;</span>
+<span class="w">  </span><span class="n">click</span><span class="w"> </span><span class="n">D</span><span class="w"> </span><span class="s">&quot;./clones.md&quot;</span><span class="w"> </span><span class="s">&quot;Repository &amp; Clone Management&quot;</span>
+<span class="w">  </span><span class="n">click</span><span class="w"> </span><span class="n">E</span><span class="w"> </span><span class="s">&quot;./TESTING.md&quot;</span><span class="w"> </span><span class="s">&quot;Testing Guide&quot;</span>
+<span class="w">  </span><span class="n">click</span><span class="w"> </span><span class="n">F1</span><span class="w"> </span><span class="s">&quot;https://github.com/ActiveInferenceInstitute/Start/blob/main/learning/curriculum_creation/USAGE_GUIDE.md&quot;</span><span class="w"> </span><span class="s">&quot;Usage Guide&quot;</span>
+<span class="w">  </span><span class="n">click</span><span class="w"> </span><span class="n">F2</span><span class="w"> </span><span class="s">&quot;https://github.com/ActiveInferenceInstitute/Start/blob/main/learning/curriculum_creation/README.md&quot;</span><span class="w"> </span><span class="s">&quot;API Integration Guide&quot;</span>
+<span class="w">  </span><span class="n">click</span><span class="w"> </span><span class="n">I</span><span class="w"> </span><span class="s">&quot;./getting_started.md&quot;</span><span class="w"> </span><span class="s">&quot;Getting Started&quot;</span>
+<span class="w">  </span><span class="n">click</span><span class="w"> </span><span class="n">J</span><span class="w"> </span><span class="s">&quot;./configuration.md&quot;</span><span class="w"> </span><span class="s">&quot;Configuration&quot;</span>
+<span class="w">  </span><span class="n">click</span><span class="w"> </span><span class="n">K</span><span class="w"> </span><span class="s">&quot;./examples.md&quot;</span><span class="w"> </span><span class="s">&quot;Examples&quot;</span>
+</code></pre></div>
+
+<h3 id="core-guides">Core Guides<a class="headerlink" href="#core-guides" title="Permanent link">&para;</a></h3>
+<h4 id="setup-development">🛠️ <strong>Setup &amp; Development</strong><a class="headerlink" href="#setup-development" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong><a href="environment/">Environment Setup</a></strong> - Complete installation, configuration, and development guide</li>
+<li>Prerequisites, API setup, dependency management</li>
+<li>Development workflow, testing, troubleshooting</li>
+<li>IDE integration and advanced configuration</li>
+</ul>
+<h4 id="system-architecture">🔄 <strong>System Architecture</strong><a class="headerlink" href="#system-architecture" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong><a href="pipeline/">Pipeline Overview</a></strong> - Comprehensive system architecture and workflow</li>
+<li>4-stage curriculum creation pipeline</li>
+<li>Configuration-driven research approach</li>
+<li>API integration and content generation standards</li>
+</ul>
+<h4 id="external-integrations">🔗 <strong>External Integrations</strong><a class="headerlink" href="#external-integrations" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong><a href="clones/">Repository &amp; Clone Management</a></strong> - External resource integration</li>
+<li>Active Inference Institute ecosystem integration</li>
+<li>Knowledge graph and implementation repositories</li>
+<li>Educational resource enhancement strategies</li>
+</ul>
+<h3 id="specialized-documentation">Specialized Documentation<a class="headerlink" href="#specialized-documentation" title="Permanent link">&para;</a></h3>
+<h4 id="user-guides">📖 <strong>User Guides</strong><a class="headerlink" href="#user-guides" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong><a href="https://github.com/ActiveInferenceInstitute/Start/blob/main/learning/curriculum_creation/USAGE_GUIDE.md">Usage Guide</a></strong></li>
+<li><strong><a href="https://github.com/ActiveInferenceInstitute/Start/blob/main/learning/curriculum_creation/README.md">API Integration Guide</a></strong></li>
+</ul>
+<h4 id="configuration-reference">🔧 <strong>Configuration Reference</strong><a class="headerlink" href="#configuration-reference" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Entity Configuration</strong>: <code>data/config/entities.yaml</code> - Target learner profiles</li>
+<li><strong>Domain Configuration</strong>: <code>data/config/domains.yaml</code> - Professional domain definitions</li>
+<li><strong>Language Configuration</strong>: <code>data/config/languages.yaml</code> - Translation targets</li>
+</ul>
+<h4 id="prompt-engineering">📝 <strong>Prompt Engineering</strong><a class="headerlink" href="#prompt-engineering" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Domain Analysis Templates</strong>: <code>data/prompts/research_domain_analysis.md</code></li>
+<li><strong>Curriculum Generation Templates</strong>: <code>data/prompts/research_domain_curriculum.md</code></li>
+<li><strong>Personalization Templates</strong>: <code>data/prompts/research_entity.md</code></li>
+<li><strong>Translation Framework</strong>: <code>data/prompts/translation.md</code></li>
+</ul>
+<h2 id="quick-start-paths">🎯 <strong>Quick Start Paths</strong><a class="headerlink" href="#quick-start-paths" title="Permanent link">&para;</a></h2>
+<h3 id="for-new-users">For New Users<a class="headerlink" href="#for-new-users" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong><a href="environment/">Environment Setup</a></strong> - Get up and running</li>
+<li><strong><a href="pipeline/">Pipeline Overview</a></strong> - Understand the system</li>
+<li><strong><a href="https://github.com/ActiveInferenceInstitute/Start/blob/main/learning/curriculum_creation/USAGE_GUIDE.md">Usage Guide (GitHub)</a></strong></li>
+</ol>
+<h3 id="for-developers">For Developers<a class="headerlink" href="#for-developers" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong><a href="environment/">Environment Setup</a></strong> - Development environment</li>
+<li><strong><a href="https://github.com/ActiveInferenceInstitute/Start/blob/main/learning/curriculum_creation/README.md">API Docs (GitHub)</a></strong></li>
+<li><strong><a href="https://github.com/ActiveInferenceInstitute/Start/tree/main/tests">Tests (GitHub)</a></strong></li>
+</ol>
+<h3 id="for-researchers">For Researchers<a class="headerlink" href="#for-researchers" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong><a href="pipeline/">Pipeline Overview</a></strong> - Research capabilities</li>
+<li><strong><a href="clones/">Clone Management</a></strong> - Access research repositories</li>
+<li><strong>Configuration Files</strong> - Customize research targets</li>
+</ol>
+<h2 id="external-resources">🌐 <strong>External Resources</strong><a class="headerlink" href="#external-resources" title="Permanent link">&para;</a></h2>
+<h3 id="active-inference-institute-ecosystem">Active Inference Institute Ecosystem<a class="headerlink" href="#active-inference-institute-ecosystem" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Institute website</strong>: <a href="https://www.activeinference.org/">activeinference.org</a></li>
+<li><strong>Livestreams</strong>: <a href="https://www.activeinference.institute/livestreams">activeinference.institute/livestreams</a></li>
+<li><strong>Courses</strong>: <a href="https://www.activeinference.institute/courses">activeinference.institute/courses</a></li>
+<li><strong>Journal</strong>: <a href="https://www.activeinference.org/research/journal">Active Inference Journal</a></li>
+<li><strong>Research resources</strong>: <a href="https://www.activeinference.org/research/resources">activeinference.org/research/resources</a></li>
+<li><strong>Volunteer &amp; internships</strong>: <a href="https://www.activeinference.org/education/volunteer">activeinference.org/education/volunteer</a></li>
+<li><strong>Partnerships</strong>: <a href="https://www.activeinference.institute/partnership">activeinference.institute/partnership</a></li>
+<li><strong>TNB Group (Theoretical Neurobiology)</strong>: <a href="https://www.activeinference.institute/tnb">activeinference.institute/tnb</a></li>
+<li><strong>Welcome portal</strong>: <a href="https://welcome.activeinference.institute/">welcome.activeinference.institute</a></li>
+<li><strong>Knowledge graph</strong>: <a href="https://obsidian.activeinference.institute/">obsidian.activeinference.institute</a></li>
+<li><strong>Cognitive repository</strong>: <a href="https://github.com/ActiveInferenceInstitute/cognitive">ActiveInferenceInstitute/cognitive</a></li>
+</ul>
+<h3 id="math-programming-resources">Math &amp; Programming Resources<a class="headerlink" href="#math-programming-resources" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>pymdp (official)</strong>: <a href="https://github.com/infer-actively/pymdp">infer-actively/pymdp</a></li>
+<li><strong>Active Inference Tutorial Scripts</strong>: <a href="https://github.com/rssmith33/Active-Inference-Tutorial-Scripts">rssmith33/Active-Inference-Tutorial-Scripts</a></li>
+<li><strong>Free Energy Principle papers</strong>: <a href="https://activeinference.github.io/">activeinference.github.io</a></li>
+<li><strong>Active Inference: Demystified and Compared</strong>: <a href="https://arxiv.org/abs/1909.10863">arXiv:1909.10863</a></li>
+<li><strong>Step-by-Step Tutorial</strong>: <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8956124/">PMC</a></li>
+</ul>
+<h3 id="in-repo-entry-points">In-Repo Entry Points<a class="headerlink" href="#in-repo-entry-points" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Top-level landing page</strong>: <a href="../here.md">Here — starting at start/here</a></li>
+<li><strong>Other materials</strong>: <a href="other/inferant_stream_015-1/">docs/other/inferant_stream_015-1.md</a></li>
+</ul>
+<h2 id="system-capabilities">📋 <strong>System Capabilities</strong><a class="headerlink" href="#system-capabilities" title="Permanent link">&para;</a></h2>
+<h3 id="research-analysis">Research &amp; Analysis<a class="headerlink" href="#research-analysis" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>16 Professional Domains</strong>: Life sciences, technology, business, healthcare, education</li>
+<li><strong>8 Target Entities</strong>: Political figures, scientists, tech leaders, educators</li>
+<li><strong>Real-time Research</strong>: Current industry insights and professional analysis</li>
+<li><strong>Comprehensive Analysis</strong>: 3,000-5,000 word domain reports</li>
+</ul>
+<h3 id="content-generation">Content Generation<a class="headerlink" href="#content-generation" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Professional-Grade Curricula</strong>: 40-60 hour structured learning programs</li>
+<li><strong>Personalized Learning</strong>: 5,000-8,000 word tailored strategies</li>
+<li><strong>Modular Design</strong>: 3-5 hour comprehensive learning units</li>
+<li><strong>Assessment Integration</strong>: Built-in evaluation and progress tracking</li>
+</ul>
+<h3 id="visualization-media">Visualization &amp; Media<a class="headerlink" href="#visualization-media" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Data Visualizations</strong>: PNG charts with curriculum metrics and analysis</li>
+<li><strong>Process Diagrams</strong>: Mermaid diagrams for structure and flow</li>
+<li><strong>Interactive Elements</strong>: Visual learning aids and conceptual frameworks</li>
+</ul>
+<h3 id="multilingual-support">Multilingual Support<a class="headerlink" href="#multilingual-support" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>9+ Languages</strong>: Chinese, Spanish, Arabic, Hindi, French, Japanese, Russian, Swahili, Tagalog</li>
+<li><strong>Cultural Adaptation</strong>: Full localization beyond literal translation</li>
+<li><strong>Professional Quality</strong>: Native-speaker level fluency with technical accuracy</li>
+</ul>
+<h2 id="configuration-overview">🔧 <strong>Configuration Overview</strong><a class="headerlink" href="#configuration-overview" title="Permanent link">&para;</a></h2>
+<h3 id="research-configuration">Research Configuration<a class="headerlink" href="#research-configuration" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># data/config/entities.yaml</span>
+<span class="nt">entities</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;karl_friston&quot;</span>
+<span class="w">    </span><span class="nt">category</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;scientist&quot;</span>
+<span class="w">    </span><span class="nt">priority</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;high&quot;</span>
+
+<span class="c1"># data/config/domains.yaml</span>
+<span class="nt">domains</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;biochemistry&quot;</span>
+<span class="w">    </span><span class="nt">category</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;life_sciences&quot;</span>
+<span class="w">    </span><span class="nt">priority</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;high&quot;</span>
+</code></pre></div>
+
+<h3 id="command-line-interface">Command-Line Interface<a class="headerlink" href="#command-line-interface" title="Permanent link">&para;</a></h3>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Research high-priority entities</span>
+python<span class="w"> </span>1_Research_Entity.py<span class="w"> </span>--priority<span class="w"> </span>high
+
+<span class="c1"># Generate domain-specific curricula</span>
+python<span class="w"> </span>1_Research_Domain.py<span class="w"> </span>--domain<span class="w"> </span>biochemistry
+
+<span class="c1"># Create multilingual content</span>
+python<span class="w"> </span>4_Translate_Introductions.py<span class="w"> </span>--languages<span class="w"> </span>Spanish<span class="w"> </span>French
+</code></pre></div>
+
+<h2 id="project-structure">📊 <strong>Project Structure</strong><a class="headerlink" href="#project-structure" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><code>START/
+├── src/                      # Core system implementation
+├── learning/                 # Curriculum creation scripts
+├── data/                     # Generated content and configuration
+├── docs/                     # Comprehensive documentation
+├── tests/                    # Test suite and validation
+└── README.md                 # Project overview and quick start
+</code></pre></div>
+
+<h2 id="development-workflow">🔄 <strong>Development Workflow</strong><a class="headerlink" href="#development-workflow" title="Permanent link">&para;</a></h2>
+<h3 id="standard-development-cycle">Standard Development Cycle<a class="headerlink" href="#standard-development-cycle" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Configure targets</strong> in <code>data/config/</code> YAML files</li>
+<li><strong>Run research</strong> using domain and entity scripts</li>
+<li><strong>Generate curricula</strong> with comprehensive content creation</li>
+<li><strong>Create visualizations</strong> for enhanced learning</li>
+<li><strong>Translate content</strong> for multilingual accessibility</li>
+</ol>
+<h3 id="quality-assurance">Quality Assurance<a class="headerlink" href="#quality-assurance" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Comprehensive testing</strong> with pytest and TDD approach</li>
+<li><strong>Code quality</strong> with ruff linting and black formatting</li>
+<li><strong>API integration testing</strong> for Perplexity and OpenRouter</li>
+<li><strong>Content validation</strong> against Active Inference standards</li>
+</ul>
+<h2 id="getting-help">📞 <strong>Getting Help</strong><a class="headerlink" href="#getting-help" title="Permanent link">&para;</a></h2>
+<h3 id="documentation-resources">Documentation Resources<a class="headerlink" href="#documentation-resources" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>This documentation hub</strong> for comprehensive guides</li>
+<li><strong>Inline code documentation</strong> with detailed docstrings</li>
+<li><strong>Example usage</strong> in test files and usage guides</li>
+<li><strong>Configuration examples</strong> in YAML files</li>
+</ul>
+<h3 id="community-support">Community &amp; Support<a class="headerlink" href="#community-support" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Active Inference Institute</strong> for research questions</li>
+<li><strong>GitHub Issues</strong> for technical problems and feature requests</li>
+<li><strong>Test Suite</strong> for usage examples and validation patterns</li>
+</ul>
+<hr />
+<p><strong>START</strong> represents a new paradigm in educational content creation, combining cutting-edge AI research capabilities with comprehensive pedagogical design to produce world-class Active Inference curricula tailored to any professional domain or individual learner.</p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = ".",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="js/base.js"></script>
+        <script src="search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
+
+<!--
+MkDocs version : 1.6.1
+Build Date UTC : 2025-09-03 21:18:51.027741+00:00
+-->

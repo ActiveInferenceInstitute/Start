@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>Testing - START Documentation</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../css/brands.min.css" rel="stylesheet">
+        <link href="../css/solid.min.css" rel="stylesheet">
+        <link href="../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="..">START Documentation</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href=".." class="nav-link">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../getting_started/" class="nav-link">Getting Started</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../environment/" class="nav-link">Environment</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../pipeline/" class="nav-link">Pipeline</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../configuration/" class="nav-link">Configuration</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="./" class="nav-link active" aria-current="page">Testing</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../examples/" class="nav-link">Examples</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../clones/" class="nav-link">Clone Management</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../conventions/" class="nav-link">Conventions</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Other</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../other/" class="dropdown-item">Overview</a>
+</li>
+                                    
+<li>
+    <a href="../other/inferant_stream_015-1/" class="dropdown-item">Inferant Stream 015-1</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Learning Guides</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="https://github.com/ActiveInferenceInstitute/Start/blob/main/learning/curriculum_creation/USAGE_GUIDE.md" class="dropdown-item">Usage Guide</a>
+</li>
+                                    
+<li>
+    <a href="https://github.com/ActiveInferenceInstitute/Start/blob/main/learning/curriculum_creation/README.md" class="dropdown-item">API Integration</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../configuration/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../examples/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/ActiveInferenceInstitute/Start/edit/master/docs/TESTING.md" class="nav-link"><i class="fa-brands fa-github"></i> Edit on GitHub</a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#testing-guide" class="nav-link">Testing Guide</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#core-principles" class="nav-link">Core Principles</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#test-structure" class="nav-link">Test Structure</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#running-tests" class="nav-link">Running Tests</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#offline-first-testing" class="nav-link">Offline-First Testing</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#environment-setup-for-tests" class="nav-link">Environment Setup for Tests</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#coverage" class="nav-link">Coverage</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#best-practices" class="nav-link">Best Practices</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="testing-guide">Testing Guide<a class="headerlink" href="#testing-guide" title="Permanent link">&para;</a></h1>
+<p>This document defines the testing policy and workflows for the START project.</p>
+<h2 id="core-principles">Core Principles<a class="headerlink" href="#core-principles" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Real I/O, no stubs or fakes in tests</li>
+<li>No network by default; allow network only if CI=true</li>
+<li>Deterministic, portable, and fast</li>
+</ul>
+<div class="codehilite"><pre><span></span><code><span class="n">sequenceDiagram</span>
+<span class="w">  </span><span class="n">participant</span><span class="w"> </span><span class="n">Dev</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">Developer</span>
+<span class="w">  </span><span class="n">participant</span><span class="w"> </span><span class="n">Py</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">pytest</span>
+<span class="w">  </span><span class="n">participant</span><span class="w"> </span><span class="k">Off</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">Offline</span><span class="w"> </span><span class="n">tests</span>
+<span class="w">  </span><span class="n">participant</span><span class="w"> </span><span class="n">Net</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">Network</span><span class="w"> </span><span class="n">tests</span>
+<span class="w">  </span><span class="n">Dev</span><span class="o">-&gt;&gt;</span><span class="nl">Py</span><span class="p">:</span><span class="w"> </span><span class="n">uv</span><span class="w"> </span><span class="n">run</span><span class="w"> </span><span class="n">pytest</span><span class="w"> </span><span class="o">-</span><span class="n">q</span>
+<span class="w">  </span><span class="n">Py</span><span class="o">-&gt;&gt;</span><span class="k">Off</span><span class="err">:</span><span class="w"> </span><span class="n">Run</span><span class="w"> </span><span class="p">(</span><span class="n">always</span><span class="p">)</span>
+<span class="w">  </span><span class="n">alt</span><span class="w"> </span><span class="n">CI</span><span class="o">=</span><span class="k">true</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">network</span><span class="w"> </span><span class="n">enabled</span>
+<span class="w">    </span><span class="n">Py</span><span class="o">-&gt;&gt;</span><span class="nl">Net</span><span class="p">:</span><span class="w"> </span><span class="n">Run</span><span class="w"> </span><span class="nv">@network</span><span class="w"> </span><span class="n">tests</span>
+<span class="w">  </span><span class="k">else</span>
+<span class="w">    </span><span class="n">Py</span><span class="c1">--&gt;&gt;Dev: Skip @network tests</span>
+<span class="w">  </span><span class="k">end</span>
+</code></pre></div>
+
+<h2 id="test-structure">Test Structure<a class="headerlink" href="#test-structure" title="Permanent link">&para;</a></h2>
+<h3 id="unit-tests">Unit Tests<a class="headerlink" href="#unit-tests" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Common utilities: <code>test_common_*.py</code></li>
+<li>Core modules: <code>test_domain.py</code>, <code>test_entity.py</code></li>
+<li>Configuration: <code>test_config.py</code>, <code>test_languages_config.py</code></li>
+<li>System components: <code>test_system_*.py</code></li>
+</ul>
+<h3 id="script-integration-tests">Script &amp; Integration Tests<a class="headerlink" href="#script-integration-tests" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Research scripts: <code>test_1_research_domain.py</code>, <code>test_2_write_introduction.py</code></li>
+<li>Visualization scripts: <code>test_3_introduction_visualizations.py</code></li>
+<li>Translation scripts: <code>test_4_translate_introductions.py</code></li>
+<li>End-to-end: <code>test_integration.py</code></li>
+<li>Repo management: <code>test_repos_*.py</code></li>
+</ul>
+<h2 id="running-tests">Running Tests<a class="headerlink" href="#running-tests" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Full suite</span>
+uv<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>-q
+
+<span class="c1"># Verbose / coverage</span>
+uv<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>-v
+uv<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>--cov<span class="o">=</span>src<span class="w"> </span>--cov-report<span class="o">=</span>html
+
+<span class="c1"># Focused runs</span>
+uv<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>-k<span class="w"> </span><span class="s2">&quot;domain&quot;</span>
+uv<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>tests/test_domain.py
+</code></pre></div>
+
+<h3 id="markers">Markers<a class="headerlink" href="#markers" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>@pytest.mark.integration</code>: end-to-end or cross-module behavior</li>
+<li><code>@pytest.mark.slow</code>: long-running</li>
+<li><code>@pytest.mark.network</code>: requires external network/APIs</li>
+</ul>
+<p>Gate network tests behind CI:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pytest</span>
+
+<span class="n">RUN_NETWORK</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;CI&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;true&quot;</span>
+
+
+<span class="n">network</span> <span class="o">=</span> <span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">network</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">skip_network_if_disallowed</span><span class="p">():</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">RUN_NETWORK</span><span class="p">:</span>
+        <span class="n">pytest</span><span class="o">.</span><span class="n">skip</span><span class="p">(</span><span class="s2">&quot;Network tests disabled outside CI&quot;</span><span class="p">)</span>
+
+
+<span class="nd">@network</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_network_feature</span><span class="p">():</span>
+    <span class="n">skip_network_if_disallowed</span><span class="p">()</span>
+    <span class="c1"># real network call here</span>
+</code></pre></div>
+
+<h2 id="offline-first-testing">Offline-First Testing<a class="headerlink" href="#offline-first-testing" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Use real files and fixtures; avoid mocks</li>
+<li>Prefer <code>tmp_path</code> for writable temp dirs</li>
+<li>Store canonical inputs/outputs under <code>data/Languages/Inputs_and_Outputs/**</code> as allowed by policy</li>
+</ul>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_file_processing</span><span class="p">(</span><span class="n">tmp_path</span><span class="p">):</span>
+    <span class="n">source</span> <span class="o">=</span> <span class="n">tmp_path</span> <span class="o">/</span> <span class="s2">&quot;input.json&quot;</span>
+    <span class="n">source</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="s1">&#39;{&quot;a&quot;: 1}&#39;</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">process_file</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">result</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span>
+</code></pre></div>
+
+<h2 id="environment-setup-for-tests">Environment Setup for Tests<a class="headerlink" href="#environment-setup-for-tests" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><code><span class="c1"># Non-GUI matplotlib backend</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">MPLBACKEND</span><span class="o">=</span>Agg
+
+<span class="c1"># Optional: keys for CI network tests</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PERPLEXITY_API_KEY</span><span class="o">=</span><span class="s2">&quot;...&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">OPENROUTER_API_KEY</span><span class="o">=</span><span class="s2">&quot;...&quot;</span>
+</code></pre></div>
+
+<h2 id="coverage">Coverage<a class="headerlink" href="#coverage" title="Permanent link">&para;</a></h2>
+<div class="codehilite"><pre><span></span><code>uv<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>--cov<span class="o">=</span>src<span class="w"> </span>--cov-report<span class="o">=</span>html
+</code></pre></div>
+
+<h2 id="best-practices">Best Practices<a class="headerlink" href="#best-practices" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Isolate tests; keep them small and readable</li>
+<li>Assert on behavior and artifacts (files, return values)</li>
+<li>Keep runtime low; mark slow cases with <code>@pytest.mark.slow</code></li>
+<li>Avoid brittle coupling to implementation details</li>
+</ul></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js"></script>
+        <script src="../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
