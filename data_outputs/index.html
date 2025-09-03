@@ -6,9 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         
-        <link rel="canonical" href="https://activeinferenceinstitute.github.io/Start/examples/">
+        <link rel="canonical" href="https://activeinferenceinstitute.github.io/Start/data_outputs/">
         <link rel="shortcut icon" href="../img/favicon.ico">
-        <title>Examples - START Documentation</title>
+        <title>Data & Outputs - START Documentation</title>
         <link href="../css/bootstrap.min.css" rel="stylesheet">
         <link href="../css/fontawesome.min.css" rel="stylesheet">
         <link href="../css/brands.min.css" rel="stylesheet">
@@ -50,7 +50,7 @@
                                 <a href="../configuration/" class="nav-link">Configuration</a>
                             </li>
                             <li class="nav-item">
-                                <a href="../data_outputs/" class="nav-link">Data & Outputs</a>
+                                <a href="./" class="nav-link active" aria-current="page">Data & Outputs</a>
                             </li>
                             <li class="nav-item">
                                 <a href="../visualizations/" class="nav-link">Visualizations</a>
@@ -65,7 +65,7 @@
                                 <a href="../TESTING/" class="nav-link">Testing</a>
                             </li>
                             <li class="nav-item">
-                                <a href="./" class="nav-link active" aria-current="page">Examples</a>
+                                <a href="../examples/" class="nav-link">Examples</a>
                             </li>
                             <li class="nav-item">
                                 <a href="../clones/" class="nav-link">Clone Management</a>
@@ -108,17 +108,17 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../TESTING/" class="nav-link">
+                                <a rel="prev" href="../configuration/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../clones/" class="nav-link">
+                                <a rel="next" href="../visualizations/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="https://github.com/ActiveInferenceInstitute/Start/edit/master/docs/examples.md" class="nav-link"><i class="fa-brands fa-github"></i> Edit on GitHub</a>
+                                <a href="https://github.com/ActiveInferenceInstitute/Start/edit/master/docs/data_outputs.md" class="nav-link"><i class="fa-brands fa-github"></i> Edit on GitHub</a>
                             </li>
                     </ul>
                 </div>
@@ -138,17 +138,25 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#examples-outputs" class="nav-link">Examples &amp; Outputs</a>
+            <li class="nav-item" data-bs-level="1"><a href="#data-outputs" class="nav-link">Data &amp; Outputs</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#research-outputs" class="nav-link">Research Outputs</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#curriculum-visualizations" class="nav-link">Curriculum &amp; Visualizations</a>
+            <li class="nav-item" data-bs-level="2"><a href="#research-artifacts" class="nav-link">Research Artifacts</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#multilingual-content" class="nav-link">Multilingual Content</a>
+            <li class="nav-item" data-bs-level="2"><a href="#curriculum-content" class="nav-link">Curriculum Content</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#visualizations" class="nav-link">Visualizations</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#prompt-templates" class="nav-link">Prompt Templates</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#configuration-files" class="nav-link">Configuration Files</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -159,27 +167,70 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="examples-outputs">Examples &amp; Outputs<a class="headerlink" href="#examples-outputs" title="Permanent link">&para;</a></h1>
-<p>Real examples of generated artifacts and locations.</p>
-<h2 id="research-outputs">Research Outputs<a class="headerlink" href="#research-outputs" title="Permanent link">&para;</a></h2>
-<pre class="codehilite"><code class="language-bash"># Domain research (example)
-ls data/domain_research/
-
-# Audience research (example)
-ls data/audience_research/
+<h1 id="data-outputs">Data &amp; Outputs<a class="headerlink" href="#data-outputs" title="Permanent link">&para;</a></h1>
+<p>This page summarizes where the system writes artifacts and what each directory contains.</p>
+<h2 id="research-artifacts">Research Artifacts<a class="headerlink" href="#research-artifacts" title="Permanent link">&para;</a></h2>
+<pre class="codehilite"><code class="language-text">data/
+├── audience_research/       # Personalized learner/entity profiles (JSON/MD)
+├── domain_research/         # Professional domain analyses (JSON/MD)
 </code></pre>
 
-<h2 id="curriculum-visualizations">Curriculum &amp; Visualizations<a class="headerlink" href="#curriculum-visualizations" title="Permanent link">&para;</a></h2>
-<pre class="codehilite"><code class="language-bash"># Curriculum content
-ls data/written_curriculums/
-
-# Visualizations
-ls data/visualizations/
+<h3 id="audience-research">Audience Research<a class="headerlink" href="#audience-research" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Inputs: entities defined in <code>data/config/entities.yaml</code></li>
+<li>Outputs: <code>&lt;Entity&gt;_research_&lt;YYYYMMDD&gt;.{json,md}</code></li>
+</ul>
+<h3 id="domain-research">Domain Research<a class="headerlink" href="#domain-research" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Inputs: domains defined in <code>data/config/domains.yaml</code></li>
+<li>Outputs: <code>&lt;Domain&gt;_research_&lt;YYYYMMDD&gt;.{json,md}</code></li>
+</ul>
+<h2 id="curriculum-content">Curriculum Content<a class="headerlink" href="#curriculum-content" title="Permanent link">&para;</a></h2>
+<pre class="codehilite"><code class="language-text">data/
+├── written_curriculums/     # Generated curricula (per domain/entity)
+├── translated_curriculums/  # Multilingual versions by language
 </code></pre>
 
-<h2 id="multilingual-content">Multilingual Content<a class="headerlink" href="#multilingual-content" title="Permanent link">&para;</a></h2>
-<pre class="codehilite"><code class="language-bash">ls data/translated_curriculums/
-</code></pre></div>
+<h3 id="written-curriculums">Written Curriculums<a class="headerlink" href="#written-curriculums" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Structure: per-domain folders containing section <code>.md</code> files and a summary <code>.json</code>.</li>
+<li>Example: <code>data/written_curriculums/Coffee Roasting/</code></li>
+</ul>
+<h3 id="translated-curriculums">Translated Curriculums<a class="headerlink" href="#translated-curriculums" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Structure: language subfolders (e.g., <code>spanish/</code>, <code>french/</code>, <code>chinese/</code>, <code>tagalog/</code>).</li>
+<li>Contents: translated <code>.md</code> sections matching the source curriculum.</li>
+</ul>
+<h2 id="visualizations">Visualizations<a class="headerlink" href="#visualizations" title="Permanent link">&para;</a></h2>
+<pre class="codehilite"><code class="language-text">data/visualizations/
+├── *_flow.mmd                 # Mermaid flow diagrams
+├── *_section_breakdown.png    # Section-level charts
+├── curriculum_metrics.{json,png}  # Aggregate metrics
+├── curriculum_structure.mmd   # Overall structure diagram
+</code></pre>
+
+<h3 id="generating-visualizations">Generating Visualizations<a class="headerlink" href="#generating-visualizations" title="Permanent link">&para;</a></h3>
+<p>Run from <code>learning/curriculum_creation/</code>:</p>
+<pre class="codehilite"><code class="language-bash">uv run python 3_Introduction_Visualizations.py
+</code></pre>
+
+<h2 id="prompt-templates">Prompt Templates<a class="headerlink" href="#prompt-templates" title="Permanent link">&para;</a></h2>
+<pre class="codehilite"><code class="language-text">data/prompts/
+├── research_domain_analysis.md
+├── research_domain_curriculum.md
+├── research_entity.md
+└── translation.md
+</code></pre>
+
+<p>These drive LLM prompt engineering for research, curriculum, personalization, and translation.</p>
+<h2 id="configuration-files">Configuration Files<a class="headerlink" href="#configuration-files" title="Permanent link">&para;</a></h2>
+<pre class="codehilite"><code class="language-text">data/config/
+├── entities.yaml
+├── domains.yaml
+└── languages.yaml
+</code></pre>
+
+<p>Use these to control which entities/domains/languages are processed.</p></div>
             </div>
         </div>
 

@@ -6,9 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         
-        <link rel="canonical" href="https://activeinferenceinstitute.github.io/Start/examples/">
+        <link rel="canonical" href="https://activeinferenceinstitute.github.io/Start/translations/">
         <link rel="shortcut icon" href="../img/favicon.ico">
-        <title>Examples - START Documentation</title>
+        <title>Translations - START Documentation</title>
         <link href="../css/bootstrap.min.css" rel="stylesheet">
         <link href="../css/fontawesome.min.css" rel="stylesheet">
         <link href="../css/brands.min.css" rel="stylesheet">
@@ -56,7 +56,7 @@
                                 <a href="../visualizations/" class="nav-link">Visualizations</a>
                             </li>
                             <li class="nav-item">
-                                <a href="../translations/" class="nav-link">Translations</a>
+                                <a href="./" class="nav-link active" aria-current="page">Translations</a>
                             </li>
                             <li class="nav-item">
                                 <a href="../docs_and_deployment/" class="nav-link">Docs & Deployment</a>
@@ -65,7 +65,7 @@
                                 <a href="../TESTING/" class="nav-link">Testing</a>
                             </li>
                             <li class="nav-item">
-                                <a href="./" class="nav-link active" aria-current="page">Examples</a>
+                                <a href="../examples/" class="nav-link">Examples</a>
                             </li>
                             <li class="nav-item">
                                 <a href="../clones/" class="nav-link">Clone Management</a>
@@ -108,17 +108,17 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../TESTING/" class="nav-link">
+                                <a rel="prev" href="../visualizations/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../clones/" class="nav-link">
+                                <a rel="next" href="../docs_and_deployment/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="https://github.com/ActiveInferenceInstitute/Start/edit/master/docs/examples.md" class="nav-link"><i class="fa-brands fa-github"></i> Edit on GitHub</a>
+                                <a href="https://github.com/ActiveInferenceInstitute/Start/edit/master/docs/translations.md" class="nav-link"><i class="fa-brands fa-github"></i> Edit on GitHub</a>
                             </li>
                     </ul>
                 </div>
@@ -138,17 +138,21 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#examples-outputs" class="nav-link">Examples &amp; Outputs</a>
+            <li class="nav-item" data-bs-level="1"><a href="#translations-localization" class="nav-link">Translations &amp; Localization</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#research-outputs" class="nav-link">Research Outputs</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#curriculum-visualizations" class="nav-link">Curriculum &amp; Visualizations</a>
+            <li class="nav-item" data-bs-level="2"><a href="#overview" class="nav-link">Overview</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#multilingual-content" class="nav-link">Multilingual Content</a>
+            <li class="nav-item" data-bs-level="2"><a href="#run-translation" class="nav-link">Run Translation</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#outputs" class="nav-link">Outputs</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#prompt-template" class="nav-link">Prompt Template</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -159,27 +163,32 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="examples-outputs">Examples &amp; Outputs<a class="headerlink" href="#examples-outputs" title="Permanent link">&para;</a></h1>
-<p>Real examples of generated artifacts and locations.</p>
-<h2 id="research-outputs">Research Outputs<a class="headerlink" href="#research-outputs" title="Permanent link">&para;</a></h2>
-<pre class="codehilite"><code class="language-bash"># Domain research (example)
-ls data/domain_research/
-
-# Audience research (example)
-ls data/audience_research/
+<h1 id="translations-localization">Translations &amp; Localization<a class="headerlink" href="#translations-localization" title="Permanent link">&para;</a></h1>
+<p>How multilingual outputs are generated and organized.</p>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>The system supports 9+ target languages with cultural adaptation, driven by <code>data/config/languages.yaml</code> and the translation prompt template.</p>
+<h2 id="run-translation">Run Translation<a class="headerlink" href="#run-translation" title="Permanent link">&para;</a></h2>
+<p>From <code>learning/curriculum_creation/</code>:</p>
+<pre class="codehilite"><code class="language-bash">uv run python 4_Translate_Introductions.py --languages Spanish French Chinese
 </code></pre>
 
-<h2 id="curriculum-visualizations">Curriculum &amp; Visualizations<a class="headerlink" href="#curriculum-visualizations" title="Permanent link">&para;</a></h2>
-<pre class="codehilite"><code class="language-bash"># Curriculum content
-ls data/written_curriculums/
-
-# Visualizations
-ls data/visualizations/
+<p>If omitted, the script may default to languages defined in <code>data/config/languages.yaml</code>.</p>
+<h2 id="outputs">Outputs<a class="headerlink" href="#outputs" title="Permanent link">&para;</a></h2>
+<p>Artifacts are organized under <code>data/translated_curriculums/</code> by language:</p>
+<pre class="codehilite"><code class="language-text">data/translated_curriculums/
+├── spanish/
+├── french/
+├── chinese/
+└── tagalog/
 </code></pre>
 
-<h2 id="multilingual-content">Multilingual Content<a class="headerlink" href="#multilingual-content" title="Permanent link">&para;</a></h2>
-<pre class="codehilite"><code class="language-bash">ls data/translated_curriculums/
-</code></pre></div>
+<p>Each language folder mirrors the source curriculum file structure and filenames.</p>
+<h2 id="prompt-template">Prompt Template<a class="headerlink" href="#prompt-template" title="Permanent link">&para;</a></h2>
+<p>Translation guidance lives in:</p>
+<pre class="codehilite"><code class="language-text">data/prompts/translation.md
+</code></pre>
+
+<p>This template ensures tone, terminology, and cultural appropriateness while preserving technical accuracy.</p></div>
             </div>
         </div>
 

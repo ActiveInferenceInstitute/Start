@@ -6,9 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         
-        <link rel="canonical" href="https://activeinferenceinstitute.github.io/Start/examples/">
+        <link rel="canonical" href="https://activeinferenceinstitute.github.io/Start/visualizations/">
         <link rel="shortcut icon" href="../img/favicon.ico">
-        <title>Examples - START Documentation</title>
+        <title>Visualizations - START Documentation</title>
         <link href="../css/bootstrap.min.css" rel="stylesheet">
         <link href="../css/fontawesome.min.css" rel="stylesheet">
         <link href="../css/brands.min.css" rel="stylesheet">
@@ -53,7 +53,7 @@
                                 <a href="../data_outputs/" class="nav-link">Data & Outputs</a>
                             </li>
                             <li class="nav-item">
-                                <a href="../visualizations/" class="nav-link">Visualizations</a>
+                                <a href="./" class="nav-link active" aria-current="page">Visualizations</a>
                             </li>
                             <li class="nav-item">
                                 <a href="../translations/" class="nav-link">Translations</a>
@@ -65,7 +65,7 @@
                                 <a href="../TESTING/" class="nav-link">Testing</a>
                             </li>
                             <li class="nav-item">
-                                <a href="./" class="nav-link active" aria-current="page">Examples</a>
+                                <a href="../examples/" class="nav-link">Examples</a>
                             </li>
                             <li class="nav-item">
                                 <a href="../clones/" class="nav-link">Clone Management</a>
@@ -108,17 +108,17 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../TESTING/" class="nav-link">
+                                <a rel="prev" href="../data_outputs/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../clones/" class="nav-link">
+                                <a rel="next" href="../translations/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="https://github.com/ActiveInferenceInstitute/Start/edit/master/docs/examples.md" class="nav-link"><i class="fa-brands fa-github"></i> Edit on GitHub</a>
+                                <a href="https://github.com/ActiveInferenceInstitute/Start/edit/master/docs/visualizations.md" class="nav-link"><i class="fa-brands fa-github"></i> Edit on GitHub</a>
                             </li>
                     </ul>
                 </div>
@@ -138,17 +138,21 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#examples-outputs" class="nav-link">Examples &amp; Outputs</a>
+            <li class="nav-item" data-bs-level="1"><a href="#visualizations" class="nav-link">Visualizations</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#research-outputs" class="nav-link">Research Outputs</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#curriculum-visualizations" class="nav-link">Curriculum &amp; Visualizations</a>
+            <li class="nav-item" data-bs-level="2"><a href="#flow-diagrams-mermaid" class="nav-link">Flow Diagrams (Mermaid)</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#multilingual-content" class="nav-link">Multilingual Content</a>
+            <li class="nav-item" data-bs-level="2"><a href="#section-breakdown-charts" class="nav-link">Section Breakdown Charts</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#metrics" class="nav-link">Metrics</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#how-to-regenerate" class="nav-link">How to Regenerate</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -159,26 +163,32 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="examples-outputs">Examples &amp; Outputs<a class="headerlink" href="#examples-outputs" title="Permanent link">&para;</a></h1>
-<p>Real examples of generated artifacts and locations.</p>
-<h2 id="research-outputs">Research Outputs<a class="headerlink" href="#research-outputs" title="Permanent link">&para;</a></h2>
-<pre class="codehilite"><code class="language-bash"># Domain research (example)
-ls data/domain_research/
-
-# Audience research (example)
-ls data/audience_research/
+<h1 id="visualizations">Visualizations<a class="headerlink" href="#visualizations" title="Permanent link">&para;</a></h1>
+<p>Gallery and references for generated diagrams and charts.</p>
+<h2 id="flow-diagrams-mermaid">Flow Diagrams (Mermaid)<a class="headerlink" href="#flow-diagrams-mermaid" title="Permanent link">&para;</a></h2>
+<p>The pipeline produces flow diagrams for domains/entities and the overall curriculum structure.</p>
+<pre class="codehilite"><code class="language-mermaid">flowchart LR
+  A[Curriculum Generation] --&gt; B[Structure Diagram]
+  A --&gt; C[Per-domain Flow]
+  C --&gt; D[Entity Flow]
 </code></pre>
 
-<h2 id="curriculum-visualizations">Curriculum &amp; Visualizations<a class="headerlink" href="#curriculum-visualizations" title="Permanent link">&para;</a></h2>
-<pre class="codehilite"><code class="language-bash"># Curriculum content
-ls data/written_curriculums/
-
-# Visualizations
-ls data/visualizations/
-</code></pre>
-
-<h2 id="multilingual-content">Multilingual Content<a class="headerlink" href="#multilingual-content" title="Permanent link">&para;</a></h2>
-<pre class="codehilite"><code class="language-bash">ls data/translated_curriculums/
+<p>Examples (in-repo):
+- <code>data/visualizations/curriculum_structure.mmd</code>
+- <code>data/visualizations/Coffee Roasting_flow.mmd</code>
+- <code>data/visualizations/Myrmecology_flow.mmd</code></p>
+<h2 id="section-breakdown-charts">Section Breakdown Charts<a class="headerlink" href="#section-breakdown-charts" title="Permanent link">&para;</a></h2>
+<p>Bar charts summarizing section metrics.</p>
+<p>Artifacts:
+- <code>data/visualizations/*_section_breakdown.png</code></p>
+<h2 id="metrics">Metrics<a class="headerlink" href="#metrics" title="Permanent link">&para;</a></h2>
+<p>Aggregate curriculum metrics used for charts and diagnostics.</p>
+<p>Artifacts:
+- <code>data/visualizations/curriculum_metrics.json</code>
+- <code>data/visualizations/curriculum_metrics.png</code></p>
+<h2 id="how-to-regenerate">How to Regenerate<a class="headerlink" href="#how-to-regenerate" title="Permanent link">&para;</a></h2>
+<p>Run from <code>learning/curriculum_creation/</code>:</p>
+<pre class="codehilite"><code class="language-bash">uv run python 3_Introduction_Visualizations.py
 </code></pre></div>
             </div>
         </div>
