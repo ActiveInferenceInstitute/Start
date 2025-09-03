@@ -1,0 +1,37 @@
+rules:
+  principles:
+    - Always prefer real, end-to-end methods over stubs or placeholders
+    - No mocks/fakes in production code or tests; use real data and IO
+    - Practice TDD: write or update tests alongside changes
+    - Enforce modular, readable, and well-documented code (docstrings, types)
+    - Keep changes minimal, cohesive, and lint-clean
+
+  repository:
+    enforce_python3: true
+    disallow_stub_files: true
+    require_types_for_public_functions: true
+    fail_on_todo_comments: true
+
+  testing:
+    framework: pytest
+    no_network_by_default: true
+    allow_network_only_if: env.CI == true
+    data_sources:
+      - Languages/Inputs_and_Outputs/**
+
+  style:
+    lints:
+      - ruff
+      - black
+    max_line_length: 100
+    docstrings: true
+
+  workflows:
+    - name: uv-default
+      steps:
+        - uv sync --all-extras --dev
+        - uv run pytest -q
+        - uv run ruff check .
+        - uv run black --check .
+
+

@@ -1,0 +1,68 @@
+# Entity Configuration for Research
+# This file defines the target entities for personalized Active Inference curriculum development
+
+entities:
+  # Political Figures
+  - name: "tulsi_gabbard"
+    description: "Former U.S. Representative, current Director of National Intelligence"
+    category: "political_figure"
+    priority: "high"
+    
+  # Academic and Scientific Figures
+  - name: "karl_friston"
+    description: "Neuroscientist, developer of Free Energy Principle"
+    category: "scientist"
+    priority: "high"
+    
+  # Technology Leaders
+  - name: "elon_musk"
+    description: "CEO of Tesla, SpaceX, and other ventures"
+    category: "tech_leader"
+    priority: "medium"
+    
+  # Researchers and Academia
+  - name: "Daniel Ari Friedman"
+    description: "Researcher in California, USA"
+    category: "academic"
+    priority: "medium"
+
+# Research Configuration
+research_config:
+  default_priority: "medium"
+  skip_existing: true  # Skip if research file already exists
+  output_format: "json"  # json, markdown, or both
+  include_fep_material: true
+  
+# Entity Categories and their focus areas
+categories:
+  political_figure:
+    focus_areas: ["strategic decision-making", "public communication", "policy analysis"]
+    learning_style: "practical, scenario-based"
+    
+  scientist:
+    focus_areas: ["research methodology", "theoretical frameworks", "mathematical modeling"]
+    learning_style: "rigorous, mathematical"
+    
+  academic:
+    focus_areas: ["theoretical understanding", "philosophical implications", "teaching applications"]
+    learning_style: "conceptual, analytical"
+    
+  tech_leader:
+    focus_areas: ["innovation", "technology integration", "strategic planning"]
+    learning_style: "practical, implementation-focused"
+    
+  ai_researcher:
+    focus_areas: ["computational methods", "algorithm development", "technical implementation"]
+    learning_style: "technical, hands-on"
+    
+  business_leader:
+    focus_areas: ["strategic planning", "organizational development", "decision-making"]
+    learning_style: "results-oriented, case-study based"
+    
+  healthcare_professional:
+    focus_areas: ["clinical applications", "patient care", "evidence-based practice"]
+    learning_style: "evidence-based, practical"
+    
+  educator:
+    focus_areas: ["pedagogical methods", "curriculum development", "learning design"]
+    learning_style: "educational, adaptive"

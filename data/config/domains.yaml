@@ -1,0 +1,161 @@
+# Domain Configuration for Research
+# This file defines the target domains for Active Inference curriculum development
+
+domains:
+  # Scientific Domains
+  - name: "biochemistry"
+    description: "Study of chemical processes within living organisms"
+    category: "life_sciences"
+    priority: "high"
+    keywords: ["molecular biology", "enzymes", "metabolism", "protein folding"]
+    
+  - name: "neuroscience"
+    description: "Scientific study of the nervous system and brain"
+    category: "life_sciences"
+    priority: "high"
+    keywords: ["brain function", "neural networks", "cognition", "neuroplasticity"]
+    
+  - name: "physics"
+    description: "Natural science studying matter, energy, and their interactions"
+    category: "physical_sciences"
+    priority: "high"
+    keywords: ["thermodynamics", "information theory", "statistical mechanics", "quantum mechanics"]
+    
+  - name: "psychology"
+    description: "Scientific study of mind and behavior"
+    category: "behavioral_sciences"
+    priority: "high"
+    keywords: ["cognitive psychology", "decision making", "learning", "perception"]
+    
+  # Technology Domains
+  - name: "artificial_intelligence"
+    description: "Computer systems capable of tasks requiring human intelligence"
+    category: "technology"
+    priority: "high"
+    keywords: ["machine learning", "neural networks", "robotics", "computer vision"]
+    
+  - name: "robotics"
+    description: "Design, construction, and operation of robots"
+    category: "technology"
+    priority: "medium"
+    keywords: ["control systems", "sensors", "actuators", "autonomous systems"]
+    
+  - name: "data_science"
+    description: "Interdisciplinary field using scientific methods to extract knowledge from data"
+    category: "technology"
+    priority: "medium"
+    keywords: ["statistics", "machine learning", "data mining", "predictive analytics"]
+    
+  # Business Domains
+  - name: "management"
+    description: "Coordination and administration of tasks to achieve organizational goals"
+    category: "business"
+    priority: "medium"
+    keywords: ["leadership", "strategic planning", "organizational behavior", "decision making"]
+    
+  - name: "finance"
+    description: "Management of money, investments, and financial instruments"
+    category: "business"
+    priority: "medium"
+    keywords: ["risk management", "portfolio optimization", "market analysis", "investment strategy"]
+    
+  - name: "marketing"
+    description: "Activities involved in promoting and selling products or services"
+    category: "business"
+    priority: "low"
+    keywords: ["consumer behavior", "market research", "brand management", "digital marketing"]
+    
+  # Healthcare Domains
+  - name: "medicine"
+    description: "Science and practice of diagnosing, treating, and preventing disease"
+    category: "healthcare"
+    priority: "high"
+    keywords: ["clinical diagnosis", "treatment protocols", "evidence-based medicine", "patient care"]
+    
+  - name: "nursing"
+    description: "Healthcare profession focused on care of individuals and families"
+    category: "healthcare"
+    priority: "medium"
+    keywords: ["patient care", "clinical assessment", "healthcare delivery", "nursing practice"]
+    
+  - name: "therapy"
+    description: "Treatment intended to relieve or heal a disorder"
+    category: "healthcare"
+    priority: "medium"
+    keywords: ["therapeutic interventions", "rehabilitation", "behavioral therapy", "treatment outcomes"]
+    
+  # Educational Domains
+  - name: "pedagogy"
+    description: "Method and practice of teaching"
+    category: "education"
+    priority: "medium"
+    keywords: ["learning theories", "instructional design", "curriculum development", "assessment"]
+    
+  - name: "educational_technology"
+    description: "Use of technology to enhance teaching and learning"
+    category: "education"
+    priority: "medium"
+    keywords: ["e-learning", "digital tools", "online education", "educational software"]
+    
+  # Creative Domains
+  - name: "design"
+    description: "Planning and creation of functional and aesthetic objects"
+    category: "creative"
+    priority: "low"
+    keywords: ["user experience", "visual design", "design thinking", "creative process"]
+    
+  - name: "media_production"
+    description: "Creation and distribution of media content"
+    category: "creative"
+    priority: "low"
+    keywords: ["content creation", "storytelling", "multimedia", "digital media"]
+
+# Research Configuration
+research_config:
+  default_priority: "medium"
+  skip_existing: true  # Skip if research file already exists
+  output_format: "both"  # json, markdown, or both
+  include_fep_material: true
+  min_analysis_length: 3000  # Minimum words for comprehensive analysis
+  
+# Domain Categories and their characteristics
+categories:
+  life_sciences:
+    focus_areas: ["biological systems", "complex systems", "homeostasis", "adaptation"]
+    mathematical_level: "moderate"
+    computational_focus: "modeling and simulation"
+    
+  physical_sciences:
+    focus_areas: ["mathematical modeling", "statistical analysis", "theoretical frameworks"]
+    mathematical_level: "high"
+    computational_focus: "mathematical modeling"
+    
+  behavioral_sciences:
+    focus_areas: ["human behavior", "cognitive processes", "decision making"]
+    mathematical_level: "moderate"
+    computational_focus: "statistical analysis"
+    
+  technology:
+    focus_areas: ["system design", "algorithms", "implementation", "optimization"]
+    mathematical_level: "high"
+    computational_focus: "programming and algorithms"
+    
+  business:
+    focus_areas: ["strategic thinking", "decision making", "optimization", "risk management"]
+    mathematical_level: "low"
+    computational_focus: "data analysis"
+    
+  healthcare:
+    focus_areas: ["evidence-based practice", "patient care", "clinical decision making"]
+    mathematical_level: "low"
+    computational_focus: "data interpretation"
+    
+  education:
+    focus_areas: ["learning processes", "curriculum design", "assessment", "pedagogy"]
+    mathematical_level: "low"
+    computational_focus: "educational technology"
+    
+  creative:
+    focus_areas: ["creative processes", "design thinking", "aesthetic principles"]
+    mathematical_level: "low"
+    computational_focus: "digital tools"

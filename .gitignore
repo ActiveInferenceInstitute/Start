@@ -1,3 +1,17 @@
+.venv/
+.env
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.DS_Store
+*.pyc
+*.pyo
+*.swp
+.idea/
+.vscode/
+*/__pycache__/
+Languages/Perplexity/*.key
+Languages/Perplexity/RR_LLM_keys.key
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

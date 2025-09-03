@@ -1,0 +1,44 @@
+# Language Configuration for Translation
+# This file defines the target languages and their script mappings for curriculum translation
+
+target_languages:
+  - Chinese
+  - Spanish
+  - Arabic
+  - Hindi
+  - French
+  - Japanese
+  - Russian
+  - Swahili
+  - Tagalog
+
+script_mappings:
+  Arabic: "Modern Standard Arabic"
+  Chinese: "Simplified Chinese"
+  Kurdish: "Sorani"
+  Mongolian: "Cyrillic"
+  Persian: "Farsi"
+  Serbian: "Latin"
+  Chinese_Traditional: "Traditional Chinese"
+  Japanese: "Standard Japanese"
+  Korean: "Hangul"
+  Urdu: "Nastaliq"
+  Hindi: "Devanagari"
+  Bengali: "Bengali Script"
+  Thai: "Thai Script"
+  Hebrew: "Hebrew Script"
+  Georgian: "Mkhedruli"
+  Armenian: "Armenian Script"
+  Greek: "Greek Script"
+  Khmer: "Khmer Script"
+  Lao: "Lao Script"
+  Myanmar: "Myanmar Script"
+  Sinhala: "Sinhala Script"
+  Tamil: "Tamil Script"
+  Telugu: "Telugu Script"
+  Gujarati: "Gujarati Script"
+  Kannada: "Kannada Script"
+  Malayalam: "Malayalam Script"
+  Tibetan: "Tibetan Script"
+  Yiddish: "Hebrew Script"
+  Sanskrit: "Devanagari"
