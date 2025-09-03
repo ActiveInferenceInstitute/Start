@@ -274,34 +274,66 @@ def show_repo_summary():
     summary = manager.get_summary()
     print(matrix_banner('REPOSITORY SUMMARY'))
     print(format_repository_summary(summary))
-    input(matrix_text('\nPress Enter to continue...', 'dim'))
+    # Return to main menu without an extra pause; the shell handles the pause
 
 def clone_single_repo():
     available = manager.list_available_repositories()
+    if not available:
+        print(matrix_text('No repositories available to clone.', 'warning'))
+        return 'back_to_main'
+
     print(matrix_banner('AVAILABLE REPOSITORIES'))
-    for name, info in available.items():
-        print(f'{matrix_text(name, \"bright\")}: {info[\"description\"]}')
-    
-    repo_name = input_dialog('Enter repository name to clone:')
-    if repo_name and repo_name in available:
-        if confirmation_dialog(f'Clone {repo_name}?', True):
-            print_animated('Cloning repository...', 'typewriter')
-            result = manager.clone_repository(repo_name, progress_callback=print)
-            if result.success:
-                print(matrix_text(f'✅ Successfully cloned {repo_name}', 'bright'))
-            else:
-                print(matrix_text(f'❌ Failed to clone {repo_name}: {result.error_message}', 'warning'))
-    elif repo_name:
-        print(matrix_text(f'Unknown repository: {repo_name}', 'warning'))
-    input(matrix_text('Press Enter to continue...', 'dim'))
+    names = sorted(available.keys())
+    for idx, name in enumerate(names, start=1):
+        info = available[name]
+        url = info.get('url', '')
+        desc = info.get('description', '')
+        print(f\"{idx}. {matrix_text(name, 'bright')} - {url}\")
+        if desc:
+            print(matrix_text(f\"   {desc}\", 'dim'))
+
+    try:
+        choice = input(matrix_text(\"\\nEnter number to clone (b to go back): \", 'bright')).strip().lower()
+    except (KeyboardInterrupt, EOFError):
+        return 'back_to_main'
+
+    if not choice or choice in ('b', 'back', 'q', 'quit'):
+        return 'back_to_main'
+
+    try:
+        index = int(choice) - 1
+        if index < 0 or index >= len(names):
+            print(matrix_text('Invalid selection.', 'warning'))
+            return 'back_to_main'
+    except ValueError:
+        print(matrix_text('Invalid input.', 'warning'))
+        return 'back_to_main'
+
+    repo_name = names[index]
+    info = available[repo_name]
+    url = info.get('url', '')
+
+    if not confirmation_dialog(f\"Clone '{repo_name}' from {url}?\", True):
+        # Return to main menu immediately on decline
+        return 'back_to_main'
+
+    print_animated('Cloning repository...', 'typewriter')
+    result = manager.clone_repository(repo_name, progress_callback=print)
+    if result.success:
+        print(matrix_text(f\"✅ Successfully cloned {repo_name}\", 'bright'))
+    else:
+        print(matrix_text(f\"❌ Failed to clone {repo_name}: {result.error_message}\", 'warning'))
+    # Exit to main after action completes
+    return 'back_to_main'
 
 def clone_all_repos():
-    if confirmation_dialog('Clone ALL repositories? This may take several minutes.', False):
-        print_animated('Cloning all repositories...', 'typewriter')
-        results = manager.clone_all(progress_callback=print)
-        successful = sum(1 for r in results if r.success)
-        print(matrix_text(f'Completed: {successful}/{len(results)} successful', 'bright'))
-    input(matrix_text('Press Enter to continue...', 'dim'))
+    if not confirmation_dialog('Clone ALL repositories? This may take several minutes.', False):
+        return 'back_to_main'
+    print_animated('Cloning all repositories...', 'typewriter')
+    results = manager.clone_all(progress_callback=print)
+    successful = sum(1 for r in results if r.success)
+    print(matrix_text(f'Completed: {successful}/{len(results)} successful', 'bright'))
+    return 'back_to_main'
 
 def show_cloned_repos():
     from src.repos.manager import format_repository_status
@@ -311,7 +343,7 @@ def show_cloned_repos():
         print(format_repository_status(cloned))
     else:
         print(matrix_text('No repositories cloned yet.', 'dim'))
-    input(matrix_text('Press Enter to continue...', 'dim'))
+    # Return to main without extra pause; shell handles pause
 
 # Build repository menu
 menu = (MenuBuilder('REPOSITORY MATRIX')
@@ -486,7 +518,7 @@ show_main_menu() {
     echo -e "  ${GOLD}2.${RESET} 🔧 ${BLUE}Environment Setup${RESET} - Reconstruct reality (install dependencies)"
     echo -e "  ${GOLD}3.${RESET} 🧠 ${MAGENTA}Generate Curricula${RESET} - Create AI learning materials (the fun part!)"
     echo -e "  ${GOLD}4.${RESET} 📚 ${CYAN}Repository Manager${RESET} - Clone the Matrix (research repositories)"
-    echo -e "  ${GOLD}5.${RESET} 🎭 ${RED}Exit Matrix${RESET} - Return to boring reality"
+    echo -e "  ${GOLD}5.${RESET} 🎭 ${RED}Exit Matrix${RESET} - Return, or go out, to another reality"
     echo
     
     read -p "$(echo -e "${MATRIX_GREEN}${BOLD}Enter your choice [1-5]: ${RESET}")" -r choice
@@ -552,10 +584,10 @@ main() {
 # Welcome to the Matrix (always on!)
 clear
 echo -e "${MATRIX_GREEN}"
-echo "Wake up, Neo... The Active Inference Matrix has you..."
-echo "There is no spoon, but there is definitely a Free Energy Principle."
+echo "Attend to the Matrix...."
+echo "There is no spoon AND you can experience the Free Energy Principle."
 echo -e "${RESET}"
-typewriter "Welcome to the most dramatically over-engineered AI curriculum system in existence..." 0.05 "$CYBER_BLUE"
+typewriter "Welcome to a modular curriculum system..." 0.05 "$CYBER_BLUE"
 echo
 
 # Run the main program
