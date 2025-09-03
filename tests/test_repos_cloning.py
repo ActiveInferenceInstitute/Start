@@ -106,6 +106,9 @@ class TestGetPredefinedRepositories:
         assert "pymdp" in repos
         assert "gnn" in repos
         assert "cerebrum" in repos
+        assert "lean_niche" in repos
+        assert "template" in repos
+        assert "axiom" in repos
 
         # Validate structure
         for name, repo_info in repos.items():
@@ -137,6 +140,21 @@ class TestGetPredefinedRepositories:
         assert cerebrum.url == "https://github.com/ActiveInferenceInstitute/CEREBRUM"
         assert cerebrum.category == "active_inference"
         assert cerebrum.shallow is True
+
+        lean_niche = repos["lean_niche"]
+        assert lean_niche.url == "https://github.com/docxology/lean_niche"
+        assert lean_niche.category == "formal_methods"
+        assert lean_niche.shallow is True
+
+        template = repos["template"]
+        assert template.url == "https://github.com/docxology/template"
+        assert template.category == "infrastructure"
+        assert template.shallow is True
+
+        axiom = repos["axiom"]
+        assert axiom.url == "https://github.com/VersesTech/axiom"
+        assert axiom.category == "infrastructure"
+        assert axiom.shallow is True
 
 
 class TestGetCloneDestination:

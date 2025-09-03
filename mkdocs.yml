@@ -7,6 +7,13 @@ nav:
   - Environment: environment.md
   - Pipeline: pipeline.md
   - Configuration: configuration.md
+  - Data & Outputs: data_outputs.md
+  - Visualizations: visualizations.md
+  - Translations: translations.md
+  - Docs & Deployment: docs_and_deployment.md
+  - Contributing: CONTRIBUTING.md
+  - FAQ: FAQ.md
+  - Roadmap: ROADMAP.md
   - Testing: TESTING.md
   - Examples: examples.md
   - Clone Management: clones.md

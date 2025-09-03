@@ -5,12 +5,16 @@ rules:
     - Practice TDD: write or update tests alongside changes
     - Enforce modular, readable, and well-documented code (docstrings, types)
     - Keep changes minimal, cohesive, and lint-clean
+    - Documentation changes should be scoped, link-rich, and runnable end-to-end
 
   repository:
     enforce_python3: true
     disallow_stub_files: true
     require_types_for_public_functions: true
     fail_on_todo_comments: true
+    docs_site: mkdocs
+    docs_nav_file: mkdocs.yml
+    docs_root: docs/
 
   testing:
     framework: pytest
@@ -18,6 +22,12 @@ rules:
     allow_network_only_if: env.CI == true
     data_sources:
       - Languages/Inputs_and_Outputs/**
+    markers:
+      - integration
+      - slow
+      - network
+    env:
+      - MPLBACKEND=Agg
 
   style:
     lints:
@@ -25,6 +35,13 @@ rules:
       - black
     max_line_length: 100
     docstrings: true
+    docs:
+      prefer_relative_links: true
+      prefer_run_scripts:
+        - ./run_docs.sh --serve
+      avoid:
+        - duplicate landing pages (index.md vs README.md collisions)
+        - outdated CLI paths (ensure `learning/curriculum_creation/`)
 
   workflows:
     - name: uv-default
@@ -33,5 +50,36 @@ rules:
         - uv run pytest -q
         - uv run ruff check .
         - uv run black --check .
+    - name: docs-local
+      steps:
+        - ./run_docs.sh --serve
+    - name: docs-build
+      steps:
+        - ./run_docs.sh --build
+    - name: docs-deploy
+      steps:
+        - ./run_docs.sh --deploy
+
+  documentation_tasks:
+    required_pages:
+      - docs/index.md
+      - docs/README.md
+      - docs/environment.md
+      - docs/getting_started.md
+      - docs/pipeline.md
+      - docs/configuration.md
+      - docs/data_outputs.md
+      - docs/visualizations.md
+      - docs/translations.md
+      - docs/docs_and_deployment.md
+      - docs/TESTING.md
+      - docs/FAQ.md
+      - docs/CONTRIBUTING.md
+      - docs/ROADMAP.md
+      - docs/clones.md
+    verification:
+      - ensure_nav_entries_in_mkdocs_yml
+      - verify_internal_links_exist
+      - prefer_run_docs_sh_in_instructions
 
 

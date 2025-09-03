@@ -14,31 +14,20 @@ START is a complete educational content generation pipeline that combines:
 
 ## 📚 **Documentation Structure**
 
-```mermaid
-graph TD
-  A["START Docs Hub"] --> B["Environment Setup"]
-  A --> C["Pipeline Overview"]
-  A --> D["Repository & Clone Management"]
-  A --> E["Testing Guide"]
-  A --> F["User & API Guides"]
-  F --> F1["Curriculum Creation Usage Guide"]
-  F --> F2["API Integration Guide"]
-  A --> I["Getting Started"]
-  A --> J["Configuration"]
-  A --> K["Examples"]
-  A --> G["Configuration Reference"]
-  A --> H["Prompt Templates"]
-
-  click B "./environment.md" "Environment Setup"
-  click C "./pipeline.md" "Pipeline Overview"
-  click D "./clones.md" "Repository & Clone Management"
-  click E "./TESTING.md" "Testing Guide"
-  click F1 "https://github.com/ActiveInferenceInstitute/Start/blob/main/learning/curriculum_creation/USAGE_GUIDE.md" "Usage Guide"
-  click F2 "https://github.com/ActiveInferenceInstitute/Start/blob/main/learning/curriculum_creation/README.md" "API Integration Guide"
-  click I "./getting_started.md" "Getting Started"
-  click J "./configuration.md" "Configuration"
-  click K "./examples.md" "Examples"
-```
+- Environment & Setup: [Environment Setup](./environment.md)
+- System Architecture: [Pipeline Overview](./pipeline.md)
+- Getting Started: [Quickstart](./getting_started.md)
+- Configuration: [Reference](./configuration.md)
+- Data & Outputs: [Locations and artifacts](./data_outputs.md)
+- Visualizations: [Gallery and regeneration](./visualizations.md)
+- Translations: [Multilingual outputs](./translations.md)
+- Docs & Deployment: [Local + GitHub Pages](./docs_and_deployment.md)
+- Testing: [Policy and workflows](./TESTING.md)
+- Examples: [Examples & outputs](./examples.md)
+- Clone Management: [External repos](./clones.md)
+- Learning Guides:
+  - Usage Guide: https://github.com/ActiveInferenceInstitute/Start/blob/main/learning/curriculum_creation/USAGE_GUIDE.md
+  - API Integration: https://github.com/ActiveInferenceInstitute/Start/blob/main/learning/curriculum_creation/README.md
 
 ### Core Guides
 
@@ -75,6 +64,22 @@ graph TD
 - **Entity Configuration**: `data/config/entities.yaml` - Target learner profiles
 - **Domain Configuration**: `data/config/domains.yaml` - Professional domain definitions
 - **Language Configuration**: `data/config/languages.yaml` - Translation targets
+
+#### 📦 **Data & Outputs**
+
+- **[Data & Outputs](./data_outputs.md)** - Where artifacts are written and how to use them
+
+#### 📊 **Visualizations**
+
+- **[Visualizations](./visualizations.md)** - Diagram and chart gallery with regeneration steps
+
+#### 🌍 **Translations**
+
+- **[Translations & Localization](./translations.md)** - Multilingual outputs and structure
+
+#### 🧭 **Docs & Deployment**
+
+- **[Docs & Deployment](./docs_and_deployment.md)** - Local serve, build, and GitHub Pages
 
 #### 📝 **Prompt Engineering**
 
@@ -177,14 +182,17 @@ domains:
 ### Command-Line Interface
 
 ```bash
+# From repository root
+export PYTHONPATH=$(pwd):$PYTHONPATH
+
 # Research high-priority entities
-python 1_Research_Entity.py --priority high
+uv run python learning/curriculum_creation/1_Research_Entity.py --priority high
 
 # Generate domain-specific curricula
-python 1_Research_Domain.py --domain biochemistry
+uv run python learning/curriculum_creation/1_Research_Domain.py --domain biochemistry
 
 # Create multilingual content
-python 4_Translate_Introductions.py --languages Spanish French
+uv run python learning/curriculum_creation/4_Translate_Introductions.py --languages Spanish French
 ```
 
 ## 📊 **Project Structure**
@@ -273,3 +281,8 @@ START/
 - Wave Hypothesis: [wave-hypothesis.activeinference.institute](https://wave-hypothesis.activeinference.institute/)
 - Weekly: [weekly.activeinference.institute](https://weekly.activeinference.institute/)
 - Welcome: [welcome.activeinference.institute](https://welcome.activeinference.institute)
+
+- Community & Project
+  - Contributing: ./CONTRIBUTING.md
+  - FAQ: ./FAQ.md
+  - Roadmap: ./ROADMAP.md

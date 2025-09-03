@@ -15,20 +15,18 @@
 
 ## Quick Installation
 
-```mermaid
-flowchart LR
-  A[Install uv] --> B[Clone repo]
-  B --> C[uv sync --all-extras --dev]
-  C --> D[Configure .env]
-  D --> E[Download spaCy models]
-  E --> F[Verify imports/PYTHONPATH]
-  F --> G[Run tests]
-  G --> H[Run ruff & black]
-  H --> I[Ready for development]
+Steps
+- Install uv
+- Clone repository
+- `uv sync --all-extras --dev`
+- Configure `.env`
+- Download spaCy models
+- Verify imports / `PYTHONPATH`
+- Run tests, lint, format
 
-  click G "./TESTING.md" "Testing Guide"
-  click I "./README.md" "Docs Hub"
-```
+Links
+- [Testing Guide](./TESTING.md)
+- [Docs Hub](./index.md)
 
 ### 1. Install uv Package Manager
 ```bash
@@ -40,9 +38,6 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 ```bash
 # Install all dependencies including development tools
 uv sync --all-extras --dev
-
-# Install specific dependency groups
-uv sync --extra visualization --extra translation --dev
 ```
 
 ### 3. Download Required Models

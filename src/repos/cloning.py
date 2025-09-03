@@ -91,6 +91,27 @@ def get_predefined_repositories() -> Dict[str, RepoInfo]:
             category="active_inference",
             shallow=True,
         ),
+        "lean_niche": RepoInfo(
+            name="lean_niche",
+            url="https://github.com/docxology/lean_niche",
+            description="Lean theorem proving and verification environment (LeanNiche)",
+            category="formal_methods",
+            shallow=True,
+        ),
+        "template": RepoInfo(
+            name="template",
+            url="https://github.com/docxology/template",
+            description="Thin orchestrator research manuscript template and utilities",
+            category="infrastructure",
+            shallow=True,
+        ),
+        "axiom": RepoInfo(
+            name="axiom",
+            url="https://github.com/VersesTech/axiom",
+            description="VERSES AXIOM knowledge operating system components",
+            category="infrastructure",
+            shallow=True,
+        ),
     }
 
     return repos

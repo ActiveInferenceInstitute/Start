@@ -97,9 +97,10 @@ elif [[ "$MODE" == "deploy" ]]; then
   eval "$RUNNER gh-deploy --force"
   # Attempt to construct docs URL
   REPO_URL="$(git config --get remote.origin.url || true)"
-  if [[ "$REPO_URL" =~ github.com[:/](.+)/(.+)(\.git)?$ ]]; then
+  if [[ "$REPO_URL" =~ github.com[:/]([^/]+)/([^/]+)(\.git)?$ ]]; then
     OWNER="${BASH_REMATCH[1]}"
-    REPO="${BASH_REMATCH[2]}"
+    RAW_REPO="${BASH_REMATCH[2]}"
+    REPO="${RAW_REPO%.git}"
     PAGES_URL="https://${OWNER}.github.io/${REPO}/"
     open_browser "$PAGES_URL"
     echo "Opened: $PAGES_URL"

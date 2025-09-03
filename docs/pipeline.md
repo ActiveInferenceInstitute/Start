@@ -6,27 +6,14 @@ The START project provides a comprehensive, AI-powered pipeline for creating per
 
 ## Pipeline Stages
 
-```mermaid
-flowchart TD
-  A[Configuration YAMLs] --> B[Research]
-  B --> C[Curriculum Generation]
-  C --> D[Visualization]
-  D --> E[Translation]
-  E --> F[Outputs]
+Stages
+- Inputs: `data/config/entities.yaml`, `data/config/domains.yaml`, `data/config/languages.yaml`
+- Research → Curriculum Generation → Visualization → Translation → Outputs
 
-  subgraph Inputs
-    A1[data/config/entities.yaml]
-    A2[data/config/domains.yaml]
-    A3[data/config/languages.yaml]
-  end
-  A1 --> A
-  A2 --> A
-  A3 --> A
-
-  click A1 "../data/config/entities.yaml" "Entities config"
-  click A2 "../data/config/domains.yaml" "Domains config"
-  click A3 "../data/config/languages.yaml" "Languages config"
-```
+Links
+- [Configuration Reference](./configuration.md)
+- [Visualizations](./visualizations.md)
+- [Translations](./translations.md)
 
 ### 1. **Research Phase** 🔍
 

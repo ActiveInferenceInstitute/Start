@@ -27,3 +27,5 @@ ls data/visualizations/
 ```bash
 ls data/translated_curriculums/
 ```
+
+See also: [Data & Outputs](./data_outputs.md) for directory purposes and artifact descriptions.

@@ -8,20 +8,10 @@ This document defines the testing policy and workflows for the START project.
 - No network by default; allow network only if CI=true
 - Deterministic, portable, and fast
 
-```mermaid
-sequenceDiagram
-  participant Dev as Developer
-  participant Py as pytest
-  participant Off as Offline tests
-  participant Net as Network tests
-  Dev->>Py: uv run pytest -q
-  Py->>Off: Run (always)
-  alt CI=true and network enabled
-    Py->>Net: Run @network tests
-  else
-    Py-->>Dev: Skip @network tests
-  end
-```
+Flow
+- Developer runs `uv run pytest -q`
+- Offline tests run always
+- Network tests run only if `CI=true` and marked with `@network`
 
 ## Test Structure
 
