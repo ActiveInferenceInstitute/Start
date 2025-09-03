@@ -6,9 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         
-        <link rel="canonical" href="https://activeinferenceinstitute.github.io/Start/examples/">
+        <link rel="canonical" href="https://activeinferenceinstitute.github.io/Start/CONTRIBUTING/">
         <link rel="shortcut icon" href="../img/favicon.ico">
-        <title>Examples - START Documentation</title>
+        <title>Contributing - START Documentation</title>
         <link href="../css/bootstrap.min.css" rel="stylesheet">
         <link href="../css/fontawesome.min.css" rel="stylesheet">
         <link href="../css/brands.min.css" rel="stylesheet">
@@ -62,7 +62,7 @@
                                 <a href="../docs_and_deployment/" class="nav-link">Docs & Deployment</a>
                             </li>
                             <li class="nav-item">
-                                <a href="../CONTRIBUTING/" class="nav-link">Contributing</a>
+                                <a href="./" class="nav-link active" aria-current="page">Contributing</a>
                             </li>
                             <li class="nav-item">
                                 <a href="../FAQ/" class="nav-link">FAQ</a>
@@ -74,7 +74,7 @@
                                 <a href="../TESTING/" class="nav-link">Testing</a>
                             </li>
                             <li class="nav-item">
-                                <a href="./" class="nav-link active" aria-current="page">Examples</a>
+                                <a href="../examples/" class="nav-link">Examples</a>
                             </li>
                             <li class="nav-item">
                                 <a href="../clones/" class="nav-link">Clone Management</a>
@@ -117,17 +117,17 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../TESTING/" class="nav-link">
+                                <a rel="prev" href="../docs_and_deployment/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../clones/" class="nav-link">
+                                <a rel="next" href="../FAQ/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="https://github.com/ActiveInferenceInstitute/Start/edit/master/docs/examples.md" class="nav-link"><i class="fa-brands fa-github"></i> Edit on GitHub</a>
+                                <a href="https://github.com/ActiveInferenceInstitute/Start/edit/master/docs/CONTRIBUTING.md" class="nav-link"><i class="fa-brands fa-github"></i> Edit on GitHub</a>
                             </li>
                     </ul>
                 </div>
@@ -147,17 +147,33 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#examples-outputs" class="nav-link">Examples &amp; Outputs</a>
+            <li class="nav-item" data-bs-level="1"><a href="#contributing" class="nav-link">Contributing</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#research-outputs" class="nav-link">Research Outputs</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#curriculum-visualizations" class="nav-link">Curriculum &amp; Visualizations</a>
+            <li class="nav-item" data-bs-level="2"><a href="#workflow" class="nav-link">Workflow</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#multilingual-content" class="nav-link">Multilingual Content</a>
+            <li class="nav-item" data-bs-level="2"><a href="#local-quality-checks" class="nav-link">Local Quality Checks</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#coding-standards" class="nav-link">Coding Standards</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#docs" class="nav-link">Docs</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#commit-messages" class="nav-link">Commit Messages</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#pr-checklist" class="nav-link">PR Checklist</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#community" class="nav-link">Community</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -168,27 +184,52 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="examples-outputs">Examples &amp; Outputs<a class="headerlink" href="#examples-outputs" title="Permanent link">&para;</a></h1>
-<p>Real examples of generated artifacts and locations.</p>
-<h2 id="research-outputs">Research Outputs<a class="headerlink" href="#research-outputs" title="Permanent link">&para;</a></h2>
-<pre class="codehilite"><code class="language-bash"># Domain research (example)
-ls data/domain_research/
-
-# Audience research (example)
-ls data/audience_research/
+<h1 id="contributing">Contributing<a class="headerlink" href="#contributing" title="Permanent link">&para;</a></h1>
+<p>Thanks for improving START. This guide covers workflow, quality gates, and conventions.</p>
+<h2 id="workflow">Workflow<a class="headerlink" href="#workflow" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Fork and branch: feature/<topic> or fix/<topic></li>
+<li>Keep changes minimal, cohesive, and lint-clean</li>
+<li>Write/update tests alongside changes (pytest)</li>
+<li>Open a PR with a clear description and links to related issues</li>
+</ul>
+<h2 id="local-quality-checks">Local Quality Checks<a class="headerlink" href="#local-quality-checks" title="Permanent link">&para;</a></h2>
+<pre class="codehilite"><code class="language-bash">uv sync --all-extras --dev
+uv run pytest -q
+uv run ruff check .
+uv run black --check .
 </code></pre>
 
-<h2 id="curriculum-visualizations">Curriculum &amp; Visualizations<a class="headerlink" href="#curriculum-visualizations" title="Permanent link">&para;</a></h2>
-<pre class="codehilite"><code class="language-bash"># Curriculum content
-ls data/written_curriculums/
-
-# Visualizations
-ls data/visualizations/
-</code></pre>
-
-<h2 id="multilingual-content">Multilingual Content<a class="headerlink" href="#multilingual-content" title="Permanent link">&para;</a></h2>
-<pre class="codehilite"><code class="language-bash">ls data/translated_curriculums/
-</code></pre></div>
+<h2 id="coding-standards">Coding Standards<a class="headerlink" href="#coding-standards" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Python 3.10+; type annotations for public functions</li>
+<li>Readable, modular code; early returns; meaningful names</li>
+<li>No TODO comments; implement or open an issue</li>
+<li>Docstrings for public APIs; short, high-signal comments</li>
+</ul>
+<h2 id="docs">Docs<a class="headerlink" href="#docs" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Update relevant pages under <code>docs/</code> when behavior or dev flows change</li>
+<li>Use dense link-based outlines instead of embedded Mermaid</li>
+<li>Serve locally via <code>./run_docs.sh --serve</code></li>
+</ul>
+<h2 id="commit-messages">Commit Messages<a class="headerlink" href="#commit-messages" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Imperative mood: "Add", "Fix", "Refactor"</li>
+<li>Reference issues: <code>Fixes #123</code> when applicable</li>
+</ul>
+<h2 id="pr-checklist">PR Checklist<a class="headerlink" href="#pr-checklist" title="Permanent link">&para;</a></h2>
+<ul>
+<li>[ ] Tests added/updated</li>
+<li>[ ] Docs updated</li>
+<li>[ ] <code>ruff</code> and <code>black</code> clean</li>
+<li>[ ] Clear motivation and scope</li>
+</ul>
+<h2 id="community">Community<a class="headerlink" href="#community" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Discussions, questions: issues or Discord</li>
+<li>Respectful, constructive collaboration</li>
+</ul></div>
             </div>
         </div>
 
