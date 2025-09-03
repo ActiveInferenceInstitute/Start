@@ -195,20 +195,17 @@
 <li><strong>Optional</strong>: OpenAI API key for alternative LLM access</li>
 </ul>
 <h2 id="quick-installation">Quick Installation<a class="headerlink" href="#quick-installation" title="Permanent link">&para;</a></h2>
-<pre class="codehilite"><code class="language-mermaid">flowchart LR
-  A[Install uv] --&gt; B[Clone repo]
-  B --&gt; C[uv sync --all-extras --dev]
-  C --&gt; D[Configure .env]
-  D --&gt; E[Download spaCy models]
-  E --&gt; F[Verify imports/PYTHONPATH]
-  F --&gt; G[Run tests]
-  G --&gt; H[Run ruff &amp; black]
-  H --&gt; I[Ready for development]
-
-  click G &quot;./TESTING.md&quot; &quot;Testing Guide&quot;
-  click I &quot;./README.md&quot; &quot;Docs Hub&quot;
-</code></pre>
-
+<p>Steps
+- Install uv
+- Clone repository
+- <code>uv sync --all-extras --dev</code>
+- Configure <code>.env</code>
+- Download spaCy models
+- Verify imports / <code>PYTHONPATH</code>
+- Run tests, lint, format</p>
+<p>Links
+- <a href="../TESTING/">Testing Guide</a>
+- <a href="../">Docs Hub</a></p>
 <h3 id="1-install-uv-package-manager">1. Install uv Package Manager<a class="headerlink" href="#1-install-uv-package-manager" title="Permanent link">&para;</a></h3>
 <pre class="codehilite"><code class="language-bash">curl -LsSf https://astral.sh/uv/install.sh | sh
 # or on macOS: brew install uv

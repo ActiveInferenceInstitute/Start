@@ -179,27 +179,13 @@
 <h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
 <p>The START project provides a comprehensive, AI-powered pipeline for creating personalized Active Inference and Free Energy Principle curricula. The system uses real-time research via Perplexity API and advanced LLM-based content generation to produce professional-grade educational materials.</p>
 <h2 id="pipeline-stages">Pipeline Stages<a class="headerlink" href="#pipeline-stages" title="Permanent link">&para;</a></h2>
-<pre class="codehilite"><code class="language-mermaid">flowchart TD
-  A[Configuration YAMLs] --&gt; B[Research]
-  B --&gt; C[Curriculum Generation]
-  C --&gt; D[Visualization]
-  D --&gt; E[Translation]
-  E --&gt; F[Outputs]
-
-  subgraph Inputs
-    A1[data/config/entities.yaml]
-    A2[data/config/domains.yaml]
-    A3[data/config/languages.yaml]
-  end
-  A1 --&gt; A
-  A2 --&gt; A
-  A3 --&gt; A
-
-  click A1 &quot;../data/config/entities.yaml&quot; &quot;Entities config&quot;
-  click A2 &quot;../data/config/domains.yaml&quot; &quot;Domains config&quot;
-  click A3 &quot;../data/config/languages.yaml&quot; &quot;Languages config&quot;
-</code></pre>
-
+<p>Stages
+- Inputs: <code>data/config/entities.yaml</code>, <code>data/config/domains.yaml</code>, <code>data/config/languages.yaml</code>
+- Research → Curriculum Generation → Visualization → Translation → Outputs</p>
+<p>Links
+- <a href="../configuration/">Configuration Reference</a>
+- <a href="../visualizations/">Visualizations</a>
+- <a href="../translations/">Translations</a></p>
 <h3 id="1-research-phase">1. <strong>Research Phase</strong> 🔍<a class="headerlink" href="#1-research-phase" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong>Domain Research</strong>: Analyze professional domains (biochemistry, AI, neuroscience, etc.)</li>

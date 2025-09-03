@@ -207,22 +207,14 @@
 <li><strong>Integration</strong>: Hands-on programming exercises and computational examples</li>
 </ul>
 <h2 id="clone-management">Clone Management<a class="headerlink" href="#clone-management" title="Permanent link">&para;</a></h2>
-<pre class="codehilite"><code class="language-mermaid">flowchart LR
-  A[Select repo] --&gt; B{Already cloned?}
-  B -- No --&gt; C[Run clone utility]
-  B -- Yes --&gt; D[Update via git pull]
-  C --&gt; E[Verify destination non-empty]
-  E --&gt; F[Integration checks]
-  D --&gt; F[Integration checks]
-
-  F --&gt; G{Use in pipeline?}
-  G -- cognitive --&gt; H[Concept validation]
-  G -- pymdp/ActiveInference.jl --&gt; I[Examples &amp; labs]
-  G -- RxInferExamples.jl --&gt; J[Exercises]
-
-  click C &quot;../src/repos/clone_repo.py&quot; &quot;Clone utility&quot;
-</code></pre>
-
+<p>Steps
+- Select repository (knowledge, implementation, examples)
+- If not present, run clone utility
+- If present, update via <code>git pull</code>
+- Verify destination and integration
+- Use in pipeline (concept validation, examples, exercises)</p>
+<p>Links
+- Clone utility: <code>src/repos/clone_repo.py</code></p>
 <h3 id="automated-cloning">Automated Cloning<a class="headerlink" href="#automated-cloning" title="Permanent link">&para;</a></h3>
 <p>Use the integrated clone utility for consistent repository management:</p>
 <pre class="codehilite"><code class="language-bash"># Core knowledge graph

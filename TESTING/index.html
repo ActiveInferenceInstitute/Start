@@ -183,20 +183,10 @@
 <li>No network by default; allow network only if CI=true</li>
 <li>Deterministic, portable, and fast</li>
 </ul>
-<pre class="codehilite"><code class="language-mermaid">sequenceDiagram
-  participant Dev as Developer
-  participant Py as pytest
-  participant Off as Offline tests
-  participant Net as Network tests
-  Dev-&gt;&gt;Py: uv run pytest -q
-  Py-&gt;&gt;Off: Run (always)
-  alt CI=true and network enabled
-    Py-&gt;&gt;Net: Run @network tests
-  else
-    Py--&gt;&gt;Dev: Skip @network tests
-  end
-</code></pre>
-
+<p>Flow
+- Developer runs <code>uv run pytest -q</code>
+- Offline tests run always
+- Network tests run only if <code>CI=true</code> and marked with <code>@network</code></p>
 <h2 id="test-structure">Test Structure<a class="headerlink" href="#test-structure" title="Permanent link">&para;</a></h2>
 <h3 id="unit-tests">Unit Tests<a class="headerlink" href="#unit-tests" title="Permanent link">&para;</a></h3>
 <ul>
