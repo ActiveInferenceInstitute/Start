@@ -123,14 +123,15 @@ def extract_sections(content: str) -> Dict[str, str]:
     current_section: Optional[str] = None
     current_content: list[str] = []
     lines = content.split("\n")
-    has_sections = any(line.startswith("## ") for line in lines)
+    # Treat any header level of two or more hashes (##, ###, etc.) as a section delimiter
+    has_sections = any(re.match(r"^##+\s", line) for line in lines)
     
     if not has_sections:
         # If no sections, return the entire content as "Research Content"
         return {"Research Content": content.strip()}
     
     for line in lines:
-        if line.startswith("## "):
+        if re.match(r"^##+\s", line):
             # Save previous section
             if current_section:
                 section_content = "\n".join(current_content).strip()
@@ -140,7 +141,8 @@ def extract_sections(content: str) -> Dict[str, str]:
                     print(f"Warning: Empty section found: {current_section}")
             
             # Start new section
-            current_section = line[3:].strip()
+            # Remove leading hashes and whitespace to get the title
+            current_section = re.sub(r"^##+\s", "", line).strip()
             if not current_section:
                 print("Warning: Found header without title")
                 current_section = "Untitled Section"
@@ -160,6 +162,43 @@ def extract_sections(content: str) -> Dict[str, str]:
         raise ValueError("No valid sections found in content")
     
     return sections
+
+
+def _load_research_content(research_file: str) -> tuple[str, str]:
+    """Load research content from a file, supporting Markdown and JSON inputs.
+    
+    Args:
+        research_file: Path to a research file (.md or .json)
+    
+    Returns:
+        Tuple of (entity_or_domain_name, markdown_content)
+    """
+    path = Path(research_file)
+    stem_name = path.stem.split("_research_")[0] or path.stem
+    if path.suffix.lower() == ".json":
+        # Parse JSON and combine known content fields into a single markdown document
+        try:
+            import json
+            raw = read_text(path)
+            data = json.loads(raw)
+        except Exception as exc:
+            raise ValueError(f"Failed to parse JSON research file {path.name}: {exc}")
+        parts: list[str] = []
+        # Audience research
+        if isinstance(data.get("research_data"), str) and data["research_data"].strip():
+            parts.append(data["research_data"].strip())
+        # Domain research
+        if isinstance(data.get("domain_analysis"), str) and data["domain_analysis"].strip():
+            parts.append("# Domain Analysis\n\n" + data["domain_analysis"].strip())
+        if isinstance(data.get("curriculum_content"), str) and data["curriculum_content"].strip():
+            parts.append("# Curriculum Content\n\n" + data["curriculum_content"].strip())
+        markdown_content = "\n\n".join(parts).strip()
+        if not markdown_content:
+            # Fallback to raw text if no known fields present
+            markdown_content = raw
+        return stem_name, markdown_content
+    # Markdown input
+    return stem_name, read_text(path)
 
 
 def save_section(output_dir: str, entity_name: str, section_name: str, content: str) -> Path:
@@ -229,8 +268,8 @@ def process_research_file(client: OpenAI, research_file: str, fep_actinf_file: s
         raise FileNotFoundError(f"FEP-ActInf file not found: {fep_actinf_file}")
     
     try:
-        # Load and validate research content
-        research_content = read_text(research_file)
+        # Load and validate research content (supports .md and .json inputs)
+        entity_or_domain, research_content = _load_research_content(research_file)
         validation = validate_curriculum_content(research_content, min_word_count=50)
         
         if not validation["valid"]:
@@ -244,8 +283,8 @@ def process_research_file(client: OpenAI, research_file: str, fep_actinf_file: s
         # Load FEP-ActInf data
         fep_actinf_data = read_text(fep_actinf_file)
         
-        # Extract entity name from filename
-        entity_name = Path(research_file).stem.split("_research_")[0]
+        # Derive entity or domain name from file
+        entity_name = entity_or_domain
         if not entity_name:
             print(f"Warning: Could not extract entity name from {research_file}")
             entity_name = "unknown_entity"
@@ -268,24 +307,35 @@ def process_research_file(client: OpenAI, research_file: str, fep_actinf_file: s
                     "fep_actinf_data": fep_actinf_data
                 })
                 
-                section_content = chat(client, prompt, SYSTEM)
-                
-                # Validate generated section content
-                section_validation = validate_curriculum_content(section_content, min_word_count=100)
-                if not section_validation["valid"]:
-                    print(f"Generated section validation failed for {section_name}: {', '.join(section_validation['errors'])}")
-                    continue
-                
-                if section_validation["warnings"]:
-                    for warning in section_validation["warnings"]:
-                        print(f"Generated section warning for {section_name}: {warning}")
-                
-                # Save individual section
-                save_section(output_dir, entity_name, section_name, section_content)
-                generated_sections[section_name] = section_content
+                # Simple retry loop for model generation
+                last_error: Optional[Exception] = None
+                for attempt in range(3):
+                    try:
+                        section_content = chat(client, prompt, SYSTEM)
+                        # Validate generated section content
+                        section_validation = validate_curriculum_content(section_content, min_word_count=100)
+                        if not section_validation["valid"]:
+                            raise ValueError(
+                                f"Generated content invalid: {', '.join(section_validation['errors'])}"
+                            )
+                        # Optionally log warnings but proceed
+                        for warning in section_validation.get("warnings", []):
+                            print(f"Generated section warning for {section_name}: {warning}")
+                        # Save individual section
+                        save_section(output_dir, entity_name, section_name, section_content)
+                        generated_sections[section_name] = section_content
+                        break
+                    except Exception as gen_exc:
+                        last_error = gen_exc
+                        # Backoff before retrying
+                        time.sleep(1.0 * (attempt + 1))
+                        continue
+                else:
+                    # All attempts failed
+                    raise last_error or RuntimeError("Unknown generation error")
                 
                 # Brief delay between API calls
-                time.sleep(1)
+                time.sleep(0.5)
                 
             except Exception as e:
                 print(f"Failed to process section {section_name}: {str(e)}")

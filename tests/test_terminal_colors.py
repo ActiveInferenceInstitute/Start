@@ -187,7 +187,7 @@ class TestGradientText:
         
         with patch("src.terminal.colors.is_color_supported", return_value=False):
             result = gradient_text("test", start_color, end_color)
-            assert result == f"{start_color}test{Color.RESET.value}"
+            assert result == "test"
 
 
 class TestRainbowText:

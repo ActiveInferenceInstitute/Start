@@ -1,18 +1,37 @@
 # START: Scalable, Tailored Active-inference Research & Training
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-sa/4.0/)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 > **An advanced AI-powered system for creating personalized Active Inference and Free Energy Principle curricula**
-
 > Quick links: [Active Inference Institute Welcome](https://welcome.activeinference.institute/) • [Obsidian Knowledge Graph](https://obsidian.activeinference.institute/) (maps to cognitive repo)
 
 START combines real-time research capabilities with sophisticated content generation to produce professional-grade, personalized educational materials for Active Inference and the Free Energy Principle. The system integrates multiple APIs, comprehensive prompt engineering, and multilingual capabilities to create world-class curricula tailored to specific domains and individual learners.
 
 ## 🚀 **Key Features**
 
+```mermaid
+graph LR
+  A[START] --> R[Research]
+  A --> C[Content Generation]
+  A --> V[Visualizations]
+  A --> T[Translation]
+  A --> Q[Quality & Testing]
+  R --> R1[Perplexity API]
+  C --> C1[OpenRouter LLMs]
+  V --> V1[Charts & Mermaid]
+  T --> T1[11+ Languages]
+  Q --> Q1[pytest, ruff, black]
+
+  click R "docs/pipeline.md" "Pipeline"
+  click Q "docs/TESTING.md" "Testing"
+  click V "docs/pipeline.md" "Visualizations"
+  click T "docs/pipeline.md" "Translation"
+```
+
 ### 🔍 **Intelligent Research**
+
 - **Real-time Domain Analysis**: Live research using Perplexity API for current industry insights
 - **Personalized Learner Profiling**: In-depth analysis of individual learning needs and backgrounds  
 - **16+ Professional Domains**: Life sciences, technology, business, healthcare, education, and more
@@ -20,6 +39,7 @@ START combines real-time research capabilities with sophisticated content genera
 - **Enhanced Error Handling**: Robust validation and retry mechanisms for reliable operation
 
 ### ✍️ **Advanced Content Generation** 
+
 - **Professional-Grade Curricula**: 40-60 hour structured learning programs
 - **Comprehensive Modules**: 3-5 hour learning units with integrated assessments
 - **5,000-8,000 Word Analyses**: Deep personalization and domain integration
@@ -27,18 +47,21 @@ START combines real-time research capabilities with sophisticated content genera
 - **Content Quality Validation**: Automatic checking for completeness and consistency
 
 ### 📊 **Rich Visualizations**
+
 - **Data Charts**: PNG visualizations of curriculum metrics and learning analytics
 - **Process Diagrams**: Mermaid flowcharts showing curriculum structure and pathways
 - **Interactive Elements**: Visual learning aids and conceptual frameworks
 - **Metrics Dashboard**: Comprehensive curriculum analysis and reporting
 
 ### 🌍 **Multilingual Excellence**
+
 - **11+ Languages**: Chinese, Spanish, Arabic, Hindi, French, Japanese, Russian, Swahili, Tagalog, and custom languages
 - **Cultural Adaptation**: Full localization beyond literal translation
 - **Professional Quality**: Native-speaker level fluency with technical accuracy
 - **Smart Language Handling**: Flexible language support with custom language warnings
 
 ### 🧪 **Comprehensive Testing & Quality Assurance**
+
 - **375+ Test Cases**: Extensive unit and integration test coverage
 - **API Validation**: Robust testing of all external API integrations
 - **Error Scenario Coverage**: Comprehensive testing of edge cases and error conditions
@@ -47,38 +70,19 @@ START combines real-time research capabilities with sophisticated content genera
 ## 📦 **Core Pipeline Scripts**
 
 ### Configuration-Based Research
-```bash
-learning/curriculum_creation/
-├── 1_Research_Domain.py    # Domain analysis with online research
-├── 1_Research_Entity.py    # Audience profiling and personalization  
-├── 2_Write_Introduction.py # Comprehensive curriculum generation
-├── 3_Introduction_Visualizations.py # Charts and diagrams
-└── 4_Translate_Introductions.py     # Multilingual content
-```
 
-### Enhanced Command-Line Interface
-```bash
-# Research high-priority entities
-python 1_Research_Entity.py --priority high
+See `docs/getting_started.md` for full command lists and script paths.
 
-# Research specific domain with overwrite
-python 1_Research_Domain.py --domain biochemistry --overwrite
+### Learn More
 
-# Filter by category and priority
-python 1_Research_Domain.py --category life_sciences --priority high
-
-# Generate multilingual content
-python 4_Translate_Introductions.py --languages Spanish French German
-```
-
-### Supporting Infrastructure
-```bash
-src/
-├── common/          # Shared utilities (config, paths, prompts, I/O)
-├── perplexity/      # API integration (Perplexity, OpenRouter)
-├── config/          # Configuration management
-└── visualization/   # Chart and diagram generation
-```
+- Docs Hub: `docs/README.md`
+- Getting Started: `docs/getting_started.md`
+- Configuration: `docs/configuration.md`
+- Examples & Outputs: `docs/examples.md`
+- Pipeline & Architecture: `docs/pipeline.md`
+- Environment & CI: `docs/environment.md`
+- Testing Policy: `docs/TESTING.md`
+- Clone Management: `docs/clones.md`
 
 ## 🛠️ **Quick Installation**
 
@@ -115,91 +119,11 @@ uv run black --check .
 
 ## 🎯 **Getting Started**
 
-### 1. First Research Session
-```bash
-# Set environment for proper imports
-export PYTHONPATH=$(pwd):$PYTHONPATH
-
-# Research a domain (creates comprehensive analysis)
-uv run python learning/curriculum_creation/1_Research_Domain.py --domain biochemistry
-
-# Research an entity (creates personalized profile)  
-uv run python learning/curriculum_creation/1_Research_Entity.py --entity karl_friston
-```
-
-### 2. Generate Comprehensive Curriculum
-```bash
-# Generate curricula from research (40-60 hour programs)
-uv run python learning/curriculum_creation/2_Write_Introduction.py
-
-# Create visualizations (PNG charts + Mermaid diagrams)
-uv run python learning/curriculum_creation/3_Introduction_Visualizations.py
-
-# Translate to multiple languages (with cultural adaptation)
-uv run python learning/curriculum_creation/4_Translate_Introductions.py --languages Spanish French
-```
-
-### 3. Explore Generated Content
-```bash
-# Check generated research
-ls data/domain_research/     # Domain analyses
-ls data/audience_research/   # Entity profiles
-
-# Check curriculum content
-ls data/written_curriculums/     # Generated curricula
-ls data/visualizations/          # Charts and diagrams  
-ls data/translated_curriculums/  # Multilingual content
-```
+See `docs/getting_started.md` for first-run commands, generation steps, and exploring outputs.
 
 ## ⚙️ **Configuration System**
 
-### Research Targets Configuration
-```yaml
-# data/config/entities.yaml - Target learners
-entities:
-  - name: "karl_friston"
-    description: "Neuroscientist, developer of Free Energy Principle"
-    category: "scientist"
-    priority: "high"
-    
-  - name: "elon_musk"
-    description: "CEO of Tesla, SpaceX, and other ventures"
-    category: "tech_leader"
-    priority: "medium"
-
-# data/config/domains.yaml - Professional domains
-domains:
-  - name: "biochemistry"
-    description: "Study of chemical processes within living organisms"
-    category: "life_sciences"
-    priority: "high"
-    keywords: ["molecular biology", "enzymes", "metabolism"]
-    
-  - name: "artificial_intelligence"
-    description: "Computer systems capable of tasks requiring human intelligence"  
-    category: "technology"
-    priority: "high"
-    keywords: ["machine learning", "neural networks", "robotics"]
-```
-
-### Advanced Filtering Options
-```bash
-# Process only high-priority items
-python 1_Research_Entity.py --priority high
-python 1_Research_Domain.py --priority high
-
-# Filter by professional category
-python 1_Research_Domain.py --category life_sciences
-python 1_Research_Domain.py --category technology
-
-# Process specific targets
-python 1_Research_Entity.py --entity karl_friston
-python 1_Research_Domain.py --domain biochemistry
-
-# Control overwrite behavior
-python 1_Research_Domain.py --overwrite  # Force overwrite existing
-# Default: skip existing files automatically
-```
+See `docs/configuration.md` for YAML examples and CLI usage.
 
 ## 📈 **Generated Content Quality**
 
@@ -223,12 +147,19 @@ python 1_Research_Domain.py --overwrite  # Force overwrite existing
 
 ## 🏗️ **System Architecture**
 
-### Data Flow Pipeline
+```mermaid
+flowchart TD
+  A[data/config/*] --> B[Research]
+  B --> C[Curriculum]
+  C --> D[Visualizations]
+  D --> E[Translations]
+  E --> F[data/* outputs]
+
+  click B "docs/pipeline.md" "Pipeline"
+  click F "docs/README.md" "Docs Hub"
 ```
-Configuration → Research → Content Generation → Visualization → Translation
-      ↓             ↓              ↓                ↓             ↓
- data/config/  data/research/ data/curricula/  data/charts/  data/multilingual/
-```
+
+See `docs/pipeline.md` for architecture, templates, and data flow.
 
 ### Prompt Template System
 ```
@@ -248,31 +179,7 @@ data/prompts/
 
 ## 📊 **Example Outputs**
 
-### Generated Research Files
-```bash
-# Domain research (382 lines, 24KB)
-data/domain_research/biochemistry_research_20250902_152829.md
-
-# Entity research (16KB personalized analysis)  
-data/audience_research/karl_friston_research_20250902.json
-
-# Curriculum content (240 lines comprehensive program)
-data/written_curriculums/biochemistry/complete_curriculum_20250902.md
-
-# Multilingual versions (318-324 lines each)
-data/translated_curriculums/spanish/biochemistry_curriculum_spanish.md
-data/translated_curriculums/french/biochemistry_curriculum_french.md
-```
-
-### Visualization Outputs
-```bash
-# PNG charts showing curriculum metrics
-data/visualizations/curriculum_metrics.png
-
-# Mermaid diagrams for structure and flow
-data/visualizations/curriculum_structure.mmd
-data/visualizations/biochemistry_flow.mmd
-```
+See `docs/examples.md` for example outputs and paths.
 
 ## 🎯 **Use Cases & Applications**
 
@@ -294,14 +201,15 @@ data/visualizations/biochemistry_flow.mmd
 ## 📚 **Comprehensive Documentation**
 
 ### 🚀 **Getting Started Guides**
-- **[Environment Setup](docs/environment.md)** - Complete installation and development setup
-- **[Pipeline Overview](docs/pipeline.md)** - System architecture and workflow detailed guide
-- **[Usage Guide](learning/curriculum_creation/USAGE_GUIDE.md)** - Step-by-step curriculum creation
+- See the Docs Hub for the complete documentation: `docs/README.md`
+- Environment Setup: `docs/environment.md`
+- Pipeline Overview: `docs/pipeline.md`
+- Usage Guide: `learning/curriculum_creation/USAGE_GUIDE.md`
 
 ### 🔧 **Technical References** 
-- **[API Documentation](learning/curriculum_creation/README.md)** - Integration guides and examples
-- **[Configuration Reference](docs/README.md)** - YAML schema and configuration options
-- **[Clone Management](docs/clones.md)** - External repository integration
+- API Documentation: `learning/curriculum_creation/README.md`
+- Configuration Reference & Docs Hub: `docs/README.md`
+- Clone Management: `docs/clones.md`
 
 ### 📋 **Advanced Topics**
 - **Prompt Engineering**: Custom templates in `data/prompts/`
@@ -408,18 +316,28 @@ uv run pytest
 └── data/                  # Generated content storage
 ```
 
-For detailed testing information, see [docs/TESTING.md](docs/TESTING.md).
+For detailed testing information, see `docs/TESTING.md`.
 
 ## 📄 **License & Citation**
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This work is licensed under a [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/) - see the [LICENSE](LICENSE) file for details.
+
+### DOI & Archive
+[![DOI](https://zenodo.org/badge/903921695.svg)](https://doi.org/10.5281/zenodo.17047617)
+
+This repository is archived and citable via Zenodo: **10.5281/zenodo.17047619**
 
 ### Citation
 If you use START in academic work, please cite:
 ```
+Daniel Ari Friedman, & Active Inference Institute. (2025). 
+ActiveInferenceInstitute/Start: v1 (v1). Zenodo. 
+https://doi.org/10.5281/zenodo.17047617
+
 START: Scalable, Tailored Active-inference Research & Training
 Active Inference Institute (2024)
 https://github.com/ActiveInferenceInstitute/Start
+Licensed under Creative Commons Attribution-ShareAlike 4.0 International
 ```
 
 ## 🙏 **Acknowledgments**

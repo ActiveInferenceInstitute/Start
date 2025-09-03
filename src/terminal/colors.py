@@ -130,7 +130,9 @@ def gradient_text(text: str, start_color: str, end_color: str) -> str:
     Returns:
         Text with gradient effect
     """
-    if not is_color_supported() or len(text) <= 1:
+    if not is_color_supported():
+        return text
+    if len(text) <= 1:
         return colorize(text, start_color)
     
     # Simple gradient by alternating colors for now

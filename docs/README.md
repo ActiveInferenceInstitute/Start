@@ -13,6 +13,32 @@ START is a complete educational content generation pipeline that combines:
 
 ## 📚 **Documentation Structure**
 
+```mermaid
+graph TD
+  A["START Docs Hub"] --> B["Environment Setup"]
+  A --> C["Pipeline Overview"]
+  A --> D["Repository & Clone Management"]
+  A --> E["Testing Guide"]
+  A --> F["User & API Guides"]
+  F --> F1["Curriculum Creation Usage Guide"]
+  F --> F2["API Integration Guide"]
+  A --> I["Getting Started"]
+  A --> J["Configuration"]
+  A --> K["Examples"]
+  A --> G["Configuration Reference"]
+  A --> H["Prompt Templates"]
+
+  click B "./environment.md" "Environment Setup"
+  click C "./pipeline.md" "Pipeline Overview"
+  click D "./clones.md" "Repository & Clone Management"
+  click E "./TESTING.md" "Testing Guide"
+  click F1 "../learning/curriculum_creation/USAGE_GUIDE.md" "Usage Guide"
+  click F2 "../learning/curriculum_creation/README.md" "API Integration Guide"
+  click I "./getting_started.md" "Getting Started"
+  click J "./configuration.md" "Configuration"
+  click K "./examples.md" "Examples"
+```
+
 ### Core Guides
 
 #### 🛠️ **Setup & Development**
@@ -134,7 +160,7 @@ python 4_Translate_Introductions.py --languages Spanish French
 
 ## 📊 **Project Structure**
 
-```
+```text
 START/
 ├── src/                      # Core system implementation
 ├── learning/                 # Curriculum creation scripts

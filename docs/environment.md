@@ -15,6 +15,21 @@
 
 ## Quick Installation
 
+```mermaid
+flowchart LR
+  A[Install uv] --> B[Clone repo]
+  B --> C[uv sync --all-extras --dev]
+  C --> D[Configure .env]
+  D --> E[Download spaCy models]
+  E --> F[Verify imports/PYTHONPATH]
+  F --> G[Run tests]
+  G --> H[Run ruff & black]
+  H --> I[Ready for development]
+
+  click G "./TESTING.md" "Testing Guide"
+  click I "./README.md" "Docs Hub"
+```
+
 ### 1. Install uv Package Manager
 ```bash
 curl -LsSf https://astral.sh/uv/install.sh | sh
@@ -119,7 +134,7 @@ print('OpenRouter API connection successful')
 ## Project Structure
 
 ### Core Development Directories
-```
+```text
 src/
 ├── common/                    # Shared utilities and infrastructure
 │   ├── config.py             # Configuration management
@@ -138,7 +153,7 @@ src/
 ```
 
 ### Data and Configuration
-```
+```text
 data/
 ├── config/                   # YAML configuration files
 ├── prompts/                  # LLM prompt templates
@@ -150,7 +165,7 @@ data/
 ```
 
 ### Learning and Documentation
-```
+```text
 learning/curriculum_creation/ # Main curriculum creation scripts
 docs/                        # Comprehensive documentation
 tests/                       # Test suite and fixtures
@@ -219,3 +234,28 @@ uv tree
 - **Documentation**: Check `docs/` directory for detailed guides
 - **Tests**: Review `tests/` for usage examples
 - **Issues**: Check project issues for known problems and solutions
+
+## Continuous Integration (CI)
+
+The default CI workflow mirrors local quality checks. To emulate CI locally:
+
+```bash
+uv sync --all-extras --dev
+uv run pytest -q
+uv run ruff check .
+uv run black --check .
+```
+
+```mermaid
+sequenceDiagram
+  participant Dev as Developer
+  participant CI as CI Runner
+  Dev->>CI: Push branch/PR
+  CI->>CI: uv sync --all-extras --dev
+  CI->>CI: uv run pytest -q
+  CI->>CI: uv run ruff check .
+  CI->>CI: uv run black --check .
+  CI-->>Dev: Status & reports
+```
+
+See also: Testing policy and markers in `docs/TESTING.md`.

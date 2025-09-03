@@ -449,24 +449,22 @@ class TestGetClonedRepositories:
         
         mock_iterdir.return_value = [repo1_dir, repo2_dir, non_git_dir]
         
-        def mock_exists_side_effect(path):
-            if path == clones_dir:
+        def exists_side_effect_for_cloned(self: Path) -> bool:
+            s = str(self)
+            if s == str(clones_dir):
                 return True
-            elif path == repo1_dir / ".git":
+            if s == str(repo1_dir / ".git"):
                 return True
-            elif path == repo2_dir / ".git":
+            if s == str(repo2_dir / ".git"):
                 return True
-            elif path == non_git_dir / ".git":
+            if s == str(non_git_dir / ".git"):
                 return False
-            return False
+            return True
         
-        mock_exists.side_effect = mock_exists_side_effect
+        mock_exists.side_effect = exists_side_effect_for_cloned
         
-        # Mock is_dir
-        for dir_path in [repo1_dir, repo2_dir, non_git_dir]:
-            dir_path.is_dir = Mock(return_value=True)
-        
-        cloned = get_cloned_repositories()
+        with patch('pathlib.Path.is_dir', return_value=True):
+            cloned = get_cloned_repositories()
         
         assert len(cloned) == 2
         assert ("repo1", repo1_dir) in cloned
@@ -497,7 +495,7 @@ class TestUpdateRepository:
         ]
         
         # Mock .git directory exists
-        with patch.object(repo_path / ".git", "exists", return_value=True):
+        with patch('pathlib.Path.exists', return_value=True):
             success, message = update_repository(repo_path)
         
         assert success is True
@@ -509,7 +507,7 @@ class TestUpdateRepository:
         repo_path = Path("/test/not-git")
         
         # Mock .git directory doesn't exist
-        with patch.object(repo_path / ".git", "exists", return_value=False):
+        with patch('pathlib.Path.exists', return_value=False):
             success, message = update_repository(repo_path)
         
         assert success is False
@@ -523,7 +521,7 @@ class TestUpdateRepository:
         # Mock git branch command failure
         mock_run.return_value = Mock(returncode=1, stdout="", stderr="No branch")
         
-        with patch.object(repo_path / ".git", "exists", return_value=True):
+        with patch('pathlib.Path.exists', return_value=True):
             success, message = update_repository(repo_path)
         
         assert success is False
@@ -540,7 +538,7 @@ class TestUpdateRepository:
             Mock(returncode=1, stdout="", stderr="Pull failed"),  # pull failure
         ]
         
-        with patch.object(repo_path / ".git", "exists", return_value=True):
+        with patch('pathlib.Path.exists', return_value=True):
             success, message = update_repository(repo_path)
         
         assert success is False
@@ -551,7 +549,7 @@ class TestUpdateRepository:
         """Test repository update with timeout."""
         repo_path = Path("/test/repo")
         
-        with patch.object(repo_path / ".git", "exists", return_value=True):
+        with patch('pathlib.Path.exists', return_value=True):
             success, message = update_repository(repo_path)
         
         assert success is False
@@ -580,9 +578,8 @@ class TestGetRepositoryStatus:
         mock_file.is_file.return_value = True
         mock_rglob.return_value = [mock_file]
         
-        with patch.object(repo_path, "exists", return_value=True):
-            with patch.object(repo_path / ".git", "exists", return_value=True):
-                status = get_repository_status(repo_path)
+        with patch('pathlib.Path.exists', return_value=True):
+            status = get_repository_status(repo_path)
         
         assert status["name"] == "repo"
         assert status["exists"] is True
@@ -596,7 +593,7 @@ class TestGetRepositoryStatus:
         """Test getting status for non-existent repository."""
         repo_path = Path("/test/nonexistent")
         
-        with patch.object(repo_path, "exists", return_value=False):
+        with patch('pathlib.Path.exists', return_value=False):
             status = get_repository_status(repo_path)
         
         assert status["name"] == "nonexistent"
@@ -608,9 +605,8 @@ class TestGetRepositoryStatus:
         """Test getting status for non-git directory."""
         repo_path = Path("/test/notgit")
         
-        with patch.object(repo_path, "exists", return_value=True):
-            with patch.object(repo_path / ".git", "exists", return_value=False):
-                status = get_repository_status(repo_path)
+        with patch('pathlib.Path.exists', side_effect=[True, False]):
+            status = get_repository_status(repo_path)
         
         assert status["exists"] is True
         assert status["is_git_repo"] is False
@@ -620,10 +616,9 @@ class TestGetRepositoryStatus:
         """Test getting status with git command errors."""
         repo_path = Path("/test/repo")
         
-        with patch.object(repo_path, "exists", return_value=True):
-            with patch.object(repo_path / ".git", "exists", return_value=True):
-                with patch('pathlib.Path.rglob', return_value=[]):
-                    status = get_repository_status(repo_path)
+        with patch('pathlib.Path.exists', return_value=True):
+            with patch('pathlib.Path.rglob', return_value=[]):
+                status = get_repository_status(repo_path)
         
         assert status["is_git_repo"] is True
         assert status["branch"] is None
@@ -646,22 +641,20 @@ class TestCleanupFailedClones:
         
         mock_iterdir.return_value = [good_repo, failed_repo]
         
-        def mock_exists_side_effect(path):
-            if path == clones_dir:
+        def exists_side_effect_for_cleanup(self: Path) -> bool:
+            s = str(self)
+            if s == str(clones_dir):
                 return True
-            elif path == good_repo / ".git":
+            if s == str(good_repo / ".git"):
                 return True
-            elif path == failed_repo / ".git":
+            if s == str(failed_repo / ".git"):
                 return False
-            return False
+            return True
         
-        mock_exists.side_effect = mock_exists_side_effect
+        mock_exists.side_effect = exists_side_effect_for_cleanup
         
-        # Mock is_dir
-        good_repo.is_dir = Mock(return_value=True)
-        failed_repo.is_dir = Mock(return_value=True)
-        
-        cleaned = cleanup_failed_clones()
+        with patch('pathlib.Path.is_dir', return_value=True):
+            cleaned = cleanup_failed_clones()
         
         assert len(cleaned) == 1
         assert "failed-repo" in cleaned

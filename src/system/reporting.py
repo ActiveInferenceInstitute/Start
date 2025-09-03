@@ -132,8 +132,12 @@ def get_memory_info() -> Dict[str, float]:
                 with open("/proc/meminfo", "r") as f:
                     meminfo = f.read()
                 
-                total_kb = int([line for line in meminfo.split("\n") if "MemTotal" in line][0].split()[1])
-                available_kb = int([line for line in meminfo.split("\n") if "MemAvailable" in line][0].split()[1])
+                total_line = next((line for line in meminfo.split("\n") if line.startswith("MemTotal")), None)
+                avail_line = next((line for line in meminfo.split("\n") if line.startswith("MemAvailable")), None)
+                if not total_line or not avail_line:
+                    raise ValueError("/proc/meminfo missing expected fields")
+                total_kb = int(total_line.split()[1])
+                available_kb = int(avail_line.split()[1])
                 
                 total_gb = total_kb / (1024**2)
                 available_gb = available_kb / (1024**2)

@@ -3,19 +3,19 @@
 
 entities:
   # Political Figures
-  - name: "tulsi_gabbard"
+  - name: "Tulsi Gabbard"
     description: "Former U.S. Representative, current Director of National Intelligence"
     category: "political_figure"
     priority: "high"
     
   # Academic and Scientific Figures
-  - name: "karl_friston"
+  - name: "Karl Friston"
     description: "Neuroscientist, developer of Free Energy Principle"
     category: "scientist"
     priority: "high"
     
   # Technology Leaders
-  - name: "elon_musk"
+  - name: "Elon Musk"
     description: "CEO of Tesla, SpaceX, and other ventures"
     category: "tech_leader"
     priority: "medium"

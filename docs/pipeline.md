@@ -6,22 +6,48 @@ The START project provides a comprehensive, AI-powered pipeline for creating per
 
 ## Pipeline Stages
 
+```mermaid
+flowchart TD
+  A[Configuration YAMLs] --> B[Research]
+  B --> C[Curriculum Generation]
+  C --> D[Visualization]
+  D --> E[Translation]
+  E --> F[Outputs]
+
+  subgraph Inputs
+    A1[data/config/entities.yaml]
+    A2[data/config/domains.yaml]
+    A3[data/config/languages.yaml]
+  end
+  A1 --> A
+  A2 --> A
+  A3 --> A
+
+  click A1 "../data/config/entities.yaml" "Entities config"
+  click A2 "../data/config/domains.yaml" "Domains config"
+  click A3 "../data/config/languages.yaml" "Languages config"
+```
+
 ### 1. **Research Phase** 🔍
+
 - **Domain Research**: Analyze professional domains (biochemistry, AI, neuroscience, etc.)
 - **Entity Research**: Create personalized profiles for target learners
 - **Configuration-Driven**: Uses YAML configs for scalable, organized research
 
 ### 2. **Curriculum Generation** ✍️
+
 - **Comprehensive Content**: 40-60 hour professional development programs
 - **Personalized**: Tailored to specific domains and individual learning profiles
 - **Structured Modules**: Multi-section educational frameworks with assessments
 
 ### 3. **Visualization Creation** 📊
+
 - **Data Visualizations**: PNG charts showing curriculum metrics and analysis
 - **Process Diagrams**: Mermaid diagrams for curriculum structure and flow
 - **Interactive Elements**: Visual learning aids and conceptual frameworks
 
 ### 4. **Multilingual Translation** 🌍
+
 - **Cultural Adaptation**: Full localization beyond literal translation
 - **Professional Quality**: Native-speaker level fluency with technical accuracy
 - **Multiple Languages**: Support for 9+ target languages with script mapping
@@ -49,7 +75,8 @@ src/visualization/        # Visualization generation
 ## Data Architecture
 
 ### Input Configuration
-```
+
+```text
 data/config/
 ├── entities.yaml         # Target learner profiles (8 entities)
 ├── domains.yaml          # Professional domains (16 domains) 
@@ -57,7 +84,8 @@ data/config/
 ```
 
 ### Research Outputs
-```
+
+```text
 data/
 ├── audience_research/     # Personalized learner analysis
 ├── domain_research/       # Professional domain analysis
@@ -67,7 +95,8 @@ data/
 ```
 
 ### Template System
-```
+
+```text
 data/prompts/
 ├── research_domain_analysis.md     # 6-section domain framework
 ├── research_domain_curriculum.md   # 9-section curriculum generation
@@ -127,3 +156,8 @@ python 4_Translate_Introductions.py --languages Spanish French German
 - **Error Handling**: Robust failure recovery and logging
 - **Performance Optimized**: Efficient API usage and data processing
 - **Standards Compliant**: Following Python best practices and project conventions
+
+### Cross-References
+- Environment setup and CI workflow: `docs/environment.md`
+- Testing policy and markers: `docs/TESTING.md`
+- Clone management for optional resources: `docs/clones.md`

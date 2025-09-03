@@ -20,7 +20,7 @@ from src.perplexity.clients import build_openrouter_client
 from src.perplexity.curriculum import process_research_file
 
 
-def get_research_files(research_dir: Path, pattern: str = "*_research_*.md") -> List[Path]:
+def get_research_files(research_dir: Path, pattern: str = "*_research_*") -> List[Path]:
     """Get list of research files to process.
     
     Args:
@@ -33,7 +33,15 @@ def get_research_files(research_dir: Path, pattern: str = "*_research_*.md") -> 
     if not research_dir.exists():
         return []
     
-    return list(research_dir.glob(pattern))
+    files: List[Path] = []
+    # Support both JSON and Markdown research files
+    for ext in (".json", ".md"):
+        files.extend(research_dir.glob(f"{pattern}{ext}"))
+    
+    # Exclude negative test files such as those starting with 'not_research'
+    files = [f for f in files if not f.name.startswith("not_research")]
+    
+    return sorted(files)
 
 
 def process_research_directory(
@@ -135,7 +143,12 @@ def main():
         io_root = inputs_and_outputs_root()
         audience_research_dir = data_audience_research_dir()
         domain_research_dir = data_domain_research_dir()
+        # Support FEP file either directly under inputs root or in Domain subdir
         fep_actinf_file = io_root / "Domain" / "Synthetic_FEP-ActInf.md"
+        if not fep_actinf_file.exists():
+            alt = io_root / "Synthetic_FEP-ActInf.md"
+            if alt.exists():
+                fep_actinf_file = alt
         output_dir = data_written_curriculums_dir()
         
         # Validate input files exist

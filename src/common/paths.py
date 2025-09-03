@@ -6,6 +6,12 @@ from typing import Optional
 
 
 def find_repo_root(start: Optional[os.PathLike | str] = None) -> Path:
+    # Allow environment override for test/workflow control
+    env_root = os.environ.get("START_REPO_ROOT")
+    if env_root:
+        p = Path(env_root).resolve()
+        if p.exists():
+            return p
     path = Path(start or __file__).resolve()
     for candidate in [path] + list(path.parents):
         root = candidate if candidate.is_dir() else candidate.parent

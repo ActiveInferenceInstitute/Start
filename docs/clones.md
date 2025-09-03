@@ -36,6 +36,23 @@ The START project integrates with several Active Inference and computational neu
 
 ## Clone Management
 
+```mermaid
+flowchart LR
+  A[Select repo] --> B{Already cloned?}
+  B -- No --> C[Run clone utility]
+  B -- Yes --> D[Update via git pull]
+  C --> E[Verify destination non-empty]
+  E --> F[Integration checks]
+  D --> F[Integration checks]
+
+  F --> G{Use in pipeline?}
+  G -- cognitive --> H[Concept validation]
+  G -- pymdp/ActiveInference.jl --> I[Examples & labs]
+  G -- RxInferExamples.jl --> J[Exercises]
+
+  click C "../src/repos/clone_repo.py" "Clone utility"
+```
+
 ### Automated Cloning
 
 Use the integrated clone utility for consistent repository management:
@@ -118,3 +135,30 @@ src/_clones/
 - Validate curriculum content against authoritative sources
 - Ensure technical accuracy using reference implementations
 - Maintain consistency with Active Inference Institute standards
+
+## Verification & Maintenance
+
+### Verify Clone Integrity
+```bash
+# Path exists and is a git repo
+test -d src/_clones/cognitive/.git && echo OK
+
+# Show remote and branch
+git -C src/_clones/cognitive remote -v
+git -C src/_clones/cognitive branch --show-current
+```
+
+### Update Clones Safely
+```bash
+git -C src/_clones/cognitive fetch --prune
+git -C src/_clones/cognitive pull --ff-only origin main
+
+git -C src/_clones/pymdp fetch --prune
+git -C src/_clones/pymdp pull --ff-only origin textbook
+```
+
+### Re-clone When Needed
+```bash
+rm -rf src/_clones/ActiveInference.jl
+uv run python src/repos/clone_repo.py --url https://github.com/docxology/ActiveInference.jl --dest src/_clones/ActiveInference.jl --branch textbook --shallow
+```

@@ -8,7 +8,9 @@ target_languages:
   - Hindi
   - French
   - Japanese
+  - German
   - Russian
+  - Portuguese
   - Swahili
   - Tagalog
 
