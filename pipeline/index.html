@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         
-        
+        <link rel="canonical" href="https://activeinferenceinstitute.github.io/Start/pipeline/">
         <link rel="shortcut icon" href="../img/favicon.ico">
         <title>Pipeline - START Documentation</title>
         <link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -167,26 +167,26 @@
 <h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
 <p>The START project provides a comprehensive, AI-powered pipeline for creating personalized Active Inference and Free Energy Principle curricula. The system uses real-time research via Perplexity API and advanced LLM-based content generation to produce professional-grade educational materials.</p>
 <h2 id="pipeline-stages">Pipeline Stages<a class="headerlink" href="#pipeline-stages" title="Permanent link">&para;</a></h2>
-<div class="codehilite"><pre><span></span><code><span class="n">flowchart</span><span class="w"> </span><span class="n">TD</span>
-<span class="w">  </span><span class="n">A</span><span class="p">[</span><span class="n">Configuration</span><span class="w"> </span><span class="n">YAMLs</span><span class="p">]</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">B</span><span class="p">[</span><span class="n">Research</span><span class="p">]</span>
-<span class="w">  </span><span class="n">B</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">C</span><span class="p">[</span><span class="n">Curriculum</span><span class="w"> </span><span class="n">Generation</span><span class="p">]</span>
-<span class="w">  </span><span class="n">C</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">D</span><span class="p">[</span><span class="n">Visualization</span><span class="p">]</span>
-<span class="w">  </span><span class="n">D</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">E</span><span class="p">[</span><span class="n">Translation</span><span class="p">]</span>
-<span class="w">  </span><span class="n">E</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">F</span><span class="p">[</span><span class="n">Outputs</span><span class="p">]</span>
+<pre class="codehilite"><code class="language-mermaid">flowchart TD
+  A[Configuration YAMLs] --&gt; B[Research]
+  B --&gt; C[Curriculum Generation]
+  C --&gt; D[Visualization]
+  D --&gt; E[Translation]
+  E --&gt; F[Outputs]
 
-<span class="w">  </span><span class="n">subgraph</span><span class="w"> </span><span class="n">Inputs</span>
-<span class="w">    </span><span class="n">A1</span><span class="p">[</span><span class="n">data</span><span class="o">/</span><span class="n">config</span><span class="o">/</span><span class="n">entities</span><span class="p">.</span><span class="n">yaml</span><span class="p">]</span>
-<span class="w">    </span><span class="n">A2</span><span class="p">[</span><span class="n">data</span><span class="o">/</span><span class="n">config</span><span class="o">/</span><span class="n">domains</span><span class="p">.</span><span class="n">yaml</span><span class="p">]</span>
-<span class="w">    </span><span class="n">A3</span><span class="p">[</span><span class="n">data</span><span class="o">/</span><span class="n">config</span><span class="o">/</span><span class="n">languages</span><span class="p">.</span><span class="n">yaml</span><span class="p">]</span>
-<span class="w">  </span><span class="n">end</span>
-<span class="w">  </span><span class="n">A1</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">A</span>
-<span class="w">  </span><span class="n">A2</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">A</span>
-<span class="w">  </span><span class="n">A3</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">A</span>
+  subgraph Inputs
+    A1[data/config/entities.yaml]
+    A2[data/config/domains.yaml]
+    A3[data/config/languages.yaml]
+  end
+  A1 --&gt; A
+  A2 --&gt; A
+  A3 --&gt; A
 
-<span class="w">  </span><span class="n">click</span><span class="w"> </span><span class="n">A1</span><span class="w"> </span><span class="s">&quot;../data/config/entities.yaml&quot;</span><span class="w"> </span><span class="s">&quot;Entities config&quot;</span>
-<span class="w">  </span><span class="n">click</span><span class="w"> </span><span class="n">A2</span><span class="w"> </span><span class="s">&quot;../data/config/domains.yaml&quot;</span><span class="w"> </span><span class="s">&quot;Domains config&quot;</span>
-<span class="w">  </span><span class="n">click</span><span class="w"> </span><span class="n">A3</span><span class="w"> </span><span class="s">&quot;../data/config/languages.yaml&quot;</span><span class="w"> </span><span class="s">&quot;Languages config&quot;</span>
-</code></pre></div>
+  click A1 &quot;../data/config/entities.yaml&quot; &quot;Entities config&quot;
+  click A2 &quot;../data/config/domains.yaml&quot; &quot;Domains config&quot;
+  click A3 &quot;../data/config/languages.yaml&quot; &quot;Languages config&quot;
+</code></pre>
 
 <h3 id="1-research-phase">1. <strong>Research Phase</strong> 🔍<a class="headerlink" href="#1-research-phase" title="Permanent link">&para;</a></h3>
 <ul>
@@ -214,46 +214,46 @@
 </ul>
 <h2 id="script-entrypoints">Script Entrypoints<a class="headerlink" href="#script-entrypoints" title="Permanent link">&para;</a></h2>
 <h3 id="core-curriculum-creation-scripts">Core Curriculum Creation Scripts<a class="headerlink" href="#core-curriculum-creation-scripts" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="c1"># Configuration-based research (NEW APPROACH)</span>
-learning/curriculum_creation/1_Research_Domain.py<span class="w">    </span><span class="c1"># Domain analysis</span>
-learning/curriculum_creation/1_Research_Entity.py<span class="w">    </span><span class="c1"># Audience profiling  </span>
-learning/curriculum_creation/2_Write_Introduction.py<span class="w"> </span><span class="c1"># Curriculum generation</span>
-learning/curriculum_creation/3_Introduction_Visualizations.py<span class="w"> </span><span class="c1"># Charts &amp; diagrams</span>
-learning/curriculum_creation/4_Translate_Introductions.py<span class="w">     </span><span class="c1"># Multilingual output</span>
-</code></pre></div>
+<pre class="codehilite"><code class="language-bash"># Configuration-based research (NEW APPROACH)
+learning/curriculum_creation/1_Research_Domain.py    # Domain analysis
+learning/curriculum_creation/1_Research_Entity.py    # Audience profiling  
+learning/curriculum_creation/2_Write_Introduction.py # Curriculum generation
+learning/curriculum_creation/3_Introduction_Visualizations.py # Charts &amp; diagrams
+learning/curriculum_creation/4_Translate_Introductions.py     # Multilingual output
+</code></pre>
 
 <h3 id="supporting-infrastructure">Supporting Infrastructure<a class="headerlink" href="#supporting-infrastructure" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code>src/perplexity/<span class="w">           </span><span class="c1"># Perplexity API integration</span>
-src/common/<span class="w">               </span><span class="c1"># Shared utilities (paths, config, prompts)</span>
-src/config/<span class="w">               </span><span class="c1"># Configuration management</span>
-src/visualization/<span class="w">        </span><span class="c1"># Visualization generation</span>
-</code></pre></div>
+<pre class="codehilite"><code class="language-bash">src/perplexity/           # Perplexity API integration
+src/common/               # Shared utilities (paths, config, prompts)
+src/config/               # Configuration management
+src/visualization/        # Visualization generation
+</code></pre>
 
 <h2 id="data-architecture">Data Architecture<a class="headerlink" href="#data-architecture" title="Permanent link">&para;</a></h2>
 <h3 id="input-configuration">Input Configuration<a class="headerlink" href="#input-configuration" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code>data/config/
+<pre class="codehilite"><code class="language-text">data/config/
 ├── entities.yaml         # Target learner profiles (8 entities)
 ├── domains.yaml          # Professional domains (16 domains) 
 └── languages.yaml        # Translation targets (9+ languages)
-</code></pre></div>
+</code></pre>
 
 <h3 id="research-outputs">Research Outputs<a class="headerlink" href="#research-outputs" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code>data/
+<pre class="codehilite"><code class="language-text">data/
 ├── audience_research/     # Personalized learner analysis
 ├── domain_research/       # Professional domain analysis
 ├── written_curriculums/   # Generated curriculum content
 ├── translated_curriculums/ # Multilingual versions
 └── visualizations/        # Charts and diagrams
-</code></pre></div>
+</code></pre>
 
 <h3 id="template-system">Template System<a class="headerlink" href="#template-system" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code>data/prompts/
+<pre class="codehilite"><code class="language-text">data/prompts/
 ├── research_domain_analysis.md     # 6-section domain framework
 ├── research_domain_curriculum.md   # 9-section curriculum generation
 ├── research_entity.md              # 6-section personalization
 ├── curriculum_section.md           # Comprehensive module creation
 └── translation.md                  # 7-section multilingual framework
-</code></pre></div>
+</code></pre>
 
 <h2 id="enhanced-features">Enhanced Features<a class="headerlink" href="#enhanced-features" title="Permanent link">&para;</a></h2>
 <h3 id="configuration-driven-research">Configuration-Driven Research<a class="headerlink" href="#configuration-driven-research" title="Permanent link">&para;</a></h3>
@@ -264,15 +264,15 @@ src/visualization/<span class="w">        </span><span class="c1"># Visualizatio
 <li><strong>Overwrite Control</strong>: Skip existing by default, force overwrite with flags</li>
 </ul>
 <h3 id="advanced-command-line-interface">Advanced Command-Line Interface<a class="headerlink" href="#advanced-command-line-interface" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="c1"># Filter by priority and category</span>
-python<span class="w"> </span>1_Research_Domain.py<span class="w"> </span>--priority<span class="w"> </span>high<span class="w"> </span>--category<span class="w"> </span>life_sciences
+<pre class="codehilite"><code class="language-bash"># Filter by priority and category
+python 1_Research_Domain.py --priority high --category life_sciences
 
-<span class="c1"># Process specific targets</span>
-python<span class="w"> </span>1_Research_Entity.py<span class="w"> </span>--entity<span class="w"> </span>karl_friston<span class="w"> </span>--overwrite
+# Process specific targets
+python 1_Research_Entity.py --entity karl_friston --overwrite
 
-<span class="c1"># Multilingual output with specific languages</span>
-python<span class="w"> </span>4_Translate_Introductions.py<span class="w"> </span>--languages<span class="w"> </span>Spanish<span class="w"> </span>French<span class="w"> </span>German
-</code></pre></div>
+# Multilingual output with specific languages
+python 4_Translate_Introductions.py --languages Spanish French German
+</code></pre>
 
 <h3 id="comprehensive-content-generation">Comprehensive Content Generation<a class="headerlink" href="#comprehensive-content-generation" title="Permanent link">&para;</a></h3>
 <ul>

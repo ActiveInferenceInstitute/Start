@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         
-        
+        <link rel="canonical" href="https://activeinferenceinstitute.github.io/Start/configuration/">
         <link rel="shortcut icon" href="../img/favicon.ico">
         <title>Configuration - START Documentation</title>
         <link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -150,58 +150,58 @@
 <h1 id="configuration-reference">Configuration Reference<a class="headerlink" href="#configuration-reference" title="Permanent link">&para;</a></h1>
 <p>This page collects configuration examples and CLI snippets.</p>
 <h2 id="yaml-examples">YAML Examples<a class="headerlink" href="#yaml-examples" title="Permanent link">&para;</a></h2>
-<div class="codehilite"><pre><span></span><code><span class="c1"># data/config/entities.yaml - Target learners</span>
-<span class="nt">entities</span><span class="p">:</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;karl_friston&quot;</span>
-<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Neuroscientist,</span><span class="nv"> </span><span class="s">developer</span><span class="nv"> </span><span class="s">of</span><span class="nv"> </span><span class="s">Free</span><span class="nv"> </span><span class="s">Energy</span><span class="nv"> </span><span class="s">Principle&quot;</span>
-<span class="w">    </span><span class="nt">category</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;scientist&quot;</span>
-<span class="w">    </span><span class="nt">priority</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;high&quot;</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;elon_musk&quot;</span>
-<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CEO</span><span class="nv"> </span><span class="s">of</span><span class="nv"> </span><span class="s">Tesla,</span><span class="nv"> </span><span class="s">SpaceX,</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">other</span><span class="nv"> </span><span class="s">ventures&quot;</span>
-<span class="w">    </span><span class="nt">category</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;tech_leader&quot;</span>
-<span class="w">    </span><span class="nt">priority</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;medium&quot;</span>
+<pre class="codehilite"><code class="language-yaml"># data/config/entities.yaml - Target learners
+entities:
+  - name: &quot;karl_friston&quot;
+    description: &quot;Neuroscientist, developer of Free Energy Principle&quot;
+    category: &quot;scientist&quot;
+    priority: &quot;high&quot;
+  - name: &quot;elon_musk&quot;
+    description: &quot;CEO of Tesla, SpaceX, and other ventures&quot;
+    category: &quot;tech_leader&quot;
+    priority: &quot;medium&quot;
 
-<span class="c1"># data/config/domains.yaml - Professional domains</span>
-<span class="nt">domains</span><span class="p">:</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;biochemistry&quot;</span>
-<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Study</span><span class="nv"> </span><span class="s">of</span><span class="nv"> </span><span class="s">chemical</span><span class="nv"> </span><span class="s">processes</span><span class="nv"> </span><span class="s">within</span><span class="nv"> </span><span class="s">living</span><span class="nv"> </span><span class="s">organisms&quot;</span>
-<span class="w">    </span><span class="nt">category</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;life_sciences&quot;</span>
-<span class="w">    </span><span class="nt">priority</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;high&quot;</span>
-<span class="w">    </span><span class="nt">keywords</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;molecular</span><span class="nv"> </span><span class="s">biology&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;enzymes&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;metabolism&quot;</span><span class="p p-Indicator">]</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;artificial_intelligence&quot;</span>
-<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Computer</span><span class="nv"> </span><span class="s">systems</span><span class="nv"> </span><span class="s">capable</span><span class="nv"> </span><span class="s">of</span><span class="nv"> </span><span class="s">tasks</span><span class="nv"> </span><span class="s">requiring</span><span class="nv"> </span><span class="s">human</span><span class="nv"> </span><span class="s">intelligence&quot;</span>
-<span class="w">    </span><span class="nt">category</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;technology&quot;</span>
-<span class="w">    </span><span class="nt">priority</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;high&quot;</span>
-<span class="w">    </span><span class="nt">keywords</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;machine</span><span class="nv"> </span><span class="s">learning&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;neural</span><span class="nv"> </span><span class="s">networks&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;robotics&quot;</span><span class="p p-Indicator">]</span>
-</code></pre></div>
+# data/config/domains.yaml - Professional domains
+domains:
+  - name: &quot;biochemistry&quot;
+    description: &quot;Study of chemical processes within living organisms&quot;
+    category: &quot;life_sciences&quot;
+    priority: &quot;high&quot;
+    keywords: [&quot;molecular biology&quot;, &quot;enzymes&quot;, &quot;metabolism&quot;]
+  - name: &quot;artificial_intelligence&quot;
+    description: &quot;Computer systems capable of tasks requiring human intelligence&quot;
+    category: &quot;technology&quot;
+    priority: &quot;high&quot;
+    keywords: [&quot;machine learning&quot;, &quot;neural networks&quot;, &quot;robotics&quot;]
+</code></pre>
 
 <h2 id="cli-examples">CLI Examples<a class="headerlink" href="#cli-examples" title="Permanent link">&para;</a></h2>
-<div class="codehilite"><pre><span></span><code><span class="c1"># Process only high-priority items</span>
-python<span class="w"> </span>learning/curriculum_creation/1_Research_Entity.py<span class="w"> </span>--priority<span class="w"> </span>high
-python<span class="w"> </span>learning/curriculum_creation/1_Research_Domain.py<span class="w"> </span>--priority<span class="w"> </span>high
+<pre class="codehilite"><code class="language-bash"># Process only high-priority items
+python learning/curriculum_creation/1_Research_Entity.py --priority high
+python learning/curriculum_creation/1_Research_Domain.py --priority high
 
-<span class="c1"># Filter by professional category</span>
-python<span class="w"> </span>learning/curriculum_creation/1_Research_Domain.py<span class="w"> </span>--category<span class="w"> </span>life_sciences
-python<span class="w"> </span>learning/curriculum_creation/1_Research_Domain.py<span class="w"> </span>--category<span class="w"> </span>technology
+# Filter by professional category
+python learning/curriculum_creation/1_Research_Domain.py --category life_sciences
+python learning/curriculum_creation/1_Research_Domain.py --category technology
 
-<span class="c1"># Process specific targets</span>
-python<span class="w"> </span>learning/curriculum_creation/1_Research_Entity.py<span class="w"> </span>--entity<span class="w"> </span>karl_friston
-python<span class="w"> </span>learning/curriculum_creation/1_Research_Domain.py<span class="w"> </span>--domain<span class="w"> </span>biochemistry
+# Process specific targets
+python learning/curriculum_creation/1_Research_Entity.py --entity karl_friston
+python learning/curriculum_creation/1_Research_Domain.py --domain biochemistry
 
-<span class="c1"># Control overwrite behavior</span>
-python<span class="w"> </span>learning/curriculum_creation/1_Research_Domain.py<span class="w"> </span>--overwrite<span class="w">  </span><span class="c1"># Force overwrite existing</span>
-<span class="c1"># Default: skip existing files automatically</span>
-</code></pre></div>
+# Control overwrite behavior
+python learning/curriculum_creation/1_Research_Domain.py --overwrite  # Force overwrite existing
+# Default: skip existing files automatically
+</code></pre>
 
 <h2 id="project-structure-high-level">Project Structure (High-Level)<a class="headerlink" href="#project-structure-high-level" title="Permanent link">&para;</a></h2>
-<div class="codehilite"><pre><span></span><code>START/
+<pre class="codehilite"><code class="language-text">START/
 ├── src/                      # Core system implementation
 ├── learning/                 # Curriculum creation scripts
 ├── data/                     # Generated content and configuration
 ├── docs/                     # Comprehensive documentation
 ├── tests/                    # Test suite and validation
 └── README.md                 # Project overview and quick start
-</code></pre></div></div>
+</code></pre></div>
             </div>
         </div>
 

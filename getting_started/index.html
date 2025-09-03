@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         
-        
+        <link rel="canonical" href="https://activeinferenceinstitute.github.io/Start/getting_started/">
         <link rel="shortcut icon" href="../img/favicon.ico">
         <title>Getting Started - START Documentation</title>
         <link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -164,75 +164,75 @@
 <h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
 <p>See Environment Setup for full details: <code>docs/environment.md</code>.</p>
 <h2 id="quick-installation">Quick Installation<a class="headerlink" href="#quick-installation" title="Permanent link">&para;</a></h2>
-<div class="codehilite"><pre><span></span><code><span class="c1"># Install uv package manager</span>
-curl<span class="w"> </span>-LsSf<span class="w"> </span>https://astral.sh/uv/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
+<pre class="codehilite"><code class="language-bash"># Install uv package manager
+curl -LsSf https://astral.sh/uv/install.sh | sh
 
-<span class="c1"># Clone and set up project</span>
-git<span class="w"> </span>clone<span class="w"> </span>https://github.com/ActiveInferenceInstitute/Start.git
-<span class="nb">cd</span><span class="w"> </span>Start
+# Clone and set up project
+git clone https://github.com/ActiveInferenceInstitute/Start.git
+cd Start
 
-<span class="c1"># Install dependencies</span>
-uv<span class="w"> </span>sync<span class="w"> </span>--all-extras<span class="w"> </span>--dev
+# Install dependencies
+uv sync --all-extras --dev
 
-<span class="c1"># Download language models</span>
-uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>spacy<span class="w"> </span>download<span class="w"> </span>en_core_web_sm
+# Download language models
+uv run python -m spacy download en_core_web_sm
 
-<span class="c1"># Configure API keys</span>
-cp<span class="w"> </span>.env.example<span class="w"> </span>.env
-<span class="nv">$EDITOR</span><span class="w"> </span>.env<span class="w">  </span><span class="c1"># Add PERPLEXITY_API_KEY and OPENROUTER_API_KEY</span>
+# Configure API keys
+cp .env.example .env
+$EDITOR .env  # Add PERPLEXITY_API_KEY and OPENROUTER_API_KEY
 
-<span class="c1"># Verify installation</span>
-uv<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>-q
-uv<span class="w"> </span>run<span class="w"> </span>ruff<span class="w"> </span>check<span class="w"> </span>.
-uv<span class="w"> </span>run<span class="w"> </span>black<span class="w"> </span>--check<span class="w"> </span>.
-</code></pre></div>
+# Verify installation
+uv run pytest -q
+uv run ruff check .
+uv run black --check .
+</code></pre>
 
 <h2 id="first-research-session">First Research Session<a class="headerlink" href="#first-research-session" title="Permanent link">&para;</a></h2>
-<div class="codehilite"><pre><span></span><code><span class="c1"># Ensure imports work</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">PYTHONPATH</span><span class="o">=</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>:<span class="nv">$PYTHONPATH</span>
+<pre class="codehilite"><code class="language-bash"># Ensure imports work
+export PYTHONPATH=$(pwd):$PYTHONPATH
 
-<span class="c1"># Research a domain (creates comprehensive analysis)</span>
-uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>learning/curriculum_creation/1_Research_Domain.py<span class="w"> </span>--domain<span class="w"> </span>biochemistry
+# Research a domain (creates comprehensive analysis)
+uv run python learning/curriculum_creation/1_Research_Domain.py --domain biochemistry
 
-<span class="c1"># Research an entity (creates personalized profile)</span>
-uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>learning/curriculum_creation/1_Research_Entity.py<span class="w"> </span>--entity<span class="w"> </span>karl_friston
-</code></pre></div>
+# Research an entity (creates personalized profile)
+uv run python learning/curriculum_creation/1_Research_Entity.py --entity karl_friston
+</code></pre>
 
 <h2 id="generate-curriculum-and-visualizations">Generate Curriculum and Visualizations<a class="headerlink" href="#generate-curriculum-and-visualizations" title="Permanent link">&para;</a></h2>
-<div class="codehilite"><pre><span></span><code><span class="c1"># Generate curricula from research (40-60 hour programs)</span>
-uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>learning/curriculum_creation/2_Write_Introduction.py
+<pre class="codehilite"><code class="language-bash"># Generate curricula from research (40-60 hour programs)
+uv run python learning/curriculum_creation/2_Write_Introduction.py
 
-<span class="c1"># Create visualizations (PNG charts + Mermaid diagrams)</span>
-uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>learning/curriculum_creation/3_Introduction_Visualizations.py
+# Create visualizations (PNG charts + Mermaid diagrams)
+uv run python learning/curriculum_creation/3_Introduction_Visualizations.py
 
-<span class="c1"># Translate to multiple languages (with cultural adaptation)</span>
-uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>learning/curriculum_creation/4_Translate_Introductions.py<span class="w"> </span>--languages<span class="w"> </span>Spanish<span class="w"> </span>French
-</code></pre></div>
+# Translate to multiple languages (with cultural adaptation)
+uv run python learning/curriculum_creation/4_Translate_Introductions.py --languages Spanish French
+</code></pre>
 
 <h2 id="explore-generated-content">Explore Generated Content<a class="headerlink" href="#explore-generated-content" title="Permanent link">&para;</a></h2>
-<div class="codehilite"><pre><span></span><code><span class="c1"># Check generated research</span>
-ls<span class="w"> </span>data/domain_research/<span class="w">     </span><span class="c1"># Domain analyses</span>
-ls<span class="w"> </span>data/audience_research/<span class="w">   </span><span class="c1"># Entity profiles</span>
+<pre class="codehilite"><code class="language-bash"># Check generated research
+ls data/domain_research/     # Domain analyses
+ls data/audience_research/   # Entity profiles
 
-<span class="c1"># Check curriculum content</span>
-ls<span class="w"> </span>data/written_curriculums/<span class="w">     </span><span class="c1"># Generated curricula</span>
-ls<span class="w"> </span>data/visualizations/<span class="w">          </span><span class="c1"># Charts and diagrams</span>
-ls<span class="w"> </span>data/translated_curriculums/<span class="w">  </span><span class="c1"># Multilingual content</span>
-</code></pre></div>
+# Check curriculum content
+ls data/written_curriculums/     # Generated curricula
+ls data/visualizations/          # Charts and diagrams
+ls data/translated_curriculums/  # Multilingual content
+</code></pre>
 
 <h2 id="common-cli-commands">Common CLI Commands<a class="headerlink" href="#common-cli-commands" title="Permanent link">&para;</a></h2>
-<div class="codehilite"><pre><span></span><code><span class="c1"># Research high-priority entities</span>
-python<span class="w"> </span>learning/curriculum_creation/1_Research_Entity.py<span class="w"> </span>--priority<span class="w"> </span>high
+<pre class="codehilite"><code class="language-bash"># Research high-priority entities
+python learning/curriculum_creation/1_Research_Entity.py --priority high
 
-<span class="c1"># Research specific domain with overwrite</span>
-python<span class="w"> </span>learning/curriculum_creation/1_Research_Domain.py<span class="w"> </span>--domain<span class="w"> </span>biochemistry<span class="w"> </span>--overwrite
+# Research specific domain with overwrite
+python learning/curriculum_creation/1_Research_Domain.py --domain biochemistry --overwrite
 
-<span class="c1"># Filter by category and priority</span>
-python<span class="w"> </span>learning/curriculum_creation/1_Research_Domain.py<span class="w"> </span>--category<span class="w"> </span>life_sciences<span class="w"> </span>--priority<span class="w"> </span>high
+# Filter by category and priority
+python learning/curriculum_creation/1_Research_Domain.py --category life_sciences --priority high
 
-<span class="c1"># Generate multilingual content</span>
-python<span class="w"> </span>learning/curriculum_creation/4_Translate_Introductions.py<span class="w"> </span>--languages<span class="w"> </span>Spanish<span class="w"> </span>French<span class="w"> </span>German
-</code></pre></div></div>
+# Generate multilingual content
+python learning/curriculum_creation/4_Translate_Introductions.py --languages Spanish French German
+</code></pre></div>
             </div>
         </div>
 

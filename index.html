@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="None">
         
-        
+        <link rel="canonical" href="https://activeinferenceinstitute.github.io/Start/">
         <link rel="shortcut icon" href="img/favicon.ico">
         <title>START Documentation</title>
         <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -164,6 +164,10 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-bs-level="2"><a href="#institute-shortlinks-email-friendly" class="nav-link">Institute Shortlinks (email-friendly)</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
               </ul>
             </li>
         </ul>
@@ -183,30 +187,30 @@
 <li><strong>Rich visualizations</strong> including charts, diagrams, and interactive elements</li>
 </ul>
 <h2 id="documentation-structure">📚 <strong>Documentation Structure</strong><a class="headerlink" href="#documentation-structure" title="Permanent link">&para;</a></h2>
-<div class="codehilite"><pre><span></span><code><span class="nf">graph</span><span class="w"> </span><span class="n">TD</span>
-<span class="w">  </span><span class="n">A</span><span class="p">[</span><span class="s">&quot;START Docs Hub&quot;</span><span class="p">]</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">B</span><span class="p">[</span><span class="s">&quot;Environment Setup&quot;</span><span class="p">]</span>
-<span class="w">  </span><span class="n">A</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">C</span><span class="p">[</span><span class="s">&quot;Pipeline Overview&quot;</span><span class="p">]</span>
-<span class="w">  </span><span class="n">A</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">D</span><span class="p">[</span><span class="s">&quot;Repository &amp; Clone Management&quot;</span><span class="p">]</span>
-<span class="w">  </span><span class="n">A</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">E</span><span class="p">[</span><span class="s">&quot;Testing Guide&quot;</span><span class="p">]</span>
-<span class="w">  </span><span class="n">A</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">F</span><span class="p">[</span><span class="s">&quot;User &amp; API Guides&quot;</span><span class="p">]</span>
-<span class="w">  </span><span class="n">F</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">F1</span><span class="p">[</span><span class="s">&quot;Curriculum Creation Usage Guide&quot;</span><span class="p">]</span>
-<span class="w">  </span><span class="n">F</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">F2</span><span class="p">[</span><span class="s">&quot;API Integration Guide&quot;</span><span class="p">]</span>
-<span class="w">  </span><span class="n">A</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">I</span><span class="p">[</span><span class="s">&quot;Getting Started&quot;</span><span class="p">]</span>
-<span class="w">  </span><span class="n">A</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">J</span><span class="p">[</span><span class="s">&quot;Configuration&quot;</span><span class="p">]</span>
-<span class="w">  </span><span class="n">A</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">K</span><span class="p">[</span><span class="s">&quot;Examples&quot;</span><span class="p">]</span>
-<span class="w">  </span><span class="n">A</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">G</span><span class="p">[</span><span class="s">&quot;Configuration Reference&quot;</span><span class="p">]</span>
-<span class="w">  </span><span class="n">A</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">H</span><span class="p">[</span><span class="s">&quot;Prompt Templates&quot;</span><span class="p">]</span>
+<pre class="codehilite"><code class="language-mermaid">graph TD
+  A[&quot;START Docs Hub&quot;] --&gt; B[&quot;Environment Setup&quot;]
+  A --&gt; C[&quot;Pipeline Overview&quot;]
+  A --&gt; D[&quot;Repository &amp; Clone Management&quot;]
+  A --&gt; E[&quot;Testing Guide&quot;]
+  A --&gt; F[&quot;User &amp; API Guides&quot;]
+  F --&gt; F1[&quot;Curriculum Creation Usage Guide&quot;]
+  F --&gt; F2[&quot;API Integration Guide&quot;]
+  A --&gt; I[&quot;Getting Started&quot;]
+  A --&gt; J[&quot;Configuration&quot;]
+  A --&gt; K[&quot;Examples&quot;]
+  A --&gt; G[&quot;Configuration Reference&quot;]
+  A --&gt; H[&quot;Prompt Templates&quot;]
 
-<span class="w">  </span><span class="n">click</span><span class="w"> </span><span class="n">B</span><span class="w"> </span><span class="s">&quot;./environment.md&quot;</span><span class="w"> </span><span class="s">&quot;Environment Setup&quot;</span>
-<span class="w">  </span><span class="n">click</span><span class="w"> </span><span class="n">C</span><span class="w"> </span><span class="s">&quot;./pipeline.md&quot;</span><span class="w"> </span><span class="s">&quot;Pipeline Overview&quot;</span>
-<span class="w">  </span><span class="n">click</span><span class="w"> </span><span class="n">D</span><span class="w"> </span><span class="s">&quot;./clones.md&quot;</span><span class="w"> </span><span class="s">&quot;Repository &amp; Clone Management&quot;</span>
-<span class="w">  </span><span class="n">click</span><span class="w"> </span><span class="n">E</span><span class="w"> </span><span class="s">&quot;./TESTING.md&quot;</span><span class="w"> </span><span class="s">&quot;Testing Guide&quot;</span>
-<span class="w">  </span><span class="n">click</span><span class="w"> </span><span class="n">F1</span><span class="w"> </span><span class="s">&quot;https://github.com/ActiveInferenceInstitute/Start/blob/main/learning/curriculum_creation/USAGE_GUIDE.md&quot;</span><span class="w"> </span><span class="s">&quot;Usage Guide&quot;</span>
-<span class="w">  </span><span class="n">click</span><span class="w"> </span><span class="n">F2</span><span class="w"> </span><span class="s">&quot;https://github.com/ActiveInferenceInstitute/Start/blob/main/learning/curriculum_creation/README.md&quot;</span><span class="w"> </span><span class="s">&quot;API Integration Guide&quot;</span>
-<span class="w">  </span><span class="n">click</span><span class="w"> </span><span class="n">I</span><span class="w"> </span><span class="s">&quot;./getting_started.md&quot;</span><span class="w"> </span><span class="s">&quot;Getting Started&quot;</span>
-<span class="w">  </span><span class="n">click</span><span class="w"> </span><span class="n">J</span><span class="w"> </span><span class="s">&quot;./configuration.md&quot;</span><span class="w"> </span><span class="s">&quot;Configuration&quot;</span>
-<span class="w">  </span><span class="n">click</span><span class="w"> </span><span class="n">K</span><span class="w"> </span><span class="s">&quot;./examples.md&quot;</span><span class="w"> </span><span class="s">&quot;Examples&quot;</span>
-</code></pre></div>
+  click B &quot;./environment.md&quot; &quot;Environment Setup&quot;
+  click C &quot;./pipeline.md&quot; &quot;Pipeline Overview&quot;
+  click D &quot;./clones.md&quot; &quot;Repository &amp; Clone Management&quot;
+  click E &quot;./TESTING.md&quot; &quot;Testing Guide&quot;
+  click F1 &quot;https://github.com/ActiveInferenceInstitute/Start/blob/main/learning/curriculum_creation/USAGE_GUIDE.md&quot; &quot;Usage Guide&quot;
+  click F2 &quot;https://github.com/ActiveInferenceInstitute/Start/blob/main/learning/curriculum_creation/README.md&quot; &quot;API Integration Guide&quot;
+  click I &quot;./getting_started.md&quot; &quot;Getting Started&quot;
+  click J &quot;./configuration.md&quot; &quot;Configuration&quot;
+  click K &quot;./examples.md&quot; &quot;Examples&quot;
+</code></pre>
 
 <h3 id="core-guides">Core Guides<a class="headerlink" href="#core-guides" title="Permanent link">&para;</a></h3>
 <h4 id="setup-development">🛠️ <strong>Setup &amp; Development</strong><a class="headerlink" href="#setup-development" title="Permanent link">&para;</a></h4>
@@ -271,17 +275,13 @@
 <h2 id="external-resources">🌐 <strong>External Resources</strong><a class="headerlink" href="#external-resources" title="Permanent link">&para;</a></h2>
 <h3 id="active-inference-institute-ecosystem">Active Inference Institute Ecosystem<a class="headerlink" href="#active-inference-institute-ecosystem" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>Institute website</strong>: <a href="https://www.activeinference.org/">activeinference.org</a></li>
-<li><strong>Livestreams</strong>: <a href="https://www.activeinference.institute/livestreams">activeinference.institute/livestreams</a></li>
-<li><strong>Courses</strong>: <a href="https://www.activeinference.institute/courses">activeinference.institute/courses</a></li>
-<li><strong>Journal</strong>: <a href="https://www.activeinference.org/research/journal">Active Inference Journal</a></li>
-<li><strong>Research resources</strong>: <a href="https://www.activeinference.org/research/resources">activeinference.org/research/resources</a></li>
-<li><strong>Volunteer &amp; internships</strong>: <a href="https://www.activeinference.org/education/volunteer">activeinference.org/education/volunteer</a></li>
-<li><strong>Partnerships</strong>: <a href="https://www.activeinference.institute/partnership">activeinference.institute/partnership</a></li>
-<li><strong>TNB Group (Theoretical Neurobiology)</strong>: <a href="https://www.activeinference.institute/tnb">activeinference.institute/tnb</a></li>
-<li><strong>Welcome portal</strong>: <a href="https://welcome.activeinference.institute/">welcome.activeinference.institute</a></li>
-<li><strong>Knowledge graph</strong>: <a href="https://obsidian.activeinference.institute/">obsidian.activeinference.institute</a></li>
-<li><strong>Cognitive repository</strong>: <a href="https://github.com/ActiveInferenceInstitute/cognitive">ActiveInferenceInstitute/cognitive</a></li>
+<li><strong>Website</strong>: <a href="https://www.activeinference.institute/">activeinference.institute</a></li>
+<li><strong>Activities</strong>: <a href="https://activities.activeinference.institute/">activities.activeinference.institute</a></li>
+<li><strong>X (Twitter)</strong>: <a href="https://x.com/InferenceActive">x.com/InferenceActive</a></li>
+<li><strong>Discord</strong>: <a href="https://discord.activeinference.institute/">discord.activeinference.institute</a></li>
+<li><strong>Donate</strong>: <a href="http://donate.activeinference.institute/">donate.activeinference.institute</a></li>
+<li><strong>YouTube</strong>: <a href="https://www.youtube.com/c/ActiveInference/">youtube.com/c/ActiveInference</a></li>
+<li><strong>Livestreams</strong>: <a href="https://video.activeinference.institute/">video.activeinference.institute</a></li>
 </ul>
 <h3 id="math-programming-resources">Math &amp; Programming Resources<a class="headerlink" href="#math-programming-resources" title="Permanent link">&para;</a></h3>
 <ul>
@@ -293,20 +293,20 @@
 </ul>
 <h3 id="in-repo-entry-points">In-Repo Entry Points<a class="headerlink" href="#in-repo-entry-points" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>Top-level landing page</strong>: <a href="../here.md">Here — starting at start/here</a></li>
+<li><strong>Top-level landing page</strong>: <a href="https://github.com/ActiveInferenceInstitute/Start/blob/main/here.md">Here — starting at start/here</a></li>
 <li><strong>Other materials</strong>: <a href="other/inferant_stream_015-1/">docs/other/inferant_stream_015-1.md</a></li>
 </ul>
 <h2 id="system-capabilities">📋 <strong>System Capabilities</strong><a class="headerlink" href="#system-capabilities" title="Permanent link">&para;</a></h2>
 <h3 id="research-analysis">Research &amp; Analysis<a class="headerlink" href="#research-analysis" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>16 Professional Domains</strong>: Life sciences, technology, business, healthcare, education</li>
-<li><strong>8 Target Entities</strong>: Political figures, scientists, tech leaders, educators</li>
+<li>** Professional Domains**: Life sciences, technology, business, healthcare, education, and whatever you prefer. </li>
+<li><strong>8 Target Entities</strong>: Political figures, scientists, tech leaders, educators, any entity or audience you prefer</li>
 <li><strong>Real-time Research</strong>: Current industry insights and professional analysis</li>
 <li><strong>Comprehensive Analysis</strong>: 3,000-5,000 word domain reports</li>
 </ul>
 <h3 id="content-generation">Content Generation<a class="headerlink" href="#content-generation" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>Professional-Grade Curricula</strong>: 40-60 hour structured learning programs</li>
+<li><strong>Professional-Grade Curricula</strong>: 40-60 hour structured learning programs, eventually with more granular and custom productions possible in this repo</li>
 <li><strong>Personalized Learning</strong>: 5,000-8,000 word tailored strategies</li>
 <li><strong>Modular Design</strong>: 3-5 hour comprehensive learning units</li>
 <li><strong>Assessment Integration</strong>: Built-in evaluation and progress tracking</li>
@@ -325,39 +325,39 @@
 </ul>
 <h2 id="configuration-overview">🔧 <strong>Configuration Overview</strong><a class="headerlink" href="#configuration-overview" title="Permanent link">&para;</a></h2>
 <h3 id="research-configuration">Research Configuration<a class="headerlink" href="#research-configuration" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="c1"># data/config/entities.yaml</span>
-<span class="nt">entities</span><span class="p">:</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;karl_friston&quot;</span>
-<span class="w">    </span><span class="nt">category</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;scientist&quot;</span>
-<span class="w">    </span><span class="nt">priority</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;high&quot;</span>
+<pre class="codehilite"><code class="language-yaml"># data/config/entities.yaml
+entities:
+  - name: &quot;karl_friston&quot;
+    category: &quot;scientist&quot;
+    priority: &quot;high&quot;
 
-<span class="c1"># data/config/domains.yaml</span>
-<span class="nt">domains</span><span class="p">:</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;biochemistry&quot;</span>
-<span class="w">    </span><span class="nt">category</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;life_sciences&quot;</span>
-<span class="w">    </span><span class="nt">priority</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;high&quot;</span>
-</code></pre></div>
+# data/config/domains.yaml
+domains:
+  - name: &quot;biochemistry&quot;
+    category: &quot;life_sciences&quot;
+    priority: &quot;high&quot;
+</code></pre>
 
 <h3 id="command-line-interface">Command-Line Interface<a class="headerlink" href="#command-line-interface" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="c1"># Research high-priority entities</span>
-python<span class="w"> </span>1_Research_Entity.py<span class="w"> </span>--priority<span class="w"> </span>high
+<pre class="codehilite"><code class="language-bash"># Research high-priority entities
+python 1_Research_Entity.py --priority high
 
-<span class="c1"># Generate domain-specific curricula</span>
-python<span class="w"> </span>1_Research_Domain.py<span class="w"> </span>--domain<span class="w"> </span>biochemistry
+# Generate domain-specific curricula
+python 1_Research_Domain.py --domain biochemistry
 
-<span class="c1"># Create multilingual content</span>
-python<span class="w"> </span>4_Translate_Introductions.py<span class="w"> </span>--languages<span class="w"> </span>Spanish<span class="w"> </span>French
-</code></pre></div>
+# Create multilingual content
+python 4_Translate_Introductions.py --languages Spanish French
+</code></pre>
 
 <h2 id="project-structure">📊 <strong>Project Structure</strong><a class="headerlink" href="#project-structure" title="Permanent link">&para;</a></h2>
-<div class="codehilite"><pre><span></span><code>START/
+<pre class="codehilite"><code class="language-text">START/
 ├── src/                      # Core system implementation
 ├── learning/                 # Curriculum creation scripts
 ├── data/                     # Generated content and configuration
 ├── docs/                     # Comprehensive documentation
 ├── tests/                    # Test suite and validation
 └── README.md                 # Project overview and quick start
-</code></pre></div>
+</code></pre>
 
 <h2 id="development-workflow">🔄 <strong>Development Workflow</strong><a class="headerlink" href="#development-workflow" title="Permanent link">&para;</a></h2>
 <h3 id="standard-development-cycle">Standard Development Cycle<a class="headerlink" href="#standard-development-cycle" title="Permanent link">&para;</a></h3>
@@ -390,7 +390,46 @@ python<span class="w"> </span>4_Translate_Introductions.py<span class="w"> </spa
 <li><strong>Test Suite</strong> for usage examples and validation patterns</li>
 </ul>
 <hr />
-<p><strong>START</strong> represents a new paradigm in educational content creation, combining cutting-edge AI research capabilities with comprehensive pedagogical design to produce world-class Active Inference curricula tailored to any professional domain or individual learner.</p></div>
+<p><strong>START</strong> represents a new paradigm in educational content creation, combining cutting-edge AI research capabilities with comprehensive pedagogical design to produce world-class Active Inference curricula tailored to any professional domain or individual learner.</p>
+<h2 id="institute-shortlinks-email-friendly">Institute Shortlinks (email-friendly)<a class="headerlink" href="#institute-shortlinks-email-friendly" title="Permanent link">&para;</a></h2>
+<ul>
+<li>2025: <a href="https://2025.activeinference.institute/">2025.activeinference.institute</a></li>
+<li>Active Blockference: <a href="https://active-blockference.activeinference.institute">active-blockference.activeinference.institute</a></li>
+<li>Activities: <a href="https://activities.activeinference.institute">activities.activeinference.institute</a></li>
+<li>Affordances: <a href="https://affordances.activeinference.institute/">affordances.activeinference.institute</a></li>
+<li>Board of Directors (BoD): <a href="https://bod.activeinference.institute">bod.activeinference.institute</a></li>
+<li>Discord: <a href="https://discord.activeinference.institute">discord.activeinference.institute</a></li>
+<li>Donate: <a href="http://donate.activeinference.institute">donate.activeinference.institute</a></li>
+<li>Ecosystem: <a href="https://ecosystem.activeinference.institute">ecosystem.activeinference.institute</a></li>
+<li>EduActive: <a href="https://eduactive.activeinference.institute">eduactive.activeinference.institute</a></li>
+<li>Fellows: <a href="https://fellows.activeinference.institute">fellows.activeinference.institute</a></li>
+<li>Fellowship: <a href="https://fellowship.activeinference.institute">fellowship.activeinference.institute</a></li>
+<li>Internships: <a href="https://intern.activeinference.institute">intern.activeinference.institute</a></li>
+<li>Knowledge Engineering: <a href="https://knowledge-engineering.activeinference.institute">knowledge-engineering.activeinference.institute</a></li>
+<li>Measure: <a href="https://measure.activeinference.institute">measure.activeinference.institute</a></li>
+<li>Mentorship: <a href="https://mentorship.activeinference.institute/">mentorship.activeinference.institute</a></li>
+<li>Newsletter: <a href="https://newsletter.activeinference.institute">newsletter.activeinference.institute</a></li>
+<li>Obsidian (Knowledge Graph): <a href="https://obsidian.activeinference.institute">obsidian.activeinference.institute</a></li>
+<li>Ontology: <a href="https://ontology.activeinference.institute">ontology.activeinference.institute</a></li>
+<li>Partnership: <a href="https://partnership.activeinference.institute">partnership.activeinference.institute</a></li>
+<li>Partnerships: <a href="https://partnerships.activeinference.institute">partnerships.activeinference.institute</a></li>
+<li>PayPal: <a href="https://paypal.activeinference.institute">paypal.activeinference.institute</a></li>
+<li>Prepare: <a href="https://prepare.activeinference.institute">prepare.activeinference.institute</a></li>
+<li>Projects: <a href="https://projects.activeinference.institute">projects.activeinference.institute</a></li>
+<li>ReInference: <a href="https://reinference.activeinference.institute">reinference.activeinference.institute</a></li>
+<li>RxInfer: <a href="https://rxinfer.activeinference.institute">rxinfer.activeinference.institute</a></li>
+<li>SAB: <a href="https://sab.activeinference.institute">sab.activeinference.institute</a></li>
+<li>Strategy: <a href="https://strategy.activeinference.institute">strategy.activeinference.institute</a></li>
+<li>Support: <a href="https://support.activeinference.institute">support.activeinference.institute</a></li>
+<li>Symposium: <a href="https://symposium.activeinference.institute/">symposium.activeinference.institute</a></li>
+<li>Textbook Group: <a href="https://textbook-group.activeinference.institute">textbook-group.activeinference.institute</a></li>
+<li>TNB: <a href="https://tnb.activeinference.institute/">tnb.activeinference.institute</a></li>
+<li>Video: <a href="https://video.activeinference.institute">video.activeinference.institute</a></li>
+<li>Volunteer: <a href="https://volunteer.activeinference.institute">volunteer.activeinference.institute</a></li>
+<li>Wave Hypothesis: <a href="https://wave-hypothesis.activeinference.institute/">wave-hypothesis.activeinference.institute</a></li>
+<li>Weekly: <a href="https://weekly.activeinference.institute/">weekly.activeinference.institute</a></li>
+<li>Welcome: <a href="https://welcome.activeinference.institute">welcome.activeinference.institute</a></li>
+</ul></div>
             </div>
         </div>
 
@@ -472,5 +511,5 @@ python<span class="w"> </span>4_Translate_Introductions.py<span class="w"> </spa
 
 <!--
 MkDocs version : 1.6.1
-Build Date UTC : 2025-09-03 21:18:51.027741+00:00
+Build Date UTC : 2025-09-03 21:39:41.682506+00:00
 -->

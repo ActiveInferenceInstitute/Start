@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         
-        
+        <link rel="canonical" href="https://activeinferenceinstitute.github.io/Start/clones/">
         <link rel="shortcut icon" href="../img/favicon.ico">
         <title>Clone Management - START Documentation</title>
         <link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -195,45 +195,45 @@
 <li><strong>Integration</strong>: Hands-on programming exercises and computational examples</li>
 </ul>
 <h2 id="clone-management">Clone Management<a class="headerlink" href="#clone-management" title="Permanent link">&para;</a></h2>
-<div class="codehilite"><pre><span></span><code><span class="n">flowchart</span><span class="w"> </span><span class="n">LR</span>
-<span class="w">  </span><span class="n">A</span><span class="p">[</span><span class="n">Select</span><span class="w"> </span><span class="n">repo</span><span class="p">]</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">B</span><span class="p">{</span><span class="n">Already</span><span class="w"> </span><span class="n">cloned</span><span class="o">?</span><span class="p">}</span>
-<span class="w">  </span><span class="n">B</span><span class="w"> </span><span class="o">--</span><span class="w"> </span><span class="n">No</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">C</span><span class="p">[</span><span class="n">Run</span><span class="w"> </span><span class="n">clone</span><span class="w"> </span><span class="n">utility</span><span class="p">]</span>
-<span class="w">  </span><span class="n">B</span><span class="w"> </span><span class="o">--</span><span class="w"> </span><span class="n">Yes</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">D</span><span class="p">[</span><span class="n">Update</span><span class="w"> </span><span class="n">via</span><span class="w"> </span><span class="n">git</span><span class="w"> </span><span class="n">pull</span><span class="p">]</span>
-<span class="w">  </span><span class="n">C</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">E</span><span class="p">[</span><span class="n">Verify</span><span class="w"> </span><span class="n">destination</span><span class="w"> </span><span class="n">non</span><span class="o">-</span><span class="n">empty</span><span class="p">]</span>
-<span class="w">  </span><span class="n">E</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">F</span><span class="p">[</span><span class="n">Integration</span><span class="w"> </span><span class="n">checks</span><span class="p">]</span>
-<span class="w">  </span><span class="n">D</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">F</span><span class="p">[</span><span class="n">Integration</span><span class="w"> </span><span class="n">checks</span><span class="p">]</span>
+<pre class="codehilite"><code class="language-mermaid">flowchart LR
+  A[Select repo] --&gt; B{Already cloned?}
+  B -- No --&gt; C[Run clone utility]
+  B -- Yes --&gt; D[Update via git pull]
+  C --&gt; E[Verify destination non-empty]
+  E --&gt; F[Integration checks]
+  D --&gt; F[Integration checks]
 
-<span class="w">  </span><span class="n">F</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">G</span><span class="p">{</span><span class="n">Use</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">pipeline</span><span class="o">?</span><span class="p">}</span>
-<span class="w">  </span><span class="n">G</span><span class="w"> </span><span class="o">--</span><span class="w"> </span><span class="n">cognitive</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">H</span><span class="p">[</span><span class="n">Concept</span><span class="w"> </span><span class="n">validation</span><span class="p">]</span>
-<span class="w">  </span><span class="n">G</span><span class="w"> </span><span class="o">--</span><span class="w"> </span><span class="n">pymdp</span><span class="o">/</span><span class="n">ActiveInference</span><span class="p">.</span><span class="n">jl</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">I</span><span class="p">[</span><span class="n">Examples</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">labs</span><span class="p">]</span>
-<span class="w">  </span><span class="n">G</span><span class="w"> </span><span class="o">--</span><span class="w"> </span><span class="n">RxInferExamples</span><span class="p">.</span><span class="n">jl</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">J</span><span class="p">[</span><span class="n">Exercises</span><span class="p">]</span>
+  F --&gt; G{Use in pipeline?}
+  G -- cognitive --&gt; H[Concept validation]
+  G -- pymdp/ActiveInference.jl --&gt; I[Examples &amp; labs]
+  G -- RxInferExamples.jl --&gt; J[Exercises]
 
-<span class="w">  </span><span class="n">click</span><span class="w"> </span><span class="n">C</span><span class="w"> </span><span class="s">&quot;../src/repos/clone_repo.py&quot;</span><span class="w"> </span><span class="s">&quot;Clone utility&quot;</span>
-</code></pre></div>
+  click C &quot;../src/repos/clone_repo.py&quot; &quot;Clone utility&quot;
+</code></pre>
 
 <h3 id="automated-cloning">Automated Cloning<a class="headerlink" href="#automated-cloning" title="Permanent link">&para;</a></h3>
 <p>Use the integrated clone utility for consistent repository management:</p>
-<div class="codehilite"><pre><span></span><code><span class="c1"># Core knowledge graph</span>
-uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>src/repos/clone_repo.py<span class="w"> </span>--url<span class="w"> </span>https://github.com/ActiveInferenceInstitute/cognitive<span class="w"> </span>--dest<span class="w"> </span>src/_clones/cognitive<span class="w"> </span>--shallow
+<pre class="codehilite"><code class="language-bash"># Core knowledge graph
+uv run python src/repos/clone_repo.py --url https://github.com/ActiveInferenceInstitute/cognitive --dest src/_clones/cognitive --shallow
 
-<span class="c1"># Bayesian inference examples</span>
-uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>src/repos/clone_repo.py<span class="w"> </span>--url<span class="w"> </span>https://github.com/docxology/RxInferExamples.jl<span class="w"> </span>--dest<span class="w"> </span>src/_clones/RxInferExamples.jl<span class="w"> </span>--shallow
+# Bayesian inference examples
+uv run python src/repos/clone_repo.py --url https://github.com/docxology/RxInferExamples.jl --dest src/_clones/RxInferExamples.jl --shallow
 
-<span class="c1"># Julia Active Inference (textbook branch)</span>
-uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>src/repos/clone_repo.py<span class="w"> </span>--url<span class="w"> </span>https://github.com/docxology/ActiveInference.jl<span class="w"> </span>--dest<span class="w"> </span>src/_clones/ActiveInference.jl<span class="w"> </span>--branch<span class="w"> </span>textbook<span class="w"> </span>--shallow
+# Julia Active Inference (textbook branch)
+uv run python src/repos/clone_repo.py --url https://github.com/docxology/ActiveInference.jl --dest src/_clones/ActiveInference.jl --branch textbook --shallow
 
-<span class="c1"># Python Active Inference (textbook branch)  </span>
-uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>src/repos/clone_repo.py<span class="w"> </span>--url<span class="w"> </span>https://github.com/docxology/pymdp<span class="w"> </span>--dest<span class="w"> </span>src/_clones/pymdp<span class="w"> </span>--branch<span class="w"> </span>textbook<span class="w"> </span>--shallow
-</code></pre></div>
+# Python Active Inference (textbook branch)  
+uv run python src/repos/clone_repo.py --url https://github.com/docxology/pymdp --dest src/_clones/pymdp --branch textbook --shallow
+</code></pre>
 
 <h3 id="manual-repository-management">Manual Repository Management<a class="headerlink" href="#manual-repository-management" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="c1"># Clone with specific options</span>
-git<span class="w"> </span>clone<span class="w"> </span>--shallow-since<span class="o">=</span><span class="s2">&quot;2023-01-01&quot;</span><span class="w"> </span>--branch<span class="w"> </span>textbook<span class="w"> </span>https://github.com/docxology/ActiveInference.jl<span class="w"> </span>src/_clones/ActiveInference.jl
+<pre class="codehilite"><code class="language-bash"># Clone with specific options
+git clone --shallow-since=&quot;2023-01-01&quot; --branch textbook https://github.com/docxology/ActiveInference.jl src/_clones/ActiveInference.jl
 
-<span class="c1"># Update existing clones</span>
-<span class="nb">cd</span><span class="w"> </span>src/_clones/cognitive<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>pull<span class="w"> </span>origin<span class="w"> </span>main
-<span class="nb">cd</span><span class="w"> </span>src/_clones/pymdp<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>git<span class="w"> </span>pull<span class="w"> </span>origin<span class="w"> </span>textbook
-</code></pre></div>
+# Update existing clones
+cd src/_clones/cognitive &amp;&amp; git pull origin main
+cd src/_clones/pymdp &amp;&amp; git pull origin textbook
+</code></pre>
 
 <h2 id="integration-with-curriculum-pipeline">Integration with Curriculum Pipeline<a class="headerlink" href="#integration-with-curriculum-pipeline" title="Permanent link">&para;</a></h2>
 <h3 id="knowledge-graph-integration">Knowledge Graph Integration<a class="headerlink" href="#knowledge-graph-integration" title="Permanent link">&para;</a></h3>
@@ -255,22 +255,22 @@ git<span class="w"> </span>clone<span class="w"> </span>--shallow-since<span cla
 <li>Examples adapted for domain-specific curriculum applications</li>
 </ul>
 <h2 id="repository-structure-after-cloning">Repository Structure After Cloning<a class="headerlink" href="#repository-structure-after-cloning" title="Permanent link">&para;</a></h2>
-<div class="codehilite"><pre><span></span><code><span class="nx">src</span><span class="o">/</span><span class="nx">_clones</span><span class="o">/</span>
-<span class="err">├──</span><span class="w"> </span><span class="nx">cognitive</span><span class="o">/</span><span class="w">                 </span><span class="err">#</span><span class="w"> </span><span class="nx">Knowledge</span><span class="w"> </span><span class="nx">graph</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="nx">concept</span><span class="w"> </span><span class="nx">definitions</span>
-<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="nx">content</span><span class="o">/</span><span class="w">              </span><span class="err">#</span><span class="w"> </span><span class="nx">Structured</span><span class="w"> </span><span class="nx">Active</span><span class="w"> </span><span class="nx">Inference</span><span class="w"> </span><span class="nx">content</span>
-<span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="nx">ontologies</span><span class="o">/</span><span class="w">           </span><span class="err">#</span><span class="w"> </span><span class="nx">Formal</span><span class="w"> </span><span class="nx">concept</span><span class="w"> </span><span class="nx">relationships</span>
-<span class="err">├──</span><span class="w"> </span><span class="nx">RxInferExamples</span><span class="p">.</span><span class="nx">jl</span><span class="o">/</span><span class="w">       </span><span class="err">#</span><span class="w"> </span><span class="nx">Bayesian</span><span class="w"> </span><span class="nx">inference</span><span class="w"> </span><span class="nx">examples</span>
-<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="nx">notebooks</span><span class="o">/</span><span class="w">            </span><span class="err">#</span><span class="w"> </span><span class="nx">Jupyter</span><span class="w"> </span><span class="nx">notebooks</span><span class="w"> </span><span class="nx">with</span><span class="w"> </span><span class="nx">examples</span>
-<span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="nx">scripts</span><span class="o">/</span><span class="w">              </span><span class="err">#</span><span class="w"> </span><span class="nx">Standalone</span><span class="w"> </span><span class="nx">example</span><span class="w"> </span><span class="nx">scripts</span>
-<span class="err">├──</span><span class="w"> </span><span class="nx">ActiveInference</span><span class="p">.</span><span class="nx">jl</span><span class="o">/</span><span class="w">       </span><span class="err">#</span><span class="w"> </span><span class="nx">Julia</span><span class="w"> </span><span class="nx">Active</span><span class="w"> </span><span class="nx">Inference</span><span class="w"> </span><span class="nx">implementation</span>
-<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="nx">docs</span><span class="o">/</span><span class="w">                 </span><span class="err">#</span><span class="w"> </span><span class="nx">Educational</span><span class="w"> </span><span class="nx">documentation</span>
-<span class="err">│</span><span class="w">   </span><span class="err">├──</span><span class="w"> </span><span class="nx">examples</span><span class="o">/</span><span class="w">             </span><span class="err">#</span><span class="w"> </span><span class="nx">Code</span><span class="w"> </span><span class="nx">examples</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="nx">tutorials</span>
-<span class="err">│</span><span class="w">   </span><span class="err">└──</span><span class="w"> </span><span class="nx">src</span><span class="o">/</span><span class="w">                  </span><span class="err">#</span><span class="w"> </span><span class="nx">Core</span><span class="w"> </span><span class="nx">implementation</span>
-<span class="err">└──</span><span class="w"> </span><span class="nx">pymdp</span><span class="o">/</span><span class="w">                    </span><span class="err">#</span><span class="w"> </span><span class="nx">Python</span><span class="w"> </span><span class="nx">Active</span><span class="w"> </span><span class="nx">Inference</span>
-<span class="w">    </span><span class="err">├──</span><span class="w"> </span><span class="nx">notebooks</span><span class="o">/</span><span class="w">            </span><span class="err">#</span><span class="w"> </span><span class="nx">Educational</span><span class="w"> </span><span class="nx">notebooks</span>
-<span class="w">    </span><span class="err">├──</span><span class="w"> </span><span class="nx">examples</span><span class="o">/</span><span class="w">             </span><span class="err">#</span><span class="w"> </span><span class="nx">Example</span><span class="w"> </span><span class="nx">scripts</span><span class="w"> </span><span class="k">and</span><span class="w"> </span><span class="nx">demonstrations</span>
-<span class="w">    </span><span class="err">└──</span><span class="w"> </span><span class="nx">pymdp</span><span class="o">/</span><span class="w">                </span><span class="err">#</span><span class="w"> </span><span class="nx">Core</span><span class="w"> </span><span class="nx">Python</span><span class="w"> </span><span class="kn">package</span>
-</code></pre></div>
+<pre class="codehilite"><code>src/_clones/
+├── cognitive/                 # Knowledge graph and concept definitions
+│   ├── content/              # Structured Active Inference content
+│   └── ontologies/           # Formal concept relationships
+├── RxInferExamples.jl/       # Bayesian inference examples
+│   ├── notebooks/            # Jupyter notebooks with examples
+│   └── scripts/              # Standalone example scripts
+├── ActiveInference.jl/       # Julia Active Inference implementation
+│   ├── docs/                 # Educational documentation
+│   ├── examples/             # Code examples and tutorials
+│   └── src/                  # Core implementation
+└── pymdp/                    # Python Active Inference
+    ├── notebooks/            # Educational notebooks
+    ├── examples/             # Example scripts and demonstrations
+    └── pymdp/                # Core Python package
+</code></pre>
 
 <h2 id="usage-in-curriculum-development">Usage in Curriculum Development<a class="headerlink" href="#usage-in-curriculum-development" title="Permanent link">&para;</a></h2>
 <h3 id="content-enhancement">Content Enhancement<a class="headerlink" href="#content-enhancement" title="Permanent link">&para;</a></h3>
@@ -293,26 +293,26 @@ git<span class="w"> </span>clone<span class="w"> </span>--shallow-since<span cla
 </ul>
 <h2 id="verification-maintenance">Verification &amp; Maintenance<a class="headerlink" href="#verification-maintenance" title="Permanent link">&para;</a></h2>
 <h3 id="verify-clone-integrity">Verify Clone Integrity<a class="headerlink" href="#verify-clone-integrity" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="c1"># Path exists and is a git repo</span>
-<span class="nb">test</span><span class="w"> </span>-d<span class="w"> </span>src/_clones/cognitive/.git<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span>OK
+<pre class="codehilite"><code class="language-bash"># Path exists and is a git repo
+test -d src/_clones/cognitive/.git &amp;&amp; echo OK
 
-<span class="c1"># Show remote and branch</span>
-git<span class="w"> </span>-C<span class="w"> </span>src/_clones/cognitive<span class="w"> </span>remote<span class="w"> </span>-v
-git<span class="w"> </span>-C<span class="w"> </span>src/_clones/cognitive<span class="w"> </span>branch<span class="w"> </span>--show-current
-</code></pre></div>
+# Show remote and branch
+git -C src/_clones/cognitive remote -v
+git -C src/_clones/cognitive branch --show-current
+</code></pre>
 
 <h3 id="update-clones-safely">Update Clones Safely<a class="headerlink" href="#update-clones-safely" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code>git<span class="w"> </span>-C<span class="w"> </span>src/_clones/cognitive<span class="w"> </span>fetch<span class="w"> </span>--prune
-git<span class="w"> </span>-C<span class="w"> </span>src/_clones/cognitive<span class="w"> </span>pull<span class="w"> </span>--ff-only<span class="w"> </span>origin<span class="w"> </span>main
+<pre class="codehilite"><code class="language-bash">git -C src/_clones/cognitive fetch --prune
+git -C src/_clones/cognitive pull --ff-only origin main
 
-git<span class="w"> </span>-C<span class="w"> </span>src/_clones/pymdp<span class="w"> </span>fetch<span class="w"> </span>--prune
-git<span class="w"> </span>-C<span class="w"> </span>src/_clones/pymdp<span class="w"> </span>pull<span class="w"> </span>--ff-only<span class="w"> </span>origin<span class="w"> </span>textbook
-</code></pre></div>
+git -C src/_clones/pymdp fetch --prune
+git -C src/_clones/pymdp pull --ff-only origin textbook
+</code></pre>
 
 <h3 id="re-clone-when-needed">Re-clone When Needed<a class="headerlink" href="#re-clone-when-needed" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code>rm<span class="w"> </span>-rf<span class="w"> </span>src/_clones/ActiveInference.jl
-uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>src/repos/clone_repo.py<span class="w"> </span>--url<span class="w"> </span>https://github.com/docxology/ActiveInference.jl<span class="w"> </span>--dest<span class="w"> </span>src/_clones/ActiveInference.jl<span class="w"> </span>--branch<span class="w"> </span>textbook<span class="w"> </span>--shallow
-</code></pre></div></div>
+<pre class="codehilite"><code class="language-bash">rm -rf src/_clones/ActiveInference.jl
+uv run python src/repos/clone_repo.py --url https://github.com/docxology/ActiveInference.jl --dest src/_clones/ActiveInference.jl --branch textbook --shallow
+</code></pre></div>
             </div>
         </div>
 

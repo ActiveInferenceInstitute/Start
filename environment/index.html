@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         
-        
+        <link rel="canonical" href="https://activeinferenceinstitute.github.io/Start/environment/">
         <link rel="shortcut icon" href="../img/favicon.ico">
         <title>Environment - START Documentation</title>
         <link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -183,64 +183,64 @@
 <li><strong>Optional</strong>: OpenAI API key for alternative LLM access</li>
 </ul>
 <h2 id="quick-installation">Quick Installation<a class="headerlink" href="#quick-installation" title="Permanent link">&para;</a></h2>
-<div class="codehilite"><pre><span></span><code><span class="n">flowchart</span><span class="w"> </span><span class="n">LR</span>
-<span class="w">  </span><span class="n">A</span><span class="p">[</span><span class="n">Install</span><span class="w"> </span><span class="n">uv</span><span class="p">]</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">B</span><span class="p">[</span><span class="n">Clone</span><span class="w"> </span><span class="n">repo</span><span class="p">]</span>
-<span class="w">  </span><span class="n">B</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">C</span><span class="p">[</span><span class="n">uv</span><span class="w"> </span><span class="n">sync</span><span class="w"> </span><span class="o">--</span><span class="n">all</span><span class="o">-</span><span class="n">extras</span><span class="w"> </span><span class="o">--</span><span class="n">dev</span><span class="p">]</span>
-<span class="w">  </span><span class="n">C</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">D</span><span class="p">[</span><span class="n">Configure</span><span class="w"> </span><span class="p">.</span><span class="n">env</span><span class="p">]</span>
-<span class="w">  </span><span class="n">D</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">E</span><span class="p">[</span><span class="n">Download</span><span class="w"> </span><span class="n">spaCy</span><span class="w"> </span><span class="n">models</span><span class="p">]</span>
-<span class="w">  </span><span class="n">E</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">F</span><span class="p">[</span><span class="n">Verify</span><span class="w"> </span><span class="n">imports</span><span class="o">/</span><span class="n">PYTHONPATH</span><span class="p">]</span>
-<span class="w">  </span><span class="n">F</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">G</span><span class="p">[</span><span class="n">Run</span><span class="w"> </span><span class="n">tests</span><span class="p">]</span>
-<span class="w">  </span><span class="n">G</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">H</span><span class="p">[</span><span class="n">Run</span><span class="w"> </span><span class="n">ruff</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">black</span><span class="p">]</span>
-<span class="w">  </span><span class="n">H</span><span class="w"> </span><span class="o">--&gt;</span><span class="w"> </span><span class="n">I</span><span class="p">[</span><span class="n">Ready</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">development</span><span class="p">]</span>
+<pre class="codehilite"><code class="language-mermaid">flowchart LR
+  A[Install uv] --&gt; B[Clone repo]
+  B --&gt; C[uv sync --all-extras --dev]
+  C --&gt; D[Configure .env]
+  D --&gt; E[Download spaCy models]
+  E --&gt; F[Verify imports/PYTHONPATH]
+  F --&gt; G[Run tests]
+  G --&gt; H[Run ruff &amp; black]
+  H --&gt; I[Ready for development]
 
-<span class="w">  </span><span class="n">click</span><span class="w"> </span><span class="n">G</span><span class="w"> </span><span class="s">&quot;./TESTING.md&quot;</span><span class="w"> </span><span class="s">&quot;Testing Guide&quot;</span>
-<span class="w">  </span><span class="n">click</span><span class="w"> </span><span class="n">I</span><span class="w"> </span><span class="s">&quot;./README.md&quot;</span><span class="w"> </span><span class="s">&quot;Docs Hub&quot;</span>
-</code></pre></div>
+  click G &quot;./TESTING.md&quot; &quot;Testing Guide&quot;
+  click I &quot;./README.md&quot; &quot;Docs Hub&quot;
+</code></pre>
 
 <h3 id="1-install-uv-package-manager">1. Install uv Package Manager<a class="headerlink" href="#1-install-uv-package-manager" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code>curl<span class="w"> </span>-LsSf<span class="w"> </span>https://astral.sh/uv/install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
-<span class="c1"># or on macOS: brew install uv</span>
-</code></pre></div>
+<pre class="codehilite"><code class="language-bash">curl -LsSf https://astral.sh/uv/install.sh | sh
+# or on macOS: brew install uv
+</code></pre>
 
 <h3 id="2-install-project-dependencies">2. Install Project Dependencies<a class="headerlink" href="#2-install-project-dependencies" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="c1"># Install all dependencies including development tools</span>
-uv<span class="w"> </span>sync<span class="w"> </span>--all-extras<span class="w"> </span>--dev
+<pre class="codehilite"><code class="language-bash"># Install all dependencies including development tools
+uv sync --all-extras --dev
 
-<span class="c1"># Install specific dependency groups</span>
-uv<span class="w"> </span>sync<span class="w"> </span>--extra<span class="w"> </span>visualization<span class="w"> </span>--extra<span class="w"> </span>translation<span class="w"> </span>--dev
-</code></pre></div>
+# Install specific dependency groups
+uv sync --extra visualization --extra translation --dev
+</code></pre>
 
 <h3 id="3-download-required-models">3. Download Required Models<a class="headerlink" href="#3-download-required-models" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="c1"># spaCy model for natural language processing</span>
-uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>spacy<span class="w"> </span>download<span class="w"> </span>en_core_web_sm
+<pre class="codehilite"><code class="language-bash"># spaCy model for natural language processing
+uv run python -m spacy download en_core_web_sm
 
-<span class="c1"># Additional language models for multilingual support (optional)</span>
-uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>spacy<span class="w"> </span>download<span class="w"> </span>fr_core_news_sm<span class="w">  </span><span class="c1"># French</span>
-uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>spacy<span class="w"> </span>download<span class="w"> </span>es_core_news_sm<span class="w">  </span><span class="c1"># Spanish</span>
-</code></pre></div>
+# Additional language models for multilingual support (optional)
+uv run python -m spacy download fr_core_news_sm  # French
+uv run python -m spacy download es_core_news_sm  # Spanish
+</code></pre>
 
 <h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
 <h3 id="1-environment-variables-setup">1. Environment Variables Setup<a class="headerlink" href="#1-environment-variables-setup" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="c1"># Copy the example environment file</span>
-cp<span class="w"> </span>.env.example<span class="w"> </span>.env
+<pre class="codehilite"><code class="language-bash"># Copy the example environment file
+cp .env.example .env
 
-<span class="c1"># Edit with your API keys and configuration</span>
-<span class="nv">$EDITOR</span><span class="w"> </span>.env
-</code></pre></div>
+# Edit with your API keys and configuration
+$EDITOR .env
+</code></pre>
 
 <h3 id="2-required-environment-variables">2. Required Environment Variables<a class="headerlink" href="#2-required-environment-variables" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="c1"># Required API Keys</span>
-<span class="nv">PERPLEXITY_API_KEY</span><span class="o">=</span>your_perplexity_api_key_here
-<span class="nv">OPENROUTER_API_KEY</span><span class="o">=</span>your_openrouter_api_key_here
+<pre class="codehilite"><code class="language-bash"># Required API Keys
+PERPLEXITY_API_KEY=your_perplexity_api_key_here
+OPENROUTER_API_KEY=your_openrouter_api_key_here
 
-<span class="c1"># Optional API Keys</span>
-<span class="nv">OPENAI_API_KEY</span><span class="o">=</span>your_openai_api_key_here
+# Optional API Keys
+OPENAI_API_KEY=your_openai_api_key_here
 
-<span class="c1"># Default Model Configuration</span>
-<span class="nv">PERPLEXITY_MODEL</span><span class="o">=</span>llama-3.1-sonar-small-128k-online
-<span class="nv">OPENROUTER_MODEL</span><span class="o">=</span>gpt-4o-mini-2024-07-18
-<span class="nv">OPENAI_MODEL</span><span class="o">=</span>gpt-4o-mini
-</code></pre></div>
+# Default Model Configuration
+PERPLEXITY_MODEL=llama-3.1-sonar-small-128k-online
+OPENROUTER_MODEL=gpt-4o-mini-2024-07-18
+OPENAI_MODEL=gpt-4o-mini
+</code></pre>
 
 <h3 id="3-configuration-files">3. Configuration Files<a class="headerlink" href="#3-configuration-files" title="Permanent link">&para;</a></h3>
 <p>The system uses YAML configuration files in <code>data/config/</code>:
@@ -249,47 +249,47 @@ cp<span class="w"> </span>.env.example<span class="w"> </span>.env
 - <code>languages.yaml</code> - Translation targets and language mappings</p>
 <h2 id="development-workflow">Development Workflow<a class="headerlink" href="#development-workflow" title="Permanent link">&para;</a></h2>
 <h3 id="code-quality-testing">Code Quality &amp; Testing<a class="headerlink" href="#code-quality-testing" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="c1"># Run comprehensive test suite</span>
-uv<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>-q
+<pre class="codehilite"><code class="language-bash"># Run comprehensive test suite
+uv run pytest -q
 
-<span class="c1"># Code linting and formatting</span>
-uv<span class="w"> </span>run<span class="w"> </span>ruff<span class="w"> </span>check<span class="w"> </span>.<span class="w">                    </span><span class="c1"># Lint checking</span>
-uv<span class="w"> </span>run<span class="w"> </span>black<span class="w"> </span>--check<span class="w"> </span>.<span class="w">                 </span><span class="c1"># Format checking</span>
-uv<span class="w"> </span>run<span class="w"> </span>black<span class="w"> </span>.<span class="w">                         </span><span class="c1"># Auto-formatting</span>
+# Code linting and formatting
+uv run ruff check .                    # Lint checking
+uv run black --check .                 # Format checking
+uv run black .                         # Auto-formatting
 
-<span class="c1"># Type checking (if configured)</span>
-uv<span class="w"> </span>run<span class="w"> </span>mypy<span class="w"> </span>src/
-</code></pre></div>
+# Type checking (if configured)
+uv run mypy src/
+</code></pre>
 
 <h3 id="curriculum-pipeline-development">Curriculum Pipeline Development<a class="headerlink" href="#curriculum-pipeline-development" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="c1"># Set Python path for development</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">PYTHONPATH</span><span class="o">=</span>/path/to/project:<span class="nv">$PYTHONPATH</span>
+<pre class="codehilite"><code class="language-bash"># Set Python path for development
+export PYTHONPATH=/path/to/project:$PYTHONPATH
 
-<span class="c1"># Run curriculum creation scripts</span>
-<span class="nb">cd</span><span class="w"> </span>learning/curriculum_creation/
-uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>1_Research_Domain.py<span class="w"> </span>--help
-uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>1_Research_Entity.py<span class="w"> </span>--priority<span class="w"> </span>high
-</code></pre></div>
+# Run curriculum creation scripts
+cd learning/curriculum_creation/
+uv run python 1_Research_Domain.py --help
+uv run python 1_Research_Entity.py --priority high
+</code></pre>
 
 <h3 id="testing-api-integration">Testing API Integration<a class="headerlink" href="#testing-api-integration" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="c1"># Test Perplexity API connection</span>
-uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;</span>
-<span class="s2">from src.perplexity.clients import build_perplexity_client</span>
-<span class="s2">client = build_perplexity_client()</span>
-<span class="s2">print(&#39;Perplexity API connection successful&#39;)</span>
-<span class="s2">&quot;</span>
+<pre class="codehilite"><code class="language-bash"># Test Perplexity API connection
+uv run python -c &quot;
+from src.perplexity.clients import build_perplexity_client
+client = build_perplexity_client()
+print('Perplexity API connection successful')
+&quot;
 
-<span class="c1"># Test OpenRouter API connection  </span>
-uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;</span>
-<span class="s2">from src.perplexity.clients import build_openrouter_client</span>
-<span class="s2">client = build_openrouter_client()</span>
-<span class="s2">print(&#39;OpenRouter API connection successful&#39;)</span>
-<span class="s2">&quot;</span>
-</code></pre></div>
+# Test OpenRouter API connection  
+uv run python -c &quot;
+from src.perplexity.clients import build_openrouter_client
+client = build_openrouter_client()
+print('OpenRouter API connection successful')
+&quot;
+</code></pre>
 
 <h2 id="project-structure">Project Structure<a class="headerlink" href="#project-structure" title="Permanent link">&para;</a></h2>
 <h3 id="core-development-directories">Core Development Directories<a class="headerlink" href="#core-development-directories" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code>src/
+<pre class="codehilite"><code class="language-text">src/
 ├── common/                    # Shared utilities and infrastructure
 │   ├── config.py             # Configuration management
 │   ├── io.py                 # File I/O operations
@@ -304,10 +304,10 @@ uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </sp
 │   └── translation.py        # Multilingual content
 ├── config/                   # Configuration utilities
 └── visualization/            # Chart and diagram generation
-</code></pre></div>
+</code></pre>
 
 <h3 id="data-and-configuration">Data and Configuration<a class="headerlink" href="#data-and-configuration" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code>data/
+<pre class="codehilite"><code class="language-text">data/
 ├── config/                   # YAML configuration files
 ├── prompts/                  # LLM prompt templates
 ├── audience_research/        # Generated entity research
@@ -315,33 +315,33 @@ uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </sp
 ├── written_curriculums/      # Generated curriculum content
 ├── translated_curriculums/   # Multilingual versions
 └── visualizations/           # Charts and diagrams
-</code></pre></div>
+</code></pre>
 
 <h3 id="learning-and-documentation">Learning and Documentation<a class="headerlink" href="#learning-and-documentation" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code>learning/curriculum_creation/ # Main curriculum creation scripts
+<pre class="codehilite"><code class="language-text">learning/curriculum_creation/ # Main curriculum creation scripts
 docs/                        # Comprehensive documentation
 tests/                       # Test suite and fixtures
-</code></pre></div>
+</code></pre>
 
 <h2 id="advanced-setup">Advanced Setup<a class="headerlink" href="#advanced-setup" title="Permanent link">&para;</a></h2>
 <h3 id="performance-optimization">Performance Optimization<a class="headerlink" href="#performance-optimization" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="c1"># Enable faster JSON processing</span>
-pip<span class="w"> </span>install<span class="w"> </span>orjson
+<pre class="codehilite"><code class="language-bash"># Enable faster JSON processing
+pip install orjson
 
-<span class="c1"># GPU acceleration for visualization (optional)</span>
-pip<span class="w"> </span>install<span class="w"> </span>matplotlib<span class="o">[</span>gpu<span class="o">]</span>
+# GPU acceleration for visualization (optional)
+pip install matplotlib[gpu]
 
-<span class="c1"># Parallel processing enhancements</span>
-pip<span class="w"> </span>install<span class="w"> </span>joblib<span class="w"> </span>multiprocessing-logging
-</code></pre></div>
+# Parallel processing enhancements
+pip install joblib multiprocessing-logging
+</code></pre>
 
 <h3 id="development-tools">Development Tools<a class="headerlink" href="#development-tools" title="Permanent link">&para;</a></h3>
-<div class="codehilite"><pre><span></span><code><span class="c1"># Install additional development tools</span>
-uv<span class="w"> </span>add<span class="w"> </span>--dev<span class="w"> </span>pre-commit<span class="w"> </span>jupyter<span class="w"> </span>lab<span class="w"> </span>ipython
+<pre class="codehilite"><code class="language-bash"># Install additional development tools
+uv add --dev pre-commit jupyter lab ipython
 
-<span class="c1"># Set up pre-commit hooks</span>
-pre-commit<span class="w"> </span>install
-</code></pre></div>
+# Set up pre-commit hooks
+pre-commit install
+</code></pre>
 
 <h3 id="ide-integration">IDE Integration<a class="headerlink" href="#ide-integration" title="Permanent link">&para;</a></h3>
 <ul>
@@ -352,23 +352,23 @@ pre-commit<span class="w"> </span>install
 <h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
 <h3 id="common-issues">Common Issues<a class="headerlink" href="#common-issues" title="Permanent link">&para;</a></h3>
 <h4 id="api-key-issues">API Key Issues<a class="headerlink" href="#api-key-issues" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><code><span class="c1"># Verify API keys are loaded</span>
-uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import os; print(&#39;PERPLEXITY_API_KEY:&#39;, bool(os.getenv(&#39;PERPLEXITY_API_KEY&#39;)))&quot;</span>
-</code></pre></div>
+<pre class="codehilite"><code class="language-bash"># Verify API keys are loaded
+uv run python -c &quot;import os; print('PERPLEXITY_API_KEY:', bool(os.getenv('PERPLEXITY_API_KEY')))&quot;
+</code></pre>
 
 <h4 id="import-errors">Import Errors<a class="headerlink" href="#import-errors" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><code><span class="c1"># Ensure PYTHONPATH is set correctly</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">PYTHONPATH</span><span class="o">=</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>:<span class="nv">$PYTHONPATH</span>
-uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import src.common.paths; print(&#39;Import successful&#39;)&quot;</span>
-</code></pre></div>
+<pre class="codehilite"><code class="language-bash"># Ensure PYTHONPATH is set correctly
+export PYTHONPATH=$(pwd):$PYTHONPATH
+uv run python -c &quot;import src.common.paths; print('Import successful')&quot;
+</code></pre>
 
 <h4 id="dependency-issues">Dependency Issues<a class="headerlink" href="#dependency-issues" title="Permanent link">&para;</a></h4>
-<div class="codehilite"><pre><span></span><code><span class="c1"># Force reinstall dependencies</span>
-uv<span class="w"> </span>sync<span class="w"> </span>--reinstall
+<pre class="codehilite"><code class="language-bash"># Force reinstall dependencies
+uv sync --reinstall
 
-<span class="c1"># Check for conflicts</span>
-uv<span class="w"> </span>tree
-</code></pre></div>
+# Check for conflicts
+uv tree
+</code></pre>
 
 <h3 id="performance-considerations">Performance Considerations<a class="headerlink" href="#performance-considerations" title="Permanent link">&para;</a></h3>
 <ul>
@@ -384,22 +384,22 @@ uv<span class="w"> </span>tree
 </ul>
 <h2 id="continuous-integration-ci">Continuous Integration (CI)<a class="headerlink" href="#continuous-integration-ci" title="Permanent link">&para;</a></h2>
 <p>The default CI workflow mirrors local quality checks. To emulate CI locally:</p>
-<div class="codehilite"><pre><span></span><code>uv<span class="w"> </span>sync<span class="w"> </span>--all-extras<span class="w"> </span>--dev
-uv<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>-q
-uv<span class="w"> </span>run<span class="w"> </span>ruff<span class="w"> </span>check<span class="w"> </span>.
-uv<span class="w"> </span>run<span class="w"> </span>black<span class="w"> </span>--check<span class="w"> </span>.
-</code></pre></div>
+<pre class="codehilite"><code class="language-bash">uv sync --all-extras --dev
+uv run pytest -q
+uv run ruff check .
+uv run black --check .
+</code></pre>
 
-<div class="codehilite"><pre><span></span><code><span class="n">sequenceDiagram</span>
-<span class="w">  </span><span class="n">participant</span><span class="w"> </span><span class="n">Dev</span><span class="w"> </span><span class="kr">as</span><span class="w"> </span><span class="n">Developer</span>
-<span class="w">  </span><span class="n">participant</span><span class="w"> </span><span class="n">CI</span><span class="w"> </span><span class="kr">as</span><span class="w"> </span><span class="n">CI</span><span class="w"> </span><span class="n">Runner</span>
-<span class="w">  </span><span class="n">Dev</span><span class="o">-&gt;&gt;</span><span class="n">CI</span><span class="o">:</span><span class="w"> </span><span class="n">Push</span><span class="w"> </span><span class="n">branch</span><span class="o">/</span><span class="n">PR</span>
-<span class="w">  </span><span class="n">CI</span><span class="o">-&gt;&gt;</span><span class="n">CI</span><span class="o">:</span><span class="w"> </span><span class="n">uv</span><span class="w"> </span><span class="n">sync</span><span class="w"> </span><span class="o">--</span><span class="kr">all</span><span class="o">-</span><span class="n">extras</span><span class="w"> </span><span class="o">--</span><span class="n">dev</span>
-<span class="w">  </span><span class="n">CI</span><span class="o">-&gt;&gt;</span><span class="n">CI</span><span class="o">:</span><span class="w"> </span><span class="n">uv</span><span class="w"> </span><span class="n">run</span><span class="w"> </span><span class="n">pytest</span><span class="w"> </span><span class="o">-</span><span class="n">q</span>
-<span class="w">  </span><span class="n">CI</span><span class="o">-&gt;&gt;</span><span class="n">CI</span><span class="o">:</span><span class="w"> </span><span class="n">uv</span><span class="w"> </span><span class="n">run</span><span class="w"> </span><span class="n">ruff</span><span class="w"> </span><span class="n">check</span><span class="w"> </span><span class="p">.</span>
-<span class="w">  </span><span class="n">CI</span><span class="o">-&gt;&gt;</span><span class="n">CI</span><span class="o">:</span><span class="w"> </span><span class="n">uv</span><span class="w"> </span><span class="n">run</span><span class="w"> </span><span class="n">black</span><span class="w"> </span><span class="o">--</span><span class="n">check</span><span class="w"> </span><span class="p">.</span>
-<span class="w">  </span><span class="n">CI</span><span class="o">--&gt;&gt;</span><span class="n">Dev</span><span class="o">:</span><span class="w"> </span><span class="n">Status</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">reports</span>
-</code></pre></div>
+<pre class="codehilite"><code class="language-mermaid">sequenceDiagram
+  participant Dev as Developer
+  participant CI as CI Runner
+  Dev-&gt;&gt;CI: Push branch/PR
+  CI-&gt;&gt;CI: uv sync --all-extras --dev
+  CI-&gt;&gt;CI: uv run pytest -q
+  CI-&gt;&gt;CI: uv run ruff check .
+  CI-&gt;&gt;CI: uv run black --check .
+  CI--&gt;&gt;Dev: Status &amp; reports
+</code></pre>
 
 <p>See also: Testing policy and markers in <code>docs/TESTING.md</code>.</p></div>
             </div>
