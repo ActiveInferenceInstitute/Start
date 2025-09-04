@@ -39,7 +39,7 @@ ${MATRIX_GREEN}╔════════════════════�
 ║ ╚═╝╚═╝  ╚═══╝╚═╝     ╚══════╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═══╝ ╚═════╝║
 ║                                                               ║
 ║              ${CYBER_BLUE}🤖 THE MATRIX RUNNER 🤖${MATRIX_GREEN}                    ║
-║         ${DIM}Where AI meets overly dramatic terminal UI${MATRIX_GREEN}         ║
+║         ${DIM}Where AI meets dramatic terminal UI${MATRIX_GREEN}         ║
 ╚═══════════════════════════════════════════════════════════════╝${RESET}
 "
 

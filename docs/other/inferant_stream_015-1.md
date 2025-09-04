@@ -33,3 +33,14 @@ For the rest of the session we will go through roughly the above, plus any quest
 - Multiple implementation frameworks for Active Inference: many ways to build up along the Low Road
 - Shipping the Docs && Doc'ing the Shippment
 - From Notes to Navigation: A Site in One Sitting
+
+
+Dean T 
+​Who's map am I building? 
+The curriculum that modifies a current mind model?
+
+​So a map outside both the curriculum designer and the curriculum subject?
+
+​Is the limit of my "self-organization" my ability to generate effective prompts? It seems like I'm giving most of the organization tasks over to the processing agent which isn't me. True?
+
+​I see the AI generating and organizing...and shouldn't I practice those tasks too?
