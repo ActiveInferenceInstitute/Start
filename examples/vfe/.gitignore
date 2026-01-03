@@ -1,0 +1,5 @@
+# Generated GIF files
+gifs/*.gif
+
+# Temporary screenshot files
+temp_screenshot.png
