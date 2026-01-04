@@ -1,0 +1,21 @@
+{
+  "name": "efe-build",
+  "version": "1.0.0",
+  "description": "Build script for EFE JSX to HTML",
+  "type": "module",
+  "scripts": {
+    "build": "node build-efe.js",
+    "capture-gifs": "node capture-gifs.js"
+  },
+  "dependencies": {
+    "esbuild": "^0.19.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "lucide-react": "^0.294.0"
+  },
+  "devDependencies": {
+    "playwright": "^1.40.0",
+    "gifencoder": "^2.0.1",
+    "canvas": "^2.11.2"
+  }
+}
