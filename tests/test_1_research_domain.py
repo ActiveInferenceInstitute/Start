@@ -111,14 +111,18 @@ class TestMainFunction:
         assert "Synthetic_TestDomain.md" in call_args[1]  # domain_file
         assert "Synthetic_FEP-ActInf.md" in call_args[2]  # fep_actinf_file
 
-    @patch("research_domain.common_setup_logging")
+    @patch("research_domain.build_perplexity_client")
     @patch("research_domain.inputs_and_outputs_root")
-    def test_main_missing_fep_file(self, mock_io_root, mock_logging, tmp_path):
+    @patch("research_domain.common_setup_logging")
+    def test_main_missing_fep_file(
+        self, mock_logging, mock_io_root, mock_build_client, tmp_path
+    ):
         """Test main function when FEP-ActInf file is missing."""
         # Setup mocks
         mock_logger = Mock()
         mock_logging.return_value = mock_logger
         mock_io_root.return_value = tmp_path
+        mock_build_client.return_value = Mock()  # Return a mock client
 
         # Create domain directory but no FEP file
         domain_dir = tmp_path / "Domain"

@@ -1,18 +1,25 @@
 """Integration tests for the main run.sh script functionality.
 
 These tests verify that the Python components called by run.sh work correctly
-and that the overall system integration is sound.
+and that the overall system integration is sound. Uses real methods with no mocks.
 """
 
 from __future__ import annotations
 
 import os
 import subprocess
+import sys
 from pathlib import Path
 
 import pytest
 
 from src.common.paths import repo_root
+
+
+# Helper to get the current Python executable for subprocess calls
+def get_python_executable() -> str:
+    """Return the current Python interpreter for subprocess calls."""
+    return sys.executable
 
 
 class TestRunScriptIntegration:
@@ -63,10 +70,11 @@ assert isinstance(colored, str)
 """
 
         result = subprocess.run(
-            ["python", "-c", python_code],
+            [get_python_executable(), "-c", python_code],
             cwd=repo_root(),
             capture_output=True,
             text=True,
+            env={**os.environ, "START_REPO_ROOT": str(repo_root())},
         )
 
         assert result.returncode == 0, f"Python integration failed: {result.stderr}"
@@ -86,10 +94,11 @@ assert len(formatted) > 50
 """
 
         result = subprocess.run(
-            ["python", "-c", python_code],
+            [get_python_executable(), "-c", python_code],
             cwd=repo_root(),
             capture_output=True,
             text=True,
+            env={**os.environ, "START_REPO_ROOT": str(repo_root())},
         )
 
         assert result.returncode == 0, f"Repository manager integration failed: {result.stderr}"
@@ -115,10 +124,11 @@ assert isinstance(text, str)
 """
 
         result = subprocess.run(
-            ["python", "-c", python_code],
+            [get_python_executable(), "-c", python_code],
             cwd=repo_root(),
             capture_output=True,
             text=True,
+            env={**os.environ, "START_REPO_ROOT": str(repo_root())},
         )
 
         assert result.returncode == 0, f"Environment setup integration failed: {result.stderr}"
@@ -145,10 +155,11 @@ assert 'TEST BANNER' in banner
 """
 
         result = subprocess.run(
-            ["python", "-c", python_code],
+            [get_python_executable(), "-c", python_code],
             cwd=repo_root(),
             capture_output=True,
             text=True,
+            env={**os.environ, "START_REPO_ROOT": str(repo_root())},
         )
 
         assert result.returncode == 0, f"Menu system integration failed: {result.stderr}"
@@ -191,9 +202,10 @@ assert 'TEST BANNER' in banner
         assert generator_path.exists(), "Curriculum generator script not found"
 
         # Test that the script can be imported (basic syntax check)
+        root = repo_root()
         python_code = f"""
 import sys
-sys.path.insert(0, '{repo_root()}')
+sys.path.insert(0, '{root}')
 
 # Try to import the main functions
 try:
@@ -207,10 +219,11 @@ except Exception as e:
 """
 
         result = subprocess.run(
-            ["python", "-c", python_code],
+            [get_python_executable(), "-c", python_code],
             cwd=repo_root(),
             capture_output=True,
             text=True,
+            env={**os.environ, "START_REPO_ROOT": str(repo_root())},
         )
 
         assert result.returncode == 0, f"Curriculum generator import failed: {result.stderr}"
@@ -273,10 +286,11 @@ print("Performance tests passed")
 """
 
         result = subprocess.run(
-            ["python", "-c", python_code],
+            [get_python_executable(), "-c", python_code],
             cwd=repo_root(),
             capture_output=True,
             text=True,
+            env={**os.environ, "START_REPO_ROOT": str(repo_root())},
         )
 
         assert result.returncode == 0, f"Performance test failed: {result.stderr}"
@@ -310,10 +324,11 @@ print("Error handling tests passed")
 """
 
         result = subprocess.run(
-            ["python", "-c", python_code],
+            [get_python_executable(), "-c", python_code],
             cwd=repo_root(),
             capture_output=True,
             text=True,
+            env={**os.environ, "START_REPO_ROOT": str(repo_root())},
         )
 
         assert result.returncode == 0, f"Error handling test failed: {result.stderr}"
@@ -361,10 +376,11 @@ except Exception as e:
 """
 
             result = subprocess.run(
-                ["python", "-c", python_code],
+                [get_python_executable(), "-c", python_code],
                 cwd=repo_root(),
                 capture_output=True,
                 text=True,
+                env={**os.environ, "START_REPO_ROOT": str(repo_root())},
             )
 
             assert result.returncode == 0, f"Failed to import {import_name}: {result.stderr}"
@@ -396,10 +412,11 @@ print("Configuration check completed")
 """
 
         result = subprocess.run(
-            ["python", "-c", python_code],
+            [get_python_executable(), "-c", python_code],
             cwd=repo_root(),
             capture_output=True,
             text=True,
+            env={**os.environ, "START_REPO_ROOT": str(repo_root())},
         )
 
         assert result.returncode == 0, f"Configuration check failed: {result.stderr}"
@@ -430,10 +447,11 @@ print("Startup completed")
 """
 
         result = subprocess.run(
-            ["python", "-c", python_code],
+            [get_python_executable(), "-c", python_code],
             cwd=repo_root(),
             capture_output=True,
             text=True,
+            env={**os.environ, "START_REPO_ROOT": str(repo_root())},
         )
 
         elapsed = time.time() - start_time
@@ -462,10 +480,11 @@ print("Memory test completed")
 """
 
         result = subprocess.run(
-            ["python", "-c", python_code],
+            [get_python_executable(), "-c", python_code],
             cwd=repo_root(),
             capture_output=True,
             text=True,
+            env={**os.environ, "START_REPO_ROOT": str(repo_root())},
         )
 
         assert result.returncode == 0, f"Memory test failed: {result.stderr}"
@@ -515,10 +534,11 @@ print("End-to-end integration successful")
 """
 
         result = subprocess.run(
-            ["python", "-c", python_code],
+            [get_python_executable(), "-c", python_code],
             cwd=repo_root(),
             capture_output=True,
             text=True,
+            env={**os.environ, "START_REPO_ROOT": str(repo_root())},
         )
 
         assert result.returncode == 0, f"Integration test failed: {result.stderr}"
@@ -563,10 +583,11 @@ assert errors_handled >= 2, "Not enough error cases handled gracefully"
 """
 
         result = subprocess.run(
-            ["python", "-c", python_code],
+            [get_python_executable(), "-c", python_code],
             cwd=repo_root(),
             capture_output=True,
             text=True,
+            env={**os.environ, "START_REPO_ROOT": str(repo_root())},
         )
 
         assert result.returncode == 0, f"Error recovery test failed: {result.stderr}"
