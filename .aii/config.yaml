@@ -1,0 +1,51 @@
+# AII sidecar — InstituteOS metadata. Schema: instituteos.platform.aii_sidecar
+meta:
+  updated: '2026-06-30'
+repo:
+  name: Start
+  slug: start
+  full_name: ActiveInferenceInstitute/Start
+  description: '> **An advanced AI-powered system for creating personalized Active
+    Inference and Free Energy Principle curricula** > Quick links: [activeinference.institute](https://www.activeinference.institute/)
+    •…'
+institute:
+  category: research-software
+  maturity: released
+  steward: Active Inference Institute
+ecosystem:
+  links:
+    github: https://github.com/ActiveInferenceInstitute/Start
+    website: https://www.activeinference.org
+artifacts:
+- path: README.md
+  kind: doc
+  description: Repository overview.
+- path: src
+  kind: code
+  description: Source tree.
+- path: pyproject.toml
+  kind: code
+  description: Python package config.
+- path: LICENSE
+  kind: doc
+  description: License.
+provenance:
+  license: CC-BY-SA-4.0
+  citation:
+    zenodo: https://zenodo.org/badge/latestdoi/903921695
+instituteos:
+  tags:
+  - start
+  - advanced
+  - powered
+  - system
+  - creating
+  - python
+capabilities:
+- python-package
+- tested
+- documentation
+tasks:
+  test:
+    cmd: python -m pytest
+    description: Run the test suite.
