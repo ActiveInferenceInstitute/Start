@@ -13,6 +13,12 @@ institute:
   maturity: released
   steward: Active Inference Institute
 ecosystem:
+  relations:
+  - repo: ActiveInferenceInstitute/InstituteOS
+    relation: referenced-by
+    note: Federated via the InstituteOS .aii manifest.
+  - repo: ActiveInferenceInstitute/Active_Inference_Ontology
+    note: Uses Active Inference Ontology terms.
   links:
     github: https://github.com/ActiveInferenceInstitute/Start
     website: https://www.activeinference.org
@@ -33,6 +39,7 @@ provenance:
   license: CC-BY-SA-4.0
   citation:
     zenodo: https://zenodo.org/badge/latestdoi/903921695
+    text: Active Inference Institute — Start.
 instituteos:
   tags:
   - start
