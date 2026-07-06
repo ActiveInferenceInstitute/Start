@@ -21,10 +21,10 @@ spec = importlib.util.spec_from_file_location("visualizations", viz_script_path)
 visualizations = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(visualizations)
 
-# Add to sys.modules so patches work
-import sys
+import sys  # noqa: E402
 
-sys.modules["visualizations"] = visualizations
+# Add to sys.modules so patches work
+sys.modules["visualizations"] = visualizations  # noqa: E402
 
 
 class TestExtractCurriculumMetadata:
@@ -82,7 +82,7 @@ Application content.
 
         assert (
             result["section_count"] == 4
-        )  # Four headers (# Main Title, ## Introduction, ## Mathematical Framework, ## Practical Applications)
+        )  # Four headers (# Main Title, ## Introduction, ## Mathematical Framework, ## Practical Applications)  # noqa: E501
         sections = result["sections"]
         assert "Introduction to Active Inference" in sections
         assert "Mathematical Framework" in sections

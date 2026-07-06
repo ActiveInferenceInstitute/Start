@@ -157,9 +157,8 @@ class TestMainFunction:
     """Test main function integration."""
 
     @patch("write_introduction.common_setup_logging")
-    @patch("write_introduction.inputs_and_outputs_root")
-    @patch("write_introduction.data_written_curriculums_dir")
     @patch("write_introduction.data_domain_research_dir")
+    @patch("write_introduction.data_written_curriculums_dir")
     @patch("write_introduction.data_audience_research_dir")
     @patch("write_introduction.build_openrouter_client")
     @patch("write_introduction.process_research_directory")
@@ -168,9 +167,8 @@ class TestMainFunction:
         mock_process_dir,
         mock_build_client,
         mock_audience_dir,
-        mock_domain_dir,
         mock_output_dir,
-        mock_inputs_root,
+        mock_domain_dir,
         mock_logging,
         tmp_path,
     ):
@@ -178,17 +176,15 @@ class TestMainFunction:
         # Setup mocks
         mock_logger = Mock()
         mock_logging.return_value = mock_logger
-        mock_inputs_root.return_value = tmp_path / "inputs"
-        mock_output_dir.return_value = tmp_path / "output"
         mock_domain_dir.return_value = tmp_path / "domain"
+        mock_output_dir.return_value = tmp_path / "output"
         mock_audience_dir.return_value = tmp_path / "audience"
 
         # Create required directories and files
-        (tmp_path / "inputs").mkdir()
-        (tmp_path / "output").mkdir()
         (tmp_path / "domain").mkdir()
+        (tmp_path / "output").mkdir()
         (tmp_path / "audience").mkdir()
-        (tmp_path / "inputs" / "Synthetic_FEP-ActInf.md").write_text("FEP content")
+        (tmp_path / "domain" / "Synthetic_FEP-ActInf.md").write_text("FEP content")
 
         mock_client = Mock()
         mock_build_client.return_value = mock_client
@@ -205,15 +201,15 @@ class TestMainFunction:
         assert mock_process_dir.call_count == 2  # domain and audience research
 
     @patch("write_introduction.common_setup_logging")
-    @patch("write_introduction.inputs_and_outputs_root")
-    def test_main_missing_fep_file(self, mock_inputs_root, mock_logging, tmp_path):
+    @patch("write_introduction.data_domain_research_dir")
+    def test_main_missing_fep_file(self, mock_domain_dir, mock_logging, tmp_path):
         """Test main function when FEP-ActInf file is missing."""
         mock_logger = Mock()
         mock_logging.return_value = mock_logger
-        mock_inputs_root.return_value = tmp_path / "inputs"
+        mock_domain_dir.return_value = tmp_path / "domain"
 
-        # Create inputs directory but no FEP file
-        (tmp_path / "inputs").mkdir()
+        # Create domain directory but no FEP file
+        (tmp_path / "domain").mkdir()
 
         # Mock sys.argv
         with patch("sys.argv", ["script_name"]):
@@ -225,35 +221,31 @@ class TestMainFunction:
         assert "FEP-ActInf file not found" in error_msg
 
     @patch("write_introduction.common_setup_logging")
-    @patch("write_introduction.inputs_and_outputs_root")
-    @patch("write_introduction.data_written_curriculums_dir")
     @patch("write_introduction.data_domain_research_dir")
+    @patch("write_introduction.data_written_curriculums_dir")
     @patch("write_introduction.data_audience_research_dir")
     @patch("write_introduction.build_openrouter_client")
     def test_main_client_initialization_error(
         self,
         mock_build_client,
         mock_audience_dir,
-        mock_domain_dir,
         mock_output_dir,
-        mock_inputs_root,
+        mock_domain_dir,
         mock_logging,
         tmp_path,
     ):
         """Test main function when client initialization fails."""
         mock_logger = Mock()
         mock_logging.return_value = mock_logger
-        mock_inputs_root.return_value = tmp_path / "inputs"
-        mock_output_dir.return_value = tmp_path / "output"
         mock_domain_dir.return_value = tmp_path / "domain"
+        mock_output_dir.return_value = tmp_path / "output"
         mock_audience_dir.return_value = tmp_path / "audience"
 
         # Create required directories and files
-        (tmp_path / "inputs").mkdir()
-        (tmp_path / "output").mkdir()
         (tmp_path / "domain").mkdir()
+        (tmp_path / "output").mkdir()
         (tmp_path / "audience").mkdir()
-        (tmp_path / "inputs" / "Synthetic_FEP-ActInf.md").write_text("FEP content")
+        (tmp_path / "domain" / "Synthetic_FEP-ActInf.md").write_text("FEP content")
 
         mock_build_client.side_effect = Exception("API key not found")
 

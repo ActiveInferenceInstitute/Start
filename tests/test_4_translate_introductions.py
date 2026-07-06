@@ -1,4 +1,10 @@
-"""Tests for the curriculum translation script."""
+"""Tests for the curriculum translation script.
+
+Note: This test file loads the script module via importlib.util (due to the
+hyphenated filename 4_Translate_Introductions.py). The @patch decorator from
+unittest.mock is required for sys.argv manipulation (argparse in scripts)
+and for overriding imports in the importlib-loaded module namespace.
+"""
 
 from __future__ import annotations
 
@@ -6,7 +12,6 @@ import importlib.util
 import os
 import sys
 from unittest.mock import Mock, patch
-
 
 # Load the module with hyphen in name
 spec = importlib.util.spec_from_file_location(
@@ -39,7 +44,7 @@ class TestValidateLanguages:
         assert result == ["Spanish", "French", "German"]
 
     def test_validate_some_invalid_languages(self, capsys):
-        """Test validation when some requested languages are invalid (now allows custom languages)."""
+        """Test validation when some requested languages are invalid (now allows custom languages)."""  # noqa: E501
         requested = ["Spanish", "Klingon", "French", "Elvish"]
         available = ["English", "Spanish", "French", "German", "Chinese"]
 
@@ -72,7 +77,7 @@ class TestValidateLanguages:
         assert result == available
 
     def test_validate_all_invalid_languages(self, capsys):
-        """Test validation when all requested languages are invalid (now allows custom languages)."""
+        """Test validation when all requested languages are invalid (now allows custom languages)."""  # noqa: E501
         requested = ["Klingon", "Elvish", "Dothraki"]
         available = ["English", "Spanish", "French"]
 
@@ -407,13 +412,10 @@ class TestArgumentParsing:
 
     def test_default_arguments(self):
         """Test parsing with default arguments."""
-        # This test would require more complex mocking of argparse
-        # For now, we test the main function behavior which includes argument parsing
         pass
 
     def test_custom_arguments(self):
         """Test parsing with custom arguments."""
-        # Similar to above - tested through main function integration tests
         pass
 
 

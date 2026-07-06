@@ -41,9 +41,9 @@ def generate_curriculum_metrics(
 
 
 def run(input_root: str, output_root: str) -> None:
-    from src.common.paths import inputs_and_outputs_root
+    from src.common.paths import data_written_curriculums_dir
 
-    base_dir = Path(inputs_and_outputs_root()) / "Written_Curriculums"
+    base_dir = data_written_curriculums_dir()
     collected = collect_curriculum_files(str(base_dir))
     if not collected:
         return

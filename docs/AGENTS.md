@@ -30,6 +30,7 @@ Technical documentation for the documentation directory structure and organizati
 - `clones.md`: Repository clone management
 - `learning_api_integration.md`: API integration guide
 - `learning_usage_guide.md`: Usage guide
+- `curriculum_gui.md`: Browser-based curriculum generator GUI
 
 ### Subdirectories
 - `other/`: Additional documentation resources

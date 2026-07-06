@@ -32,20 +32,19 @@ project_root = (
 )  # Go up two levels: curriculum_creation -> learning -> start
 sys.path.insert(0, str(project_root))
 
-from src.common.logging_utils import setup_logging as common_setup_logging
-from src.common.paths import (
+from src.common.logging_utils import setup_logging as common_setup_logging  # noqa: E402
+from src.common.paths import (  # noqa: E402
     data_audience_research_dir,
     data_domain_research_dir,
     data_translated_curriculums_dir,
     data_visualizations_dir,
     data_written_curriculums_dir,
-    inputs_and_outputs_root,
 )
-from src.config.languages import get_target_languages
-from src.perplexity.clients import build_openrouter_client, build_perplexity_client
-from src.perplexity.domain import analyze_domain
-from src.perplexity.entity import research_target_audience
-from src.perplexity.translation import process_translations
+from src.config.languages import get_target_languages  # noqa: E402
+from src.perplexity.clients import build_openrouter_client, build_perplexity_client  # noqa: E402
+from src.perplexity.domain import analyze_domain  # noqa: E402
+from src.perplexity.entity import research_target_audience  # noqa: E402
+from src.perplexity.translation import process_translations  # noqa: E402
 
 
 # Import functions from the existing scripts by loading them as modules
@@ -507,7 +506,6 @@ class CurriculumOrchestrator:
             client = build_openrouter_client()
 
             # Setup paths
-            io_root = inputs_and_outputs_root()
             audience_research_dir = self.config.entity_research_dir or data_audience_research_dir()
             domain_research_dir = self.config.domain_research_dir or data_domain_research_dir()
             fep_actinf_file = project_root / "data" / "domain_research" / "Synthetic_FEP-ActInf.md"
@@ -751,7 +749,7 @@ def get_interactive_inputs() -> tuple[str, str, str, str]:
     # Get domain input with validation and option to create new
     print(f"📚 Select Domain (default: {DEFAULT_DOMAIN})")
     print(
-        f"Available domains: {', '.join(available_domains[:5])}{'...' if len(available_domains) > 5 else ''}"
+        f"Available domains: {', '.join(available_domains[:5])}{'...' if len(available_domains) > 5 else ''}"  # noqa: E501
     )
     print("💡 Tip: You can also enter a new domain name to create a custom domain!")
 
@@ -775,7 +773,7 @@ def get_interactive_inputs() -> tuple[str, str, str, str]:
     # Get entity input with validation and option to create new
     print(f"\n👤 Select Target Entity (default: {DEFAULT_ENTITY})")
     print(
-        f"Available entities: {', '.join(available_entities[:5])}{'...' if len(available_entities) > 5 else ''}"
+        f"Available entities: {', '.join(available_entities[:5])}{'...' if len(available_entities) > 5 else ''}"  # noqa: E501
     )
     print("💡 Tip: You can also enter a new entity name to create a custom target audience!")
 
@@ -804,7 +802,7 @@ def get_interactive_inputs() -> tuple[str, str, str, str]:
     # Get language input with validation and option to create new
     print(f"\n🌍 Select Target Language (default: {DEFAULT_LANGUAGE})")
     print(
-        f"Available languages: {', '.join(available_languages[:5])}{'...' if len(available_languages) > 5 else ''}"
+        f"Available languages: {', '.join(available_languages[:5])}{'...' if len(available_languages) > 5 else ''}"  # noqa: E501
     )
     print("💡 Tip: You can also enter a new language name to create a custom translation target!")
 
@@ -821,7 +819,7 @@ def get_interactive_inputs() -> tuple[str, str, str, str]:
             if create_new in ["y", "yes"]:
                 print(f"✅ Created custom language: '{language}'")
                 print(
-                    "🔤 Note: Translation quality may vary for custom languages not in the AI model's training."
+                    "🔤 Note: Translation quality may vary for custom languages not in the AI model's training."  # noqa: E501
                 )
                 break
             else:

@@ -71,7 +71,7 @@ def load_markdown_config(name: str) -> Dict[str, Any]:
         frontmatter = content[4:end_marker]
         return yaml.safe_load(frontmatter)
     except yaml.YAMLError as e:
-        raise ValueError(f"Invalid YAML frontmatter in {config_path}: {e}")
+        raise ValueError(f"Invalid YAML frontmatter in {config_path}: {e}") from e
 
 
 def validate_config_data(data: Dict[str, Any], name: str) -> Dict[str, Any]:

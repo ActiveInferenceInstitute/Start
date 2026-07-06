@@ -162,8 +162,9 @@ class TestRepositoryManager:
             progress_callback=None,
         )
 
+    @patch("pathlib.Path.exists", return_value=True)
     @patch("src.repos.manager.update_repository")
-    def test_update_repository(self, mock_update):
+    def test_update_repository(self, mock_update, mock_exists):
         """Test updating a single repository."""
         manager = RepositoryManager(base_dir=Path("/test/clones"))
         mock_update.return_value = (True, "Updated successfully")

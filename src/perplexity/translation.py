@@ -76,7 +76,8 @@ def translate_curriculum(
     translated_chunks: list[str] = []
     system = (
         f"You are an expert translator specializing in academic and technical content translation "
-        f"to {target_language}, with deep understanding of the target language's cultural and academic context."
+        f"to {target_language}, with deep understanding of the target language's "
+        f"cultural and academic context."
     )
     for chunk in chunks:
         prompt = generate_translation_prompt(chunk, target_language)

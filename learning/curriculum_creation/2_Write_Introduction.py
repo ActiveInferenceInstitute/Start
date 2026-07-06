@@ -17,7 +17,6 @@ from src.common.paths import (
     data_audience_research_dir,
     data_domain_research_dir,
     data_written_curriculums_dir,
-    inputs_and_outputs_root,
 )
 from src.perplexity.clients import build_openrouter_client
 from src.perplexity.curriculum import process_research_file
@@ -124,7 +123,7 @@ def process_research_directory(
             continue
 
     logger.info(
-        f"Completed processing {dir_type} directory: {success_count} successful, {error_count} failed"
+        f"Completed processing {dir_type} directory: {success_count} successful, {error_count} failed"  # noqa: E501
     )
     return success_count, error_count
 
@@ -145,15 +144,10 @@ def main():
 
     try:
         # Setup paths - using data/ structure
-        io_root = inputs_and_outputs_root()
         audience_research_dir = data_audience_research_dir()
         domain_research_dir = data_domain_research_dir()
-        # Support FEP file either directly under inputs root or in Domain subdir
-        fep_actinf_file = io_root / "Domain" / "Synthetic_FEP-ActInf.md"
-        if not fep_actinf_file.exists():
-            alt = io_root / "Synthetic_FEP-ActInf.md"
-            if alt.exists():
-                fep_actinf_file = alt
+        # Locate FEP-ActInf reference in data/domain_research/
+        fep_actinf_file = data_domain_research_dir() / "Synthetic_FEP-ActInf.md"
         output_dir = data_written_curriculums_dir()
 
         # Validate input files exist
@@ -167,7 +161,7 @@ def main():
             client = build_openrouter_client()
         except Exception as e:
             logger.error(
-                f"Failed to initialize OpenRouter client: {e}. Please check your OPENROUTER_API_KEY environment variable"
+                f"Failed to initialize OpenRouter client: {e}. Please check your OPENROUTER_API_KEY environment variable"  # noqa: E501
             )
             return
 

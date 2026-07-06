@@ -17,7 +17,9 @@ Design notes:
 
 from __future__ import annotations
 
+import importlib.util
 import json
+import sys
 import threading
 import time
 import webbrowser
@@ -26,9 +28,6 @@ from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional, Tuple
-import importlib.util
-import sys
-
 
 # Ensure project root is on path for `src` imports used by orchestrator
 SCRIPT_DIR = Path(__file__).parent
@@ -189,7 +188,7 @@ def build_config_from_form(
     )
     if entity_description:
         # Attach as a private attribute consumed by orchestrator when creating custom entity
-        setattr(cfg, "_custom_entity_description", entity_description)
+        cfg._custom_entity_description = entity_description
     return cfg
 
 
@@ -210,7 +209,7 @@ def _wrap_stages_for_progress(orchestrator: Any) -> None:
                 ok = fn()
                 with _STATUS_LOCK:
                     _STATUS.progress = estimate_progress(i + 1, in_stage=False)
-                    _STATUS.message = (f"Completed {name}" if ok else f"Failed {name}")
+                    _STATUS.message = f"Completed {name}" if ok else f"Failed {name}"
                     _STATUS.eta_seconds = estimate_eta_seconds(_STATUS.started_at, _STATUS.progress)
                 return ok
 
@@ -222,14 +221,16 @@ def _wrap_stages_for_progress(orchestrator: Any) -> None:
 def _results_to_summary_html(results: Dict[str, Any]) -> str:
     """Convert orchestrator results dict to a small HTML summary block."""
     parts: List[str] = [
-        "<div style=\"font-family:system-ui,Segoe UI,Roboto,Arial\">",
+        '<div style="font-family:system-ui,Segoe UI,Roboto,Arial">',
         "<h2>Run Summary</h2>",
         "<ul>",
     ]
     for key, data in results.items():
         if isinstance(data, dict) and "success" in data:
             if key == "visualizations":
-                status = "Success" if data.get("success") else f"Failed: {data.get('error', 'Unknown')}"
+                status = (
+                    "Success" if data.get("success") else f"Failed: {data.get('error', 'Unknown')}"
+                )
                 parts.append(f"<li><b>{key.replace('_', ' ').title()}</b>: {status}</li>")
             else:
                 succ = data.get("success", 0)
@@ -282,7 +283,9 @@ class _GuiHandler(BaseHTTPRequestHandler):
 
     server_version = "CurriculumGUI/1.0"
 
-    def _set_headers(self, status: int = 200, content_type: str = "text/html; charset=utf-8") -> None:
+    def _set_headers(
+        self, status: int = 200, content_type: str = "text/html; charset=utf-8"
+    ) -> None:
         self.send_response(status)
         self.send_header("Content-Type", content_type)
         self.send_header("Cache-Control", "no-store")
@@ -390,7 +393,7 @@ class _GuiHandler(BaseHTTPRequestHandler):
         self.wfile.write(b"Started")
 
 
-_INDEX_HTML = """
+_INDEX_HTML = """  # noqa: E501
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -554,7 +557,9 @@ def _open_browser(url: str) -> None:
         pass
 
 
-def run_gui_server(host: str = "127.0.0.1", port: int = 8765, open_browser_delay: float = 0.6) -> None:
+def run_gui_server(
+    host: str = "127.0.0.1", port: int = 8765, open_browser_delay: float = 0.6
+) -> None:
     """Start the GUI HTTP server and open the default browser."""
     httpd = ThreadingHTTPServer((host, port), _GuiHandler)
     url = f"http://{host}:{port}/"
@@ -575,5 +580,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
-

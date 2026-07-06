@@ -9,7 +9,6 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple, Union
-from unittest.mock import MagicMock, Mock  # type: ignore
 
 from .cloning import (
     CloneResult,
@@ -166,13 +165,8 @@ class RepositoryManager:
             Tuple of (success, message)
         """
         repo_path = self.base_dir / repo_name
-        # If the imported update function is patched (a Mock), delegate regardless of FS
-        if isinstance(update_repository, (Mock, MagicMock)):
-            return update_repository(repo_path)
-        # Otherwise, if repo path doesn't exist, report not found
         if not repo_path.exists():
             return False, f"Repository not found: {repo_name}"
-        # Delegate to updater which will validate repository state
         return update_repository(repo_path)
 
     def update_all_repositories(self) -> List[Tuple[str, bool, str]]:

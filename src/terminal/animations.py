@@ -291,7 +291,7 @@ def boot_sequence(steps: List[str], delay: float = 0.5) -> Generator[str, None, 
     yield matrix_text("INITIALIZING ACTIVE INFERENCE MATRIX...", "cyber")
     time.sleep(delay)
 
-    for i, step in enumerate(steps):
+    for _i, step in enumerate(steps):
         # Show loading spinner for each step
         spinner = LoadingSpinner(step, "matrix")
 

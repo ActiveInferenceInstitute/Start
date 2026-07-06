@@ -2,12 +2,11 @@
 
 Uses real imports instead of dynamic module loading to avoid Python 3.13 dataclass issues.
 """
+
 from __future__ import annotations
 
 import sys
 from pathlib import Path
-
-import pytest
 
 # Ensure project root is on path for imports
 SCRIPT_DIR = Path(__file__).parent.parent / "learning" / "curriculum_creation"
@@ -37,9 +36,7 @@ class TestBuildConfigFromForm:
         """Test building config with custom entity description."""
         from learning.curriculum_creation.generate_curriculum_gui import build_config_from_form
 
-        cfg = build_config_from_form(
-            "neuroscience", "custom_person", "French", "A custom audience"
-        )
+        cfg = build_config_from_form("neuroscience", "custom_person", "French", "A custom audience")
         assert cfg.target_domains == ["neuroscience"]
         assert cfg.target_entities == ["custom_person"]
         assert cfg.target_languages == ["French"]

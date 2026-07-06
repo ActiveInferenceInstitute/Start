@@ -293,7 +293,7 @@ def check_environment_variables() -> List[DependencyCheck]:
     import os
 
     # Check required variables
-    for var_name, description in required_env_vars:
+    for var_name, _description in required_env_vars:
         check = DependencyCheck(name=f"env.{var_name}", required=True, available=False)
 
         value = os.environ.get(var_name)
@@ -308,7 +308,7 @@ def check_environment_variables() -> List[DependencyCheck]:
         checks.append(check)
 
     # Check optional variables
-    for var_name, description in optional_env_vars:
+    for var_name, _description in optional_env_vars:
         check = DependencyCheck(name=f"env.{var_name}", required=False, available=False)
 
         value = os.environ.get(var_name)

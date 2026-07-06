@@ -46,4 +46,7 @@ target-version = "py310"
 select = ["E", "F", "I", "B"]
 ignore = []
 
+[tool.ruff.per-file-ignores]
+"learning/curriculum_creation/generate_curriculum_gui.py" = ["E501"]
+
 

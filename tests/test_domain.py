@@ -9,10 +9,9 @@ import json
 import os
 from pathlib import Path
 
-import pytest
+from fixtures import ApiTestClient
 
 from src.perplexity.domain import DomainResult, analyze_domain, chat
-from fixtures import ApiTestClient
 
 
 class TestDomainResult:

@@ -1,9 +1,16 @@
-"""Tests for the entity research module."""
+"""Tests for the entity research module.
+
+Uses ApiTestClient (domestic test object) from fixtures.py rather than
+unittest.mock or hand-rolled mock classes.
+"""
 
 from __future__ import annotations
 
+import json
 import os
 from pathlib import Path
+
+from fixtures import ApiTestClient
 
 from src.perplexity.entity import ResearchResult, chat, research_target_audience
 
@@ -25,40 +32,18 @@ def test_research_result_dataclass():
     assert result.processing_time == "2.30 seconds"
 
 
-def test_chat_function(monkeypatch):
-    """Test chat function with mocked OpenAI client."""
-
-    class MockResponse:
-        def __init__(self, content):
-            self.choices = [MockChoice(content)]
-
-    class MockChoice:
-        def __init__(self, content):
-            self.message = MockMessage(content)
-
-    class MockMessage:
-        def __init__(self, content):
-            self.content = content
-
-    class MockCompletions:
-        def create(self, model, messages):
-            return MockResponse("Mock research response")
-
-    class MockChat:
-        def __init__(self):
-            self.completions = MockCompletions()
-
-    class MockClient:
-        def __init__(self):
-            self.chat = MockChat()
-
-    mock_client = MockClient()
-    result = chat(mock_client, "test prompt", "test system")
+def test_chat_function():
+    """Test chat function with domestic test client."""
+    client = ApiTestClient(
+        responses={"researcher": "Mock research response", "test system": "Mock research response"}
+    )
+    result = chat(client, "test prompt", "test system")
     assert result == "Mock research response"
+    assert client.chat.completions.call_count == 1
 
 
-def test_research_target_audience_file_processing(tmp_path, monkeypatch):
-    """Test research_target_audience function with file I/O (using mocked client)."""
+def test_research_target_audience_file_processing(tmp_path):
+    """Test research_target_audience function with file I/O (using domestic test client)."""
 
     # Create test files
     entity_file = tmp_path / "test_entity.md"
@@ -67,32 +52,7 @@ def test_research_target_audience_file_processing(tmp_path, monkeypatch):
     fep_actinf_file = tmp_path / "fep_actinf.md"
     fep_actinf_file.write_text("Test FEP-ActInf data", encoding="utf-8")
 
-    # Mock the OpenAI client
-    class MockResponse:
-        def __init__(self, content):
-            self.choices = [MockChoice(content)]
-
-    class MockChoice:
-        def __init__(self, content):
-            self.message = MockMessage(content)
-
-    class MockMessage:
-        def __init__(self, content):
-            self.content = content
-
-    class MockCompletions:
-        def create(self, model, messages):
-            return MockResponse("Mock audience research data")
-
-    class MockChat:
-        def __init__(self):
-            self.completions = MockCompletions()
-
-    class MockClient:
-        def __init__(self):
-            self.chat = MockChat()
-
-    mock_client = MockClient()
+    mock_client = ApiTestClient(responses={"research": "Mock audience research data"})
     output_dir = str(tmp_path / "output")
 
     # Create output directory
@@ -116,8 +76,6 @@ def test_research_target_audience_file_processing(tmp_path, monkeypatch):
     assert len(json_files) == 1
 
     # Check JSON content
-    import json
-
     with open(json_files[0], "r", encoding="utf-8") as f:
         json_data = json.load(f)
 
@@ -147,32 +105,7 @@ def test_research_target_audience_default_output_dir(tmp_path, monkeypatch):
     fep_actinf_file = tmp_path / "fep_actinf.md"
     fep_actinf_file.write_text("Test FEP-ActInf data", encoding="utf-8")
 
-    # Mock the OpenAI client
-    class MockResponse:
-        def __init__(self, content):
-            self.choices = [MockChoice(content)]
-
-    class MockChoice:
-        def __init__(self, content):
-            self.message = MockMessage(content)
-
-    class MockMessage:
-        def __init__(self, content):
-            self.content = content
-
-    class MockCompletions:
-        def create(self, model, messages):
-            return MockResponse("Mock research with default dir")
-
-    class MockChat:
-        def __init__(self):
-            self.completions = MockCompletions()
-
-    class MockClient:
-        def __init__(self):
-            self.chat = MockChat()
-
-    mock_client = MockClient()
+    mock_client = ApiTestClient(responses={"research": "Mock research with default dir"})
 
     # Call with empty output_dir to test default
     result = research_target_audience(mock_client, str(entity_file), str(fep_actinf_file), "")
@@ -188,7 +121,7 @@ def test_research_target_audience_default_output_dir(tmp_path, monkeypatch):
 
 
 def test_research_target_audience_real_client():
-    """Integration test with Perplexity client (uses mock if no key available)."""
+    """Integration test with real Perplexity client config (no API call)."""
     from src.perplexity.clients import PerplexityConfig, build_perplexity_client
 
     if not os.getenv("PERPLEXITY_API_KEY"):

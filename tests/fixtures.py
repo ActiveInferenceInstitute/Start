@@ -141,7 +141,7 @@ class ApiTestClient:
             api_key: Test API key (stored but not validated)
             base_url: Test base URL (stored but not used)
             responses: Dict mapping keywords in prompts to response content.
-                      Example: {"domain analysis": "Analysis result", "curriculum": "Curriculum content"}
+                      Example: {"domain analysis": "Analysis result"}
         """
         self.api_key = api_key
         self.base_url = base_url

@@ -109,12 +109,12 @@ def main():
         logger.info(f"Input directory: {input_dir}")
         logger.info(f"Output directory: {output_dir}")
 
-        # Load target languages from configuration (before scanning files to surface config issues early)
+        # Load target languages from configuration (before scanning files to surface config issues early)  # noqa: E501
         try:
             available_languages = get_target_languages()
             if available_languages:
                 logger.info(
-                    f"Available languages from config: {', '.join(available_languages[:5])}{'...' if len(available_languages) > 5 else ''}"
+                    f"Available languages from config: {', '.join(available_languages[:5])}{'...' if len(available_languages) > 5 else ''}"  # noqa: E501
                 )
         except Exception as e:
             logger.error(f"Failed to load language configuration: {e}")

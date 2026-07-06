@@ -16,7 +16,7 @@ from typing import Any, Dict, List
 
 from src.common.config import load_config
 from src.common.logging_utils import setup_logging as common_setup_logging
-from src.common.paths import data_audience_research_dir, inputs_and_outputs_root
+from src.common.paths import data_audience_research_dir, data_domain_research_dir
 from src.perplexity.clients import build_perplexity_client
 from src.perplexity.entity import research_target_audience
 
@@ -43,7 +43,7 @@ def load_entities_config() -> Dict[str, Any]:
             "    description: Example entity description\n"
             "    category: professional\n"
             "    priority: medium"
-        )
+        ) from None  # FileNotFoundError — no chained exception needed
 
     if not config or "entities" not in config:
         raise ValueError(
@@ -141,7 +141,7 @@ def main():
         skip_existing = not args.overwrite and research_config.get("skip_existing", True)
 
         # Setup paths
-        fep_actinf_file = inputs_and_outputs_root() / "Domain" / "Synthetic_FEP-ActInf.md"
+        fep_actinf_file = data_domain_research_dir() / "Synthetic_FEP-ActInf.md"
         output_dir = data_audience_research_dir()
 
         # Validate input files exist
@@ -204,11 +204,11 @@ def main():
 
                 logger.info(f"Analyzing entity: {entity_name}")
                 logger.debug(
-                    f"Description: {entity_description[:100]}{'...' if len(entity_description) > 100 else ''}"
+                    f"Description: {entity_description[:100]}{'...' if len(entity_description) > 100 else ''}"  # noqa: E501
                 )
 
                 # Create entity data for research
-                entity_data = f"Entity Name: {entity_name}\nDescription: {entity_description}\nCategory: {entity.get('category', 'unknown')}"
+                entity_data = f"Entity Name: {entity_name}\nDescription: {entity_description}\nCategory: {entity.get('category', 'unknown')}"  # noqa: E501
 
                 # Call the research function with entity data directly
                 result = research_target_audience(
@@ -216,7 +216,7 @@ def main():
                 )
                 success_count += 1
                 logger.info(
-                    f"✅ Successfully processed: {entity_name} (processing time: {result.processing_time})"
+                    f"✅ Successfully processed: {entity_name} (processing time: {result.processing_time})"  # noqa: E501
                 )
 
             except KeyboardInterrupt:

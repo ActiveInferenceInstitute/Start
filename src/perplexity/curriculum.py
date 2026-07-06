@@ -22,7 +22,8 @@ from src.common.prompts import render_prompt
 SYSTEM = (
     "You are an expert researcher and educator specializing in creating comprehensive, "
     "high-quality technical content. Your goal is to provide the most thorough, accurate, "
-    "and well-structured information possible, with extensive references and practical applications."
+    "and well-structured information possible, with extensive references and "
+    "practical applications."
 )
 
 
@@ -178,7 +179,7 @@ def _load_research_content(research_file: str) -> tuple[str, str]:
             raw = read_text(path)
             data = json.loads(raw)
         except Exception as exc:
-            raise ValueError(f"Failed to parse JSON research file {path.name}: {exc}")
+            raise ValueError(f"Failed to parse JSON research file {path.name}: {exc}") from exc
         parts: list[str] = []
         # Audience research
         if isinstance(data.get("research_data"), str) and data["research_data"].strip():
@@ -326,8 +327,9 @@ def process_research_file(
                         )
                         if not section_validation["valid"]:
                             raise ValueError(
-                                f"Generated content invalid: {', '.join(section_validation['errors'])}"
-                            )
+                                f"Generated content invalid: "
+                                f"{', '.join(section_validation['errors'])}"
+                            ) from None
                         # Optionally log warnings but proceed
                         for warning in section_validation.get("warnings", []):
                             print(f"Generated section warning for {section_name}: {warning}")

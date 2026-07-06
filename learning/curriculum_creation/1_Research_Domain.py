@@ -16,7 +16,7 @@ from typing import Any, Dict, List
 
 from src.common.config import load_config
 from src.common.logging_utils import setup_logging as common_setup_logging
-from src.common.paths import data_domain_research_dir, inputs_and_outputs_root
+from src.common.paths import data_domain_research_dir
 from src.perplexity.clients import build_perplexity_client
 from src.perplexity.domain import analyze_domain
 
@@ -50,7 +50,7 @@ def load_domains_config() -> Dict[str, Any]:
             "    category: general\n"
             "    keywords: [keyword1, keyword2]\n"
             "    priority: medium"
-        )
+        ) from None  # FileNotFoundError — no chained exception needed
 
     if not config or "domains" not in config:
         raise ValueError(
@@ -166,7 +166,7 @@ def main():
     )
     parser.add_argument(
         "--category",
-        help="Process only domains in specific category (e.g., life_sciences, technology, business)",
+        help="Process only domains in specific category (e.g., life_sciences, technology, business)",  # noqa: E501
     )
     parser.add_argument("--domain", help="Process only specific domain by name")
     # Use parse_known_args to ignore pytest args like -q
@@ -181,7 +181,7 @@ def main():
         client = build_perplexity_client()
 
         # Setup paths
-        fep_actinf_file = inputs_and_outputs_root() / "Domain" / "Synthetic_FEP-ActInf.md"
+        fep_actinf_file = data_domain_research_dir() / "Synthetic_FEP-ActInf.md"
         output_dir = data_domain_research_dir()
 
         # Validate FEP/ActInf reference
@@ -189,8 +189,8 @@ def main():
             logger.error(f"FEP-ActInf file not found: {fep_actinf_file}")
             return
 
-        # Prefer explicit domain files when present
-        domain_dir = inputs_and_outputs_root() / "Domain"
+        # Read domain files from data/domain_research/
+        domain_dir = data_domain_research_dir()
         domain_files = get_domain_files(domain_dir)
         if not domain_files:
             logger.warning("No domain files found in Domain directory")

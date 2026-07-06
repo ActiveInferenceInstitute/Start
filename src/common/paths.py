@@ -19,7 +19,9 @@ def find_repo_root(start: Optional[os.PathLike | str] = None) -> Path:
             root = candidate if candidate.is_dir() else candidate.parent
         except Exception:
             root = candidate.parent
-        if Path.exists(root / ".git") or Path.exists(root / "README.md"):
+        # Look for the distinctive repo-level markers: .git AND pyproject.toml
+        # (src/README.md exists within the repo but is NOT the repo root)
+        if Path.exists(root / ".git") and Path.exists(root / "pyproject.toml"):
             return root
     # Fallback to current working directory
     return Path.cwd().resolve()
@@ -30,18 +32,31 @@ def repo_root() -> Path:
 
 
 def languages_root() -> Path:
+    """Legacy: returns repo_root() / 'Languages'. Prefer data_root() for new code."""
     return repo_root() / "Languages"
 
 
 def inputs_and_outputs_root() -> Path:
+    """Legacy: returns repo_root() / 'Languages' / 'Inputs_and_Outputs'.
+
+    Prefer data_*_dir() functions for new code (data_root() / domain_research/ etc.).
+    """
     return languages_root() / "Inputs_and_Outputs"
 
 
 def domain_dir() -> Path:
+    """Legacy: returns inputs_and_outputs_root() / 'Domain'.
+
+    Prefer data_domain_research_dir() for the actual data/ directory.
+    """
     return inputs_and_outputs_root() / "Domain"
 
 
 def domain_research_dir() -> Path:
+    """Legacy: returns inputs_and_outputs_root() / 'Domain_Research'.
+
+    Prefer data_domain_research_dir() for the actual data/ directory.
+    """
     return inputs_and_outputs_root() / "Domain_Research"
 
 

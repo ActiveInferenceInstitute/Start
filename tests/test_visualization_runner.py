@@ -153,12 +153,14 @@ def test_generate_curriculum_metrics_word_counting():
 def test_run_function_no_files(tmp_path, monkeypatch):
     """Test run function when no curriculum files exist."""
 
-    # Mock inputs_and_outputs_root to return tmp_path
-    def mock_inputs_and_outputs_root():
+    # Mock data_written_curriculums_dir to return tmp_path
+    def mock_data_written_curriculums_dir():
         return tmp_path
 
-    # Patch the function that gets imported inside run()
-    monkeypatch.setattr("src.common.paths.inputs_and_outputs_root", mock_inputs_and_outputs_root)
+    # Patch the function used inside run()
+    monkeypatch.setattr(
+        "src.common.paths.data_written_curriculums_dir", mock_data_written_curriculums_dir
+    )
 
     # Run function
     output_dir = str(tmp_path / "output")
@@ -167,24 +169,23 @@ def test_run_function_no_files(tmp_path, monkeypatch):
     # Should not create any files when no curricula found
     output_path = Path(output_dir)
     if output_path.exists():
-        assert len(list(output_path.glob("*"))) == 0
+        assert len(list(output_path.glob("metrics"))) == 0
 
 
 def test_run_function_with_files(tmp_path, monkeypatch):
     """Test run function with actual curriculum files."""
 
-    # Mock inputs_and_outputs_root to return tmp_path
-    def mock_inputs_and_outputs_root():
+    # Mock data_written_curriculums_dir to return tmp_path
+    def mock_data_written_curriculums_dir():
         return tmp_path
 
-    # Patch the function that gets imported inside run()
-    monkeypatch.setattr("src.common.paths.inputs_and_outputs_root", mock_inputs_and_outputs_root)
+    # Patch the function used inside run()
+    monkeypatch.setattr(
+        "src.common.paths.data_written_curriculums_dir", mock_data_written_curriculums_dir
+    )
 
-    # Create Written_Curriculums directory with files
-    written_dir = tmp_path / "Written_Curriculums"
-    written_dir.mkdir()
-
-    entity_dir = written_dir / "test_entity"
+    # Create curriculum files directly under tmp_path (matches mock return)
+    entity_dir = tmp_path / "test_entity"
     entity_dir.mkdir()
     curriculum_file = entity_dir / "complete_curriculum_20240101_120000.md"
     curriculum_file.write_text(

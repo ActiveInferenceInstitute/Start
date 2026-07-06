@@ -72,8 +72,6 @@ class Menu:
         Args:
             direction: 1 for forward, -1 for backward
         """
-        start_index = self.selected_index
-
         if not self.items:
             return
         attempts = 0

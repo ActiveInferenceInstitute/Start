@@ -347,7 +347,7 @@ class TestCheckEnvironmentVariables:
         checks = check_environment_variables()
 
         required_checks = [c for c in checks if c.required]
-        optional_checks = [c for c in checks if not c.required]
+        # optional_checks not needed for this assertion
 
         assert len(required_checks) >= 2
         assert all(check.available for check in required_checks)

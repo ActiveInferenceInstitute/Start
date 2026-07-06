@@ -52,7 +52,6 @@ class TestMatrixRain:
         for i in range(5):
             rain.columns[i].append(rain._create_drop(i))
 
-        initial_count = sum(len(col) for col in rain.columns)
         rain._update_drops()
 
         # Drops should have aged and possibly moved

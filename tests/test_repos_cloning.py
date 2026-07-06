@@ -111,9 +111,9 @@ class TestGetPredefinedRepositories:
         assert "axiom" in repos
 
         # Validate structure
-        for name, repo_info in repos.items():
+        for _name, repo_info in repos.items():
             assert isinstance(repo_info, RepoInfo)
-            assert repo_info.name == name
+            assert repo_info.name == _name
             assert repo_info.url.startswith("https://")
             assert isinstance(repo_info.description, str)
             assert isinstance(repo_info.category, str)
@@ -756,7 +756,7 @@ class TestRepositoryCloningIntegration:
         """Test that predefined repository configurations are valid."""
         repos = get_predefined_repositories()
 
-        for name, repo_info in repos.items():
+        for _name, repo_info in repos.items():
             assert isinstance(repo_info.name, str)
             assert len(repo_info.name) > 0
             assert isinstance(repo_info.url, str)

@@ -18,7 +18,7 @@ os.environ["START_REPO_ROOT"] = str(PROJECT_ROOT)
 @pytest.fixture
 def python_executable() -> str:
     """Return the current Python interpreter path for subprocess calls.
-    
+
     This ensures subprocess tests use the same Python environment
     as the running test suite (e.g., uv run python).
     """

@@ -445,7 +445,8 @@ def run_health_check() -> Tuple[bool, Dict[str, any]]:
     # Check Python environment
     try:
         results["python_environment"] = {
-            "version": f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}",
+            "version": f"{sys.version_info.major}.{sys.version_info.minor}."
+            f"{sys.version_info.micro}",
             "executable": sys.executable,
             "virtual_env": hasattr(sys, "real_prefix")
             or (hasattr(sys, "base_prefix") and sys.base_prefix != sys.prefix),

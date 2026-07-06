@@ -73,7 +73,6 @@ class TestMainFunction:
     """Test main function integration."""
 
     @patch("research_domain.common_setup_logging")
-    @patch("research_domain.inputs_and_outputs_root")
     @patch("research_domain.data_domain_research_dir")
     @patch("research_domain.build_perplexity_client")
     @patch("research_domain.analyze_domain")
@@ -81,8 +80,7 @@ class TestMainFunction:
         self,
         mock_analyze_domain,
         mock_build_client,
-        mock_output_dir,
-        mock_io_root,
+        mock_domain_dir,
         mock_logging,
         tmp_path,
     ):
@@ -90,16 +88,13 @@ class TestMainFunction:
         # Setup mocks
         mock_logger = Mock()
         mock_logging.return_value = mock_logger
-        mock_io_root.return_value = tmp_path
-        mock_output_dir.return_value = tmp_path / "output"
+        mock_domain_dir.return_value = tmp_path
         mock_client = Mock()
         mock_build_client.return_value = mock_client
 
-        # Create test files
-        domain_dir = tmp_path / "Domain"
-        domain_dir.mkdir()
-        (domain_dir / "Synthetic_TestDomain.md").write_text("Test domain content")
-        (domain_dir / "Synthetic_FEP-ActInf.md").write_text("FEP content")
+        # Create test files directly in tmp_path (data_domain_research_dir mock returns tmp_path)
+        (tmp_path / "Synthetic_TestDomain.md").write_text("Test domain content")
+        (tmp_path / "Synthetic_FEP-ActInf.md").write_text("FEP content")
 
         # Run main function
         research_domain.main()
@@ -112,21 +107,19 @@ class TestMainFunction:
         assert "Synthetic_FEP-ActInf.md" in call_args[2]  # fep_actinf_file
 
     @patch("research_domain.build_perplexity_client")
-    @patch("research_domain.inputs_and_outputs_root")
+    @patch("research_domain.data_domain_research_dir")
     @patch("research_domain.common_setup_logging")
     def test_main_missing_fep_file(
-        self, mock_logging, mock_io_root, mock_build_client, tmp_path
+        self, mock_logging, mock_domain_dir, mock_build_client, tmp_path
     ):
         """Test main function when FEP-ActInf file is missing."""
         # Setup mocks
         mock_logger = Mock()
         mock_logging.return_value = mock_logger
-        mock_io_root.return_value = tmp_path
+        mock_domain_dir.return_value = tmp_path
         mock_build_client.return_value = Mock()  # Return a mock client
 
-        # Create domain directory but no FEP file
-        domain_dir = tmp_path / "Domain"
-        domain_dir.mkdir()
+        # No FEP file created — directory is empty
 
         # Run main function
         research_domain.main()
@@ -136,23 +129,17 @@ class TestMainFunction:
         assert "FEP-ActInf file not found" in mock_logger.error.call_args[0][0]
 
     @patch("research_domain.common_setup_logging")
-    @patch("research_domain.inputs_and_outputs_root")
     @patch("research_domain.data_domain_research_dir")
     @patch("research_domain.build_perplexity_client")
-    def test_main_no_domain_files(
-        self, mock_build_client, mock_output_dir, mock_io_root, mock_logging, tmp_path
-    ):
+    def test_main_no_domain_files(self, mock_build_client, mock_domain_dir, mock_logging, tmp_path):
         """Test main function when no domain files are found."""
         # Setup mocks
         mock_logger = Mock()
         mock_logging.return_value = mock_logger
-        mock_io_root.return_value = tmp_path
-        mock_output_dir.return_value = tmp_path / "output"
+        mock_domain_dir.return_value = tmp_path
 
-        # Create domain directory with only FEP file
-        domain_dir = tmp_path / "Domain"
-        domain_dir.mkdir()
-        (domain_dir / "Synthetic_FEP-ActInf.md").write_text("FEP content")
+        # Create FEP file but no domain files
+        (tmp_path / "Synthetic_FEP-ActInf.md").write_text("FEP content")
 
         # Run main function
         research_domain.main()

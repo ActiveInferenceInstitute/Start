@@ -24,6 +24,7 @@ nav:
   - Learning Guides:
       - Usage Guide: learning_usage_guide.md
       - API Integration: learning_api_integration.md
+      - Curriculum GUI: curriculum_gui.md
 markdown_extensions:
   - toc:
       permalink: true
