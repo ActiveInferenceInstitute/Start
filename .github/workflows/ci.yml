@@ -9,6 +9,10 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
     steps:
       - uses: actions/checkout@v4
 
@@ -18,7 +22,7 @@ jobs:
           enable-cache: true
 
       - name: Set up Python
-        run: uv python install 3.12
+        run: uv python install ${{ matrix.python-version }}
 
       - name: Install dependencies
         run: uv sync --all-extras --dev
@@ -29,8 +33,114 @@ jobs:
       - name: Format check
         run: uv run black --check .
 
+      - name: Shell syntax
+        run: bash -n run.sh run_docs.sh src/setup.sh
+
+      - name: Validate tracked configuration
+        run: uv run python -m scripts.validate_repository
+
+      - name: Audit generated artifacts
+        run: uv run python -m scripts.audit_artifacts --check
+
+      - name: Validate generated output contracts
+        run: uv run start-validate-outputs --check
+
+      - name: Regenerate offline fixture smoke path
+        run: uv run start-regenerate-offline --output-dir "$RUNNER_TEMP/start-fixture" --run-id ci-fixture --json > /dev/null
+
+      - name: Type check core contracts
+        run: uv run mypy src/pipeline src/config/schemas.py --ignore-missing-imports --follow-imports=skip
+
+      - name: Dependency audit
+        run: uv run pip-audit --strict
+
+      - name: CLI help smoke
+        run: |
+          uv run python -m learning.curriculum_creation.generate_custom_curriculum --help > /dev/null
+          uv run python -m learning.curriculum_creation.generate_curriculum_gui --help > /dev/null
+          uv run start-clone --help > /dev/null
+
+      - name: GUI endpoint smoke
+        run: |
+          uv run python - <<'PY'
+          from __future__ import annotations
+
+          import json
+          import socket
+          import subprocess
+          import sys
+          import time
+          import urllib.error
+          import urllib.request
+
+          with socket.socket() as sock:
+              sock.bind(("127.0.0.1", 0))
+              port = sock.getsockname()[1]
+
+          process = subprocess.Popen(
+              [
+                  sys.executable,
+                  "-m",
+                  "learning.curriculum_creation.generate_curriculum_gui",
+                  "--host",
+                  "127.0.0.1",
+                  "--port",
+                  str(port),
+                  "--no-browser",
+              ],
+              stdout=subprocess.PIPE,
+              stderr=subprocess.PIPE,
+              text=True,
+          )
+          base = f"http://127.0.0.1:{port}"
+          try:
+              deadline = time.time() + 20
+              while time.time() < deadline:
+                  try:
+                      with urllib.request.urlopen(base + "/status", timeout=1) as response:
+                          status = json.loads(response.read().decode("utf-8"))
+                      break
+                  except Exception:
+                      if process.poll() is not None:
+                          stdout, stderr = process.communicate(timeout=1)
+                          raise RuntimeError(
+                              f"GUI exited early: stdout={stdout!r} stderr={stderr!r}"
+                          )
+                      time.sleep(0.25)
+              else:
+                  raise TimeoutError("GUI did not become ready")
+
+              assert status["running"] is False
+              for path in ("/", "/options"):
+                  with urllib.request.urlopen(base + path, timeout=3) as response:
+                      assert response.status == 200
+                      assert response.read()
+
+              request = urllib.request.Request(
+                  base + "/start",
+                  data=json.dumps({"domain": "", "entity": "", "language": ""}).encode("utf-8"),
+                  headers={"Content-Type": "application/json"},
+                  method="POST",
+              )
+              try:
+                  urllib.request.urlopen(request, timeout=3)
+              except urllib.error.HTTPError as exc:
+                  assert exc.code == 400
+              else:
+                  raise AssertionError("invalid /start payload unexpectedly succeeded")
+          finally:
+              process.terminate()
+              try:
+                  process.wait(timeout=5)
+              except subprocess.TimeoutExpired:
+                  process.kill()
+                  process.wait(timeout=5)
+          PY
+
       - name: Test
-        run: uv run pytest -q --tb=short
+        # The manual release workflow is fail-closed at the 90% branch-aware floor;
+        # ordinary matrix CI keeps the current baseline visible while P2 work lands.
+        run: uv run pytest --cov=src --cov-branch --cov-report=term-missing --cov-fail-under=80 -q
         env:
           MPLBACKEND: Agg
           START_REPO_ROOT: ${{ github.workspace }}
@@ -52,5 +162,34 @@ jobs:
         run: uv sync --all-extras --dev
 
       - name: Build docs
-        run: mkdocs build
+        run: uv run mkdocs build --strict
         working-directory: .
+
+  macos-smoke:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: true
+
+      - name: Set up Python
+        run: uv python install 3.12
+
+      - name: Install locked project environment
+        run: uv sync --all-extras --dev
+
+      - name: Validate lock and shell entry points
+        run: |
+          uv lock --check
+          bash -n run.sh run_docs.sh src/setup.sh
+
+      - name: Run macOS smoke tests
+        run: uv run pytest tests/test_core_hardening.py tests/test_visualization_runner.py -q
+        env:
+          MPLBACKEND: Agg
+
+      - name: Build docs on macOS
+        run: uv run mkdocs build --strict

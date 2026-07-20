@@ -2,6 +2,14 @@
 
 Generated content, configuration files, and research outputs.
 
+`domain_research/Synthetic_FEP-ActInf.md` is explicitly synthetic offline
+foundation material and must not be cited as live evidence. The current
+non-destructive inventory is `artifact-manifests/current.json`; use
+`uv run python -m scripts.audit_artifacts --json` and
+`uv run start-validate-outputs --check` to regenerate structural audits before
+curation. Use `uv run start-regenerate-offline` for deterministic synthetic
+fixtures; it never contacts a provider.
+
 ## Overview
 
 This directory contains all generated content, configuration files, and research outputs from the START curriculum generation pipeline.
@@ -33,9 +41,10 @@ Translated curriculum outputs organized by language.
 
 ### `visualizations/`
 Visualization outputs:
-- PNG charts and graphs
-- Mermaid diagrams
-- JSON metrics files
+- `charts/` PNG charts and graphs
+- `diagrams/` stable-ID Mermaid diagrams
+- `metrics/` CSV and JSON metric files
+- `visualization_manifest.json` input/output hashes and derived-evidence status
 
 ### `written_curriculums/`
 Generated curriculum outputs organized by entity/domain.
@@ -46,8 +55,8 @@ Generated curriculum outputs organized by entity/domain.
 - Curriculum files: `{section}_{timestamp}.md` or `complete_curriculum_{timestamp}.md`
 - Translation files: `{entity}_curriculum_{language}_{timestamp}.md`
 - Visualization files:
-  - Entity-specific: `{entity}_{type}.png` or `{entity}_flow.mmd` (no timestamps)
-  - Global aggregate: `curriculum_metrics.json`, `curriculum_metrics.png`, `curriculum_structure.mmd` (no timestamps)
+  - Entity-specific: `diagrams/{stable-item-id}_flow.mmd`
+  - Global aggregate: `metrics/curriculum_metrics.{csv,json}`, `charts/curriculum_metrics.png`, and `diagrams/curriculum_structure.mmd`
 
 ## Navigation
 

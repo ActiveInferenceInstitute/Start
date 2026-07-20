@@ -1,16 +1,26 @@
 # Environment Setup & Development Guide
 
+START supports Python 3.10, 3.11, and 3.12. Use the locked `uv` environment
+for local commands, CI, and documentation builds so dependency resolution does
+not vary between surfaces.
+
+```bash
+uv sync --all-extras --dev
+uv run start-curriculum --help
+uv run mkdocs build --strict
+```
+
 ## Prerequisites
 
 ### System Requirements
 - **Python 3.10+** (3.11+ recommended for optimal performance)
 - **uv** package manager ([astral.sh/uv](https://astral.sh/uv))
 - **Git** for repository management and cloning external resources
-- **Internet connection** for API access (Perplexity, OpenRouter)
+- **Internet connection** only for explicitly enabled live provider runs
 
 ### API Access Requirements
-- **Perplexity API** account and key for real-time research
-- **OpenRouter API** account and key for advanced LLM-based content generation
+- **Perplexity API** account and key for live research (optional for offline/dry-run work)
+- **OpenRouter API** account and key for live content generation (optional for offline/dry-run work)
 - **Optional**: OpenAI API key for alternative LLM access
 
 ## Quick Installation
@@ -21,7 +31,7 @@ Steps
 - `uv sync --all-extras --dev`
 - Configure `.env`
 - Download spaCy models
-- Verify imports / `PYTHONPATH`
+- Verify the installed package and console entry points
 - Run tests, lint, format
 
 Links
@@ -94,19 +104,18 @@ uv run ruff check .                    # Lint checking
 uv run black --check .                 # Format checking
 uv run black .                         # Auto-formatting
 
-# Type checking (if configured)
-uv run mypy src/
+# Type checking for the release-critical core
+uv run mypy src/pipeline src/config/schemas.py --ignore-missing-imports --follow-imports=skip
+
+# Dependency audit
+uv run pip-audit --strict
 ```
 
 ### Curriculum Pipeline Development
 ```bash
-# Set Python path for development
-export PYTHONPATH=/path/to/project:$PYTHONPATH
-
-# Run curriculum creation scripts
-cd learning/curriculum_creation/
-uv run python 1_Research_Domain.py --help
-uv run python 1_Research_Entity.py --priority high
+# Use the canonical installed orchestrator in the locked environment
+uv run start-curriculum --help
+uv run start-validate-outputs --check
 ```
 
 ### Testing API Integration
@@ -206,8 +215,7 @@ uv run python -c "import os; print('PERPLEXITY_API_KEY:', bool(os.getenv('PERPLE
 
 #### Import Errors
 ```bash
-# Ensure PYTHONPATH is set correctly
-export PYTHONPATH=$(pwd):$PYTHONPATH
+# Verify the installed package
 uv run python -c "import src.common.paths; print('Import successful')"
 ```
 

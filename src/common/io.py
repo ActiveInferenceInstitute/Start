@@ -2,13 +2,103 @@ from __future__ import annotations
 
 import json
 import os
+import re
+import tempfile
+from collections.abc import Mapping, Sequence
 from pathlib import Path
 from typing import Any, Iterable, Optional
 
 
+def safe_name(value: str, *, fallback: str = "item", max_length: int = 120) -> str:
+    """Return a filesystem-safe single path component.
+
+    Names are intentionally normalized instead of interpreted as paths.  This
+    keeps user-provided entities, sections, and languages inside their chosen
+    output directory.
+    """
+    normalized = re.sub(r"[^A-Za-z0-9._-]+", "_", str(value).strip()).strip("._")
+    normalized = normalized[:max_length].strip("._")
+    return normalized or fallback
+
+
+def path_within(path: os.PathLike | str, root: os.PathLike | str) -> bool:
+    """Return whether *path* resolves below *root* (or equals root)."""
+    candidate = Path(path).expanduser().resolve()
+    base = Path(root).expanduser().resolve()
+    try:
+        candidate.relative_to(base)
+    except ValueError:
+        return False
+    return True
+
+
+def _reject_symlink_components(path: Path) -> None:
+    """Reject symlink destinations and parent boundaries before writing."""
+
+    expanded = path.expanduser()
+    if expanded.is_symlink():
+        raise ValueError(f"Refusing to write through symlink: {expanded}")
+    for parent in expanded.parents:
+        if parent.exists() and parent.is_symlink():
+            raise ValueError(f"Refusing to write through symlink parent: {parent}")
+
+
+def next_available_path(path: os.PathLike | str) -> Path:
+    """Choose a collision-safe path without overwriting an existing artifact."""
+    candidate = Path(path).expanduser()
+    _reject_symlink_components(candidate.parent)
+    if not os.path.lexists(candidate):
+        return candidate
+    for index in range(1, 10_000):
+        alternate = candidate.with_name(f"{candidate.stem}_{index}{candidate.suffix}")
+        if not os.path.lexists(alternate):
+            return alternate
+    raise FileExistsError(f"Unable to find an available output name for {candidate}")
+
+
+def next_available_bundle(
+    directory: os.PathLike | str, stem: str, suffixes: Sequence[str]
+) -> list[Path]:
+    """Return a shared collision-free stem for a group of output files.
+
+    Every suffix must be absent before the stem is accepted.  Callers can then
+    publish the returned paths together with :func:`write_text_bundle`.
+    """
+    if not stem or not stem.strip():
+        raise ValueError("stem cannot be empty")
+    if not suffixes:
+        raise ValueError("suffixes cannot be empty")
+    normalized_suffixes = [
+        suffix if suffix.startswith(".") else f".{suffix}" for suffix in suffixes
+    ]
+    raw_base = Path(directory).expanduser()
+    _reject_symlink_components(raw_base)
+    base = raw_base.resolve()
+    for index in range(10_000):
+        candidate_stem = stem if index == 0 else f"{stem}_{index}"
+        candidates = [base / f"{candidate_stem}{suffix}" for suffix in normalized_suffixes]
+        if all(not os.path.lexists(candidate) for candidate in candidates):
+            return candidates
+    raise FileExistsError(f"Unable to find an available bundle name for {base / stem}")
+
+
 def ensure_parent_dir(file_path: Path) -> None:
-    parent = Path(file_path).expanduser().resolve().parent
+    path = Path(file_path).expanduser()
+    _reject_symlink_components(path)
+    parent = path.parent
     parent.mkdir(parents=True, exist_ok=True)
+
+
+def ensure_directory(directory: os.PathLike | str) -> Path:
+    """Create a directory without following symlinked path boundaries."""
+
+    path = Path(directory).expanduser()
+    _reject_symlink_components(path)
+    if path.exists() and not path.is_dir():
+        raise ValueError(f"Expected a directory: {path}")
+    path.mkdir(parents=True, exist_ok=True)
+    _reject_symlink_components(path)
+    return path.resolve()
 
 
 def read_text(file_path: os.PathLike | str) -> str:
@@ -18,11 +108,86 @@ def read_text(file_path: os.PathLike | str) -> str:
 
 
 def write_text(file_path: os.PathLike | str, content: str) -> Path:
+    """Atomically replace one UTF-8 text file."""
+    if not isinstance(content, str):
+        raise TypeError("content must be a string")
     path = Path(file_path).expanduser()
     ensure_parent_dir(path)
-    with open(path, "w", encoding="utf-8") as handle:
-        handle.write(content)
-    return path.resolve()
+    resolved = path.resolve()
+    temporary = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode="w",
+            encoding="utf-8",
+            dir=resolved.parent,
+            prefix=f".{resolved.name}.",
+            delete=False,
+        ) as handle:
+            temporary = Path(handle.name)
+            handle.write(content)
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(temporary, resolved)
+    except Exception:
+        if temporary is not None:
+            temporary.unlink(missing_ok=True)
+        raise
+    return resolved
+
+
+def write_text_bundle(files: Mapping[os.PathLike | str, str]) -> list[Path]:
+    """Publish several text files as one in-process transaction.
+
+    All destinations are validated before any destination is replaced.  If a
+    later replacement fails, files already published by this call are removed
+    and temporary files are cleaned up.  Destinations must not already exist;
+    callers should reserve names with :func:`next_available_bundle`.
+    """
+    if not files:
+        raise ValueError("files cannot be empty")
+
+    raw_entries = [(Path(path).expanduser(), content) for path, content in files.items()]
+    for path, _content in raw_entries:
+        _reject_symlink_components(path)
+    entries = [(path.resolve(), content) for path, content in raw_entries]
+    destinations = [path for path, _ in entries]
+    if len(set(destinations)) != len(destinations):
+        raise ValueError("files contains duplicate destinations")
+    if any(not isinstance(content, str) for _, content in entries):
+        raise TypeError("all bundle contents must be strings")
+    existing = [path for path in destinations if os.path.lexists(path)]
+    if existing:
+        raise FileExistsError(f"Bundle destination already exists: {existing[0]}")
+
+    temporary_paths: list[Path] = []
+    published: list[Path] = []
+    try:
+        for destination, content in entries:
+            ensure_parent_dir(destination)
+            with tempfile.NamedTemporaryFile(
+                mode="w",
+                encoding="utf-8",
+                dir=destination.parent,
+                prefix=f".{destination.name}.",
+                delete=False,
+            ) as handle:
+                temporary = Path(handle.name)
+                temporary_paths.append(temporary)
+                handle.write(content)
+                handle.flush()
+                os.fsync(handle.fileno())
+
+        for temporary, destination in zip(temporary_paths, destinations, strict=True):
+            os.replace(temporary, destination)
+            published.append(destination)
+        return destinations
+    except Exception:
+        for destination in published:
+            destination.unlink(missing_ok=True)
+        raise
+    finally:
+        for temporary in temporary_paths:
+            temporary.unlink(missing_ok=True)
 
 
 def read_json(file_path: os.PathLike | str) -> Any:
@@ -34,9 +199,8 @@ def read_json(file_path: os.PathLike | str) -> Any:
 def write_json(file_path: os.PathLike | str, data: Any, indent: int = 2) -> Path:
     path = Path(file_path).expanduser()
     ensure_parent_dir(path)
-    with open(path, "w", encoding="utf-8") as handle:
-        json.dump(data, handle, indent=indent, ensure_ascii=False)
-    return path.resolve()
+    serialized = json.dumps(data, indent=indent, ensure_ascii=False) + "\n"
+    return write_text(path, serialized)
 
 
 def list_files(

@@ -12,45 +12,51 @@ import shutil
 import subprocess
 import sys
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Any, Dict, List, Optional, Sequence, Tuple
 
 from src.common.env import load_project_env
 from src.common.paths import repo_root
 
 
-def setup_project_environment() -> Tuple[bool, List[str]]:
+def setup_project_environment(
+    project_root: Optional[Path | str] = None,
+    sync_command: Optional[Sequence[str]] = None,
+) -> Tuple[bool, List[str]]:
     """Set up the complete project environment.
 
     Returns:
         Tuple of (success, messages)
     """
+    configured_command = list(sync_command) if sync_command is not None else None
+    if configured_command is not None and not configured_command:
+        raise ValueError("sync_command must contain at least one executable")
+
     messages = []
     success = True
 
-    # Check if we're in project root
-    root = repo_root()
+    root = Path(project_root).expanduser().resolve() if project_root is not None else repo_root()
     if not (root / "pyproject.toml").exists():
         messages.append("❌ Not in project root directory")
         return False, messages
 
     messages.append(f"📁 Project root: {root}")
 
-    # Check for uv
-    if not shutil.which("uv"):
-        messages.append("❌ uv not found - installing uv...")
-        install_success = install_uv()
-        if not install_success:
-            messages.append("❌ Failed to install uv")
-            return False, messages
-        messages.append("✅ uv installed successfully")
-    else:
+    # Check for uv unless the caller supplied an explicit command.
+    if configured_command is None and not shutil.which("uv"):
+        messages.append("❌ uv not found - install uv separately, then rerun setup")
+        messages.append(
+            "Install instructions: https://docs.astral.sh/uv/getting-started/installation/"
+        )
+        return False, messages
+    if configured_command is None:
         messages.append("✅ uv found")
+    else:
+        messages.append(f"✅ Using configured sync command: {configured_command[0]}")
 
-    # Run uv sync
-    messages.append("📦 Syncing dependencies with uv...")
-    sync_success, sync_output = run_uv_sync()
+    messages.append("📦 Syncing dependencies...")
+    sync_success, sync_output = run_uv_sync(root=root, command=configured_command)
     if not sync_success:
-        messages.append(f"❌ uv sync failed: {sync_output}")
+        messages.append(f"❌ Dependency synchronization failed: {sync_output}")
         success = False
     else:
         messages.append("✅ Dependencies synced successfully")
@@ -59,14 +65,14 @@ def setup_project_environment() -> Tuple[bool, List[str]]:
     env_file = root / ".env"
     if not env_file.exists():
         messages.append("⚠️  .env file not found - creating template...")
-        create_env_template()
+        create_env_template(root)
         messages.append("✅ Created .env template - please add your API keys")
     else:
         messages.append("✅ .env file exists")
 
     # Load and validate environment
-    load_project_env()
-    env_valid, env_messages = validate_environment()
+    load_project_env(env_file)
+    env_valid, env_messages = validate_environment(root)
     messages.extend(env_messages)
 
     if not env_valid:
@@ -75,76 +81,61 @@ def setup_project_environment() -> Tuple[bool, List[str]]:
     return success, messages
 
 
-def install_uv() -> bool:
-    """Install uv package manager.
+def is_uv_available() -> bool:
+    """Return whether the separately installed uv executable is available.
 
     Returns:
-        True if installation successful, False otherwise
+        True when uv is available on PATH.
     """
-    try:
-        # Use the official uv installer
-        curl_cmd = ["curl", "-LsSf", "https://astral.sh/uv/install.sh"]
-
-        sh_cmd = ["sh"]
-
-        # Run curl | sh
-        curl_process = subprocess.Popen(curl_cmd, stdout=subprocess.PIPE)
-        sh_process = subprocess.run(
-            sh_cmd,
-            stdin=curl_process.stdout,
-            capture_output=True,
-            text=True,
-            timeout=60,
-        )
-
-        curl_process.wait()
-
-        if sh_process.returncode == 0:
-            # Update PATH for current session
-            cargo_bin = Path.home() / ".cargo" / "bin"
-            if cargo_bin.exists() and str(cargo_bin) not in os.environ.get("PATH", ""):
-                os.environ["PATH"] = f"{cargo_bin}:{os.environ.get('PATH', '')}"
-            return True
-
-        return False
-
-    except Exception:
-        return False
+    # Environment mutation is intentionally explicit.  The application may
+    # report that uv is missing, but it must not execute a remote installer.
+    return shutil.which("uv") is not None
 
 
-def run_uv_sync() -> Tuple[bool, str]:
-    """Run uv sync to install dependencies.
+def run_uv_sync(
+    root: Optional[Path | str] = None,
+    command: Optional[Sequence[str]] = None,
+    timeout: float = 300.0,
+) -> Tuple[bool, str]:
+    """Run the configured dependency synchronization command.
 
     Returns:
         Tuple of (success, output)
     """
     try:
-        root = repo_root()
+        run_root = Path(root).expanduser().resolve() if root is not None else repo_root()
+        command_args = (
+            list(command) if command is not None else ["uv", "sync", "--all-extras", "--dev"]
+        )
+        if not command_args:
+            raise ValueError("command must contain at least one executable")
+        if timeout <= 0:
+            raise ValueError("timeout must be greater than zero")
         result = subprocess.run(
-            ["uv", "sync", "--all-extras", "--dev"],
-            cwd=root,
+            command_args,
+            cwd=run_root,
             capture_output=True,
             text=True,
-            timeout=300,  # 5 minutes timeout
+            timeout=timeout,
         )
 
         output = result.stdout + result.stderr
         return result.returncode == 0, output
 
     except subprocess.TimeoutExpired:
-        return False, "uv sync timed out"
+        return False, "Dependency synchronization timed out"
     except Exception as e:
         return False, str(e)
 
 
-def create_env_template() -> Path:
+def create_env_template(root: Optional[Path | str] = None) -> Path:
     """Create a template .env file.
 
     Returns:
         Path to created .env file
     """
-    root = repo_root()
-    env_file = root / ".env"
+    project_root = Path(root).expanduser().resolve() if root is not None else repo_root()
+    env_file = project_root / ".env"
 
     template_content = """# API Keys for Active Inference curriculum generation
 # Get your keys from:
@@ -168,7 +159,7 @@ OPENROUTER_API_KEY=your_openrouter_api_key_here
     return env_file
 
 
-def validate_environment() -> Tuple[bool, List[str]]:
+def validate_environment(root: Optional[Path | str] = None) -> Tuple[bool, List[str]]:
     """Validate the current environment setup.
 
     Returns:
@@ -178,8 +169,8 @@ def validate_environment() -> Tuple[bool, List[str]]:
     is_valid = True
 
     # Check Python version
-    if sys.version_info < (3, 8):
-        messages.append("❌ Python 3.8+ required")
+    if sys.version_info < (3, 10):
+        messages.append("❌ Python 3.10+ required")
         is_valid = False
     else:
         messages.append(f"✅ Python {sys.version_info.major}.{sys.version_info.minor}")
@@ -207,7 +198,7 @@ def validate_environment() -> Tuple[bool, List[str]]:
             is_valid = False
 
     # Check required directories exist
-    root = repo_root()
+    project_root = Path(root).expanduser().resolve() if root is not None else repo_root()
     required_dirs = [
         "src",
         "data",
@@ -217,7 +208,7 @@ def validate_environment() -> Tuple[bool, List[str]]:
     ]
 
     for dir_name in required_dirs:
-        dir_path = root / dir_name
+        dir_path = project_root / dir_name
         if dir_path.exists():
             messages.append(f"✅ Directory exists: {dir_name}")
         else:
@@ -227,7 +218,7 @@ def validate_environment() -> Tuple[bool, List[str]]:
     return is_valid, messages
 
 
-def get_environment_info() -> Dict[str, any]:
+def get_environment_info() -> Dict[str, Any]:
     """Get detailed environment information.
 
     Returns:
@@ -426,7 +417,7 @@ script_mappings:
         f.write(config_content)
 
 
-def run_health_check() -> Tuple[bool, Dict[str, any]]:
+def run_health_check() -> Tuple[bool, Dict[str, Any]]:
     """Run a comprehensive health check of the environment.
 
     Returns:
@@ -450,7 +441,7 @@ def run_health_check() -> Tuple[bool, Dict[str, any]]:
             "executable": sys.executable,
             "virtual_env": hasattr(sys, "real_prefix")
             or (hasattr(sys, "base_prefix") and sys.base_prefix != sys.prefix),
-            "healthy": sys.version_info >= (3, 8),
+            "healthy": sys.version_info >= (3, 10),
         }
         if not results["python_environment"]["healthy"]:
             overall_healthy = False

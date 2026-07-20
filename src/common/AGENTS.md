@@ -89,7 +89,7 @@ Lists markdown files in domain directory, excluding specified stems.
 ### Functions
 
 #### `find_repo_root(start: Optional[os.PathLike | str] = None) -> Path`
-Finds repository root by searching for `.git` or `README.md`.
+Finds the START repository root by locating `pyproject.toml` and `src/`.
 
 **Parameters**:
 - `start`: Starting path (default: current file location)
@@ -102,26 +102,6 @@ Finds repository root by searching for `.git` or `README.md`.
 Returns repository root path.
 
 **Returns**: Path to repository root
-
-#### `languages_root() -> Path`
-Returns path to Languages directory.
-
-**Returns**: `repo_root() / "Languages"`
-
-#### `inputs_and_outputs_root() -> Path`
-Returns path to Inputs_and_Outputs directory.
-
-**Returns**: `languages_root() / "Inputs_and_Outputs"`
-
-#### `domain_dir() -> Path`
-Returns path to Domain directory.
-
-**Returns**: `inputs_and_outputs_root() / "Domain"`
-
-#### `domain_research_dir() -> Path`
-Returns path to Domain_Research directory.
-
-**Returns**: `inputs_and_outputs_root() / "Domain_Research"`
 
 #### `ensure_dir(path: os.PathLike | str) -> Path`
 Creates directory if it doesn't exist.
@@ -137,32 +117,32 @@ Returns path to data directory.
 **Returns**: `repo_root() / "data"`
 
 #### `data_written_curriculums_dir() -> Path`
-Returns path to written curriculums directory (creates if needed).
+Returns path to written curriculums directory.  It does not create the directory.
 
 **Returns**: `data_root() / "written_curriculums"`
 
 #### `data_translated_curriculums_dir() -> Path`
-Returns path to translated curriculums directory (creates if needed).
+Returns path to translated curriculums directory.  It does not create the directory.
 
 **Returns**: `data_root() / "translated_curriculums"`
 
 #### `data_visualizations_dir() -> Path`
-Returns path to visualizations directory (creates if needed).
+Returns path to visualizations directory.  It does not create the directory.
 
 **Returns**: `data_root() / "visualizations"`
 
 #### `data_audience_research_dir() -> Path`
-Returns path to audience research directory (creates if needed).
+Returns path to audience research directory.  It does not create the directory.
 
 **Returns**: `data_root() / "audience_research"`
 
 #### `data_domain_research_dir() -> Path`
-Returns path to domain research directory (creates if needed).
+Returns path to domain research directory.  It does not create the directory.
 
 **Returns**: `data_root() / "domain_research"`
 
 #### `config_dir() -> Path`
-Returns path to configuration directory (creates if needed).
+Returns path to configuration directory.  It does not create the directory.
 
 **Returns**: `data_root() / "config"`
 

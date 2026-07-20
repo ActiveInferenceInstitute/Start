@@ -10,8 +10,6 @@ __pycache__/
 .idea/
 .vscode/
 */__pycache__/
-Languages/Perplexity/*.key
-Languages/Perplexity/RR_LLM_keys.key
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

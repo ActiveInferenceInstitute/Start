@@ -6,6 +6,9 @@
 
 set -euo pipefail
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR"
+
 # Color and animation constants
 RED='\033[31m'
 GREEN='\033[32m'
@@ -235,7 +238,7 @@ if not dep_report.all_required_available:
     print(matrix_text('Run the Environment Setup option to fix issues.', 'dim'))
 "
     else
-        echo -e "${YELLOW}⚠️  uv not found - install with: curl -LsSf https://astral.sh/uv/install.sh | sh${RESET}"
+        echo -e "${YELLOW}⚠️  uv not found - install it from https://docs.astral.sh/uv/getting-started/installation/${RESET}"
         echo -e "${YELLOW}📱 Basic system information:${RESET}"
         echo "OS: $(uname -s) $(uname -r)"
         echo "Architecture: $(uname -m)"
@@ -372,7 +375,7 @@ environment_setup() {
     
     # Check if user wants to proceed
     echo -e "${CYAN}This will:${RESET}"
-    echo -e "  ${GREEN}•${RESET} Install uv package manager (if needed)"
+    echo -e "  ${GREEN}•${RESET} Verify the uv package manager is installed"
     echo -e "  ${GREEN}•${RESET} Set up Python virtual environment"
     echo -e "  ${GREEN}•${RESET} Install all required dependencies"
     echo -e "  ${GREEN}•${RESET} Create configuration templates"
@@ -390,15 +393,8 @@ environment_setup() {
     if command -v uv >/dev/null 2>&1; then
         echo -e "${GREEN}✅ uv package manager found${RESET}"
     else
-        typewriter "Installing uv package manager..." 0.03
-        if curl -LsSf https://astral.sh/uv/install.sh | sh; then
-            echo -e "${GREEN}✅ uv installed successfully${RESET}"
-            # Add to current PATH
-            export PATH="$HOME/.cargo/bin:$PATH"
-        else
-            echo -e "${RED}❌ Failed to install uv${RESET}"
-            return 1
-        fi
+        echo -e "${RED}❌ uv is required. Install it from https://docs.astral.sh/uv/getting-started/installation/ and rerun setup.${RESET}"
+        return 1
     fi
     
     typewriter "Syncing project dependencies..." 0.03
@@ -471,7 +467,7 @@ run_curriculum_generator() {
     echo
     
     # Run the actual curriculum generator in interactive mode
-    uv run python learning/curriculum_creation/generate_custom_curriculum.py --interactive
+    uv run python -m learning.curriculum_creation.generate_custom_curriculum --interactive
     
     echo
     typewriter "🎓 Curriculum generation session complete!" 0.05 "$GREEN"

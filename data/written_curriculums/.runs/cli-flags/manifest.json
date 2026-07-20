@@ -1,0 +1,531 @@
+{
+  "artifacts": [],
+  "config_digest": "f017faa38312449b7e47b45c51708458b001351ec4758ea1be995e8fcf2a4959",
+  "errors": [],
+  "finished_at": "2026-07-18T02:00:41.189552+00:00",
+  "prompt_versions": {
+    "AGENTS": "222c2cc527d1f869de06176841d33d0eaf50ed8bf5a972418ebe57d7ee2d89e8",
+    "README": "744f469a3ba359597c556e6cb7065b59da3f31241a839e1b888258c858b84897",
+    "curriculum_section": "2ce9ab415f71c026b49bf55be73eb4f09e254f18748f2db011588907b28e5616",
+    "research_domain_analysis": "9537572db973d24bd620d71beb4311152f17f9214f7a580e3bb6a4e3f4312fa4",
+    "research_domain_curriculum": "0b0b7f0336bfedbb7b3d9e366cb73a7f1525f6e9c32bca9a95a9d81f4726ebfb",
+    "research_entity": "736bafb01504dd15a02f605791e230daad662955fc8fba4d107871770734bc4e",
+    "translation": "a368d2f4d62d530e52a5060b0ebf2e6e9d21e21fb6b3f17f8058e2457e722cb9"
+  },
+  "provenance": {
+    "item_provenance": {},
+    "pipeline": [
+      "acquire",
+      "prepare",
+      "process",
+      "parse",
+      "render"
+    ],
+    "project": "START",
+    "prompt_versions": {
+      "AGENTS": "222c2cc527d1f869de06176841d33d0eaf50ed8bf5a972418ebe57d7ee2d89e8",
+      "README": "744f469a3ba359597c556e6cb7065b59da3f31241a839e1b888258c858b84897",
+      "curriculum_section": "2ce9ab415f71c026b49bf55be73eb4f09e254f18748f2db011588907b28e5616",
+      "research_domain_analysis": "9537572db973d24bd620d71beb4311152f17f9214f7a580e3bb6a4e3f4312fa4",
+      "research_domain_curriculum": "0b0b7f0336bfedbb7b3d9e366cb73a7f1525f6e9c32bca9a95a9d81f4726ebfb",
+      "research_entity": "736bafb01504dd15a02f605791e230daad662955fc8fba4d107871770734bc4e",
+      "translation": "a368d2f4d62d530e52a5060b0ebf2e6e9d21e21fb6b3f17f8058e2457e722cb9"
+    },
+    "provider_metadata": {
+      "content": {
+        "model": "anthropic/claude-3.5-sonnet",
+        "provider": "openrouter"
+      },
+      "research": {
+        "model": "llama-3.1-sonar-small-128k-online",
+        "provider": "perplexity"
+      }
+    },
+    "publication_mode": false,
+    "stage_provenance": {
+      "acquire": {
+        "estimate_cost": false,
+        "mode": "dry-run"
+      },
+      "parse": {
+        "estimate_cost": false,
+        "mode": "dry-run"
+      },
+      "prepare": {
+        "estimate_cost": false,
+        "mode": "dry-run"
+      },
+      "process": {
+        "estimate_cost": false,
+        "mode": "dry-run"
+      },
+      "render": {
+        "estimate_cost": false,
+        "mode": "dry-run"
+      }
+    }
+  },
+  "provider_metadata": {
+    "content": {
+      "model": "anthropic/claude-3.5-sonnet",
+      "provider": "openrouter"
+    },
+    "research": {
+      "model": "llama-3.1-sonar-small-128k-online",
+      "provider": "perplexity"
+    }
+  },
+  "quality": {},
+  "run_id": "cli-flags",
+  "schema_version": "1.0",
+  "stages": {
+    "acquire": {
+      "dependencies": [],
+      "errors": [],
+      "failed": 0,
+      "items": {
+        "domain_research:biochemistry": {
+          "artifact_hashes": {},
+          "errors": [],
+          "input_hashes": {},
+          "item_id": "domain_research:biochemistry",
+          "message": "",
+          "ok": true,
+          "output_paths": [],
+          "provenance": {},
+          "status": "skipped",
+          "usage": {}
+        },
+        "domain_research:daniel_ari_friedman": {
+          "artifact_hashes": {},
+          "errors": [],
+          "input_hashes": {},
+          "item_id": "domain_research:daniel_ari_friedman",
+          "message": "",
+          "ok": true,
+          "output_paths": [],
+          "provenance": {},
+          "status": "skipped",
+          "usage": {}
+        },
+        "domain_research:elon_musk": {
+          "artifact_hashes": {},
+          "errors": [],
+          "input_hashes": {},
+          "item_id": "domain_research:elon_musk",
+          "message": "",
+          "ok": true,
+          "output_paths": [],
+          "provenance": {},
+          "status": "skipped",
+          "usage": {}
+        },
+        "domain_research:karl_friston": {
+          "artifact_hashes": {},
+          "errors": [],
+          "input_hashes": {},
+          "item_id": "domain_research:karl_friston",
+          "message": "",
+          "ok": true,
+          "output_paths": [],
+          "provenance": {},
+          "status": "skipped",
+          "usage": {}
+        },
+        "domain_research:tulsi_gabbard": {
+          "artifact_hashes": {},
+          "errors": [],
+          "input_hashes": {},
+          "item_id": "domain_research:tulsi_gabbard",
+          "message": "",
+          "ok": true,
+          "output_paths": [],
+          "provenance": {},
+          "status": "skipped",
+          "usage": {}
+        }
+      },
+      "name": "acquire",
+      "ok": true,
+      "output_paths": [],
+      "provenance": {
+        "estimate_cost": false,
+        "mode": "dry-run"
+      },
+      "required": true,
+      "skipped": 5,
+      "status": "skipped",
+      "success": 0,
+      "usage": {
+        "actual_cost_usd": 0.0,
+        "completion_tokens": 0,
+        "estimated_cost_usd": 0.0,
+        "prompt_tokens": 0,
+        "requests": 0,
+        "total_tokens": 0
+      }
+    },
+    "parse": {
+      "dependencies": [
+        "process"
+      ],
+      "errors": [],
+      "failed": 0,
+      "items": {
+        "translations:biochemistry": {
+          "artifact_hashes": {},
+          "errors": [],
+          "input_hashes": {},
+          "item_id": "translations:biochemistry",
+          "message": "",
+          "ok": true,
+          "output_paths": [],
+          "provenance": {},
+          "status": "skipped",
+          "usage": {}
+        },
+        "translations:daniel_ari_friedman": {
+          "artifact_hashes": {},
+          "errors": [],
+          "input_hashes": {},
+          "item_id": "translations:daniel_ari_friedman",
+          "message": "",
+          "ok": true,
+          "output_paths": [],
+          "provenance": {},
+          "status": "skipped",
+          "usage": {}
+        },
+        "translations:elon_musk": {
+          "artifact_hashes": {},
+          "errors": [],
+          "input_hashes": {},
+          "item_id": "translations:elon_musk",
+          "message": "",
+          "ok": true,
+          "output_paths": [],
+          "provenance": {},
+          "status": "skipped",
+          "usage": {}
+        },
+        "translations:karl_friston": {
+          "artifact_hashes": {},
+          "errors": [],
+          "input_hashes": {},
+          "item_id": "translations:karl_friston",
+          "message": "",
+          "ok": true,
+          "output_paths": [],
+          "provenance": {},
+          "status": "skipped",
+          "usage": {}
+        },
+        "translations:tulsi_gabbard": {
+          "artifact_hashes": {},
+          "errors": [],
+          "input_hashes": {},
+          "item_id": "translations:tulsi_gabbard",
+          "message": "",
+          "ok": true,
+          "output_paths": [],
+          "provenance": {},
+          "status": "skipped",
+          "usage": {}
+        }
+      },
+      "name": "parse",
+      "ok": true,
+      "output_paths": [],
+      "provenance": {
+        "estimate_cost": false,
+        "mode": "dry-run"
+      },
+      "required": false,
+      "skipped": 5,
+      "status": "skipped",
+      "success": 0,
+      "usage": {
+        "actual_cost_usd": 0.0,
+        "completion_tokens": 0,
+        "estimated_cost_usd": 0.0,
+        "prompt_tokens": 0,
+        "requests": 0,
+        "total_tokens": 0
+      }
+    },
+    "prepare": {
+      "dependencies": [
+        "acquire"
+      ],
+      "errors": [],
+      "failed": 0,
+      "items": {
+        "curriculum_generation:biochemistry": {
+          "artifact_hashes": {},
+          "errors": [],
+          "input_hashes": {},
+          "item_id": "curriculum_generation:biochemistry",
+          "message": "",
+          "ok": true,
+          "output_paths": [],
+          "provenance": {},
+          "status": "skipped",
+          "usage": {}
+        },
+        "curriculum_generation:daniel_ari_friedman": {
+          "artifact_hashes": {},
+          "errors": [],
+          "input_hashes": {},
+          "item_id": "curriculum_generation:daniel_ari_friedman",
+          "message": "",
+          "ok": true,
+          "output_paths": [],
+          "provenance": {},
+          "status": "skipped",
+          "usage": {}
+        },
+        "curriculum_generation:elon_musk": {
+          "artifact_hashes": {},
+          "errors": [],
+          "input_hashes": {},
+          "item_id": "curriculum_generation:elon_musk",
+          "message": "",
+          "ok": true,
+          "output_paths": [],
+          "provenance": {},
+          "status": "skipped",
+          "usage": {}
+        },
+        "curriculum_generation:karl_friston": {
+          "artifact_hashes": {},
+          "errors": [],
+          "input_hashes": {},
+          "item_id": "curriculum_generation:karl_friston",
+          "message": "",
+          "ok": true,
+          "output_paths": [],
+          "provenance": {},
+          "status": "skipped",
+          "usage": {}
+        },
+        "curriculum_generation:tulsi_gabbard": {
+          "artifact_hashes": {},
+          "errors": [],
+          "input_hashes": {},
+          "item_id": "curriculum_generation:tulsi_gabbard",
+          "message": "",
+          "ok": true,
+          "output_paths": [],
+          "provenance": {},
+          "status": "skipped",
+          "usage": {}
+        }
+      },
+      "name": "prepare",
+      "ok": true,
+      "output_paths": [],
+      "provenance": {
+        "estimate_cost": false,
+        "mode": "dry-run"
+      },
+      "required": true,
+      "skipped": 5,
+      "status": "skipped",
+      "success": 0,
+      "usage": {
+        "actual_cost_usd": 0.0,
+        "completion_tokens": 0,
+        "estimated_cost_usd": 0.0,
+        "prompt_tokens": 0,
+        "requests": 0,
+        "total_tokens": 0
+      }
+    },
+    "process": {
+      "dependencies": [
+        "prepare"
+      ],
+      "errors": [],
+      "failed": 0,
+      "items": {
+        "curriculum_generation:biochemistry": {
+          "artifact_hashes": {},
+          "errors": [],
+          "input_hashes": {},
+          "item_id": "curriculum_generation:biochemistry",
+          "message": "",
+          "ok": true,
+          "output_paths": [],
+          "provenance": {},
+          "status": "skipped",
+          "usage": {}
+        },
+        "curriculum_generation:daniel_ari_friedman": {
+          "artifact_hashes": {},
+          "errors": [],
+          "input_hashes": {},
+          "item_id": "curriculum_generation:daniel_ari_friedman",
+          "message": "",
+          "ok": true,
+          "output_paths": [],
+          "provenance": {},
+          "status": "skipped",
+          "usage": {}
+        },
+        "curriculum_generation:elon_musk": {
+          "artifact_hashes": {},
+          "errors": [],
+          "input_hashes": {},
+          "item_id": "curriculum_generation:elon_musk",
+          "message": "",
+          "ok": true,
+          "output_paths": [],
+          "provenance": {},
+          "status": "skipped",
+          "usage": {}
+        },
+        "curriculum_generation:karl_friston": {
+          "artifact_hashes": {},
+          "errors": [],
+          "input_hashes": {},
+          "item_id": "curriculum_generation:karl_friston",
+          "message": "",
+          "ok": true,
+          "output_paths": [],
+          "provenance": {},
+          "status": "skipped",
+          "usage": {}
+        },
+        "curriculum_generation:tulsi_gabbard": {
+          "artifact_hashes": {},
+          "errors": [],
+          "input_hashes": {},
+          "item_id": "curriculum_generation:tulsi_gabbard",
+          "message": "",
+          "ok": true,
+          "output_paths": [],
+          "provenance": {},
+          "status": "skipped",
+          "usage": {}
+        }
+      },
+      "name": "process",
+      "ok": true,
+      "output_paths": [],
+      "provenance": {
+        "estimate_cost": false,
+        "mode": "dry-run"
+      },
+      "required": false,
+      "skipped": 5,
+      "status": "skipped",
+      "success": 0,
+      "usage": {
+        "actual_cost_usd": 0.0,
+        "completion_tokens": 0,
+        "estimated_cost_usd": 0.0,
+        "prompt_tokens": 0,
+        "requests": 0,
+        "total_tokens": 0
+      }
+    },
+    "render": {
+      "dependencies": [
+        "parse"
+      ],
+      "errors": [],
+      "failed": 0,
+      "items": {
+        "visualizations:biochemistry": {
+          "artifact_hashes": {},
+          "errors": [],
+          "input_hashes": {},
+          "item_id": "visualizations:biochemistry",
+          "message": "",
+          "ok": true,
+          "output_paths": [],
+          "provenance": {},
+          "status": "skipped",
+          "usage": {}
+        },
+        "visualizations:daniel_ari_friedman": {
+          "artifact_hashes": {},
+          "errors": [],
+          "input_hashes": {},
+          "item_id": "visualizations:daniel_ari_friedman",
+          "message": "",
+          "ok": true,
+          "output_paths": [],
+          "provenance": {},
+          "status": "skipped",
+          "usage": {}
+        },
+        "visualizations:elon_musk": {
+          "artifact_hashes": {},
+          "errors": [],
+          "input_hashes": {},
+          "item_id": "visualizations:elon_musk",
+          "message": "",
+          "ok": true,
+          "output_paths": [],
+          "provenance": {},
+          "status": "skipped",
+          "usage": {}
+        },
+        "visualizations:karl_friston": {
+          "artifact_hashes": {},
+          "errors": [],
+          "input_hashes": {},
+          "item_id": "visualizations:karl_friston",
+          "message": "",
+          "ok": true,
+          "output_paths": [],
+          "provenance": {},
+          "status": "skipped",
+          "usage": {}
+        },
+        "visualizations:tulsi_gabbard": {
+          "artifact_hashes": {},
+          "errors": [],
+          "input_hashes": {},
+          "item_id": "visualizations:tulsi_gabbard",
+          "message": "",
+          "ok": true,
+          "output_paths": [],
+          "provenance": {},
+          "status": "skipped",
+          "usage": {}
+        }
+      },
+      "name": "render",
+      "ok": true,
+      "output_paths": [],
+      "provenance": {
+        "estimate_cost": false,
+        "mode": "dry-run"
+      },
+      "required": false,
+      "skipped": 5,
+      "status": "skipped",
+      "success": 0,
+      "usage": {
+        "actual_cost_usd": 0.0,
+        "completion_tokens": 0,
+        "estimated_cost_usd": 0.0,
+        "prompt_tokens": 0,
+        "requests": 0,
+        "total_tokens": 0
+      }
+    }
+  },
+  "started_at": "2026-07-18T02:00:41.183598+00:00",
+  "status": "succeeded",
+  "usage": {
+    "actual_cost_usd": 0.0,
+    "completion_tokens": 0,
+    "estimated_cost_usd": 0.759,
+    "prompt_tokens": 0,
+    "requests": 0,
+    "total_tokens": 0
+  }
+}

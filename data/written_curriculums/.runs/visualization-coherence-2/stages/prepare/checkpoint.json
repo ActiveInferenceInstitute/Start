@@ -1,0 +1,17 @@
+{
+  "dependencies": [
+    "acquire"
+  ],
+  "errors": [],
+  "failed": 0,
+  "items": {},
+  "name": "prepare",
+  "ok": true,
+  "output_paths": [],
+  "provenance": {},
+  "required": true,
+  "skipped": 0,
+  "status": "succeeded",
+  "success": 0,
+  "usage": {}
+}

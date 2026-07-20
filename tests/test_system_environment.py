@@ -1,7 +1,7 @@
 """Tests for the environment setup and validation module.
 
 Uses tmp_path for filesystem operations and monkeypatch for env vars.
-No mocks, no network — purely deterministic tests.
+No provider network calls — deterministic environment tests.
 """
 
 from __future__ import annotations
@@ -81,7 +81,7 @@ class TestValidateEnvironment:
         """Test validation catches missing directories."""
         monkeypatch.setattr("src.system.environment.repo_root", lambda: tmp_path)
 
-        # Simulate virtual environment by making sys.base_prefix != sys.prefix
+        # Represent a virtual environment by making sys.base_prefix != sys.prefix
         original_prefix = sys.prefix
         monkeypatch.setattr(sys, "prefix", original_prefix + "/venv")
 

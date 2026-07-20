@@ -278,7 +278,7 @@ def matrix_banner(text: str, width: Optional[int] = None) -> str:
 
 
 def boot_sequence(steps: List[str], delay: float = 0.5) -> Generator[str, None, None]:
-    """Simulate a system boot sequence animation.
+    """Yield a system boot sequence animation.
 
     Args:
         steps: List of boot step messages

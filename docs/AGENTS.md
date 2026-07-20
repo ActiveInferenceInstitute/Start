@@ -25,7 +25,8 @@ Technical documentation for the documentation directory structure and organizati
 
 ### Reference
 - `FAQ.md`: Frequently asked questions
-- `ROADMAP.md`: Development roadmap
+- `ROADMAP.md`: Historical roadmap pointer; the canonical forward backlog is
+  the root [`TODO.md`](../TODO.md)
 - `examples.md`: Examples and usage patterns
 - `clones.md`: Repository clone management
 - `learning_api_integration.md`: API integration guide

@@ -1,7 +1,7 @@
 """Integration tests for the main run.sh script functionality.
 
 These tests verify that the Python components called by run.sh work correctly
-and that the overall system integration is sound. Uses real methods with no mocks.
+and that the overall system integration is sound. Uses real methods and local data.
 """
 
 from __future__ import annotations
@@ -551,35 +551,17 @@ from src.system.dependencies import check_python_package
 from src.repos.cloning import validate_repository_url
 from src.terminal.colors import matrix_text
 
-# Test error recovery in various components
-errors_handled = 0
+# Verify invalid inputs produce deterministic, observable outcomes.
+check = check_python_package("definitely-not-a-real-package-name-12345")
+assert not check.available
+assert check.error_message
 
-# Test 1: Invalid package
-try:
-    check = check_python_package("definitely-not-a-real-package-name-12345")
-    assert not check.available
-    errors_handled += 1
-except Exception:
-    pass
+assert validate_repository_url("not-a-valid-url") is False
 
-# Test 2: Invalid repository URL
-try:
-    is_valid = validate_repository_url("not-a-valid-url")
-    assert not is_valid
-    errors_handled += 1
-except Exception:
-    pass
+text = matrix_text("Test", "invalid-style")
+assert isinstance(text, str)
 
-# Test 3: Terminal colors should work even with invalid styles
-try:
-    text = matrix_text("Test", "invalid-style")  # Should fall back
-    assert isinstance(text, str)
-    errors_handled += 1
-except Exception:
-    pass
-
-print(f"Error recovery test: {errors_handled}/3 tests handled gracefully")
-assert errors_handled >= 2, "Not enough error cases handled gracefully"
+print("Error recovery test: 3/3 cases handled gracefully")
 """
 
         result = subprocess.run(

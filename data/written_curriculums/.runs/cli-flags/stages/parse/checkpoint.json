@@ -1,0 +1,88 @@
+{
+  "dependencies": [
+    "process"
+  ],
+  "errors": [],
+  "failed": 0,
+  "items": {
+    "translations:biochemistry": {
+      "artifact_hashes": {},
+      "errors": [],
+      "input_hashes": {},
+      "item_id": "translations:biochemistry",
+      "message": "",
+      "ok": true,
+      "output_paths": [],
+      "provenance": {},
+      "status": "skipped",
+      "usage": {}
+    },
+    "translations:daniel_ari_friedman": {
+      "artifact_hashes": {},
+      "errors": [],
+      "input_hashes": {},
+      "item_id": "translations:daniel_ari_friedman",
+      "message": "",
+      "ok": true,
+      "output_paths": [],
+      "provenance": {},
+      "status": "skipped",
+      "usage": {}
+    },
+    "translations:elon_musk": {
+      "artifact_hashes": {},
+      "errors": [],
+      "input_hashes": {},
+      "item_id": "translations:elon_musk",
+      "message": "",
+      "ok": true,
+      "output_paths": [],
+      "provenance": {},
+      "status": "skipped",
+      "usage": {}
+    },
+    "translations:karl_friston": {
+      "artifact_hashes": {},
+      "errors": [],
+      "input_hashes": {},
+      "item_id": "translations:karl_friston",
+      "message": "",
+      "ok": true,
+      "output_paths": [],
+      "provenance": {},
+      "status": "skipped",
+      "usage": {}
+    },
+    "translations:tulsi_gabbard": {
+      "artifact_hashes": {},
+      "errors": [],
+      "input_hashes": {},
+      "item_id": "translations:tulsi_gabbard",
+      "message": "",
+      "ok": true,
+      "output_paths": [],
+      "provenance": {},
+      "status": "skipped",
+      "usage": {}
+    }
+  },
+  "name": "parse",
+  "ok": true,
+  "output_paths": [],
+  "provenance": {
+    "estimate_cost": false,
+    "mode": "dry-run"
+  },
+  "required": false,
+  "skipped": 5,
+  "status": "skipped",
+  "success": 0,
+  "usage": {
+    "actual_cost_usd": 0.0,
+    "completion_tokens": 0,
+    "estimated_cost_usd": 0.0,
+    "prompt_tokens": 0,
+    "requests": 0,
+    "total_tokens": 0
+  }
+}

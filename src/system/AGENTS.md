@@ -24,6 +24,7 @@ System information container.
 - `virtual_env: Optional[str]`: Virtual environment path
 - `ip_addresses: List[str]`: Network IP addresses
 - `internet_connected: bool`: Internet connectivity status
+- `network_errors: List[str]`: Labeled network diagnostic failures
 - `project_root: str`: Project root directory
 - `git_info: Dict[str, str]`: Git repository information
 - `report_time: str`: Report timestamp
@@ -34,9 +35,8 @@ Current resource usage statistics.
 **Attributes**:
 - `cpu_percent: float`: CPU usage percentage
 - `memory_percent: float`: Memory usage percentage
-- `memory_used_gb: float`: Memory used in GB
 - `memory_available_gb: float`: Memory available in GB
-- `disk_usage_percent: Dict[str, float]`: Disk usage by mount point
+- `load_average: List[float]`: System load average when available
 
 ### Functions
 
@@ -83,7 +83,9 @@ Represents the result of a dependency check.
 Complete dependency check report.
 
 **Attributes**:
-- `checks: List[DependencyCheck]`: List of dependency checks
+- `python_packages: List[DependencyCheck]`: Python package checks
+- `system_tools: List[DependencyCheck]`: Required tools and project-file checks
+- `optional_tools: List[DependencyCheck]`: Optional tools and environment checks
 - `all_required_available: bool`: Whether all required dependencies are available
 - `missing_required: List[str]`: List of missing required dependencies
 - `missing_optional: List[str]`: List of missing optional dependencies
@@ -94,6 +96,10 @@ Complete dependency check report.
 Runs comprehensive dependency check.
 
 **Returns**: DependencyReport with all check results
+
+**Behavior**: Reads declared distributions from `pyproject.toml`, maps them to
+import names for availability checks, and retains distribution names for
+version and missing-dependency diagnostics.
 
 #### `format_dependency_report(report: DependencyReport, show_optional: bool = True) -> str`
 Formats dependency report for display.
@@ -109,23 +115,32 @@ Validates API keys in environment.
 
 **Returns**: Dictionary mapping API key names to validation status
 
+#### `probe_api_connectivity(timeout: float = 10.0) -> Dict[str, Any]`
+Performs explicit live provider connectivity probes.
+
+**Behavior**: Makes bounded provider requests only when directly invoked and
+returns provider booleans plus labeled error details.
+
 ## Module: `environment.py`
 
 ### Functions
 
-#### `setup_project_environment() -> Tuple[bool, List[str]]`
+#### `setup_project_environment(project_root: Optional[Path | str] = None, sync_command: Optional[Sequence[str]] = None) -> Tuple[bool, List[str]]`
 Sets up complete project environment.
 
 **Returns**: Tuple of (success, list of messages)
 
-**Behavior**: Creates config files, validates setup, provides feedback
+**Behavior**: Uses `uv sync --all-extras --dev` by default. Callers may provide
+an explicit project root and executable command for controlled environments.
 
-#### `validate_environment() -> Tuple[bool, List[str]]`
+#### `validate_environment(root: Optional[Path | str] = None) -> Tuple[bool, List[str]]`
 Validates environment configuration.
 
 **Returns**: Tuple of (is_valid, list of messages)
 
-#### `get_environment_info() -> Dict[str, any]`
+**Parameters**: Optional project root to validate; defaults to the repository root.
+
+#### `get_environment_info() -> Dict[str, Any]`
 Gets environment information.
 
 **Returns**: Dictionary with environment details
@@ -135,7 +150,7 @@ Fixes common environment issues.
 
 **Returns**: List of fix messages
 
-#### `run_health_check() -> Tuple[bool, Dict[str, any]]`
+#### `run_health_check() -> Tuple[bool, Dict[str, Any]]`
 Runs comprehensive health check.
 
 **Returns**: Tuple of (is_healthy, health check results)

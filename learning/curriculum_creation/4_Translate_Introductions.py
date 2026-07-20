@@ -17,7 +17,7 @@ from src.common.logging_utils import setup_logging as common_setup_logging
 from src.common.paths import data_translated_curriculums_dir, data_written_curriculums_dir
 from src.config.languages import get_target_languages
 from src.perplexity.clients import build_openrouter_client
-from src.perplexity.translation import process_translations
+from src.perplexity.translation import process_translations_detailed
 
 
 def validate_languages(requested_languages: List[str], available_languages: List[str]) -> List[str]:
@@ -71,7 +71,7 @@ def validate_languages(requested_languages: List[str], available_languages: List
     return valid_languages
 
 
-def main():
+def main(argv: list[str] | None = None) -> int:
     """Main function to orchestrate curriculum translation.
 
     This function:
@@ -96,7 +96,18 @@ def main():
         nargs="+",
         help="List of target languages for translation (default: all configured languages)",
     )
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
+    from learning.curriculum_creation.generate_custom_curriculum import main as canonical_main
+
+    delegated = ["--non-interactive", "--stages", "translations"]
+    if args.input:
+        delegated.extend(["--curriculum-dir", args.input])
+    if args.output:
+        delegated.extend(["--translation-dir", args.output])
+    if args.languages:
+        delegated.extend(["--languages", *args.languages])
+    common_setup_logging().info("Delegating translation to the canonical pipeline")
+    return canonical_main(delegated)
 
     logger = common_setup_logging()
     logger.info("Starting curriculum translation")
@@ -158,7 +169,7 @@ def main():
         # Process translations
         logger.info("Starting translation processing")
         try:
-            success_count, failed_count = process_translations(
+            success_count, failed_count, _items = process_translations_detailed(
                 client, str(input_dir), str(output_dir), target_languages
             )
         except Exception as e:
@@ -193,4 +204,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

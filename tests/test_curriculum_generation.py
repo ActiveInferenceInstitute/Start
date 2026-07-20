@@ -2,10 +2,12 @@
 
 Covers: save_section, save_complete_curriculum, concatenate_sections,
 process_research_file validation paths, and _load_research_content.
-Uses real files (no mocks).
+Uses real files and local execution paths.
 """
 
 from __future__ import annotations
+
+import pytest
 
 from src.perplexity.curriculum import (
     _load_research_content,
@@ -58,11 +60,11 @@ class TestSaveCompleteCurriculum:
 
     def test_empty_sections(self, tmp_path):
         """Test with empty sections dict."""
-        result = save_complete_curriculum(str(tmp_path), "empty_entity", {})
-        assert result.exists()
-        content = result.read_text()
-        assert "---" in content
-        assert "empty_entity" in content
+        with pytest.raises(ValueError, match="empty curriculum"):
+            save_complete_curriculum(str(tmp_path), "empty_entity", {})
+
+        with pytest.raises(ValueError, match="entity_name"):
+            save_complete_curriculum(str(tmp_path), "", {"Introduction": "Content"})
 
 
 class TestConcatenateSections:

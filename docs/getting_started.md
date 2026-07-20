@@ -35,27 +35,25 @@ uv run black --check .
 ## First Research Session
 
 ```bash
-# Ensure imports work
-export PYTHONPATH=$(pwd):$PYTHONPATH
+# Plan a release-aware run without contacting providers
+uv run start-curriculum --non-interactive --domains biochemistry \
+  --entities karl_friston --languages Spanish --dry-run --run-id getting-started --json
 
-# Research a domain (creates comprehensive analysis)
-uv run python learning/curriculum_creation/1_Research_Domain.py --domain biochemistry
-
-# Research an entity (creates personalized profile)
-uv run python learning/curriculum_creation/1_Research_Entity.py --entity karl_friston
+# For live research, remove --dry-run only after reviewing the estimate and budget.
 ```
 
 ## Generate Curriculum and Visualizations
 
 ```bash
-# Generate curricula from research (40-60 hour programs)
-uv run python learning/curriculum_creation/2_Write_Introduction.py
+# Generate curricula from research through the canonical runner
+uv run start-curriculum --non-interactive --stages curriculum --json
 
-# Create visualizations (PNG charts + Mermaid diagrams)
-uv run python learning/curriculum_creation/3_Introduction_Visualizations.py
+# Create visualizations through the canonical render stage
+uv run start-curriculum --non-interactive --stages visualizations --json
 
-# Translate to multiple languages (with cultural adaptation)
-uv run python learning/curriculum_creation/4_Translate_Introductions.py --languages Spanish French
+# Translate to multiple languages through the canonical parse stage
+uv run start-curriculum --non-interactive --stages translations \
+  --languages Spanish French --json
 ```
 
 ## Explore Generated Content
@@ -75,15 +73,18 @@ ls data/translated_curriculums/  # Multilingual content
 
 ```bash
 # Research high-priority entities
-python learning/curriculum_creation/1_Research_Entity.py --priority high
+uv run start-curriculum --non-interactive --stages entity-research \
+  --entity-priority high --json
 
 # Research specific domain with overwrite
-python learning/curriculum_creation/1_Research_Domain.py --domain biochemistry --overwrite
+uv run start-curriculum --non-interactive --stages domain-research \
+  --domains biochemistry --overwrite --json
 
 # Filter by category and priority
-python learning/curriculum_creation/1_Research_Domain.py --category life_sciences --priority high
+uv run start-curriculum --non-interactive --stages domain-research \
+  --domain-category life_sciences --domain-priority high --json
 
 # Generate multilingual content
-python learning/curriculum_creation/4_Translate_Introductions.py --languages Spanish French German
+uv run start-curriculum --non-interactive --stages translations \
+  --languages Spanish French German --json
 ```
-

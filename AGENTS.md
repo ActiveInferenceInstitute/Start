@@ -4,6 +4,10 @@
 
 This document provides technical documentation for repository-level entry points, scripts, and main functions.
 
+The canonical forward backlog is [TODO.md](TODO.md). It contains only
+unchecked future work; completed implementation checklists do not belong in
+this reference.
+
 ## Entry Point Scripts
 
 ### `run.sh`
@@ -30,7 +34,7 @@ This document provides technical documentation for repository-level entry points
 - `open_browser(url)`: Opens URL in default browser
 - `is_port_in_use(port)`: Checks if TCP port is in use
 - `find_free_port(start_port)`: Finds next available port
-- `select_runner()`: Selects mkdocs runner (uvx/mkdocs/uv)
+- `select_runner()`: Selects the locked `uv run mkdocs` environment
 
 **Modes**:
 - `--serve`: Serve documentation with live reload
@@ -56,6 +60,14 @@ MkDocs configuration for documentation site structure and theming.
 
 ### `uv.lock`
 Lock file for dependency versions managed by uv.
+
+### Stable commands
+
+- `uv run start-curriculum`: canonical acquire → prepare → process → parse → render orchestrator
+- `uv run start-curriculum-gui`: loopback-only GUI by default
+- `uv run start-validate-outputs --check`: structural output validation
+- `uv run start-audit-artifacts --check`: non-destructive provenance and duplication audit
+- `uv run start-regenerate-offline`: deterministic synthetic fixture generation
 
 ## Main Directories
 

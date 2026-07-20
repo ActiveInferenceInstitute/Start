@@ -1,0 +1,86 @@
+{
+  "dependencies": [],
+  "errors": [],
+  "failed": 0,
+  "items": {
+    "domain_research:biochemistry": {
+      "artifact_hashes": {},
+      "errors": [],
+      "input_hashes": {},
+      "item_id": "domain_research:biochemistry",
+      "message": "",
+      "ok": true,
+      "output_paths": [],
+      "provenance": {},
+      "status": "skipped",
+      "usage": {}
+    },
+    "domain_research:daniel_ari_friedman": {
+      "artifact_hashes": {},
+      "errors": [],
+      "input_hashes": {},
+      "item_id": "domain_research:daniel_ari_friedman",
+      "message": "",
+      "ok": true,
+      "output_paths": [],
+      "provenance": {},
+      "status": "skipped",
+      "usage": {}
+    },
+    "domain_research:elon_musk": {
+      "artifact_hashes": {},
+      "errors": [],
+      "input_hashes": {},
+      "item_id": "domain_research:elon_musk",
+      "message": "",
+      "ok": true,
+      "output_paths": [],
+      "provenance": {},
+      "status": "skipped",
+      "usage": {}
+    },
+    "domain_research:karl_friston": {
+      "artifact_hashes": {},
+      "errors": [],
+      "input_hashes": {},
+      "item_id": "domain_research:karl_friston",
+      "message": "",
+      "ok": true,
+      "output_paths": [],
+      "provenance": {},
+      "status": "skipped",
+      "usage": {}
+    },
+    "domain_research:tulsi_gabbard": {
+      "artifact_hashes": {},
+      "errors": [],
+      "input_hashes": {},
+      "item_id": "domain_research:tulsi_gabbard",
+      "message": "",
+      "ok": true,
+      "output_paths": [],
+      "provenance": {},
+      "status": "skipped",
+      "usage": {}
+    }
+  },
+  "name": "acquire",
+  "ok": true,
+  "output_paths": [],
+  "provenance": {
+    "estimate_cost": false,
+    "mode": "dry-run"
+  },
+  "required": true,
+  "skipped": 5,
+  "status": "skipped",
+  "success": 0,
+  "usage": {
+    "actual_cost_usd": 0.0,
+    "completion_tokens": 0,
+    "estimated_cost_usd": 0.0,
+    "prompt_tokens": 0,
+    "requests": 0,
+    "total_tokens": 0
+  }
+}

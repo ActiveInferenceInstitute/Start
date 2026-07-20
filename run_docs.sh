@@ -84,19 +84,10 @@ find_free_port() {
   return 1
 }
 
-# Select mkdocs runner without requiring pip inside uv venvs.
+# Select the repository-locked MkDocs runner used by CI.
 select_runner() {
-  if have_cmd uvx; then
-    echo "uvx mkdocs"
-    return 0
-  fi
-  if have_cmd mkdocs; then
-    echo "mkdocs"
-    return 0
-  fi
   if have_cmd uv; then
-    # Use ephemeral packages with uv run
-    echo "uv run --with mkdocs --with mkdocs-material mkdocs"
+    echo "uv run mkdocs"
     return 0
   fi
   echo ""  # no runner
@@ -138,7 +129,7 @@ done
 
 RUNNER="$(select_runner)"
 if [[ -z "$RUNNER" ]]; then
-  echo "Error: mkdocs is not available (uvx/mkdocs/uv missing). Install uv (recommended) or mkdocs." >&2
+  echo "Error: uv is not available; install uv and run uv sync --all-extras --dev." >&2
   exit 1
 fi
 

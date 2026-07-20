@@ -2,10 +2,10 @@
 
 ## Quick Start - Interactive Mode
 
-The `generate_custom_curriculum.py` script now runs **interactively by default**! Simply run:
+The `start-curriculum` command now runs **interactively by default**! Simply run:
 
 ```bash
-python generate_custom_curriculum.py
+uv run start-curriculum
 ```
 
 ## How It Works
@@ -89,13 +89,13 @@ Create this as a new custom language? [y/N]: y
 
 ### Use All Defaults
 ```bash
-python generate_custom_curriculum.py
+uv run start-curriculum
 # Just press Enter three times, then Y to confirm
 ```
 
 ### Customize Domain Only
 ```bash
-python generate_custom_curriculum.py
+uv run start-curriculum
 # Type: neuroscience
 # Press Enter for entity (karl_friston)  
 # Press Enter for language (Spanish)
@@ -104,7 +104,7 @@ python generate_custom_curriculum.py
 
 ### Customize All Options
 ```bash
-python generate_custom_curriculum.py
+uv run start-curriculum
 # Type: artificial_intelligence
 # Type: elon_musk
 # Type: Chinese
@@ -113,7 +113,7 @@ python generate_custom_curriculum.py
 
 ### Create Custom Entries
 ```bash
-python generate_custom_curriculum.py
+uv run start-curriculum
 # Type: art (new custom domain)
 # Type: y to create custom domain
 # Type: curator (new custom entity)
@@ -130,13 +130,13 @@ You can still use command-line arguments to skip interactive mode:
 
 ```bash
 # Use specific configuration
-python generate_custom_curriculum.py --domains neuroscience --entities tulsi_gabbard --languages French
+uv run start-curriculum --domains neuroscience --entities tulsi_gabbard --languages French
 
 # Force non-interactive with defaults
-python generate_custom_curriculum.py --non-interactive
+uv run start-curriculum --non-interactive
 
 # Force interactive mode even with args
-python generate_custom_curriculum.py --interactive
+uv run start-curriculum --interactive
 ```
 
 ## What Happens Next
@@ -183,7 +183,7 @@ The script reads from these configuration files:
 
 **API Errors**: Ensure your API keys are properly set and have sufficient credits.
 
-**No Config Files**: The script includes fallback defaults if config files aren't found.
+**Configuration is required**: The script reads domains, entities, and languages from `data/config/` and reports missing or malformed files.
 
 ---
 

@@ -1,0 +1,25 @@
+name: Release gate
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  release-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v3
+        with:
+          enable-cache: true
+      - run: uv python install 3.12
+      - run: uv sync --all-extras --dev
+      - run: uv run python -m scripts.validate_repository
+      - run: uv run python -m scripts.audit_artifacts --check --fail-on-unprovenanced
+      - run: uv run start-validate-outputs --check --publication
+      - run: uv run start-regenerate-offline --output-dir "$RUNNER_TEMP/start-fixture" --run-id release-fixture --json > /dev/null
+      - run: uv run pytest --cov=src --cov-branch --cov-report=term-missing --cov-fail-under=90 -q
+      - run: uv run mypy src/pipeline src/config/schemas.py --ignore-missing-imports --follow-imports=skip
+      - run: uv run pip-audit --strict

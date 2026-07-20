@@ -4,14 +4,15 @@ How multilingual outputs are generated and organized.
 
 ## Overview
 
-The system supports 9+ target languages with cultural adaptation, driven by `data/config/languages.yaml` and the translation prompt template.
+The system supports the target languages configured in `data/config/languages.yaml`, with script-aware quality checks and evidence-status metadata.
 
 ## Run Translation
 
-From `learning/curriculum_creation/`:
+From the repository root:
 
 ```bash
-uv run python 4_Translate_Introductions.py --languages Spanish French Chinese
+uv run start-curriculum --non-interactive --stages translations \
+  --languages Spanish French Chinese --json
 ```
 
 If `--languages` is omitted, languages are read from `data/config/languages.yaml`.
@@ -54,6 +55,4 @@ data/prompts/translation.md
 ```
 
 This template ensures tone, terminology, and cultural appropriateness while preserving technical accuracy.
-
-
 

@@ -14,7 +14,7 @@ Domain research script using Perplexity API.
 - `get_domain_files(domain_dir: Path) -> List[Path]`: Get domain files to process
 - `main()`: Main execution function
 
-**Input**: Domain files from `Languages/Inputs_and_Outputs/Domain/`
+**Input**: Domain files from `data/domain_research/`
 **Output**: Research reports in `data/domain_research/`
 
 ### `1_Research_Entity.py`
@@ -25,7 +25,7 @@ Entity/audience research script using Perplexity API.
 - `get_entity_files(entity_dir: Path) -> List[Path]`: Get entity files to process
 - `main()`: Main execution function
 
-**Input**: Entity files from `Languages/Inputs_and_Outputs/Entity/`
+**Input**: Entity files from `data/audience_research/`
 **Output**: Research reports in `data/audience_research/`
 
 ### `2_Write_Introduction.py`
@@ -33,7 +33,7 @@ Curriculum generation script using OpenRouter API.
 
 **Functions**:
 - `get_research_files(research_dir: Path, pattern: str) -> List[Path]`: Get research files
-- `process_research_directory(research_dir: Path, output_dir: Path, client) -> None`: Process directory
+- `get_research_files(research_dir: Path, pattern: str) -> list[Path]`: Locate research inputs
 - `main()`: Main execution function
 
 **Input**: Research files from `data/domain_research/` and `data/audience_research/`

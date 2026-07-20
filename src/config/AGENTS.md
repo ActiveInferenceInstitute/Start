@@ -6,25 +6,16 @@ Technical documentation for configuration system functions.
 
 ## Module: `languages.py`
 
-### Constants
-
-#### `DEFAULT_LANGUAGES_CONFIG: Dict[str, Any]`
-Default language configuration used when config file is not found.
-
-**Structure**:
-- `target_languages`: List of language names
-- `script_mappings`: Dictionary mapping language names to script names
-
 ### Functions
 
 #### `load_languages_config() -> Dict[str, Any]`
-Loads languages configuration from `data/config/languages.yaml` or `.md`.
+Loads languages configuration from `data/config/languages.yaml`.
 
 **Returns**: Dictionary containing languages configuration
 
-**Behavior**: Returns `DEFAULT_LANGUAGES_CONFIG` if config file not found
+**Behavior**: Raises `FileNotFoundError` when the required configuration is absent.
 
-**Raises**: None (falls back to defaults)
+**Raises**: `FileNotFoundError` or `ValueError` for invalid configuration.
 
 #### `get_target_languages(config: Optional[Dict[str, Any]] = None) -> List[str]`
 Gets the list of target languages for translation.
@@ -34,7 +25,7 @@ Gets the list of target languages for translation.
 
 **Returns**: List of target language names
 
-**Default**: Returns default languages if config not provided and file not found
+**Validation**: Requires a non-empty configured target language list.
 
 #### `get_script_mapping(language: str, config: Optional[Dict[str, Any]] = None) -> str`
 Gets the script mapping for a language.

@@ -36,16 +36,8 @@ class TestScriptIntegration:
             spec = importlib.util.spec_from_file_location(module_name, script_path)
             module = importlib.util.module_from_spec(spec)
 
-            # Should be able to load without import errors
-            try:
-                spec.loader.exec_module(module)
-                assert hasattr(module, "main"), f"Script {script_name} missing main function"
-            except ImportError as e:
-                # Allow missing dependencies in testing environment
-                if "matplotlib" in str(e) or "pandas" in str(e) or "seaborn" in str(e):
-                    pass  # OK for testing environment
-                else:
-                    raise
+            spec.loader.exec_module(module)
+            assert hasattr(module, "main"), f"Script {script_name} missing main function"
 
     def test_data_paths_structure(self):
         """Test that data paths follow the expected structure."""

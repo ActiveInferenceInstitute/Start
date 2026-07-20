@@ -30,7 +30,7 @@ class TestBuildConfigFromForm:
         assert cfg.target_entities == ["karl_friston"]
         assert cfg.target_languages == ["Spanish"]
         assert cfg.skip_existing_research is False
-        assert getattr(cfg, "_custom_entity_description", None) is None
+        assert cfg.custom_entity_description is None
 
     def test_build_config_with_custom_entity_description(self):
         """Test building config with custom entity description."""
@@ -40,7 +40,66 @@ class TestBuildConfigFromForm:
         assert cfg.target_domains == ["neuroscience"]
         assert cfg.target_entities == ["custom_person"]
         assert cfg.target_languages == ["French"]
-        assert getattr(cfg, "_custom_entity_description", None) == "A custom audience"
+        assert cfg.custom_entity_description == "A custom audience"
+
+    def test_form_parser_preserves_custom_values_and_rejects_non_strings(self):
+        from learning.curriculum_creation.generate_curriculum_gui import _parse_start_payload
+
+        parsed = _parse_start_payload(
+            {
+                "domain": "Custom domain",
+                "entity": "Custom audience",
+                "language": "Esperanto",
+                "entity_description": "A real description",
+            }
+        )
+        assert parsed == (
+            "Custom domain",
+            "Custom audience",
+            "Esperanto",
+            "A real description",
+        )
+
+        try:
+            _parse_start_payload({"domain": [], "entity": "reader", "language": "Spanish"})
+        except ValueError as exc:
+            assert "domain must be a string" in str(exc)
+        else:
+            raise AssertionError("non-string GUI input was accepted")
+
+    def test_remote_binding_requires_explicit_authentication(self):
+        from learning.curriculum_creation.generate_curriculum_gui import run_gui_server
+
+        try:
+            run_gui_server("0.0.0.0", 0, open_browser=False)
+        except ValueError as exc:
+            assert "allow-remote" in str(exc)
+        else:
+            raise AssertionError("remote GUI binding was accepted without opt-in")
+
+        try:
+            run_gui_server("0.0.0.0", 0, open_browser=False, allow_remote=True)
+        except ValueError as exc:
+            assert "authentication token" in str(exc)
+        else:
+            raise AssertionError("remote GUI binding was accepted without authentication")
+
+    def test_public_errors_and_html_summary_are_redacted(self):
+        from learning.curriculum_creation.generate_curriculum_gui import (
+            _results_to_summary_html,
+            _safe_public_error,
+        )
+
+        safe = _safe_public_error(
+            "Bearer sk-secret-value at /Users/private/project/output with prompt details"
+        )
+        assert "sk-secret-value" not in safe
+        assert "/Users/private" not in safe
+        html = _results_to_summary_html(
+            {"research": {"success": 0, "failed": 1, "skipped": 0, "errors": [safe]}}
+        )
+        assert "Run Summary" in html
+        assert "sk-secret-value" not in html
 
 
 class TestProgressEstimators:

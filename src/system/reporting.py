@@ -16,10 +16,11 @@ import shutil
 import socket
 import subprocess
 import sys
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Any, Callable, Dict, List, Optional, Tuple
 
 import src.common.paths as paths
 
@@ -47,6 +48,7 @@ class SystemInfo:
     # Network info
     ip_addresses: List[str] = field(default_factory=list)
     internet_connected: bool = False
+    network_errors: List[str] = field(default_factory=list)
 
     # Project info
     project_root: str = ""
@@ -64,6 +66,15 @@ class ResourceUsage:
     memory_percent: float = 0.0
     memory_available_gb: float = 0.0
     load_average: List[float] = field(default_factory=list)
+
+
+def _bounded_network_call(function: Callable[[], Any], timeout: float) -> Any:
+    executor = ThreadPoolExecutor(max_workers=1)
+    future = executor.submit(function)
+    try:
+        return future.result(timeout=timeout)
+    finally:
+        executor.shutdown(wait=False, cancel_futures=True)
 
 
 def get_basic_system_info() -> Dict[str, str]:
@@ -199,39 +210,48 @@ def get_disk_usage(target_paths: List[str] = None) -> Dict[str, Dict[str, float]
     return usage
 
 
-def get_network_info() -> Dict[str, any]:
+def get_network_info(timeout: float = 3.0, dns_host: str = "google.com") -> Dict[str, Any]:
     """Get network connectivity information.
 
     Returns:
         Dictionary containing network information
     """
+    if timeout <= 0:
+        raise ValueError("timeout must be greater than zero")
+    if not dns_host.strip():
+        raise ValueError("dns_host cannot be empty")
+
     info = {
         "ip_addresses": [],
         "internet_connected": False,
         "dns_resolution": False,
+        "errors": [],
     }
 
     # Get local IP addresses
     try:
         hostname = socket.gethostname()
-        ip_addresses = socket.getaddrinfo(hostname, None, socket.AF_INET)
+        ip_addresses = _bounded_network_call(
+            lambda: socket.getaddrinfo(hostname, None, socket.AF_INET), timeout
+        )
         info["ip_addresses"] = list(set(ip[4][0] for ip in ip_addresses))
-    except Exception:
-        pass
+    except Exception as exc:
+        info["errors"].append(f"local_address: {exc}")
 
     # Test internet connectivity
     try:
-        socket.create_connection(("8.8.8.8", 53), timeout=3)
+        with socket.create_connection(("8.8.8.8", 53), timeout=timeout):
+            pass
         info["internet_connected"] = True
-    except Exception:
-        pass
+    except Exception as exc:
+        info["errors"].append(f"internet: {exc}")
 
     # Test DNS resolution
     try:
-        socket.gethostbyname("google.com")
+        _bounded_network_call(lambda: socket.gethostbyname(dns_host), timeout)
         info["dns_resolution"] = True
-    except Exception:
-        pass
+    except Exception as exc:
+        info["errors"].append(f"dns: {exc}")
 
     return info
 
@@ -318,7 +338,7 @@ def get_git_info() -> Dict[str, str]:
     return info
 
 
-def get_cpu_info() -> Dict[str, any]:
+def get_cpu_info() -> Dict[str, Any]:
     """Get CPU information.
 
     Returns:
@@ -402,6 +422,7 @@ def generate_system_report() -> SystemInfo:
         virtual_env=python_info.get("virtual_env", None),
         ip_addresses=network_info.get("ip_addresses", []),
         internet_connected=network_info.get("internet_connected", False),
+        network_errors=network_info.get("errors", []),
         project_root=str(paths.repo_root()),
         git_info=git_info,
         report_time=datetime.now().isoformat(),
@@ -454,6 +475,9 @@ def format_system_report(system_info: SystemInfo, detailed: bool = True) -> str:
     lines.append("\n🌐 NETWORK INFORMATION")
     lines.append(f"IP Addresses: {', '.join(system_info.ip_addresses) or 'None found'}")
     lines.append(f"Internet Connected: {'Yes' if system_info.internet_connected else 'No'}")
+    if system_info.network_errors:
+        lines.append("Network diagnostics:")
+        lines.extend(f"  - {error}" for error in system_info.network_errors)
 
     # Disk Usage (if detailed)
     if detailed and system_info.disk_usage:
@@ -509,7 +533,7 @@ def check_system_requirements() -> Dict[str, bool]:
 
     # Python version check
     version = sys.version_info
-    checks["python_3_8_plus"] = version >= (3, 8)
+    checks["python_3_10_plus"] = version >= (3, 10)
 
     # Memory check (minimum 2GB)
     memory_info = get_memory_info()

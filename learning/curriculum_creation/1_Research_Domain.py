@@ -10,21 +10,12 @@ Reads domain list from data/config/domains.yaml configuration file.
 """
 
 import argparse
-import sys
 from pathlib import Path
 from typing import Any, Dict, List
 
 from src.common.config import load_config
 from src.common.logging_utils import setup_logging as common_setup_logging
-from src.common.paths import data_domain_research_dir
-from src.perplexity.clients import build_perplexity_client
-from src.perplexity.domain import analyze_domain
-
-# Expose module under its filesystem path name so tests can patch it
-try:
-    sys.modules.setdefault("learning.curriculum_creation.1_Research_Domain", sys.modules[__name__])
-except Exception:
-    pass
+from src.config.schemas import add_stable_ids, validate_domains_config
 
 
 def load_domains_config() -> Dict[str, Any]:
@@ -58,17 +49,8 @@ def load_domains_config() -> Dict[str, Any]:
             "with a list of domain objects."
         )
 
-    # Validate domain structure
-    domains = config.get("domains", [])
-    for i, domain in enumerate(domains):
-        if not isinstance(domain, dict):
-            raise ValueError(f"Domain {i} must be a dictionary")
-        if "name" not in domain:
-            raise ValueError(f"Domain {i} must have a 'name' field")
-        if not isinstance(domain.get("keywords", []), list):
-            raise ValueError(f"Domain {domain.get('name', i)} keywords must be a list")
-
-    return config
+    validate_domains_config(config)
+    return add_stable_ids(config, "domains")
 
 
 def get_domains_to_process(
@@ -139,7 +121,7 @@ def get_domain_files(directory: Path) -> List[Path]:
     return sorted(domain_files)
 
 
-def main():
+def main(argv: list[str] | None = None) -> int:
     """Main function to orchestrate domain analysis and curriculum generation.
 
     This function:
@@ -150,7 +132,7 @@ def main():
     5. Processes each configured domain
     6. Saves results to data/domain_research/
     """
-    # Parse command line arguments
+    # This staged entrypoint delegates execution to the canonical acquire stage.
     parser = argparse.ArgumentParser(
         description="Research domains for tailored Active Inference curricula"
     )
@@ -169,54 +151,26 @@ def main():
         help="Process only domains in specific category (e.g., life_sciences, technology, business)",  # noqa: E501
     )
     parser.add_argument("--domain", help="Process only specific domain by name")
-    # Use parse_known_args to ignore pytest args like -q
-    args, _unknown = parser.parse_known_args()
+    args = parser.parse_args(argv)
+    from learning.curriculum_creation.generate_custom_curriculum import main as canonical_main
 
+    delegated = ["--non-interactive", "--stages", "domain-research"]
+    if args.domain:
+        delegated.extend(["--domains", args.domain])
+    if args.priority:
+        delegated.extend(["--domain-priority", args.priority])
+    if args.category:
+        delegated.extend(["--domain-category", args.category])
+    if args.overwrite:
+        delegated.append("--overwrite")
     logger = common_setup_logging()
-    logger.info("Starting domain research and curriculum generation")
-
+    logger.info("Delegating domain research to the canonical pipeline")
     try:
-        # Initialize API client first so initialization errors surface
-        logger.info("Initializing Perplexity API client")
-        client = build_perplexity_client()
-
-        # Setup paths
-        fep_actinf_file = data_domain_research_dir() / "Synthetic_FEP-ActInf.md"
-        output_dir = data_domain_research_dir()
-
-        # Validate FEP/ActInf reference
-        if not fep_actinf_file.exists():
-            logger.error(f"FEP-ActInf file not found: {fep_actinf_file}")
-            return
-
-        # Read domain files from data/domain_research/
-        domain_dir = data_domain_research_dir()
-        domain_files = get_domain_files(domain_dir)
-        if not domain_files:
-            logger.warning("No domain files found in Domain directory")
-            return
-
-        # Use the first domain file (tests create a single target file)
-        domain_file = domain_files[0]
-        # Derive domain name from filename (strip Synthetic_ prefix)
-        domain_name = domain_file.stem.replace("Synthetic_", "")
-
-        logger.info(f"Analyzing domain from file: {domain_file.name}")
-        result = analyze_domain(
-            client,
-            str(domain_file),
-            str(fep_actinf_file),
-            str(output_dir),
-            domain_name,
-        )
-        logger.info(
-            f"✅ Successfully processed: {domain_name} (processing time: {result.processing_time})"
-        )
-
+        return canonical_main(delegated)
     except Exception as e:
-        logger.error(f"Fatal error in domain research: {e}")
+        logger.error("Canonical domain research failed: %s", e)
         raise
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

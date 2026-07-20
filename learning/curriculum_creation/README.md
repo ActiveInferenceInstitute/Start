@@ -2,6 +2,18 @@
 
 This directory contains a comprehensive suite of Python scripts for creating personalized Active Inference curricula. The scripts follow a modular, test-driven development approach and implement the full curriculum generation pipeline from research to translation.
 
+The canonical public interface is the installed `start-curriculum` command. The
+numbered files below remain staged entrypoints for imports and local workflows;
+they delegate execution to the same acquire → prepare → process → parse →
+render runner and return its exit status.
+
+```bash
+uv run start-curriculum --non-interactive --stages domain-research entity-research \
+  --domains biochemistry --entities karl_friston --json
+uv run start-curriculum --non-interactive --stages curriculum visualizations translations \
+  --languages Spanish French --run-id example-001 --json
+```
+
 ## Overview
 
 The curriculum creation process follows these stages:
@@ -24,10 +36,10 @@ The curriculum creation process follows these stages:
 
 **Usage**:
 ```bash
-python 1_Research_Domain.py
+uv run start-curriculum --non-interactive --stages domain-research
 ```
 
-**Input**: Domain files from `Languages/Inputs_and_Outputs/Domain/Synthetic_*.md`
+**Input**: Domain files from `data/domain_research/`
 **Output**: Research reports in `data/domain_research/`
 
 **Functions**:
@@ -45,10 +57,10 @@ python 1_Research_Domain.py
 
 **Usage**:
 ```bash
-python 1_Research_Entity.py
+uv run start-curriculum --non-interactive --stages entity-research
 ```
 
-**Input**: Entity files from `Languages/Inputs_and_Outputs/Entity/*.py`
+**Input**: Entity research files from `data/audience_research/`
 **Output**: Audience research reports in `data/audience_research/`
 
 **Functions**:
@@ -67,7 +79,7 @@ python 1_Research_Entity.py
 
 **Usage**:
 ```bash
-python 2_Write_Introduction.py
+uv run start-curriculum --non-interactive --stages curriculum
 ```
 
 **Input**: Research files from `data/domain_research/` and `data/audience_research/`
@@ -75,7 +87,7 @@ python 2_Write_Introduction.py
 
 **Functions**:
 - `get_research_files(research_dir)`: Finds research files to process
-- `process_research_directory()`: Processes all files in a research directory
+- `get_research_files()`: Lists research files for staged processing
 - `main()`: Orchestrates the complete curriculum generation workflow
 
 ### 3_Introduction_Visualizations.py
@@ -83,14 +95,14 @@ python 2_Write_Introduction.py
 
 **Key Features**:
 - Creates comprehensive curriculum metrics and analysis charts
-- Generates PNG charts using matplotlib and seaborn
+- Generates a deterministic PNG summary chart using matplotlib
 - Creates Mermaid diagrams for curriculum structure and learning flow
 - Analyzes content complexity, learning objectives, and technical content
 - Saves visualizations to `data/visualizations/`
 
 **Usage**:
 ```bash
-python 3_Introduction_Visualizations.py [--input INPUT_DIR] [--output OUTPUT_DIR]
+uv run start-curriculum --non-interactive --stages visualizations [--input INPUT_DIR] [--output OUTPUT_DIR]
 ```
 
 **Options**:
@@ -98,14 +110,15 @@ python 3_Introduction_Visualizations.py [--input INPUT_DIR] [--output OUTPUT_DIR
 - `--output`: Custom output directory (default: `data/visualizations`)
 
 **Outputs**:
-- `curriculum_metrics.png`: Comprehensive metrics dashboard
-- `curriculum_structure.mmd`: Overall curriculum structure diagram
-- `{entity}_flow.mmd`: Individual learning flow diagrams
-- `curriculum_metrics.json`: Detailed metrics data
+- `charts/curriculum_metrics.png`: Deterministic metrics dashboard
+- `diagrams/curriculum_structure.mmd`: Overall curriculum structure diagram
+- `diagrams/{stable-item-id}_flow.mmd`: Stable-ID learning flow diagrams
+- `metrics/curriculum_metrics.json`: Detailed metrics data
+- `visualization_manifest.json`: Input/output hashes and evidence boundary
 
 **Functions**:
 - `extract_curriculum_metadata()`: Analyzes curriculum content for metrics
-- `create_curriculum_metrics_chart()`: Generates PNG analytics charts
+- `create_curriculum_metrics_chart()`: Chart helper; canonical bundle generation is in `src/visualization/runner.py`
 - `create_curriculum_flow_mermaid()`: Creates learning progression diagrams
 - `create_curriculum_structure_mermaid()`: Creates overview structure diagrams
 
@@ -121,7 +134,7 @@ python 3_Introduction_Visualizations.py [--input INPUT_DIR] [--output OUTPUT_DIR
 
 **Usage**:
 ```bash
-python 4_Translate_Introductions.py [--input INPUT_DIR] [--output OUTPUT_DIR] [--languages LANG1 LANG2 ...]
+uv run start-curriculum --non-interactive --stages translations [--input INPUT_DIR] [--output OUTPUT_DIR] [--languages LANG1 LANG2 ...]
 ```
 
 **Options**:
@@ -151,10 +164,10 @@ data/
 ├── translated_curriculums/    # Translated curricula
 │   └── {language}/
 │       └── {entity}_curriculum_{language}_{timestamp}.md
-└── visualizations/           # Charts and diagrams
-    ├── curriculum_metrics.png
-    ├── curriculum_structure.mmd
-    └── {entity}_flow.mmd
+└── visualizations/           # Canonical derived bundle
+    ├── charts/curriculum_metrics.png
+    ├── diagrams/curriculum_structure.mmd
+    └── visualization_manifest.json
 ```
 
 ## Configuration
@@ -229,31 +242,31 @@ Run all scripts in sequence:
 
 ```bash
 # 1. Research domains and entities
-python 1_Research_Domain.py
-python 1_Research_Entity.py
+uv run start-curriculum --non-interactive --stages domain-research
+uv run start-curriculum --non-interactive --stages entity-research
 
 # 2. Generate curricula
-python 2_Write_Introduction.py
+uv run start-curriculum --non-interactive --stages curriculum
 
 # 3. Create visualizations
-python 3_Introduction_Visualizations.py
+uv run start-curriculum --non-interactive --stages visualizations
 
 # 4. Translate to target languages
-python 4_Translate_Introductions.py
+uv run start-curriculum --non-interactive --stages translations
 ```
 
 ### Custom Visualization
 Generate visualizations for specific input:
 
 ```bash
-python 3_Introduction_Visualizations.py --input /path/to/curricula --output /path/to/viz
+uv run start-curriculum --non-interactive --stages visualizations --input /path/to/curricula --output /path/to/viz
 ```
 
 ### Selective Translation
 Translate only to specific languages:
 
 ```bash
-python 4_Translate_Introductions.py --languages Spanish French German
+uv run start-curriculum --non-interactive --stages translations --languages Spanish French German
 ```
 
 ## Error Handling & Quality Assurance
@@ -288,12 +301,12 @@ The scripts include comprehensive tests:
 
 - **Unit tests**: Test individual functions
 - **Integration tests**: Test script workflows
-- **Mock testing**: Test without external API calls
+- **Local protocol testing**: Validate provider behavior without external API calls
 - **Documentation tests**: Verify code documentation standards
 
 Run tests:
 ```bash
-python tests/test_curriculum_scripts_integration.py
+uv run pytest tests/test_curriculum_scripts_integration.py
 ```
 
 ## Logging
@@ -324,7 +337,7 @@ Logs include:
 - **Consistent naming**: Standardized file naming conventions
 - **Structured formats**: JSON for data, Markdown for readable content
 - **Timestamping**: All outputs include generation timestamps
-- **Version control**: Track changes and maintain backward compatibility
+- **Version control**: Track changes with reproducible configuration
 
 ### Performance
 - **Batch processing**: Process multiple items efficiently

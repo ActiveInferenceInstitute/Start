@@ -6,13 +6,20 @@ with progress tracking, error handling, and management features.
 
 from __future__ import annotations
 
+import re
+import shutil
 import subprocess
+import tempfile
 import time
+import uuid
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
+from urllib.parse import urlparse
 
 import src.common.paths as paths
+from src.common.io import path_within
 
 
 @dataclass
@@ -127,10 +134,46 @@ def get_clone_destination(repo_name: str, base_dir: Optional[Path] = None) -> Pa
     Returns:
         Path where repository should be cloned
     """
-    if base_dir is None:
-        base_dir = paths.repo_root() / "src" / "_clones"
+    _validate_repo_name(repo_name)
+    return _resolve_clone_root(base_dir) / repo_name
 
-    return base_dir / repo_name
+
+def _resolve_clone_root(base_dir: Optional[Path] = None) -> Path:
+    raw_root = (
+        Path(base_dir).expanduser()
+        if base_dir is not None
+        else paths.repo_root() / "src" / "_clones"
+    )
+    if raw_root.exists() and raw_root.is_symlink():
+        raise ValueError(f"Clone root cannot be a symlink: {raw_root}")
+    if any(parent.exists() and parent.is_symlink() for parent in (raw_root, *raw_root.parents)):
+        raise ValueError(f"Clone root has a symlink boundary: {raw_root}")
+    root = raw_root.resolve()
+    if root in {Path("/").resolve(), Path.home().resolve()}:
+        raise ValueError(f"Refusing destructive clone root: {root}")
+    return root
+
+
+def _validate_repo_name(repo_name: str) -> None:
+    if not repo_name or not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.-]{0,99}", repo_name):
+        raise ValueError(f"Unsafe repository name: {repo_name!r}")
+
+
+def _validate_repo_url(url: str, *, allow_unsafe_sources: bool = False) -> None:
+    if not url or url.startswith("-") or any(char in url for char in "\n\r\x00"):
+        raise ValueError("Unsafe repository URL")
+    parsed = urlparse(url)
+    if parsed.scheme == "https":
+        if parsed.username or parsed.password or not parsed.netloc:
+            raise ValueError("HTTPS repository URL must not contain credentials")
+        return
+    if not allow_unsafe_sources:
+        raise ValueError(
+            "Only HTTPS repository sources are allowed by default; "
+            "pass allow_unsafe_sources=True for local, SSH, HTTP, or git sources"
+        )
+    if parsed.scheme not in {"http", "ssh", "git", "file"} and not Path(url).is_absolute():
+        raise ValueError(f"Unsupported repository URL: {url}")
 
 
 def estimate_clone_time(repo_url: str) -> str:
@@ -158,6 +201,8 @@ def clone_repository(
     destination: Optional[Path] = None,
     force: bool = False,
     progress_callback: Optional[callable] = None,
+    base_dir: Optional[Path] = None,
+    allow_unsafe_sources: bool = False,
 ) -> CloneResult:
     """Clone a single repository with progress tracking.
 
@@ -172,10 +217,47 @@ def clone_repository(
     """
     start_time = time.time()
 
-    if destination is None:
-        destination = get_clone_destination(repo_info.name)
+    try:
+        _validate_repo_name(repo_info.name)
+        _validate_repo_url(repo_info.url, allow_unsafe_sources=allow_unsafe_sources)
+    except ValueError as exc:
+        return CloneResult(repo_name=repo_info.name, success=False, error_message=str(exc))
+
+    try:
+        if destination is None:
+            destination = get_clone_destination(repo_info.name, base_dir)
+        else:
+            raw_destination = Path(destination).expanduser()
+            if raw_destination.is_symlink() or any(
+                parent.exists() and parent.is_symlink()
+                for parent in (raw_destination, *raw_destination.parents)
+            ):
+                return CloneResult(
+                    repo_name=repo_info.name,
+                    success=False,
+                    error_message=f"Destination has a symlink boundary: {raw_destination}",
+                )
+            destination = raw_destination.resolve()
+            clone_root = _resolve_clone_root(base_dir) if base_dir else destination.parent
+            if not path_within(destination, clone_root):
+                return CloneResult(
+                    repo_name=repo_info.name,
+                    success=False,
+                    error_message=f"Destination is outside clone root: {destination}",
+                )
+            if destination in {Path("/").resolve(), Path.home().resolve()}:
+                return CloneResult(
+                    repo_name=repo_info.name,
+                    success=False,
+                    error_message=f"Refusing destructive clone destination: {destination}",
+                )
+    except ValueError as exc:
+        return CloneResult(repo_name=repo_info.name, success=False, error_message=str(exc))
 
     result = CloneResult(repo_name=repo_info.name, success=False)
+    destination_preexisting = destination.exists()
+    staging: Optional[Path] = None
+    backup: Optional[Path] = None
 
     try:
         # Check if destination exists
@@ -184,12 +266,16 @@ def clone_repository(
                 result.error_message = f"Destination already exists: {destination}"
                 return result
             else:
-                # Remove existing directory
-                import shutil
-
-                shutil.rmtree(destination)
-                if progress_callback:
-                    progress_callback(f"Removed existing directory: {destination}")
+                if (
+                    destination.is_symlink()
+                    or not destination.is_dir()
+                    or destination == destination.parent
+                ):
+                    raise ValueError(f"Refusing destructive clone destination: {destination}")
+                staging = Path(
+                    tempfile.mkdtemp(prefix=f".{destination.name}.clone-", dir=destination.parent)
+                )
+                staging.rmdir()
 
         # Ensure parent directory exists
         destination.parent.mkdir(parents=True, exist_ok=True)
@@ -203,7 +289,8 @@ def clone_repository(
         if repo_info.branch:
             cmd.extend(["--branch", repo_info.branch])
 
-        cmd.extend([repo_info.url, str(destination)])
+        clone_target = staging or destination
+        cmd.extend([repo_info.url, str(clone_target)])
 
         if progress_callback:
             progress_callback(f"Starting clone: {repo_info.name}")
@@ -217,6 +304,24 @@ def clone_repository(
         )
 
         if process.returncode == 0:
+            if staging is not None:
+                backup = destination.parent / f".{destination.name}.backup-{uuid.uuid4().hex}"
+                destination.rename(backup)
+                try:
+                    staging.rename(destination)
+                    staging = None
+                except Exception:
+                    backup.rename(destination)
+                    raise
+                try:
+                    shutil.rmtree(backup)
+                except OSError as exc:
+                    result.error_message = (
+                        f"Replacement succeeded but old clone cleanup failed: {exc}"
+                    )
+                backup = None
+                if progress_callback:
+                    progress_callback(f"Replaced existing directory: {destination}")
             result.success = True
             result.destination = destination
 
@@ -224,8 +329,9 @@ def clone_repository(
             try:
                 total_size = sum(f.stat().st_size for f in destination.rglob("*") if f.is_file())
                 result.size_mb = total_size / (1024 * 1024)
-            except Exception:
+            except OSError as exc:
                 result.size_mb = 0.0
+                result.error_message = f"Clone succeeded but size calculation failed: {exc}"
 
             if progress_callback:
                 progress_callback(f"✅ Successfully cloned {repo_info.name}")
@@ -244,6 +350,24 @@ def clone_repository(
         if progress_callback:
             progress_callback(f"❌ Error cloning {repo_info.name}: {e}")
 
+    if staging is not None and staging.exists():
+        try:
+            if staging.is_dir() and not staging.is_symlink():
+                shutil.rmtree(staging)
+        except OSError as exc:
+            result.error_message = f"{result.error_message}; cleanup failed: {exc}"
+    if backup is not None and backup.exists() and not destination.exists():
+        try:
+            backup.rename(destination)
+        except OSError as exc:
+            result.error_message = f"{result.error_message}; restore failed: {exc}"
+    if not result.success and not destination_preexisting and destination.exists():
+        try:
+            if destination.is_dir() and not destination.is_symlink():
+                shutil.rmtree(destination)
+        except OSError as exc:
+            result.error_message = f"{result.error_message}; cleanup failed: {exc}"
+
     result.clone_time = time.time() - start_time
     return result
 
@@ -253,42 +377,48 @@ def clone_multiple_repositories(
     force: bool = False,
     max_concurrent: int = 3,
     progress_callback: Optional[callable] = None,
+    base_dir: Optional[Path] = None,
+    allow_unsafe_sources: bool = False,
 ) -> List[CloneResult]:
     """Clone multiple repositories.
 
     Args:
         repo_names: List of repository names to clone
         force: Whether to overwrite existing directories
-        max_concurrent: Maximum concurrent clones (not implemented yet)
+        max_concurrent: Maximum number of simultaneous clone processes
         progress_callback: Optional callback for progress updates
 
     Returns:
         List of CloneResult objects
     """
+    if max_concurrent < 1:
+        raise ValueError("max_concurrent must be at least one")
     predefined_repos = get_predefined_repositories()
-    results = []
 
-    for repo_name in repo_names:
+    def clone_one(repo_name: str) -> CloneResult:
         if repo_name not in predefined_repos:
-            result = CloneResult(
-                repo_name=repo_name,
-                success=False,
-                error_message=f"Unknown repository: {repo_name}",
+            return CloneResult(
+                repo_name=repo_name, success=False, error_message=f"Unknown repository: {repo_name}"
             )
-            results.append(result)
-            continue
+        return clone_repository(
+            predefined_repos[repo_name],
+            force=force,
+            progress_callback=progress_callback,
+            base_dir=base_dir,
+            allow_unsafe_sources=allow_unsafe_sources,
+        )
 
-        repo_info = predefined_repos[repo_name]
-        result = clone_repository(repo_info, force=force, progress_callback=progress_callback)
-        results.append(result)
-
-    return results
+    with ThreadPoolExecutor(max_workers=max_concurrent) as executor:
+        return list(executor.map(clone_one, repo_names))
 
 
 def clone_all_repositories(
     category: Optional[str] = None,
     force: bool = False,
     progress_callback: Optional[callable] = None,
+    max_concurrent: int = 3,
+    base_dir: Optional[Path] = None,
+    allow_unsafe_sources: bool = False,
 ) -> List[CloneResult]:
     """Clone all predefined repositories or repositories in a specific category.
 
@@ -311,24 +441,29 @@ def clone_all_repositories(
         repos_to_clone = list(predefined_repos.keys())
 
     return clone_multiple_repositories(
-        repos_to_clone, force=force, progress_callback=progress_callback
+        repos_to_clone,
+        force=force,
+        max_concurrent=max_concurrent,
+        progress_callback=progress_callback,
+        base_dir=base_dir,
+        allow_unsafe_sources=allow_unsafe_sources,
     )
 
 
-def get_cloned_repositories() -> List[Tuple[str, Path]]:
+def get_cloned_repositories(base_dir: Optional[Path] = None) -> List[Tuple[str, Path]]:
     """Get list of already cloned repositories.
 
     Returns:
         List of (repo_name, path) tuples for existing clones
     """
-    clones_dir = paths.repo_root() / "src" / "_clones"
+    clones_dir = _resolve_clone_root(base_dir)
 
     if not Path.exists(clones_dir):
         return []
 
     cloned = []
     for item in clones_dir.iterdir():
-        if item.is_dir() and Path.exists(item / ".git"):
+        if item.is_dir() and not item.is_symlink() and Path.exists(item / ".git"):
             cloned.append((item.name, item))
 
     return sorted(cloned)
@@ -360,10 +495,12 @@ def update_repository(repo_path: Path) -> Tuple[bool, str]:
             return False, "Could not determine current branch"
 
         current_branch = result.stdout.strip()
+        if not current_branch:
+            return False, "Repository is detached; refusing to select an update branch"
 
         # Pull latest changes
         result = subprocess.run(
-            ["git", "pull", "origin", current_branch],
+            ["git", "pull", "--ff-only", "origin", current_branch],
             cwd=repo_path,
             capture_output=True,
             text=True,
@@ -381,7 +518,7 @@ def update_repository(repo_path: Path) -> Tuple[bool, str]:
         return False, str(e)
 
 
-def get_repository_status(repo_path: Path) -> Dict[str, any]:
+def get_repository_status(repo_path: Path) -> Dict[str, Any]:
     """Get status information for a repository.
 
     Args:
@@ -399,9 +536,14 @@ def get_repository_status(repo_path: Path) -> Dict[str, any]:
         "last_commit": None,
         "uncommitted_changes": False,
         "size_mb": 0.0,
+        "errors": [],
     }
 
     if not repo_path.exists():
+        return status
+
+    if repo_path.is_symlink():
+        status["errors"].append("path: symlink repository paths are not inspected")
         return status
 
     # Check if it's a git repository
@@ -421,8 +563,8 @@ def get_repository_status(repo_path: Path) -> Dict[str, any]:
         )
         if result.returncode == 0:
             status["branch"] = result.stdout.strip()
-    except Exception:
-        pass
+    except Exception as exc:
+        status["errors"].append(f"branch: {exc}")
 
     try:
         # Get last commit
@@ -435,8 +577,8 @@ def get_repository_status(repo_path: Path) -> Dict[str, any]:
         )
         if result.returncode == 0:
             status["last_commit"] = result.stdout.strip()
-    except Exception:
-        pass
+    except Exception as exc:
+        status["errors"].append(f"last_commit: {exc}")
 
     try:
         # Check for uncommitted changes
@@ -449,26 +591,26 @@ def get_repository_status(repo_path: Path) -> Dict[str, any]:
         )
         if result.returncode == 0:
             status["uncommitted_changes"] = bool(result.stdout.strip())
-    except Exception:
-        pass
+    except Exception as exc:
+        status["errors"].append(f"working_tree: {exc}")
 
     try:
         # Calculate size
         total_size = sum(f.stat().st_size for f in repo_path.rglob("*") if f.is_file())
         status["size_mb"] = total_size / (1024 * 1024)
-    except Exception:
-        pass
+    except OSError as exc:
+        status["errors"].append(f"size: {exc}")
 
     return status
 
 
-def cleanup_failed_clones() -> List[str]:
+def cleanup_failed_clones(base_dir: Optional[Path] = None) -> List[str]:
     """Clean up any partially cloned or failed repositories.
 
     Returns:
         List of cleaned up directory names
     """
-    clones_dir = paths.repo_root() / "src" / "_clones"
+    clones_dir = _resolve_clone_root(base_dir)
 
     if not Path.exists(clones_dir):
         return []
@@ -476,22 +618,19 @@ def cleanup_failed_clones() -> List[str]:
     cleaned = []
 
     for item in clones_dir.iterdir():
-        if item.is_dir():
+        if item.is_dir() and not item.is_symlink():
             # Check if it's a proper git repository
             if not Path.exists(item / ".git"):
-                # Remove incomplete clone
                 try:
-                    import shutil
-
                     shutil.rmtree(item)
                     cleaned.append(item.name)
-                except Exception:
+                except OSError:
                     continue
 
     return cleaned
 
 
-def validate_repository_url(url: str) -> bool:
+def validate_repository_url(url: str, *, allow_unsafe_sources: bool = False) -> bool:
     """Validate that a repository URL is accessible.
 
     Args:
@@ -501,6 +640,10 @@ def validate_repository_url(url: str) -> bool:
         True if URL appears valid and accessible
     """
     try:
+        _validate_repo_url(
+            url,
+            allow_unsafe_sources=allow_unsafe_sources,
+        )
         # Try git ls-remote to check if repository is accessible
         result = subprocess.run(
             ["git", "ls-remote", "--heads", url],

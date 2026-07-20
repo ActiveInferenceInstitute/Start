@@ -15,12 +15,12 @@ This page explains how to build, serve, and deploy the docs site locally and to 
 ./run_docs.sh --deploy
 ```
 
-The script auto-selects a MkDocs runner in this order: `uvx mkdocs`, `mkdocs`, or `uv run --with mkdocs --with mkdocs-material mkdocs`.
+The script uses the repository-locked `uv run mkdocs` environment, matching CI and the Pages workflow.
 
 ## Prerequisites
 
 - `mkdocs.yml` at repository root
-- Either `uvx` (recommended), `mkdocs`, or `uv`
+- `uv` with the locked development environment (`uv sync --all-extras --dev`)
 - Network access for GitHub Pages deploy
 
 ## GitHub Pages
@@ -37,15 +37,14 @@ Reference: GitHub Docs — Publishing with a custom GitHub Actions workflow.
 
 ## Troubleshooting
 
-- If `mkdocs` is not installed, the script falls back to `uvx` or a temporary `uv run` install.
+- If MkDocs is not available, run `uv sync --all-extras --dev` before retrying.
 - Ensure `mkdocs.yml` exists at the repo root.
 - Conflicts warning (README vs index): ensure only one maps to the root path in `nav`.
 
 ### Common errors
 
-- "mkdocs: command not found": Install `uv` and rely on `uvx mkdocs`, or `pipx install mkdocs`.
+- "mkdocs: command not found": Install `uv`, then run `uv sync --all-extras --dev`.
 - 404 on GitHub Pages: Confirm repository settings → Pages → Deploy from `gh-pages` branch.
 - Broken internal links: Verify paths in `mkdocs.yml` `nav:` entries match file names.
-
 
 

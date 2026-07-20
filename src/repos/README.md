@@ -36,6 +36,9 @@ Low-level git cloning utilities:
 - `parse_args()`: Parse command-line arguments
 - `main()`: Command-line entry point
 
+HTTPS sources are the default. Local, SSH, HTTP, git, and `file://` sources
+require `allow_unsafe_sources=True` or the CLI's `--allow-unsafe-sources`.
+
 ## Predefined Repositories
 
 The module includes predefined repositories from:

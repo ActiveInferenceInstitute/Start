@@ -6,8 +6,8 @@ Welcome. This is a simple, actionable landing page into the Active Inference Eco
 
 ## Why this repo exists
 
-- **Learn by doing**: Generate, visualize, and translate curriculum content grounded in real data.
-- **Build end-to-end**: No mocks; real IO, reproducible scripts, and tests.
+- **Learn by doing**: Generate, visualize, and translate curriculum content with explicit live, source-material, synthetic, and offline evidence labels.
+- **Build end-to-end**: Real I/O, reproducible scripts, and tests.
 - **Contribute to the ecosystem**: Improve docs, scripts, and learning materials for the broader community.
 
 ---
@@ -58,6 +58,11 @@ Welcome. This is a simple, actionable landing page into the Active Inference Eco
   - Entry point: `learning/curriculum_creation/generate_custom_curriculum.py`
   - Outputs: `data/written_curriculums/` (organized by topic)
 
+- **Use the canonical release-aware commands**
+  - `uv run start-curriculum --help`
+  - `uv run start-validate-outputs --check`
+  - `uv run start-regenerate-offline --output-dir /tmp/start-fixtures --json`
+
 ---
 
 ## Deep links (repository map)
@@ -103,7 +108,7 @@ For readers who want to move into formalism and implementation.
 
 ### Quick start (commands)
 
-1. Install Python 3.11+ and UV. Then bootstrap:
+1. Install Python 3.10+ and UV. Then bootstrap:
 
 ```bash
 uv sync --all-extras --dev
@@ -148,10 +153,12 @@ uv run pytest -q && uv run ruff check . && uv run black --check .
 - Run a domain research → intro → viz → translate flow (manually):
 
 ```bash
-uv run python learning/curriculum_creation/1_Research_Domain.py
-uv run python learning/curriculum_creation/2_Write_Introduction.py
-uv run python learning/curriculum_creation/3_Introduction_Visualizations.py
-uv run python learning/curriculum_creation/4_Translate_Introductions.py
+uv run start-curriculum --non-interactive --stages domain-research entity-research \
+  --run-id research-001 --json
+uv run start-curriculum --non-interactive --stages curriculum \
+  --run-id curriculum-001 --json
+uv run start-curriculum --non-interactive --stages visualizations translations \
+  --languages Spanish French --run-id render-001 --json
 ```
 
 - Inspect outputs:

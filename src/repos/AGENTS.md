@@ -193,7 +193,7 @@ Cleans up failed clone attempts.
 
 **Behavior**: Removes directories that appear to be failed clones
 
-#### `validate_repository_url(url: str) -> bool`
+#### `validate_repository_url(url: str, allow_unsafe_sources: bool = False) -> bool`
 Validates repository URL format.
 
 **Parameters**:
@@ -205,13 +205,14 @@ Validates repository URL format.
 
 ### Functions
 
-#### `clone_repository(url: str, destination: Path, branch: Optional[str] = None, shallow: bool = False) -> Path`
+#### `clone_repository(url: str, destination: Path, branch: Optional[str] = None, shallow: bool = False, allow_unsafe_sources: bool = False) -> Path`
 Performs direct git clone operation.
 
 **Parameters**:
 - `url`: Repository URL
 - `destination`: Destination path
 - `branch`: Optional branch to clone
+- `allow_unsafe_sources`: Explicitly permit non-HTTPS sources (default: False)
 - `shallow`: Whether to perform shallow clone (default: False)
 
 **Returns**: Path to cloned repository

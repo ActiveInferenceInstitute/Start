@@ -29,16 +29,19 @@ See Examples: ./examples.md and tests in `tests/`.
 Required: `PERPLEXITY_API_KEY` and `OPENROUTER_API_KEY`. Optional: `OPENAI_API_KEY`. Copy `.env.example` to `.env` and fill in values.
 
 ## Do tests use the network?
-No by default. Network tests only run if `CI=true` and are marked with `@network`. See ./TESTING.md.
+No external provider calls run by default. Provider behavior is exercised with
+local HTTP servers; live connectivity requires credentials and an explicit
+probe invocation. See [Testing](./TESTING.md).
 
 ## Docs site won’t start — what should I check?
-Use `./run_docs.sh --serve`. Ensure `mkdocs.yml` exists at repo root. The script prefers `uvx mkdocs`, then `mkdocs`, then a temporary `uv run` install of mkdocs.
+Use `./run_docs.sh --serve`. Ensure `mkdocs.yml` exists at repo root. The
+script runs MkDocs through the locked project environment with `uv`.
 
 ## Visualizations not generating?
-Run `uv run python learning/curriculum_creation/3_Introduction_Visualizations.py`. If running headless (servers/CI), set `MPLBACKEND=Agg`.
+Run `uv run start-curriculum --non-interactive --stages visualizations --json`. If running headless (servers/CI), set `MPLBACKEND=Agg`.
 
 ## CLI examples don’t work from my cwd
-Either prefix scripts with their path (e.g., `uv run python learning/curriculum_creation/1_Research_Domain.py ...`) or `cd learning/curriculum_creation/` first.
+Use the module entrypoints from the repository root; numbered scripts remain available for staged workflows.
 
 ## Where do outputs go?
 Research in `data/audience_research/` and `data/domain_research/`; curricula in `data/written_curriculums/`; visuals in `data/visualizations/`; translations in `data/translated_curriculums/`. See ./data_outputs.md.

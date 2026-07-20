@@ -7,21 +7,18 @@ Python packages, and external tools needed by the project.
 from __future__ import annotations
 
 import importlib
-import importlib as importlib_module
+import os
+import re
 import shutil
 import subprocess
 import sys
 from dataclasses import dataclass, field
 from importlib import metadata as importlib_metadata
-from typing import Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
+
+import tomllib
 
 import src.common.paths as paths
-
-# Ensure importlib.metadata is available as attribute to avoid lazy import via importlib.__getattr__
-try:
-    importlib_module.metadata = importlib_metadata
-except Exception:
-    pass
 
 
 @dataclass
@@ -47,7 +44,9 @@ class DependencyReport:
     missing_required: List[str] = field(default_factory=list)
 
 
-def check_python_package(package_name: str, required: bool = True) -> DependencyCheck:
+def check_python_package(
+    package_name: str, required: bool = True, distribution_name: Optional[str] = None
+) -> DependencyCheck:
     """Check if a Python package is available and get its version.
 
     Args:
@@ -76,9 +75,11 @@ def check_python_package(package_name: str, required: bool = True) -> Dependency
                 # Prefer importlib.metadata if present on importlib (easier to patch in tests)
                 if hasattr(importlib, "metadata"):
                     # Access attribute via importlib to match patch('importlib.metadata.version')
-                    check.version = importlib.metadata.version(package_name)  # type: ignore[attr-defined]
+                    check.version = importlib.metadata.version(  # type: ignore[attr-defined]
+                        distribution_name or package_name
+                    )
                 else:
-                    check.version = importlib_metadata.version(package_name)
+                    check.version = importlib_metadata.version(distribution_name or package_name)
             except Exception:
                 check.version = "unknown"
 
@@ -145,19 +146,36 @@ def get_required_python_packages() -> List[str]:
     Returns:
         List of required package names
     """
-    required_packages = [
-        "openai",
-        "python-dotenv",
-        "pyyaml",
-        "pandas",
-        "matplotlib",
-        "seaborn",
-        "plotly",
-        "requests",
-        "gitpython",
-    ]
+    return [import_name for import_name, _ in _required_python_package_specs()]
 
-    return required_packages
+
+def _required_python_package_specs() -> list[tuple[str, str]]:
+    """Read declared dependencies as ``(import_name, distribution_name)`` pairs."""
+    root = paths.repo_root()
+    with (root / "pyproject.toml").open("rb") as handle:
+        project = tomllib.load(handle)
+    distributions = project.get("project", {}).get("dependencies", [])
+    if not isinstance(distributions, list):
+        raise ValueError("project.dependencies must be a list")
+
+    distribution_to_import = {
+        "gitpython": "git",
+        "python-dotenv": "dotenv",
+        "pyyaml": "yaml",
+        "scikit-learn": "sklearn",
+        "adjusttext": "adjustText",
+        "pillow": "PIL",
+    }
+    specs: list[tuple[str, str]] = []
+    for requirement in distributions:
+        if not isinstance(requirement, str) or not requirement.strip():
+            raise ValueError(f"Invalid dependency declaration: {requirement!r}")
+        distribution = re.split(r"[\[<>=!~;@\s]", requirement, maxsplit=1)[0].strip()
+        if not distribution:
+            raise ValueError(f"Invalid dependency declaration: {requirement!r}")
+        import_name = distribution_to_import.get(distribution.casefold(), distribution)
+        specs.append((import_name, distribution))
+    return specs
 
 
 def get_optional_python_packages() -> List[str]:
@@ -225,7 +243,9 @@ def check_uv_environment() -> DependencyCheck:
     # Check if uv is available
     if not shutil.which("uv"):
         check.error_message = "uv tool not found in PATH"
-        check.install_hint = "Install uv: curl -LsSf https://astral.sh/uv/install.sh | sh"
+        check.install_hint = (
+            "Install uv from https://docs.astral.sh/uv/getting-started/installation/"
+        )
         return check
 
     # Check if we're in a uv-managed virtual environment
@@ -290,8 +310,6 @@ def check_environment_variables() -> List[DependencyCheck]:
         ("OPENROUTER_MODEL", "Custom OpenRouter model"),
     ]
 
-    import os
-
     # Check required variables
     for var_name, _description in required_env_vars:
         check = DependencyCheck(name=f"env.{var_name}", required=True, available=False)
@@ -333,11 +351,11 @@ def run_comprehensive_dependency_check() -> DependencyReport:
     report = DependencyReport()
 
     # Check required Python packages
-    for package in get_required_python_packages():
-        check = check_python_package(package, required=True)
+    for package, distribution in _required_python_package_specs():
+        check = check_python_package(package, required=True, distribution_name=distribution)
         report.python_packages.append(check)
         if check.required and not check.available:
-            report.missing_required.append(f"python:{package}")
+            report.missing_required.append(f"python:{distribution}")
 
     # Check optional Python packages
     for package in get_optional_python_packages():
@@ -469,7 +487,7 @@ def get_installation_instructions() -> str:
         "=" * 30,
         "",
         "1. Install uv (Python package manager):",
-        "   curl -LsSf https://astral.sh/uv/install.sh | sh",
+        "   Install uv from https://docs.astral.sh/uv/getting-started/installation/",
         "",
         "2. Set up project environment:",
         "   uv sync --all-extras --dev",
@@ -494,41 +512,50 @@ def get_installation_instructions() -> str:
 
 
 def validate_api_keys() -> Dict[str, bool]:
-    """Validate that API keys are working.
+    """Check credential presence without making a provider request.
 
     Returns:
         Dictionary of API key validation results
     """
-    results = {}
+    return {
+        "perplexity": bool(os.environ.get("PERPLEXITY_API_KEY", "").strip()),
+        "openrouter": bool(os.environ.get("OPENROUTER_API_KEY", "").strip()),
+    }
 
-    # Test Perplexity API key
-    try:
-        from src.perplexity.clients import build_perplexity_client
 
-        client = build_perplexity_client()
-        # Try a simple API call
-        response = client.chat.completions.create(
-            model="llama-3.1-sonar-small-128k-online",
-            messages=[{"role": "user", "content": "Hello"}],
-            max_tokens=10,
-        )
-        results["perplexity"] = bool(response.choices)
-    except Exception:
-        results["perplexity"] = False
+def probe_api_connectivity(timeout: float = 10.0) -> Dict[str, Any]:
+    """Perform explicit live provider probes with labeled failure details.
 
-    # Test OpenRouter API key
-    try:
-        from src.perplexity.clients import build_openrouter_client
+    This function is intentionally separate from health checks because it can
+    make paid provider requests.
+    """
+    if timeout <= 0:
+        raise ValueError("timeout must be greater than zero")
+    results: Dict[str, Any] = {
+        "perplexity": False,
+        "openrouter": False,
+        "errors": {},
+    }
+    provider_models = {
+        "perplexity": os.environ.get("PERPLEXITY_MODEL", "llama-3.1-sonar-small-128k-online"),
+        "openrouter": os.environ.get("OPENROUTER_MODEL", "anthropic/claude-3.5-sonnet"),
+    }
+    for provider, builder in (
+        ("perplexity", "build_perplexity_client"),
+        ("openrouter", "build_openrouter_client"),
+    ):
+        try:
+            from src.perplexity import clients
 
-        client = build_openrouter_client()
-        # Try a simple API call
-        response = client.chat.completions.create(
-            model="anthropic/claude-3.5-sonnet",
-            messages=[{"role": "user", "content": "Hello"}],
-            max_tokens=10,
-        )
-        results["openrouter"] = bool(response.choices)
-    except Exception:
-        results["openrouter"] = False
-
+            client = getattr(clients, builder)()
+            response = client.chat.completions.create(
+                model=provider_models[provider],
+                messages=[{"role": "user", "content": "Connectivity probe"}],
+                max_tokens=8,
+                timeout=timeout,
+            )
+            results[provider] = bool(response.choices)
+        except Exception as exc:
+            results[provider] = False
+            results["errors"][provider] = f"{type(exc).__name__}: {exc}"
     return results

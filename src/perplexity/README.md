@@ -20,20 +20,20 @@ Client builders for both API providers:
 
 ### `domain.py`
 Domain research using Perplexity:
-- `chat()`: Send research requests to Perplexity
+- `chat_result()`: Send research requests to Perplexity with usage metadata
 - `analyze_domain()`: Comprehensive domain analysis workflow
 - `DomainResult`: Result dataclass with analysis and curriculum content
 
 ### `entity.py`
 Entity/audience research using Perplexity:
 - `extract_entity_description()`: Extract description from entity data
-- `chat()`: Send research requests to Perplexity
+- `chat_result()`: Send research requests to Perplexity with usage metadata
 - `research_target_audience()`: Complete audience research workflow
 - `ResearchResult`: Result dataclass with research data
 
 ### `curriculum.py`
 Curriculum generation using OpenRouter:
-- `chat()`: Send content generation requests to OpenRouter
+- `chat_result()`: Send content generation requests to OpenRouter with usage metadata
 - `validate_curriculum_content()`: Validate generated content quality
 - `extract_sections()`: Extract sections from curriculum content
 - `save_section()`: Save individual curriculum sections
@@ -44,9 +44,9 @@ Curriculum generation using OpenRouter:
 Translation services using OpenRouter:
 - `generate_translation_prompt()`: Generate translation prompts
 - `split_content_into_chunks()`: Split content for translation
-- `translate_curriculum()`: Translate curriculum content
+- `translate_curriculum_result()`: Translate curriculum content with provenance
 - `save_translation()`: Save translated content
-- `process_translations()`: Batch translation processing
+- `process_translations_detailed()`: Batch translation processing with item results
 
 ## Usage Examples
 
@@ -55,7 +55,7 @@ from src.perplexity.clients import build_perplexity_client, build_openrouter_cli
 from src.perplexity.domain import analyze_domain
 from src.perplexity.entity import research_target_audience
 from src.perplexity.curriculum import process_research_file
-from src.perplexity.translation import translate_curriculum, save_translation
+from src.perplexity.translation import translate_curriculum_result, save_translation
 
 # Build clients
 perplexity_client = build_perplexity_client()
@@ -84,12 +84,17 @@ process_research_file(
 )
 
 # Translate curriculum
-translated = translate_curriculum(
+translated = translate_curriculum_result(
     openrouter_client,
     content=curriculum_content,
     target_language="Spanish"
 )
-save_translation("data/translated_curriculums", "entity_name", "Spanish", translated)
+save_translation(
+    "data/translated_curriculums",
+    "entity_name",
+    "Spanish",
+    translated.content,
+)
 ```
 
 ## Environment Variables

@@ -1,0 +1,88 @@
+{
+  "dependencies": [
+    "parse"
+  ],
+  "errors": [],
+  "failed": 0,
+  "items": {
+    "visualizations:biochemistry": {
+      "artifact_hashes": {},
+      "errors": [],
+      "input_hashes": {},
+      "item_id": "visualizations:biochemistry",
+      "message": "",
+      "ok": true,
+      "output_paths": [],
+      "provenance": {},
+      "status": "skipped",
+      "usage": {}
+    },
+    "visualizations:daniel_ari_friedman": {
+      "artifact_hashes": {},
+      "errors": [],
+      "input_hashes": {},
+      "item_id": "visualizations:daniel_ari_friedman",
+      "message": "",
+      "ok": true,
+      "output_paths": [],
+      "provenance": {},
+      "status": "skipped",
+      "usage": {}
+    },
+    "visualizations:elon_musk": {
+      "artifact_hashes": {},
+      "errors": [],
+      "input_hashes": {},
+      "item_id": "visualizations:elon_musk",
+      "message": "",
+      "ok": true,
+      "output_paths": [],
+      "provenance": {},
+      "status": "skipped",
+      "usage": {}
+    },
+    "visualizations:karl_friston": {
+      "artifact_hashes": {},
+      "errors": [],
+      "input_hashes": {},
+      "item_id": "visualizations:karl_friston",
+      "message": "",
+      "ok": true,
+      "output_paths": [],
+      "provenance": {},
+      "status": "skipped",
+      "usage": {}
+    },
+    "visualizations:tulsi_gabbard": {
+      "artifact_hashes": {},
+      "errors": [],
+      "input_hashes": {},
+      "item_id": "visualizations:tulsi_gabbard",
+      "message": "",
+      "ok": true,
+      "output_paths": [],
+      "provenance": {},
+      "status": "skipped",
+      "usage": {}
+    }
+  },
+  "name": "render",
+  "ok": true,
+  "output_paths": [],
+  "provenance": {
+    "estimate_cost": false,
+    "mode": "dry-run"
+  },
+  "required": false,
+  "skipped": 5,
+  "status": "skipped",
+  "success": 0,
+  "usage": {
+    "actual_cost_usd": 0.0,
+    "completion_tokens": 0,
+    "estimated_cost_usd": 0.0,
+    "prompt_tokens": 0,
+    "requests": 0,
+    "total_tokens": 0
+  }
+}

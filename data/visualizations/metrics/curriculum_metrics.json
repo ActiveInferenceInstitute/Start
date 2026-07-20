@@ -1,0 +1,358 @@
+{
+  "schema_version": "1.0",
+  "kind": "curriculum_metrics",
+  "evidence_status": "derived_visualization",
+  "records": [
+    {
+      "Item ID": "barry_bonds-complete_curriculum_20250903_080849",
+      "Entity": "Barry Bonds",
+      "Total Words": 4402,
+      "Sections": 174,
+      "Paragraphs": 394,
+      "Words per Section": 25.298850574712645,
+      "Words per Paragraph": 11.17258883248731
+    },
+    {
+      "Item ID": "barry_bonds-complete_curriculum_20250903_170709",
+      "Entity": "Barry Bonds",
+      "Total Words": 4678,
+      "Sections": 166,
+      "Paragraphs": 278,
+      "Words per Section": 28.180722891566266,
+      "Words per Paragraph": 16.827338129496404
+    },
+    {
+      "Item ID": "barry_bonds-complete_curriculum_20250903_172542",
+      "Entity": "Barry Bonds",
+      "Total Words": 4887,
+      "Sections": 140,
+      "Paragraphs": 276,
+      "Words per Section": 34.90714285714286,
+      "Words per Paragraph": 17.706521739130434
+    },
+    {
+      "Item ID": "barry_bonds-complete_curriculum_20250903_174436",
+      "Entity": "Barry Bonds",
+      "Total Words": 3825,
+      "Sections": 97,
+      "Paragraphs": 245,
+      "Words per Section": 39.43298969072165,
+      "Words per Paragraph": 15.612244897959183
+    },
+    {
+      "Item ID": "bill_gates-complete_curriculum_20250903_172901",
+      "Entity": "Bill Gates",
+      "Total Words": 11933,
+      "Sections": 138,
+      "Paragraphs": 381,
+      "Words per Section": 86.47101449275362,
+      "Words per Paragraph": 31.32020997375328
+    },
+    {
+      "Item ID": "bill_gates-complete_curriculum_20250903_174607",
+      "Entity": "Bill Gates",
+      "Total Words": 5628,
+      "Sections": 184,
+      "Paragraphs": 323,
+      "Words per Section": 30.58695652173913,
+      "Words per Paragraph": 17.424148606811144
+    },
+    {
+      "Item ID": "coffee_roasting-complete_curriculum_20250903_075916",
+      "Entity": "Coffee Roasting",
+      "Total Words": 10656,
+      "Sections": 333,
+      "Paragraphs": 638,
+      "Words per Section": 32.0,
+      "Words per Paragraph": 16.70219435736677
+    },
+    {
+      "Item ID": "coffee_roasting-complete_curriculum_20250903_080345",
+      "Entity": "Coffee Roasting",
+      "Total Words": 11228,
+      "Sections": 338,
+      "Paragraphs": 648,
+      "Words per Section": 33.218934911242606,
+      "Words per Paragraph": 17.32716049382716
+    },
+    {
+      "Item ID": "coffee_roasting-complete_curriculum_20250903_081359",
+      "Entity": "Coffee Roasting",
+      "Total Words": 9554,
+      "Sections": 294,
+      "Paragraphs": 550,
+      "Words per Section": 32.49659863945578,
+      "Words per Paragraph": 17.37090909090909
+    },
+    {
+      "Item ID": "coffee_roasting-complete_curriculum_20250903_081740",
+      "Entity": "Coffee Roasting",
+      "Total Words": 10892,
+      "Sections": 331,
+      "Paragraphs": 663,
+      "Words per Section": 32.90634441087613,
+      "Words per Paragraph": 16.42835595776772
+    },
+    {
+      "Item ID": "coffee_roasting-complete_curriculum_20250903_171617",
+      "Entity": "Coffee Roasting",
+      "Total Words": 15250,
+      "Sections": 260,
+      "Paragraphs": 536,
+      "Words per Section": 58.65384615384615,
+      "Words per Paragraph": 28.45149253731343
+    },
+    {
+      "Item ID": "coffee_roasting-complete_curriculum_20250903_171952",
+      "Entity": "Coffee Roasting",
+      "Total Words": 10793,
+      "Sections": 341,
+      "Paragraphs": 689,
+      "Words per Section": 31.651026392961878,
+      "Words per Paragraph": 15.664731494920174
+    },
+    {
+      "Item ID": "coffee_roasting-complete_curriculum_20250903_173710",
+      "Entity": "Coffee Roasting",
+      "Total Words": 15943,
+      "Sections": 271,
+      "Paragraphs": 579,
+      "Words per Section": 58.830258302583026,
+      "Words per Paragraph": 27.535405872193436
+    },
+    {
+      "Item ID": "coffee_roasting-complete_curriculum_20250903_174156",
+      "Entity": "Coffee Roasting",
+      "Total Words": 16921,
+      "Sections": 277,
+      "Paragraphs": 661,
+      "Words per Section": 61.08664259927798,
+      "Words per Paragraph": 25.599092284417548
+    },
+    {
+      "Item ID": "coffee_roasting-complete_curriculum_20250903_175827",
+      "Entity": "Coffee Roasting",
+      "Total Words": 21640,
+      "Sections": 260,
+      "Paragraphs": 597,
+      "Words per Section": 83.23076923076923,
+      "Words per Paragraph": 36.24790619765494
+    },
+    {
+      "Item ID": "coffee_roasting-complete_curriculum_20250903_180307",
+      "Entity": "Coffee Roasting",
+      "Total Words": 16227,
+      "Sections": 289,
+      "Paragraphs": 600,
+      "Words per Section": 56.14878892733564,
+      "Words per Paragraph": 27.045
+    },
+    {
+      "Item ID": "coffee_tasting-complete_curriculum_20250903_172253",
+      "Entity": "Coffee tasting",
+      "Total Words": 9771,
+      "Sections": 293,
+      "Paragraphs": 619,
+      "Words per Section": 33.3481228668942,
+      "Words per Paragraph": 15.78513731825525
+    },
+    {
+      "Item ID": "coffee_tasting-complete_curriculum_20250903_172926",
+      "Entity": "Coffee tasting",
+      "Total Words": 22739,
+      "Sections": 314,
+      "Paragraphs": 736,
+      "Words per Section": 72.4171974522293,
+      "Words per Paragraph": 30.89538043478261
+    },
+    {
+      "Item ID": "coffee_tasting-complete_curriculum_20250903_174603",
+      "Entity": "Coffee tasting",
+      "Total Words": 16172,
+      "Sections": 283,
+      "Paragraphs": 592,
+      "Words per Section": 57.14487632508834,
+      "Words per Paragraph": 27.31756756756757
+    },
+    {
+      "Item ID": "coffee_tasting-complete_curriculum_20250903_174923",
+      "Entity": "Coffee tasting",
+      "Total Words": 11758,
+      "Sections": 348,
+      "Paragraphs": 745,
+      "Words per Section": 33.78735632183908,
+      "Words per Paragraph": 15.78255033557047
+    },
+    {
+      "Item ID": "coffee_tasting-complete_curriculum_20250903_180551",
+      "Entity": "Coffee tasting",
+      "Total Words": 8425,
+      "Sections": 300,
+      "Paragraphs": 548,
+      "Words per Section": 28.083333333333332,
+      "Words per Paragraph": 15.374087591240876
+    },
+    {
+      "Item ID": "elon_musk",
+      "Entity": "Elon Musk",
+      "Total Words": 9936,
+      "Sections": 295,
+      "Paragraphs": 548,
+      "Words per Section": 33.68135593220339,
+      "Words per Paragraph": 18.131386861313867
+    },
+    {
+      "Item ID": "island_navigation_using_boat-complete_curriculum_20250903_175154",
+      "Entity": "Island navigation using boat",
+      "Total Words": 8476,
+      "Sections": 293,
+      "Paragraphs": 519,
+      "Words per Section": 28.928327645051194,
+      "Words per Paragraph": 16.33140655105973
+    },
+    {
+      "Item ID": "island_navigation_using_boat-complete_curriculum_20250903_175816",
+      "Entity": "Island navigation using boat",
+      "Total Words": 25417,
+      "Sections": 301,
+      "Paragraphs": 769,
+      "Words per Section": 84.44186046511628,
+      "Words per Paragraph": 33.0520156046814
+    },
+    {
+      "Item ID": "myrmecology-complete_curriculum_20250903_082146",
+      "Entity": "Myrmecology",
+      "Total Words": 8353,
+      "Sections": 290,
+      "Paragraphs": 501,
+      "Words per Section": 28.80344827586207,
+      "Words per Paragraph": 16.672654690618764
+    },
+    {
+      "Item ID": "myrmecology-complete_curriculum_20250903_082603",
+      "Entity": "Myrmecology",
+      "Total Words": 11939,
+      "Sections": 415,
+      "Paragraphs": 734,
+      "Words per Section": 28.76867469879518,
+      "Words per Paragraph": 16.26566757493188
+    },
+    {
+      "Item ID": "myrmecology-complete_curriculum_20250903_173118",
+      "Entity": "Myrmecology",
+      "Total Words": 7452,
+      "Sections": 225,
+      "Paragraphs": 491,
+      "Words per Section": 33.12,
+      "Words per Paragraph": 15.177189409368635
+    },
+    {
+      "Item ID": "myrmecology-complete_curriculum_20250903_173548",
+      "Entity": "Myrmecology",
+      "Total Words": 12616,
+      "Sections": 413,
+      "Paragraphs": 768,
+      "Words per Section": 30.54721549636804,
+      "Words per Paragraph": 16.427083333333332
+    },
+    {
+      "Item ID": "myrmecology-complete_curriculum_20250903_180125",
+      "Entity": "Myrmecology",
+      "Total Words": 8732,
+      "Sections": 253,
+      "Paragraphs": 457,
+      "Words per Section": 34.51383399209486,
+      "Words per Paragraph": 19.10722100656455
+    },
+    {
+      "Item ID": "myrmecology-complete_curriculum_20250903_180551",
+      "Entity": "Myrmecology",
+      "Total Words": 15488,
+      "Sections": 253,
+      "Paragraphs": 545,
+      "Words per Section": 61.21739130434783,
+      "Words per Paragraph": 28.418348623853213
+    },
+    {
+      "Item ID": "tulsi_gabbard-complete_curriculum_20250903_170826",
+      "Entity": "Tulsi Gabbard",
+      "Total Words": 4444,
+      "Sections": 137,
+      "Paragraphs": 262,
+      "Words per Section": 32.43795620437956,
+      "Words per Paragraph": 16.9618320610687
+    },
+    {
+      "Item ID": "tulsi_gabbard-complete_curriculum_20250903_173140",
+      "Entity": "Tulsi Gabbard",
+      "Total Words": 9712,
+      "Sections": 94,
+      "Paragraphs": 268,
+      "Words per Section": 103.31914893617021,
+      "Words per Paragraph": 36.23880597014925
+    },
+    {
+      "Item ID": "tulsi_gabbard-complete_curriculum_20250903_175033",
+      "Entity": "Tulsi Gabbard",
+      "Total Words": 4549,
+      "Sections": 166,
+      "Paragraphs": 282,
+      "Words per Section": 27.403614457831324,
+      "Words per Paragraph": 16.131205673758867
+    },
+    {
+      "Item ID": "william_blake-complete_curriculum_20250903_074048",
+      "Entity": "William Blake",
+      "Total Words": 739,
+      "Sections": 13,
+      "Paragraphs": 32,
+      "Words per Section": 56.84615384615385,
+      "Words per Paragraph": 23.09375
+    },
+    {
+      "Item ID": "william_blake-complete_curriculum_20250903_075428",
+      "Entity": "William Blake",
+      "Total Words": 4826,
+      "Sections": 135,
+      "Paragraphs": 264,
+      "Words per Section": 35.74814814814815,
+      "Words per Paragraph": 18.28030303030303
+    },
+    {
+      "Item ID": "william_blake-complete_curriculum_20250903_081018",
+      "Entity": "William Blake",
+      "Total Words": 4229,
+      "Sections": 150,
+      "Paragraphs": 275,
+      "Words per Section": 28.19333333333333,
+      "Words per Paragraph": 15.378181818181819
+    },
+    {
+      "Item ID": "william_blake-complete_curriculum_20250903_171139",
+      "Entity": "William Blake",
+      "Total Words": 11264,
+      "Sections": 155,
+      "Paragraphs": 390,
+      "Words per Section": 72.67096774193548,
+      "Words per Paragraph": 28.882051282051282
+    },
+    {
+      "Item ID": "william_blake-complete_curriculum_20250903_173230",
+      "Entity": "William Blake",
+      "Total Words": 3885,
+      "Sections": 122,
+      "Paragraphs": 209,
+      "Words per Section": 31.84426229508197,
+      "Words per Paragraph": 18.588516746411482
+    },
+    {
+      "Item ID": "william_blake-complete_curriculum_20250903_175205",
+      "Entity": "William Blake",
+      "Total Words": 4127,
+      "Sections": 120,
+      "Paragraphs": 224,
+      "Words per Section": 34.391666666666666,
+      "Words per Paragraph": 18.424107142857142
+    }
+  ]
+}

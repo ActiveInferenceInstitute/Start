@@ -50,18 +50,14 @@ Technical documentation for data directory structure, file formats, and naming c
 **Languages**: Chinese, Spanish, Arabic, Hindi, French, Japanese, Russian, Swahili, Tagalog, etc.
 
 ### `visualizations/`
-**Purpose**: Visualization outputs
+**Purpose**: Derived visualization bundles
 
-**File Formats**: PNG, Mermaid (.mmd), JSON
-**Types**:
-- `{entity}_complexity_analysis.png`: Complexity analysis charts
-- `{entity}_flow.mmd`: Learning flow diagrams
-- `{entity}_learning_objectives.png`: Learning objectives charts
-- `{entity}_section_breakdown.png`: Section breakdown charts
-- `{entity}_technical_content.png`: Technical content charts
-- `curriculum_metrics.json`: Metrics data
-- `curriculum_metrics.png`: Metrics dashboard
-- `curriculum_structure.mmd`: Overall structure diagram
+**Canonical layout**: `charts/curriculum_metrics.png`,
+`diagrams/<stable-item-id>_flow.mmd`,
+`diagrams/curriculum_structure.mmd`,
+`metrics/curriculum_metrics.{csv,json}`, and
+`visualization_manifest.json`. The manifest contains input/output hashes and
+marks these files as derived structural summaries, not independent evidence.
 
 ### `written_curriculums/`
 **Purpose**: Generated curriculum outputs

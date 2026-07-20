@@ -11,8 +11,12 @@ This module provides functions to collect curriculum files, generate metrics, an
 ### `runner.py`
 Visualization runner:
 - `collect_curriculum_files()`: Collect curriculum files from directory
-- `generate_curriculum_metrics()`: Generate curriculum metrics
+- `generate_curriculum_metrics()`: Generate CSV and JSON curriculum metrics
 - `run()`: Main visualization runner
+
+`run()` also creates stable-ID Mermaid flow diagrams, a PNG summary chart, and
+`visualization_manifest.json` with input/output hashes. Repeated display labels
+are disambiguated with the source curriculum stem.
 
 ## Usage Examples
 

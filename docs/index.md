@@ -16,6 +16,9 @@ START is a complete educational content generation pipeline that combines:
 
 - Environment & Setup: [Environment Setup](./environment.md)
 - System Architecture: [Pipeline Overview](./pipeline.md)
+- Methods: [Methods and Evidence Protocol](./methods.md)
+- Manuscript Note: [Reviewable Learning Artifacts](./manuscript.md)
+- Operations: [Operations and Release Evidence](./operations.md)
 - Getting Started: [Quickstart](./getting_started.md)
 - Configuration: [Reference](./configuration.md)
 - Data & Outputs: [Locations and artifacts](./data_outputs.md)
@@ -41,9 +44,16 @@ START is a complete educational content generation pipeline that combines:
 #### 🔄 **System Architecture**
 
 - **[Pipeline Overview](./pipeline.md)** - Comprehensive system architecture and workflow
-  - 4-stage curriculum creation pipeline
+  - acquire → prepare → process → parse → render curriculum pipeline
   - Configuration-driven research approach
   - API integration and content generation standards
+
+#### 🧪 **Methods and Publication**
+
+- **[Methods and Evidence Protocol](./methods.md)** - First-principles
+  constraints, hypotheses, quality gates, and reproducibility protocol
+- **[Manuscript Note](./manuscript.md)** - Publication-facing scope, evidence
+  boundary, and limitations
 
 #### 🔗 **External Integrations**
 
@@ -138,15 +148,15 @@ START is a complete educational content generation pipeline that combines:
 ### Research & Analysis
 
 - ** Professional Domains**: Life sciences, technology, business, healthcare, education, and whatever you prefer. 
-- **8 Target Entities**: Political figures, scientists, tech leaders, educators, any entity or audience you prefer
-- **Real-time Research**: Current industry insights and professional analysis
-- **Comprehensive Analysis**: 3,000-5,000 word domain reports
+- **Configurable Target Entities**: Political figures, scientists, tech leaders, educators, and other explicitly configured audiences
+- **Live Research**: Current industry insights and professional analysis when explicitly enabled
+- **Comprehensive Analysis**: Prompt-targeted domain reports with explicit quality and evidence status
 
 ### Content Generation
 
-- **Professional-Grade Curricula**: 40-60 hour structured learning programs, eventually with more granular and custom productions possible in this repo
-- **Personalized Learning**: 5,000-8,000 word tailored strategies
-- **Modular Design**: 3-5 hour comprehensive learning units
+- **Structured Curricula**: Prompt-defined learning programs with manifest-backed quality and provenance
+- **Personalized Learning**: Tailored strategies whose generated structure and evidence status are validated
+- **Modular Design**: Prompt-defined learning units whose actual scope is recorded for review
 - **Assessment Integration**: Built-in evaluation and progress tracking
 
 ### Visualization & Media
@@ -157,9 +167,9 @@ START is a complete educational content generation pipeline that combines:
 
 ### Multilingual Support
 
-- **9+ Languages**: Chinese, Spanish, Arabic, Hindi, French, Japanese, Russian, Swahili, Tagalog
+- **Configured Languages**: Language and script mappings are loaded from `data/config/languages.yaml`
 - **Cultural Adaptation**: Full localization beyond literal translation
-- **Professional Quality**: Native-speaker level fluency with technical accuracy
+- **Review Boundary**: Structural and script checks are automated; language fluency and technical accuracy require human review
 
 ## 🔧 **Configuration Overview**
 
@@ -182,17 +192,24 @@ domains:
 ### Command-Line Interface
 
 ```bash
-# From repository root
-export PYTHONPATH=$(pwd):$PYTHONPATH
+# From repository root; installed commands use the locked uv environment
+uv sync --all-extras --dev
 
 # Research high-priority entities
-uv run python learning/curriculum_creation/1_Research_Entity.py --priority high
+uv run start-curriculum --non-interactive --stages entity-research \
+  --entity-priority high --json
 
 # Generate domain-specific curricula
-uv run python learning/curriculum_creation/1_Research_Domain.py --domain biochemistry
+uv run start-curriculum --non-interactive --stages domain-research \
+  --domains biochemistry --json
 
 # Create multilingual content
-uv run python learning/curriculum_creation/4_Translate_Introductions.py --languages Spanish French
+uv run start-curriculum --non-interactive --stages translations \
+  --languages Spanish French --json
+
+# Inspect generated output contracts and deterministic offline fixtures
+uv run start-validate-outputs --check
+uv run start-regenerate-offline --output-dir /tmp/start-fixtures --json
 ```
 
 ## 📊 **Project Structure**

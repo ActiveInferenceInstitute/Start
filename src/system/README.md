@@ -26,11 +26,12 @@ Dependency checking and validation:
 - `run_comprehensive_dependency_check()`: Run full dependency check
 - `format_dependency_report()`: Format dependency report
 - `validate_api_keys()`: Validate API keys
+- `probe_api_connectivity()`: Explicitly perform bounded live provider probes; not used by health checks
 
 ### `environment.py`
 Environment setup and validation:
-- `setup_project_environment()`: Set up complete project environment
-- `validate_environment()`: Validate environment configuration
+- `setup_project_environment(project_root=None, sync_command=None)`: Set up the environment with an explicit root and synchronization command when needed
+- `validate_environment(root=None)`: Validate environment configuration for the selected root
 - `get_environment_info()`: Get environment information
 - `fix_common_issues()`: Fix common environment issues
 - `run_health_check()`: Run comprehensive health check

@@ -1,3 +1,13 @@
+---
+evidence_status: synthetic_foundation
+provider: offline_reference
+live_evidence: false
+verification_status: unverified
+---
+
+> **Evidence boundary:** This is synthetic foundational material for offline
+> curriculum scaffolding. It is not a live research result or verified source.
+
 # Free Energy Principle and Active Inference: Comprehensive Domain Knowledge
 
 **Document Date:** 2025-09-02  

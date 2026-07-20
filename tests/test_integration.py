@@ -111,7 +111,7 @@ def test_project_structure_integrity():
 def test_clone_script_help():
     """Test that clone_repo script shows help."""
     result = subprocess.run(
-        ["python", "src/repos/clone_repo.py", "--help"], capture_output=True, text=True, timeout=30
+        ["uv", "run", "start-clone", "--help"], capture_output=True, text=True, timeout=30
     )
 
     # Handle git dependency issues gracefully
@@ -130,7 +130,7 @@ def test_clone_script_help():
 def test_clone_script_missing_args():
     """Test that clone_repo script fails appropriately with missing args."""
     result = subprocess.run(
-        ["python", "src/repos/clone_repo.py"], capture_output=True, text=True, timeout=30
+        ["uv", "run", "start-clone"], capture_output=True, text=True, timeout=30
     )
 
     # Handle git dependency issues gracefully

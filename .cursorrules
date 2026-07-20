@@ -1,7 +1,7 @@
 rules:
   principles:
-    - Always prefer real, end-to-end methods over stubs or placeholders
-    - No mocks/fakes in production code or tests; use real data and IO
+    - Always prefer real, end-to-end methods with explicit validation
+    - Use real data and I/O in production code and tests
     - Practice TDD: write or update tests alongside changes
     - Enforce modular, readable, and well-documented code (docstrings, types)
     - Keep changes minimal, cohesive, and lint-clean
@@ -9,7 +9,7 @@ rules:
 
   repository:
     enforce_python3: true
-    disallow_stub_files: true
+    require_complete_implementations: true
     require_types_for_public_functions: true
     fail_on_todo_comments: true
     docs_site: mkdocs
@@ -21,7 +21,8 @@ rules:
     no_network_by_default: true
     allow_network_only_if: env.CI == true
     data_sources:
-      - Languages/Inputs_and_Outputs/**
+      - data/domain_research/**
+      - data/audience_research/**
     markers:
       - integration
       - slow
@@ -81,5 +82,3 @@ rules:
       - ensure_nav_entries_in_mkdocs_yml
       - verify_internal_links_exist
       - prefer_run_docs_sh_in_instructions
-
-

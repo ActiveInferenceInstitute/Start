@@ -1,11 +1,19 @@
 site_name: START Documentation
 site_url: https://activeinferenceinstitute.github.io/Start/
 repo_url: https://github.com/ActiveInferenceInstitute/Start
+exclude_docs: |
+  AGENTS.md
+  README.md
+  other/AGENTS.md
+  other/README.md
 nav:
   - Home: index.md
   - Getting Started: getting_started.md
   - Environment: environment.md
   - Pipeline: pipeline.md
+  - Methods: methods.md
+  - Manuscript Note: manuscript.md
+  - Operations: operations.md
   - Configuration: configuration.md
   - Data & Outputs: data_outputs.md
   - Visualizations: visualizations.md

@@ -9,12 +9,8 @@ from src.common.paths import (
     data_translated_curriculums_dir,
     data_visualizations_dir,
     data_written_curriculums_dir,
-    domain_dir,
-    domain_research_dir,
     ensure_dir,
     find_repo_root,
-    inputs_and_outputs_root,
-    languages_root,
     repo_root,
 )
 
@@ -44,36 +40,13 @@ def test_repo_root():
     assert root == find_repo_root()
 
 
-def test_languages_root():
-    """Test getting languages root path."""
-    lang_root = languages_root()
-    # Should be repo_root / "Languages"
-    expected = repo_root() / "Languages"
-    assert lang_root == expected
+def test_canonical_paths_are_used():
+    """The canonical project layout is rooted under data/."""
+    assert data_root() == repo_root() / "data"
 
 
-def test_inputs_and_outputs_root():
-    """Test getting inputs and outputs root path."""
-    io_root = inputs_and_outputs_root()
-    # Should be languages_root / "Inputs_and_Outputs"
-    expected = languages_root() / "Inputs_and_Outputs"
-    assert io_root == expected
-
-
-def test_domain_dir():
-    """Test getting domain directory path."""
-    domain = domain_dir()
-    # Should be inputs_and_outputs_root / "Domain"
-    expected = inputs_and_outputs_root() / "Domain"
-    assert domain == expected
-
-
-def test_domain_research_dir():
-    """Test getting domain research directory path."""
-    domain_research = domain_research_dir()
-    # Should be inputs_and_outputs_root / "Domain_Research"
-    expected = inputs_and_outputs_root() / "Domain_Research"
-    assert domain_research == expected
+def test_data_layout_is_canonical():
+    assert data_domain_research_dir().parent == data_root()
 
 
 def test_ensure_dir_new(tmp_path):
@@ -132,29 +105,8 @@ def test_data_directories_structure():
     assert data_domain_research_dir() == root / "domain_research"
 
 
-def test_data_directories_created():
-    """Test that data directory functions actually create the directories."""
-    # These functions should create directories if they don't exist
-    dirs_to_check = [
-        data_written_curriculums_dir(),
-        data_translated_curriculums_dir(),
-        data_visualizations_dir(),
-        data_audience_research_dir(),
-        data_domain_research_dir(),
-    ]
-
-    for directory in dirs_to_check:
-        assert directory.exists(), f"Directory not created: {directory}"
-        assert directory.is_dir(), f"Path is not a directory: {directory}"
-
-
 def test_path_relationships():
     """Test that paths have correct parent-child relationships."""
     root = repo_root()
 
-    # Test hierarchy
-    assert languages_root().parent == root
-    assert inputs_and_outputs_root().parent == languages_root()
-    assert domain_dir().parent == inputs_and_outputs_root()
-    assert domain_research_dir().parent == inputs_and_outputs_root()
     assert data_root().parent == root

@@ -16,21 +16,18 @@ domain-specific analysis for each curriculum entity.
 """
 
 import argparse
-import json
 import re
 from pathlib import Path
-from typing import Dict, List
+from typing import Any, Dict, List
 
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 
-from src.common.io import read_text, write_text
-from src.common.logging_utils import setup_logging as common_setup_logging
-from src.common.paths import data_visualizations_dir, data_written_curriculums_dir
+from src.common.io import read_text
 
 
-def extract_curriculum_metadata(curriculum_content: str) -> Dict[str, any]:
+def extract_curriculum_metadata(curriculum_content: str) -> Dict[str, Any]:
     """Extract metadata and metrics from curriculum content.
 
     Args:
@@ -694,113 +691,21 @@ def collect_curriculum_data(curriculum_dir: Path) -> List[Dict]:
     return curricula_data
 
 
-def main(input_folder: str = None, output_folder: str = None) -> None:
+def main(input_folder: str = None, output_folder: str = None) -> int:
     """Main function to generate curriculum visualizations.
 
     Args:
         input_folder: Path to curriculum files (defaults to data/written_curriculums)
         output_folder: Path to save visualizations (defaults to data/visualizations)
     """
-    logger = common_setup_logging()
-    logger.info("Starting curriculum visualization generation")
+    from learning.curriculum_creation.generate_custom_curriculum import main as canonical_main
 
-    # Setup paths
-    input_dir = Path(input_folder) if input_folder else data_written_curriculums_dir()
-    output_dir = Path(output_folder) if output_folder else data_visualizations_dir()
-    output_dir.mkdir(parents=True, exist_ok=True)
-
-    logger.info(f"Processing curricula from: {input_dir}")
-    logger.info(f"Saving visualizations to: {output_dir}")
-
-    try:
-        # Collect curriculum data
-        curricula_data = collect_curriculum_data(input_dir)
-
-        if not curricula_data:
-            logger.warning("No curriculum files found to visualize")
-            return
-
-        logger.info(f"Found {len(curricula_data)} curricula to visualize")
-
-        # Create PNG metrics chart
-        metrics_chart_path = output_dir / "curriculum_metrics.png"
-        create_curriculum_metrics_chart(curricula_data, metrics_chart_path)
-        logger.info(f"Created metrics chart: {metrics_chart_path}")
-
-        # Create overall structure Mermaid diagram
-        structure_diagram = create_curriculum_structure_mermaid(curricula_data)
-        structure_path = output_dir / "curriculum_structure.mmd"
-        write_text(structure_path, structure_diagram)
-        logger.info(f"Created structure diagram: {structure_path}")
-
-        # Create individual flow diagrams and domain-specific PNG charts for each curriculum
-        for curriculum in curricula_data:
-            entity_name = curriculum["entity_name"]
-            sections = curriculum.get("sections", [])
-
-            if sections:
-                # Create Mermaid flow diagram
-                flow_diagram = create_curriculum_flow_mermaid(sections, entity_name)
-                flow_path = output_dir / f"{entity_name}_flow.mmd"
-                write_text(flow_path, flow_diagram)
-                logger.info(f"Created flow diagram for {entity_name}: {flow_path}")
-
-            # Create domain-specific PNG visualizations
-            try:
-                # Section breakdown chart
-                section_chart_path = output_dir / f"{entity_name}_section_breakdown.png"
-                create_domain_section_breakdown_chart(curriculum, section_chart_path)
-                logger.info(
-                    f"Created section breakdown chart for {entity_name}: {section_chart_path}"
-                )
-
-                # Content complexity chart
-                complexity_chart_path = output_dir / f"{entity_name}_complexity_analysis.png"
-                create_domain_complexity_chart(curriculum, complexity_chart_path)
-                logger.info(
-                    f"Created complexity analysis chart for {entity_name}: {complexity_chart_path}"
-                )
-
-                # Learning objectives chart
-                objectives_chart_path = output_dir / f"{entity_name}_learning_objectives.png"
-                create_domain_learning_objectives_chart(curriculum, objectives_chart_path)
-                logger.info(
-                    f"Created learning objectives chart for {entity_name}: {objectives_chart_path}"
-                )
-
-                # Technical content chart
-                technical_chart_path = output_dir / f"{entity_name}_technical_content.png"
-                create_domain_technical_content_chart(curriculum, technical_chart_path)
-                logger.info(
-                    f"Created technical content chart for {entity_name}: {technical_chart_path}"
-                )
-
-            except Exception as e:
-                logger.warning(f"Failed to create some visualizations for {entity_name}: {e}")
-                continue
-
-        # Save detailed metrics as JSON
-        # For reporting, adjust section_count to exclude main title and pure objective headers
-        adjusted_for_reporting = []
-        for item in curricula_data:
-            sections = item.get("sections", [])
-            filtered_sections = [
-                s for s in sections[1:] if s.strip() not in {"Learning Objectives", "Goals"}
-            ]
-            adjusted = dict(item)
-            adjusted["section_count"] = len(filtered_sections)
-            adjusted_for_reporting.append(adjusted)
-
-        metrics_path = output_dir / "curriculum_metrics.json"
-        with open(metrics_path, "w", encoding="utf-8") as f:
-            json.dump(adjusted_for_reporting, f, indent=2, default=str)
-        logger.info(f"Saved detailed metrics: {metrics_path}")
-
-        logger.info("Visualization generation completed successfully")
-
-    except Exception as e:
-        logger.error(f"Error generating visualizations: {e}")
-        raise
+    delegated = ["--non-interactive", "--stages", "visualizations"]
+    if input_folder:
+        delegated.extend(["--curriculum-dir", input_folder])
+    if output_folder:
+        delegated.extend(["--visualizations-dir", output_folder])
+    return canonical_main(delegated)
 
 
 if __name__ == "__main__":
@@ -816,4 +721,4 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    main(args.input, args.output)
+    raise SystemExit(main(args.input, args.output))

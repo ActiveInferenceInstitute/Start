@@ -74,8 +74,8 @@ that import from `src/` modules.
 
 ## Key Facts
 
-- **345+ tests** — all pass, zero mock violation in production code
-- **Zero mocks in production code** — domestic test object pattern in fixtures
+- **Test suite** — all tests use real local protocols and temporary data
+- **Provider tests** — local HTTP completion servers exercise the production client
 - **Standalone** — not dependent on the template infrastructure
-- **Path structure**: outputs under `data/` (not legacy `Languages/`)
+- **Path structure**: outputs under `data/`
 - **Documentation**: 23+ docs pages, AGENTS.md per subpackage

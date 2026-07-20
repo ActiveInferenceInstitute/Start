@@ -8,52 +8,36 @@ shown in the UI.
 
 Design notes:
 - No extra dependencies are introduced; only the Python standard library is used.
-- The script dynamically imports the existing orchestrator and config from
-  `generate_custom_curriculum.py` and the domain/entity/language utilities
-  from sibling scripts to ensure a single source of truth.
+- The script imports the canonical orchestrator and typed configuration helpers
+  directly so the browser and CLI share one execution path.
 - Progress is estimated at stage granularity with simple weights; ETA is
   extrapolated from elapsed time and fraction complete.
 """
 
 from __future__ import annotations
 
-import importlib.util
+import argparse
+import html
 import json
+import re
+import secrets
 import sys
 import threading
 import time
+import uuid
 import webbrowser
 from dataclasses import dataclass
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
-from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional, Tuple
 
-# Ensure project root is on path for `src` imports used by orchestrator
-SCRIPT_DIR = Path(__file__).parent
-PROJECT_ROOT = SCRIPT_DIR.parent.parent
-if str(PROJECT_ROOT) not in sys.path:
-    sys.path.insert(0, str(PROJECT_ROOT))
-
-
-# Dynamic import of the CLI orchestrator module to reuse its classes/functions
-_ORCH_SPEC = importlib.util.spec_from_file_location(
-    "generate_custom_curriculum", SCRIPT_DIR / "generate_custom_curriculum.py"
+from learning.curriculum_creation.generate_custom_curriculum import (  # noqa: E402
+    CurriculumConfig,
+    CurriculumOrchestrator,
 )
-_ORCH_MOD = importlib.util.module_from_spec(_ORCH_SPEC)
-assert _ORCH_SPEC and _ORCH_SPEC.loader is not None
-# Ensure the module is visible to dataclasses and other reflection logic
-sys.modules[_ORCH_SPEC.name] = _ORCH_MOD  # type: ignore[index]
-_ORCH_SPEC.loader.exec_module(_ORCH_MOD)
-
-# Types from orchestrator
-CurriculumConfig = _ORCH_MOD.CurriculumConfig  # type: ignore[attr-defined]
-CurriculumOrchestrator = _ORCH_MOD.CurriculumOrchestrator  # type: ignore[attr-defined]
-_import_script_functions = _ORCH_MOD._import_script_functions  # type: ignore[attr-defined]
-
-
-# Load supporting script modules (domain/entity/language helpers)
-_domain_mod, _entity_mod, _curriculum_mod, _viz_mod, _trans_mod = _import_script_functions()
+from src.common.logging_utils import redact_log_value  # noqa: E402
+from src.config.catalog import load_domains_config, load_entities_config  # noqa: E402
+from src.config.schemas import stable_identifier  # noqa: E402
 
 
 def _get_available_options() -> Tuple[List[str], List[str], List[str]]:
@@ -62,31 +46,47 @@ def _get_available_options() -> Tuple[List[str], List[str], List[str]]:
     Returns:
         Tuple of lists: (domains, entities, languages)
     """
-    try:
-        domains_config = _domain_mod.load_domains_config()
-        domains = [d["name"] for d in domains_config.get("domains", [])]
-    except Exception:
-        domains = [
-            "biochemistry",
-            "neuroscience",
-            "artificial_intelligence",
-            "psychology",
-        ]
+    domains_config = load_domains_config()
+    domains = [d["name"] for d in domains_config.get("domains", [])]
+    entities_config = load_entities_config()
+    entities = [e["name"] for e in entities_config.get("entities", [])]
+    from src.config.languages import get_target_languages
 
-    try:
-        entities_config = _entity_mod.load_entities_config()
-        entities = [e["name"] for e in entities_config.get("entities", [])]
-    except Exception:
-        entities = ["karl_friston", "tulsi_gabbard", "elon_musk"]
-
-    try:
-        from src.config.languages import get_target_languages
-
-        languages = get_target_languages()
-    except Exception:
-        languages = ["Spanish", "French", "Chinese", "Arabic", "Hindi"]
+    languages = get_target_languages()
+    if not domains or not entities or not languages:
+        raise ValueError("Domain, entity, and language configuration must not be empty")
 
     return domains, entities, languages
+
+
+def _parse_start_payload(data: object) -> tuple[str, str, str, Optional[str]]:
+    """Validate and normalize a JSON start request before launching work."""
+    if not isinstance(data, dict):
+        raise ValueError("JSON body must be an object")
+
+    def required_text(name: str, maximum: int) -> str:
+        value = data.get(name)
+        if not isinstance(value, str):
+            raise ValueError(f"{name} must be a string")
+        value = value.strip()
+        if not value or len(value) > maximum:
+            raise ValueError(f"{name} must be between 1 and {maximum} characters")
+        return value
+
+    domain = required_text("domain", 200)
+    entity = required_text("entity", 200)
+    language = required_text("language", 100)
+    description = data.get("entity_description")
+    if description is None:
+        entity_description = None
+    elif isinstance(description, str):
+        entity_description = description.strip() or None
+        if entity_description is not None and len(entity_description) > 2000:
+            raise ValueError("entity_description must be at most 2000 characters")
+    else:
+        raise ValueError("entity_description must be a string or null")
+
+    return domain, entity, language, entity_description
 
 
 @dataclass
@@ -116,6 +116,9 @@ _STATUS: GuiStatus = GuiStatus(
     error=None,
     results=None,
 )
+_RUN_ACTIVE = False
+_RUN_ID: Optional[str] = None
+_CANCEL_EVENT = threading.Event()
 
 
 _STAGE_ORDER: List[Tuple[str, str]] = [
@@ -128,6 +131,16 @@ _STAGE_ORDER: List[Tuple[str, str]] = [
 
 # Coarse weights per stage, summing to 1.0
 _STAGE_WEIGHTS: List[float] = [0.25, 0.25, 0.30, 0.10, 0.10]
+
+
+def _safe_public_error(value: object) -> str:
+    """Keep provider credentials, prompt bodies, and large traces out of GUI output."""
+
+    text = redact_log_value(value)
+    # Local paths and provider request details are operational diagnostics,
+    # not browser data.  Keep only a short, non-sensitive summary.
+    text = re.sub(r"(?<![A-Za-z0-9])/(?:Users|private|tmp|var|home)/[^\s,;]+", "[path]", text)
+    return text[:500]
 
 
 def estimate_progress(stage_index: int, in_stage: bool) -> float:
@@ -187,8 +200,7 @@ def build_config_from_form(
         verbose_logging=True,
     )
     if entity_description:
-        # Attach as a private attribute consumed by orchestrator when creating custom entity
-        cfg._custom_entity_description = entity_description
+        cfg.custom_entity_description = entity_description
     return cfg
 
 
@@ -200,6 +212,8 @@ def _wrap_stages_for_progress(orchestrator: Any) -> None:
 
         def make_wrapped(i: int, name: str, fn: Callable[[], bool]) -> Callable[[], bool]:
             def wrapped() -> bool:
+                if _CANCEL_EVENT.is_set():
+                    return False
                 with _STATUS_LOCK:
                     _STATUS.stage_index = i
                     _STATUS.stage_name = name
@@ -231,22 +245,36 @@ def _results_to_summary_html(results: Dict[str, Any]) -> str:
                 status = (
                     "Success" if data.get("success") else f"Failed: {data.get('error', 'Unknown')}"
                 )
-                parts.append(f"<li><b>{key.replace('_', ' ').title()}</b>: {status}</li>")
+                parts.append(
+                    f"<li><b>{html.escape(key.replace('_', ' ').title())}</b>: {html.escape(status)}</li>"
+                )
             else:
                 succ = data.get("success", 0)
                 fail = data.get("failed", 0)
                 skip = data.get("skipped", 0)
                 parts.append(
-                    f"<li><b>{key.replace('_', ' ').title()}</b>: "
+                    f"<li><b>{html.escape(key.replace('_', ' ').title())}</b>: "
                     f"{succ} successful, {fail} failed, {skip} skipped</li>"
                 )
+                for error in data.get("errors", []):
+                    parts.append(f'<li class="error">{html.escape(_safe_public_error(error))}</li>')
     parts.append("</ul></div>")
     return "".join(parts)
 
 
 def _run_pipeline_in_thread(cfg: Any) -> None:
-    orchestrator = CurriculumOrchestrator(cfg)
+    global _RUN_ACTIVE, _RUN_ID
+    try:
+        orchestrator = CurriculumOrchestrator(cfg)
+    except Exception as exc:  # pragma: no cover - defensive thread boundary
+        with _STATUS_LOCK:
+            _STATUS.done = True
+            _STATUS.error = _safe_public_error(exc)
+            _STATUS.message = "Failed"
+            _RUN_ACTIVE = False
+        return
     with _STATUS_LOCK:
+        _RUN_ID = cfg.run_id
         _STATUS.started_at = time.time()
         _STATUS.done = False
         _STATUS.error = None
@@ -268,14 +296,18 @@ def _run_pipeline_in_thread(cfg: Any) -> None:
             _STATUS.message = "Completed" if ok else "Completed with errors"
             _STATUS.eta_seconds = 0
             _STATUS.results = orchestrator.results
+            _STATUS.message = "Cancelled" if _CANCEL_EVENT.is_set() else _STATUS.message
             if not ok:
                 _STATUS.error = "One or more stages failed. See summary."
     except Exception as exc:  # pragma: no cover - defensive
         with _STATUS_LOCK:
             _STATUS.done = True
-            _STATUS.error = str(exc)
+            _STATUS.error = _safe_public_error(exc)
             _STATUS.message = "Failed"
             _STATUS.eta_seconds = None
+    finally:
+        with _STATUS_LOCK:
+            _RUN_ACTIVE = False
 
 
 class _GuiHandler(BaseHTTPRequestHandler):
@@ -289,9 +321,28 @@ class _GuiHandler(BaseHTTPRequestHandler):
         self.send_response(status)
         self.send_header("Content-Type", content_type)
         self.send_header("Cache-Control", "no-store")
+        self.send_header("X-Content-Type-Options", "nosniff")
+        self.send_header("X-Frame-Options", "DENY")
+        self.send_header("Referrer-Policy", "no-referrer")
+        self.send_header(
+            "Content-Security-Policy",
+            "default-src 'self'; style-src 'unsafe-inline'; script-src 'unsafe-inline'",
+        )
+        self.send_header("Connection", "close")
         self.end_headers()
 
+    def _authorized(self) -> bool:
+        expected = getattr(self.server, "auth_token", None)
+        if not expected:
+            return True
+        supplied = self.headers.get("X-START-Token", "")
+        return secrets.compare_digest(supplied, expected)
+
     def do_GET(self) -> None:  # noqa: N802 (BaseHTTPRequestHandler API)
+        if not self._authorized():
+            self._set_headers(HTTPStatus.UNAUTHORIZED, "text/plain; charset=utf-8")
+            self.wfile.write(b"Authentication required")
+            return
         if self.path == "/" or self.path.startswith("/index.html"):
             self._serve_index()
             return
@@ -308,8 +359,15 @@ class _GuiHandler(BaseHTTPRequestHandler):
         self.wfile.write(b"Not found")
 
     def do_POST(self) -> None:  # noqa: N802 (BaseHTTPRequestHandler API)
+        if not self._authorized():
+            self._set_headers(HTTPStatus.UNAUTHORIZED, "text/plain; charset=utf-8")
+            self.wfile.write(b"Authentication required")
+            return
         if self.path == "/start":
             self._handle_start()
+            return
+        if self.path == "/cancel":
+            self._handle_cancel()
             return
         self._set_headers(HTTPStatus.NOT_FOUND)
         self.wfile.write(b"Not found")
@@ -320,15 +378,31 @@ class _GuiHandler(BaseHTTPRequestHandler):
         self.wfile.write(html.encode("utf-8"))
 
     def _serve_options(self) -> None:
-        domains, entities, languages = _get_available_options()
+        try:
+            domains, entities, languages = _get_available_options()
+        except (OSError, ValueError, KeyError) as exc:
+            self._set_headers(HTTPStatus.INTERNAL_SERVER_ERROR, "application/json; charset=utf-8")
+            self.wfile.write(json.dumps({"error": _safe_public_error(exc)}).encode("utf-8"))
+            return
         payload = {
             "domains": domains,
             "entities": entities,
             "languages": languages,
+            "identifiers": {
+                "domains": {
+                    str(item["name"]): str(item.get("id") or stable_identifier(item["name"]))
+                    for item in load_domains_config().get("domains", [])
+                },
+                "entities": {
+                    str(item["name"]): str(item.get("id") or stable_identifier(item["name"]))
+                    for item in load_entities_config().get("entities", [])
+                },
+                "languages": {language: stable_identifier(language) for language in languages},
+            },
             "defaults": {
-                "domain": (domains[0] if domains else "biochemistry"),
-                "entity": (entities[0] if entities else "karl_friston"),
-                "language": (languages[0] if languages else "Spanish"),
+                "domain": domains[0],
+                "entity": entities[0],
+                "language": languages[0],
             },
         }
         self._set_headers(HTTPStatus.OK, "application/json; charset=utf-8")
@@ -344,6 +418,9 @@ class _GuiHandler(BaseHTTPRequestHandler):
                 "eta_seconds": _STATUS.eta_seconds,
                 "done": _STATUS.done,
                 "error": _STATUS.error,
+                "running": _RUN_ACTIVE,
+                "run_id": _RUN_ID,
+                "cancel_requested": _CANCEL_EVENT.is_set(),
             }
         self._set_headers(HTTPStatus.OK, "application/json; charset=utf-8")
         self.wfile.write(json.dumps(s).encode("utf-8"))
@@ -360,37 +437,76 @@ class _GuiHandler(BaseHTTPRequestHandler):
         self.wfile.write(html.encode("utf-8"))
 
     def _handle_start(self) -> None:
-        content_len = int(self.headers.get("Content-Length", "0"))
-        body = self.rfile.read(content_len) if content_len > 0 else b"{}"
+        try:
+            content_len = int(self.headers.get("Content-Length", "0"))
+        except ValueError:
+            content_len = -1
+        if content_len < 1 or content_len > 64 * 1024:
+            status = (
+                HTTPStatus.REQUEST_ENTITY_TOO_LARGE
+                if content_len > 64 * 1024
+                else HTTPStatus.BAD_REQUEST
+            )
+            self._set_headers(status)
+            self.wfile.write(b"Request body must be between 1 and 65536 bytes")
+            return
+        body = self.rfile.read(content_len)
         try:
             data = json.loads(body.decode("utf-8"))
-        except Exception:
+        except (UnicodeDecodeError, json.JSONDecodeError):
             self._set_headers(HTTPStatus.BAD_REQUEST)
             self.wfile.write(b"Invalid JSON")
             return
-
-        domain = str(data.get("domain", "")).strip()
-        entity = str(data.get("entity", "")).strip()
-        language = str(data.get("language", "")).strip()
-        entity_desc = str(data.get("entity_description") or "").strip() or None
-
-        if not domain or not entity or not language:
+        try:
+            domain, entity, language, entity_desc = _parse_start_payload(data)
+        except ValueError as exc:
             self._set_headers(HTTPStatus.BAD_REQUEST)
-            self.wfile.write(b"Missing required fields")
+            self.wfile.write(_safe_public_error(exc).encode("utf-8"))
             return
 
-        # Prevent concurrent runs
+        try:
+            _get_available_options()
+        except (OSError, ValueError, KeyError) as exc:
+            self._set_headers(HTTPStatus.INTERNAL_SERVER_ERROR)
+            self.wfile.write(_safe_public_error(exc).encode("utf-8"))
+            return
+
+        # Reserve the run slot before starting the worker so simultaneous
+        # requests cannot both pass the guard.
+        global _RUN_ACTIVE
         with _STATUS_LOCK:
-            if not _STATUS.done and _STATUS.started_at and (_STATUS.progress > 0.0):
+            if _RUN_ACTIVE:
                 self._set_headers(HTTPStatus.CONFLICT)
                 self.wfile.write(b"A run is already in progress")
                 return
+            _RUN_ACTIVE = True
+            _CANCEL_EVENT.clear()
 
-        cfg = build_config_from_form(domain, entity, language, entity_desc)
+        try:
+            cfg = build_config_from_form(domain, entity, language, entity_desc)
+            cfg.run_id = f"gui-{int(time.time())}-{uuid.uuid4().hex[:8]}"
+            cfg.cancellation_event = _CANCEL_EVENT
+            cfg.validate()
+        except ValueError as exc:
+            with _STATUS_LOCK:
+                _RUN_ACTIVE = False
+            self._set_headers(HTTPStatus.BAD_REQUEST)
+            self.wfile.write(_safe_public_error(exc).encode("utf-8"))
+            return
         t = threading.Thread(target=_run_pipeline_in_thread, args=(cfg,), daemon=True)
         t.start()
         self._set_headers(HTTPStatus.ACCEPTED)
         self.wfile.write(b"Started")
+
+    def _handle_cancel(self) -> None:
+        with _STATUS_LOCK:
+            if not _RUN_ACTIVE:
+                self._set_headers(HTTPStatus.CONFLICT)
+                self.wfile.write(b"No run is in progress")
+                return
+            _CANCEL_EVENT.set()
+        self._set_headers(HTTPStatus.ACCEPTED)
+        self.wfile.write(b"Cancellation requested")
 
 
 _INDEX_HTML = """  # noqa: E501
@@ -438,10 +554,15 @@ _INDEX_HTML = """  # noqa: E501
     if (defaultVal) sel.value = defaultVal;
   }
 
+  function selectedOrCustom(selectId, customId) {
+    const custom = document.getElementById(customId).value.trim();
+    return custom || document.getElementById(selectId).value;
+  }
+
   async function startRun() {
-    const domain = document.getElementById('domain').value || document.getElementById('domain_custom').value.trim();
-    const entity = document.getElementById('entity').value || document.getElementById('entity_custom').value.trim();
-    const language = document.getElementById('language').value || document.getElementById('language_custom').value.trim();
+    const domain = selectedOrCustom('domain', 'domain_custom');
+    const entity = selectedOrCustom('entity', 'entity_custom');
+    const language = selectedOrCustom('language', 'language_custom');
     const entity_description = document.getElementById('entity_description').value.trim();
 
     if (!domain || !entity || !language) {
@@ -553,30 +674,75 @@ _INDEX_HTML = """  # noqa: E501
 def _open_browser(url: str) -> None:
     try:
         webbrowser.open(url, new=2)
-    except Exception:
-        pass
+    except OSError as exc:
+        print(f"Unable to open browser: {exc}")
 
 
 def run_gui_server(
-    host: str = "127.0.0.1", port: int = 8765, open_browser_delay: float = 0.6
+    host: str = "127.0.0.1",
+    port: int = 8765,
+    open_browser_delay: float = 0.6,
+    open_browser: bool = True,
+    allow_remote: bool = False,
+    auth_token: Optional[str] = None,
 ) -> None:
     """Start the GUI HTTP server and open the default browser."""
-    httpd = ThreadingHTTPServer((host, port), _GuiHandler)
+    loopback_hosts = {"127.0.0.1", "::1", "localhost"}
+    if host not in loopback_hosts and not allow_remote:
+        raise ValueError("non-loopback binding requires --allow-remote")
+    if host not in loopback_hosts and not auth_token:
+        raise ValueError("non-loopback binding requires an authentication token")
+
+    class SecureGuiServer(ThreadingHTTPServer):
+        pass
+
+    httpd = SecureGuiServer((host, port), _GuiHandler)
+    httpd.auth_token = auth_token
     url = f"http://{host}:{port}/"
-    threading.Timer(open_browser_delay, _open_browser, args=(url,)).start()
+    if open_browser:
+        threading.Timer(open_browser_delay, _open_browser, args=(url,)).start()
     print(f"GUI available at {url}")
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:  # pragma: no cover - manual stop
-        pass
+        _CANCEL_EVENT.set()
     finally:
+        _CANCEL_EVENT.set()
         httpd.server_close()
 
 
-def main() -> None:
+def main(argv: Optional[List[str]] = None) -> int:
     """Entry point: run the GUI server."""
-    run_gui_server()
+    parser = argparse.ArgumentParser(description="Run the local curriculum generator GUI")
+    parser.add_argument("--host", default="127.0.0.1")
+    parser.add_argument("--port", type=int, default=8765)
+    parser.add_argument("--no-browser", action="store_true")
+    parser.add_argument("--allow-remote", action="store_true")
+    parser.add_argument(
+        "--auth-token", help="Required with --allow-remote; never sent in responses"
+    )
+    args = parser.parse_args(argv)
+    if not 1 <= args.port <= 65535:
+        parser.error("--port must be between 1 and 65535")
+    if (
+        args.host not in {"127.0.0.1", "::1", "localhost"}
+        and args.allow_remote
+        and not args.auth_token
+    ):
+        parser.error("--auth-token is required with --allow-remote")
+    try:
+        run_gui_server(
+            args.host,
+            args.port,
+            open_browser=not args.no_browser,
+            allow_remote=args.allow_remote,
+            auth_token=args.auth_token,
+        )
+    except (OSError, ValueError) as exc:
+        print(f"Error: {_safe_public_error(exc)}", file=sys.stderr)
+        return 1
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

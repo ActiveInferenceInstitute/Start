@@ -4,7 +4,9 @@ Visualization outputs including charts, diagrams, and metrics.
 
 ## Overview
 
-This directory contains visualization outputs generated from curriculum analysis, including PNG charts, Mermaid diagrams, and JSON metrics files.
+This directory contains visualization outputs generated from curriculum
+analysis, including PNG charts, Mermaid diagrams, JSON metrics, and the
+provenance-bearing `visualization_manifest.json` bundle record.
 
 ## File Types
 
@@ -20,18 +22,20 @@ This directory contains visualization outputs generated from curriculum analysis
 - Curriculum structure diagrams
 
 ### JSON Metrics
-- `curriculum_metrics.json`: Detailed metrics data for all curricula (array of metadata objects)
+- `metrics/curriculum_metrics.json`: Detailed metrics data for all curricula
+  (schema version, evidence status, and records)
 
 ## File Naming
 
-**Entity-Specific Files** (no timestamps):
-- `{entity}_{type}.png` - Entity-specific charts (e.g., `Barry Bonds_complexity_analysis.png`)
-- `{entity}_flow.mmd` - Entity-specific flow diagrams (e.g., `Coffee Roasting_flow.mmd`)
+**Entity-Specific Files** (stable IDs, no timestamps):
+- `diagrams/{stable-item-id}_flow.mmd` - Entity-specific flow diagrams
 
 **Global Aggregate Files** (no timestamps):
-- `curriculum_metrics.json` - Aggregated metrics data for all curricula
-- `curriculum_metrics.png` - Aggregated metrics dashboard chart
-- `curriculum_structure.mmd` - Overall curriculum structure diagram
+- `metrics/curriculum_metrics.json` - Aggregated metrics data
+- `metrics/curriculum_metrics.csv` - Tabular metrics export
+- `charts/curriculum_metrics.png` - Aggregate volume chart
+- `diagrams/curriculum_structure.mmd` - Overall curriculum structure
+- `visualization_manifest.json` - Input/output hashes and evidence boundary
 
 **Chart Types**:
 - `complexity_analysis`: Complexity analysis charts

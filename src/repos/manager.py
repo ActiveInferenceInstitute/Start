@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple, Union
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 from .cloning import (
     CloneResult,
@@ -38,8 +38,11 @@ class RepositoryManager:
             from src.common.paths import repo_root
 
             self.base_dir = repo_root() / self.base_dir
+        self.base_dir = self.base_dir.expanduser().resolve()
+        if self.base_dir in {Path("/").resolve(), Path.home().resolve()}:
+            raise ValueError(f"Refusing unsafe repository manager base directory: {self.base_dir}")
 
-    def list_available_repositories(self) -> Dict[str, Dict[str, any]]:
+    def list_available_repositories(self) -> Dict[str, Dict[str, Any]]:
         """Get list of all available repositories with metadata.
 
         Returns:
@@ -60,13 +63,13 @@ class RepositoryManager:
 
         return result
 
-    def list_cloned_repositories(self) -> Dict[str, Dict[str, any]]:
+    def list_cloned_repositories(self) -> Dict[str, Dict[str, Any]]:
         """Get list of already cloned repositories with status.
 
         Returns:
             Dictionary mapping repo names to status information
         """
-        cloned = get_cloned_repositories()
+        cloned = get_cloned_repositories(self.base_dir)
 
         result = {}
         for name, path in cloned:
@@ -109,7 +112,7 @@ class RepositoryManager:
             CloneResult with operation details
         """
         results = clone_multiple_repositories(
-            [repo_name], force=force, progress_callback=progress_callback
+            [repo_name], force=force, progress_callback=progress_callback, base_dir=self.base_dir
         )
         return results[0] if results else CloneResult(repo_name, False, error_message="No results")
 
@@ -130,7 +133,7 @@ class RepositoryManager:
             List of CloneResult objects
         """
         return clone_multiple_repositories(
-            repo_names, force=force, progress_callback=progress_callback
+            repo_names, force=force, progress_callback=progress_callback, base_dir=self.base_dir
         )
 
     def clone_all(
@@ -153,6 +156,7 @@ class RepositoryManager:
             category=category,
             force=force,
             progress_callback=progress_callback,
+            base_dir=self.base_dir,
         )
 
     def update_repository(self, repo_name: str) -> Tuple[bool, str]:
@@ -175,7 +179,7 @@ class RepositoryManager:
         Returns:
             List of (repo_name, success, message) tuples
         """
-        cloned = get_cloned_repositories()
+        cloned = get_cloned_repositories(self.base_dir)
         results = []
 
         for name, path in cloned:
@@ -184,7 +188,7 @@ class RepositoryManager:
 
         return results
 
-    def get_repository_status(self, repo_name: str) -> Optional[Dict[str, any]]:
+    def get_repository_status(self, repo_name: str) -> Optional[Dict[str, Any]]:
         """Get status for a specific repository.
 
         Args:
@@ -200,7 +204,7 @@ class RepositoryManager:
 
         return get_repository_status(repo_path)
 
-    def get_all_repository_status(self) -> Dict[str, Dict[str, any]]:
+    def get_all_repository_status(self) -> Dict[str, Dict[str, Any]]:
         """Get status for all cloned repositories.
 
         Returns:
@@ -214,7 +218,7 @@ class RepositoryManager:
         Returns:
             List of cleaned up repository names
         """
-        return cleanup_failed_clones()
+        return cleanup_failed_clones(self.base_dir)
 
     def delete_repository(self, repo_name: str) -> Tuple[bool, str]:
         """Delete a cloned repository.
@@ -233,12 +237,14 @@ class RepositoryManager:
         try:
             import shutil
 
+            if repo_path.resolve().parent != self.base_dir.resolve():
+                return False, f"Refusing to delete path outside manager base: {repo_path}"
             shutil.rmtree(repo_path)
             return True, f"Successfully deleted {repo_name}"
         except Exception as e:
             return False, f"Failed to delete {repo_name}: {e}"
 
-    def get_summary(self) -> Dict[str, any]:
+    def get_summary(self) -> Dict[str, Any]:
         """Get summary information about repositories.
 
         Returns:
@@ -300,7 +306,7 @@ class RepositoryManager:
 
         return len(issues) == 0, issues
 
-    def export_configuration(self) -> Dict[str, any]:
+    def export_configuration(self) -> Dict[str, Any]:
         """Export current repository configuration.
 
         Returns:
@@ -329,7 +335,7 @@ def create_repository_manager(base_dir: Optional[Path] = None) -> RepositoryMana
         return RepositoryManager()
 
 
-def format_repository_summary(summary: Dict[str, any]) -> str:
+def format_repository_summary(summary: Dict[str, Any]) -> str:
     """Format repository summary as readable text.
 
     Args:
@@ -393,7 +399,7 @@ def format_clone_results(results: List[CloneResult]) -> str:
     return "\n".join(lines)
 
 
-def format_repository_status(status_dict: Dict[str, Dict[str, any]]) -> str:
+def format_repository_status(status_dict: Dict[str, Dict[str, Any]]) -> str:
     """Format repository status information as readable text.
 
     Args:

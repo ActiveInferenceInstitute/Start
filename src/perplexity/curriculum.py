@@ -6,18 +6,37 @@ which is optimized for content creation rather than research.
 
 from __future__ import annotations
 
+import json
 import os
 import re
-import time
+import threading
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, Optional
 
 from openai import OpenAI
 
-from src.common.io import read_text, write_json, write_text
+from src.common.io import (
+    ensure_directory,
+    next_available_bundle,
+    next_available_path,
+    read_text,
+    safe_name,
+    write_text,
+    write_text_bundle,
+)
 from src.common.paths import data_written_curriculums_dir
 from src.common.prompts import render_prompt
+from src.config.schemas import stable_identifier
+from src.perplexity.clients import ChatPolicy, CompletionResult, ProviderAdapter, RequestLimiter
+from src.pipeline import (
+    file_input_record,
+    generation_metadata,
+    parse_curriculum_response,
+    parse_structured_response,
+    payload_markdown,
+    validate_generated_text,
+)
 
 SYSTEM = (
     "You are an expert researcher and educator specializing in creating comprehensive, "
@@ -27,7 +46,19 @@ SYSTEM = (
 )
 
 
-def chat(client: OpenAI, prompt: str, system: str, model: Optional[str] = None) -> str:
+def chat_result(
+    client: OpenAI,
+    prompt: str,
+    system: str,
+    model: Optional[str] = None,
+    max_retries: int = 3,
+    retry_delay: float = 1.0,
+    timeout: float = 120.0,
+    delay_seconds: float = 0.0,
+    strict_schema: bool = False,
+    limiter: RequestLimiter | None = None,
+    cancellation_event: threading.Event | None = None,
+) -> CompletionResult:
     """Send chat completion request to OpenRouter for content generation.
 
     Args:
@@ -39,11 +70,21 @@ def chat(client: OpenAI, prompt: str, system: str, model: Optional[str] = None) 
     Returns:
         Generated content from the model
     """
-    response = client.chat.completions.create(
-        model=model or os.environ.get("OPENROUTER_MODEL", "anthropic/claude-3.5-sonnet"),
-        messages=[{"role": "system", "content": system}, {"role": "user", "content": prompt}],
-    )
-    return response.choices[0].message.content
+    return ProviderAdapter(
+        client,
+        provider="openrouter",
+        policy=ChatPolicy(
+            model=model or os.environ.get("OPENROUTER_MODEL", "anthropic/claude-3.5-sonnet"),
+            timeout=timeout,
+            max_retries=max_retries,
+            backoff_seconds=retry_delay,
+            min_content_length=20,
+            delay_seconds=delay_seconds,
+            response_format={"type": "json_object"} if strict_schema else None,
+        ),
+        limiter=limiter,
+        cancellation_event=cancellation_event,
+    ).complete([{"role": "system", "content": system}, {"role": "user", "content": prompt}])
 
 
 def validate_curriculum_content(content: str, min_word_count: int = 100) -> Dict[str, Any]:
@@ -76,7 +117,8 @@ def validate_curriculum_content(content: str, min_word_count: int = 100) -> Dict
 
     # Validate minimum content
     if word_count < min_word_count:
-        validation["warnings"].append(
+        validation["valid"] = False
+        validation["errors"].append(
             f"Content is short ({word_count} words, minimum {min_word_count})"
         )
 
@@ -132,9 +174,9 @@ def extract_sections(content: str) -> Dict[str, str]:
             if current_section:
                 section_content = "\n".join(current_content).strip()
                 if section_content:  # Only add non-empty sections
+                    if current_section in sections:
+                        raise ValueError(f"Duplicate section name: {current_section}")
                     sections[current_section] = section_content
-                else:
-                    print(f"Warning: Empty section found: {current_section}")
 
             # Start new section
             # Remove leading hashes and whitespace to get the title
@@ -150,9 +192,9 @@ def extract_sections(content: str) -> Dict[str, str]:
     if current_section:
         section_content = "\n".join(current_content).strip()
         if section_content:
+            if current_section in sections:
+                raise ValueError(f"Duplicate section name: {current_section}")
             sections[current_section] = section_content
-        else:
-            print(f"Warning: Empty final section: {current_section}")
 
     if not sections:
         raise ValueError("No valid sections found in content")
@@ -170,7 +212,7 @@ def _load_research_content(research_file: str) -> tuple[str, str]:
         Tuple of (entity_or_domain_name, markdown_content)
     """
     path = Path(research_file)
-    stem_name = path.stem.split("_research_")[0] or path.stem
+    stem_name = re.split(r"_research(?:_|$)", path.stem, maxsplit=1)[0] or path.stem
     if path.suffix.lower() == ".json":
         # Parse JSON and combine known content fields into a single markdown document
         try:
@@ -199,12 +241,17 @@ def _load_research_content(research_file: str) -> tuple[str, str]:
 
 
 def save_section(output_dir: str, entity_name: str, section_name: str, content: str) -> Path:
+    if not isinstance(entity_name, str) or not entity_name.strip():
+        raise ValueError("entity_name cannot be empty")
+    if not isinstance(section_name, str) or not section_name.strip():
+        raise ValueError("section_name cannot be empty")
+    if not isinstance(content, str) or not content.strip():
+        raise ValueError("section content cannot be empty")
     base = Path(output_dir) if output_dir else data_written_curriculums_dir()
-    entity_dir = base / entity_name
-    entity_dir.mkdir(parents=True, exist_ok=True)
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    filename = f"{section_name.lower().replace(' ', '_')}_{timestamp}.md"
-    file_path = entity_dir / filename
+    entity_dir = ensure_directory(base / safe_name(entity_name))
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
+    filename = f"{safe_name(section_name).lower()}_{timestamp}.md"
+    file_path = next_available_path(entity_dir / filename)
     write_text(file_path, f"# {section_name}\n\n{content}")
     return file_path
 
@@ -222,32 +269,132 @@ def concatenate_sections(entity_dir: str, sections: Dict[str, str]) -> str:
     return "\n".join(parts)
 
 
-def save_complete_curriculum(output_dir: str, entity_name: str, sections: Dict[str, str]) -> Path:
+def save_complete_curriculum(
+    output_dir: str,
+    entity_name: str,
+    sections: Dict[str, str],
+    *,
+    save_intermediate_results: bool = False,
+    metadata: Optional[Dict[str, Any]] = None,
+    entity_id: Optional[str] = None,
+) -> Path:
     base = Path(output_dir) if output_dir else data_written_curriculums_dir()
-    entity_dir = base / entity_name
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    md_filename = f"complete_curriculum_{timestamp}.md"
-    md_path = entity_dir / md_filename
-    write_text(md_path, concatenate_sections(str(entity_dir), sections))
-    json_filename = f"complete_curriculum_{timestamp}.json"
-    write_json(
-        entity_dir / json_filename,
-        {
-            "timestamp": timestamp,
-            "entity_name": entity_name,
-            "sections": sections,
-            "metadata": {
-                "version": "1.0",
-                "generation_date": datetime.now().isoformat(),
-                "file_type": "complete_curriculum",
+    if not isinstance(entity_name, str) or not entity_name.strip():
+        raise ValueError("entity_name cannot be empty")
+    if not isinstance(sections, dict) or not sections:
+        raise ValueError("Cannot save an empty curriculum")
+    if any(
+        not isinstance(name, str)
+        or not name.strip()
+        or not isinstance(content, str)
+        or not content.strip()
+        for name, content in sections.items()
+    ):
+        raise ValueError("Curriculum sections must have non-empty names and content")
+    stable_entity_id = stable_identifier(entity_id or entity_name)
+    entity_dir = base / stable_entity_id
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
+    md_path, json_path = next_available_bundle(
+        entity_dir, f"complete_curriculum_{timestamp}", (".md", ".json")
+    )
+    stored_metadata = {
+        "version": "1.0",
+        "generation_date": datetime.now().isoformat(),
+        "file_type": "complete_curriculum",
+        "entity_id": stable_entity_id,
+        **(metadata or {}),
+    }
+    json_content = (
+        json.dumps(
+            {
+                "timestamp": timestamp,
+                "entity_name": entity_name,
+                "sections": sections,
+                "metadata": stored_metadata,
             },
-        },
+            indent=2,
+            ensure_ascii=False,
+        )
+        + "\n"
+    )
+    write_text_bundle(
+        {
+            **{
+                md_path: _concatenate_sections_with_metadata(
+                    str(entity_dir), sections, stored_metadata
+                ),
+                json_path: json_content,
+            },
+            **(
+                _intermediate_section_files(entity_dir, sections, timestamp)
+                if save_intermediate_results
+                else {}
+            ),
+        }
     )
     return md_path
 
 
+def _concatenate_sections_with_metadata(
+    entity_dir: str, sections: Dict[str, str], metadata: Dict[str, Any]
+) -> str:
+    """Render the canonical curriculum document with auditable frontmatter."""
+
+    lines = ["---"]
+    for key in (
+        "entity_name",
+        "entity_id",
+        "evidence_status",
+        "provider",
+        "model",
+        "prompt_sha256",
+    ):
+        if key in metadata:
+            value = str(metadata[key]).replace("\n", " ")
+            lines.append(f"{key}: {value}")
+    lines.extend(
+        [
+            f"generated: {datetime.now().isoformat()}",
+            f"entity: {Path(entity_dir).name}",
+            "---",
+            "",
+        ]
+    )
+    for section_name, content in sections.items():
+        lines.extend([f"# {section_name}", "", content, "", "---", ""])
+    return "\n".join(lines)
+
+
+def _intermediate_section_files(
+    entity_dir: Path, sections: Dict[str, str], timestamp: str
+) -> dict[Path, str]:
+    """Prepare section artifacts for the same publication transaction."""
+    files: dict[Path, str] = {}
+    for section_name, section_content in sections.items():
+        base_path = entity_dir / f"section_{safe_name(section_name).lower()}_{timestamp}.md"
+        section_path = next_available_path(base_path)
+        while section_path in files:
+            section_path = next_available_path(
+                section_path.with_name(f"{section_path.stem}_1{section_path.suffix}")
+            )
+        files[section_path] = f"# {section_name}\n\n{section_content}"
+    return files
+
+
 def process_research_file(
-    client: OpenAI, research_file: str, fep_actinf_file: str, output_dir: str
+    client: OpenAI,
+    research_file: str,
+    fep_actinf_file: str,
+    output_dir: str,
+    model: Optional[str] = None,
+    max_retries: int = 3,
+    retry_delay: float = 1.0,
+    timeout: float = 120.0,
+    delay_seconds: float = 0.0,
+    save_intermediate_results: bool = True,
+    strict_schema: bool = False,
+    limiter: RequestLimiter | None = None,
+    cancellation_event: threading.Event | None = None,
 ) -> Optional[Path]:
     """Process a research file and generate curriculum content.
 
@@ -274,37 +421,22 @@ def process_research_file(
         raise FileNotFoundError(f"FEP-ActInf file not found: {fep_actinf_file}")
 
     try:
-        # Load and validate research content (supports .md and .json inputs)
-        entity_or_domain, research_content = _load_research_content(research_file)
+        entity_name, research_content = _load_research_content(research_file)
         validation = validate_curriculum_content(research_content, min_word_count=50)
-
         if not validation["valid"]:
-            print(f"Research content validation failed: {', '.join(validation['errors'])}")
-            return None
+            raise ValueError(
+                f"Research content validation failed: {', '.join(validation['errors'])}"
+            )
 
-        if validation["warnings"]:
-            for warning in validation["warnings"]:
-                print(f"Research content warning: {warning}")
-
-        # Load FEP-ActInf data
         fep_actinf_data = read_text(fep_actinf_file)
-
-        # Derive entity or domain name from file
-        entity_name = entity_or_domain
-        if not entity_name:
-            print(f"Warning: Could not extract entity name from {research_file}")
-            entity_name = "unknown_entity"
-
-        # Extract sections from research content
+        entity_name = entity_name or "unknown_entity"
         sections = extract_sections(research_content)
-        print(f"Extracted {len(sections)} sections for {entity_name}")
-
         generated_sections: Dict[str, str] = {}
+        generation_records: list[dict[str, Any]] = []
+        usage: dict[str, Any] = {}
+        failures: list[str] = []
 
-        # Generate curriculum content for each section
-        for i, (section_name, content) in enumerate(sections.items(), 1):
-            print(f"Processing section {i}/{len(sections)}: {section_name}")
-
+        for section_name, content in sections.items():
             try:
                 prompt = render_prompt(
                     "curriculum_section",
@@ -315,52 +447,90 @@ def process_research_file(
                         "fep_actinf_data": fep_actinf_data,
                     },
                 )
+                response = chat_result(
+                    client,
+                    prompt,
+                    SYSTEM,
+                    model,
+                    max_retries,
+                    retry_delay,
+                    timeout,
+                    delay_seconds,
+                    strict_schema,
+                    limiter,
+                    cancellation_event,
+                )
+                structured = (
+                    parse_structured_response(response.content, "curriculum")
+                    if strict_schema
+                    else None
+                )
+                section_content = payload_markdown(structured) if structured else response.content
+                section_validation = validate_curriculum_content(
+                    section_content, min_word_count=100
+                )
+                structured_response = parse_curriculum_response(section_content)
+                section_validation["structured"] = structured_response.quality.as_dict()
+                if not section_validation["valid"]:
+                    raise ValueError(
+                        f"Generated content invalid: {', '.join(section_validation['errors'])}"
+                    )
+                generated_sections[section_name] = section_content
+                generation_records.append(
+                    generation_metadata(
+                        provider=response.provider,
+                        model=response.model,
+                        prompt_name="curriculum_section",
+                        prompt=prompt,
+                        evidence_status=(
+                            "synthetic_foundation"
+                            if Path(fep_actinf_file).name.startswith("Synthetic_")
+                            else "source_material"
+                        ),
+                        inputs=[
+                            file_input_record(research_file, label="research"),
+                            file_input_record(fep_actinf_file, label="fep_actinf"),
+                        ],
+                    )
+                )
+                usage[section_name] = response.usage.as_dict()
+            except Exception as exc:
+                failures.append(f"{section_name}: {exc}")
 
-                # Simple retry loop for model generation
-                last_error: Optional[Exception] = None
-                for attempt in range(3):
-                    try:
-                        section_content = chat(client, prompt, SYSTEM)
-                        # Validate generated section content
-                        section_validation = validate_curriculum_content(
-                            section_content, min_word_count=100
-                        )
-                        if not section_validation["valid"]:
-                            raise ValueError(
-                                f"Generated content invalid: "
-                                f"{', '.join(section_validation['errors'])}"
-                            ) from None
-                        # Optionally log warnings but proceed
-                        for warning in section_validation.get("warnings", []):
-                            print(f"Generated section warning for {section_name}: {warning}")
-                        # Save individual section
-                        save_section(output_dir, entity_name, section_name, section_content)
-                        generated_sections[section_name] = section_content
-                        break
-                    except Exception as gen_exc:
-                        last_error = gen_exc
-                        # Backoff before retrying
-                        time.sleep(1.0 * (attempt + 1))
-                        continue
-                else:
-                    # All attempts failed
-                    raise last_error or RuntimeError("Unknown generation error")
-
-                # Brief delay between API calls
-                time.sleep(0.5)
-
-            except Exception as e:
-                print(f"Failed to process section {section_name}: {str(e)}")
-                continue
-
-        # Save complete curriculum if we have any sections
-        if generated_sections:
-            print(f"Generated {len(generated_sections)} sections for {entity_name}")
-            return save_complete_curriculum(output_dir, entity_name, generated_sections)
-        else:
-            print(f"No sections generated for {entity_name}")
-            return None
-
-    except Exception as e:
-        print(f"Error processing research file {research_file}: {str(e)}")
-        return None
+        if failures:
+            raise RuntimeError(
+                f"Curriculum generation failed for {entity_name}; no partial output written: "
+                + "; ".join(failures)
+            )
+        complete_path = save_complete_curriculum(
+            output_dir,
+            entity_name,
+            generated_sections,
+            save_intermediate_results=save_intermediate_results,
+            entity_id=stable_identifier(entity_name),
+            metadata={
+                "evidence_status": (
+                    "synthetic_foundation"
+                    if Path(fep_actinf_file).name.startswith("Synthetic_")
+                    else "source_material"
+                ),
+                "provider": "openrouter",
+                "model": model or os.environ.get("OPENROUTER_MODEL", "unknown"),
+                "entity_id": stable_identifier(entity_name),
+                "source_inputs": [
+                    file_input_record(research_file, label="research"),
+                    file_input_record(fep_actinf_file, label="fep_actinf"),
+                ],
+                "generations": generation_records,
+                "usage": usage,
+                "quality": {
+                    section_name: validate_generated_text(
+                        section_content, min_words=100, require_sections=False
+                    ).as_dict()
+                    for section_name, section_content in generated_sections.items()
+                },
+            },
+        )
+        return complete_path
+    except Exception as exc:
+        raise RuntimeError(f"Error processing research file {research_file}: {exc}") from exc

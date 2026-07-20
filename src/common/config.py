@@ -7,8 +7,19 @@ from typing import Any, Dict
 
 import yaml
 
-from src.common.io import read_text
+from src.common.io import read_text, write_text
 from src.common.paths import data_root
+
+
+def _config_name(name: str) -> str:
+    value = name.strip()
+    if not value or value in {".", ".."} or Path(value).name != value:
+        raise ValueError(f"Invalid configuration name: {name!r}")
+    if Path(value).suffix in {".yaml", ".yml", ".md"}:
+        value = Path(value).stem
+    if not value:
+        raise ValueError("Configuration name cannot be empty")
+    return value
 
 
 def config_dir() -> Path:
@@ -29,12 +40,18 @@ def load_yaml_config(name: str) -> Dict[str, Any]:
         FileNotFoundError: If the config file doesn't exist
         yaml.YAMLError: If the YAML is invalid
     """
+    name = _config_name(name)
     config_path = config_dir() / f"{name}.yaml"
     if not config_path.exists():
         raise FileNotFoundError(f"Config file not found: {config_path}")
 
     content = read_text(config_path)
-    return yaml.safe_load(content)
+    data = yaml.safe_load(content)
+    if data is None:
+        raise ValueError(f"Configuration file is empty: {config_path}")
+    if not isinstance(data, dict):
+        raise ValueError(f"Configuration file must contain a mapping: {config_path}")
+    return data
 
 
 def load_markdown_config(name: str) -> Dict[str, Any]:
@@ -52,6 +69,7 @@ def load_markdown_config(name: str) -> Dict[str, Any]:
         FileNotFoundError: If the config file doesn't exist
         ValueError: If no valid YAML frontmatter is found
     """
+    name = _config_name(name)
     config_path = config_dir() / f"{name}.md"
     if not config_path.exists():
         raise FileNotFoundError(f"Config file not found: {config_path}")
@@ -69,7 +87,12 @@ def load_markdown_config(name: str) -> Dict[str, Any]:
             raise ValueError(f"No closing --- found in YAML frontmatter in {config_path}")
 
         frontmatter = content[4:end_marker]
-        return yaml.safe_load(frontmatter)
+        data = yaml.safe_load(frontmatter)
+        if data is None:
+            raise ValueError(f"Configuration frontmatter is empty in {config_path}")
+        if not isinstance(data, dict):
+            raise ValueError(f"Configuration frontmatter must contain a mapping in {config_path}")
+        return data
     except yaml.YAMLError as e:
         raise ValueError(f"Invalid YAML frontmatter in {config_path}: {e}") from e
 
@@ -98,9 +121,8 @@ def validate_config_data(data: Dict[str, Any], name: str) -> Dict[str, Any]:
         if not isinstance(key, str):
             raise ValueError(f"Configuration key must be string, got {type(key)}: {key}")
 
-        # Warn about None values in configuration
         if value is None:
-            print(f"Warning: Configuration '{name}' has None value for key: {key}")
+            raise ValueError(f"Configuration '{name}' has null value for key: {key}")
 
     return data
 
@@ -120,10 +142,7 @@ def load_config(name: str, prefer_yaml: bool = True, validate: bool = True) -> D
         FileNotFoundError: If neither YAML nor Markdown config exists
         ValueError: If configuration is invalid and validate=True
     """
-    if not name or not name.strip():
-        raise ValueError("Configuration name cannot be empty")
-
-    name = name.strip()
+    name = _config_name(name)
     loaders = [load_yaml_config, load_markdown_config]
     if not prefer_yaml:
         loaders.reverse()
@@ -138,10 +157,10 @@ def load_config(name: str, prefer_yaml: bool = True, validate: bool = True) -> D
         except FileNotFoundError as e:
             last_error = e
             continue
-        except Exception as e:
-            # If we get a parsing/validation error, try the next loader
-            last_error = e
-            continue
+        except (yaml.YAMLError, ValueError) as e:
+            # A present configuration must not be silently replaced by another
+            # format after a parse or validation failure.
+            raise ValueError(f"Failed to load configuration '{name}': {e}") from e
 
     # If we get here, no configuration could be loaded
     config_path = config_dir()
@@ -166,10 +185,9 @@ def save_yaml_config(name: str, data: Dict[str, Any]) -> Path:
     Returns:
         Path to the saved config file
     """
+    name = _config_name(name)
+    data = validate_config_data(data, name)
     config_dir().mkdir(parents=True, exist_ok=True)
     config_path = config_dir() / f"{name}.yaml"
-
-    with open(config_path, "w", encoding="utf-8") as f:
-        yaml.safe_dump(data, f, default_flow_style=False, sort_keys=False)
-
-    return config_path
+    serialized = yaml.safe_dump(data, default_flow_style=False, sort_keys=False)
+    return write_text(config_path, serialized)

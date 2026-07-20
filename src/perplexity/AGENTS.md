@@ -15,6 +15,9 @@ Configuration dataclass for Perplexity AI client.
 - `api_key: str`: Perplexity API key
 - `base_url: str`: API base URL (default: "https://api.perplexity.ai")
 - `model: str`: Model name (default: from `PERPLEXITY_MODEL` env var or "llama-3.1-sonar-small-128k-online")
+- `timeout: float`: Request timeout in seconds
+- `max_retries: int`: Number of attempts used by shared request policy
+- `backoff_seconds: float`: Initial exponential backoff delay
 
 **Frozen**: Yes (immutable)
 
@@ -25,6 +28,9 @@ Configuration dataclass for OpenRouter client.
 - `api_key: str`: OpenRouter API key
 - `base_url: str`: API base URL (default: "https://openrouter.ai/api/v1")
 - `model: str`: Model name (default: from `OPENROUTER_MODEL` env var or "anthropic/claude-3.5-sonnet")
+- `timeout: float`: Request timeout in seconds
+- `max_retries: int`: Number of attempts used by shared request policy
+- `backoff_seconds: float`: Initial exponential backoff delay
 
 **Frozen**: Yes (immutable)
 
@@ -70,7 +76,7 @@ System prompt for curriculum development tasks.
 
 ### Functions
 
-#### `chat(client: OpenAI, prompt: str, system: str, max_retries: int = 3, retry_delay: float = 1.0) -> str`
+#### `chat_result(client: OpenAI, prompt: str, system: str, max_retries: int = 3, retry_delay: float = 1.0, model: Optional[str] = None, timeout: float = 60.0) -> CompletionResult`
 Sends chat completion request to Perplexity for domain research.
 
 **Parameters**:
@@ -79,8 +85,11 @@ Sends chat completion request to Perplexity for domain research.
 - `system`: System prompt defining the AI's research role
 - `max_retries`: Maximum number of retry attempts (default: 3)
 - `retry_delay`: Initial delay between retries in seconds (default: 1.0, uses exponential backoff)
+- `model`: Provider model override
+- `timeout`: Per-request timeout in seconds
+- `delay_seconds`: Optional rate-limit delay after successful requests
 
-**Returns**: Research results from Perplexity's online-enabled models
+**Returns**: Validated research text, provider identity, and usage metadata
 
 **Raises**:
 - `ValueError`: If inputs are invalid
@@ -135,15 +144,19 @@ Extracts entity description from formatted entity data.
 
 **Behavior**: Looks for "Description:" line, falls back to full data if not found
 
-#### `chat(client: OpenAI, prompt: str, system: str) -> str`
+#### `chat_result(client: OpenAI, prompt: str, system: str, model: Optional[str] = None, max_retries: int = 3, retry_delay: float = 1.0, timeout: float = 60.0) -> CompletionResult`
 Sends chat completion request to Perplexity for entity research.
 
 **Parameters**:
 - `client`: OpenAI client configured for Perplexity API
 - `prompt`: User prompt for entity/audience research
 - `system`: System prompt defining the AI's research role
+- `model`: Provider model override
+- `max_retries`: Number of attempts
+- `retry_delay`: Initial exponential backoff delay
+- `timeout`: Per-request timeout in seconds
 
-**Returns**: Research results from Perplexity's online-enabled models
+**Returns**: Validated research text, provider identity, and usage metadata
 
 ### Classes
 
@@ -182,7 +195,7 @@ System prompt for curriculum generation tasks.
 
 ### Functions
 
-#### `chat(client: OpenAI, prompt: str, system: str, model: Optional[str] = None) -> str`
+#### `chat_result(client: OpenAI, prompt: str, system: str, model: Optional[str] = None, max_retries: int = 3, retry_delay: float = 1.0, timeout: float = 120.0, delay_seconds: float = 0.0) -> CompletionResult`
 Sends chat completion request to OpenRouter for content generation.
 
 **Parameters**:
@@ -190,8 +203,12 @@ Sends chat completion request to OpenRouter for content generation.
 - `prompt`: User prompt for content generation
 - `system`: System prompt defining the AI's role
 - `model`: Optional model override (defaults to `OPENROUTER_MODEL` env var)
+- `max_retries`: Number of attempts
+- `retry_delay`: Initial exponential backoff delay
+- `timeout`: Per-request timeout in seconds
+- `delay_seconds`: Optional rate-limit delay after successful requests
 
-**Returns**: Generated content from the model
+**Returns**: Validated generated content, provider identity, and usage metadata
 
 #### `validate_curriculum_content(content: str, min_word_count: int = 100) -> Dict[str, Any]`
 Validates curriculum content for quality and completeness.
@@ -227,25 +244,29 @@ Saves individual curriculum section to file.
 
 **Returns**: Path to saved file
 
-#### `save_complete_curriculum(output_dir: str, entity_name: str, sections: Dict[str, str]) -> Path`
-Saves complete curriculum package.
+#### `save_complete_curriculum(output_dir: str, entity_name: str, sections: Dict[str, str], *, save_intermediate_results: bool = False) -> Path`
+Saves the complete curriculum package as one publication transaction.
 
 **Parameters**:
 - `output_dir`: Output directory
 - `entity_name`: Entity/domain name
 - `sections`: Dictionary of section names to content
+- `save_intermediate_results`: Include section artifacts in the same transaction
 
 **Returns**: Path to saved complete curriculum file
 
-#### `process_research_file(client: OpenAI, research_file: str, output_dir: str) -> None`
+#### `process_research_file(client: OpenAI, research_file: str, fep_actinf_file: str, output_dir: str, ...) -> Optional[Path]`
 Processes research file into complete curriculum.
 
 **Parameters**:
 - `client`: OpenAI client configured for OpenRouter
 - `research_file`: Path to research JSON file
+- `fep_actinf_file`: Path to the shared FEP-ActInf reference file
 - `output_dir`: Output directory for curriculum files
 
-**Behavior**: Loads research, generates sections, saves complete curriculum
+**Behavior**: Loads research, validates every generated section, then publishes
+the complete Markdown, JSON, and optional section artifacts together. A failed
+publication leaves no curriculum artifacts.
 
 ## Module: `translation.py`
 
@@ -273,7 +294,7 @@ Splits content into chunks for translation, preserving section boundaries.
 
 **Behavior**: Splits on markdown headers to preserve section structure
 
-#### `translate_curriculum(client: OpenAI, content: str, target_language: str, max_chunk_size: int = 4000, model: Optional[str] = None) -> str`
+#### `translate_curriculum_result(client: OpenAI, content: str, target_language: str, max_chunk_size: int = 4000, model: Optional[str] = None) -> TranslationResult`
 Translates curriculum content to target language using OpenRouter.
 
 **Parameters**:
@@ -283,7 +304,7 @@ Translates curriculum content to target language using OpenRouter.
 - `max_chunk_size`: Maximum size of content chunks (default: 4000)
 - `model`: Optional model override (defaults to `OPENROUTER_MODEL` env var)
 
-**Returns**: Translated content as a single string
+**Returns**: Translated content with chunk-level provenance and usage telemetry
 
 **Behavior**: Splits content into chunks, translates each chunk, combines results
 
@@ -300,7 +321,7 @@ Saves translated content to language-specific directory.
 
 **Output**: Saves to `{output_dir}/{language.lower()}/{entity_name}_curriculum_{language}_{timestamp}.md`
 
-#### `process_translations(client: OpenAI, curriculum_dir: str, output_dir: str, target_languages: List[str]) -> tuple[int, int]`
+#### `process_translations_detailed(client: OpenAI, curriculum_dir: str, output_dir: str, target_languages: List[str]) -> tuple[int, int, list[dict[str, Any]]]
 Processes translations for multiple curricula and languages.
 
 **Parameters**:
@@ -309,7 +330,7 @@ Processes translations for multiple curricula and languages.
 - `output_dir`: Output directory for translations
 - `target_languages`: List of target language names
 
-**Returns**: Tuple of (success_count, failed_count)
+**Returns**: Success count, failure count, and item-level result records
 
 **Behavior**: Finds all complete curricula, translates to each target language
 

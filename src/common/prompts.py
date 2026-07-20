@@ -27,6 +27,8 @@ def load_prompt_template(name: str) -> str:
     Raises:
         FileNotFoundError: If the template file doesn't exist
     """
+    if not name or Path(name).name != name or name in {".", ".."}:
+        raise ValueError(f"Invalid prompt template name: {name!r}")
     template_path = prompts_dir() / f"{name}.md"
     if not template_path.exists():
         raise FileNotFoundError(f"Prompt template not found: {template_path}")
@@ -43,6 +45,8 @@ def save_prompt_template(name: str, content: str) -> Path:
     Returns:
         Path to the saved template file
     """
+    if not name or Path(name).name != name or name in {".", ".."}:
+        raise ValueError(f"Invalid prompt template name: {name!r}")
     prompts_dir().mkdir(parents=True, exist_ok=True)
     template_path = prompts_dir() / f"{name}.md"
     return write_text(template_path, content)
@@ -173,7 +177,7 @@ def render_prompt(
         if not validation["valid"]:
             raise ValueError(f"Invalid template '{name}': {', '.join(validation['errors'])}")
 
-    if variables:
+    if variables is not None:
         return substitute_variables(template, variables, strict=strict)
     return template
 

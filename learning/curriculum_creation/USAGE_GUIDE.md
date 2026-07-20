@@ -2,6 +2,21 @@ an# Curriculum Creation Usage Guide
 
 This guide provides step-by-step instructions for using the Active Inference curriculum creation scripts, from initial setup to final output generation.
 
+The supported interface is the installed `start-curriculum` command. It is
+the single orchestration entrypoint for all stages and emits stable exit codes,
+JSON summaries, resumable run manifests, and dry-run/cost-estimate plans:
+
+```bash
+uv run start-curriculum --non-interactive --stages domain-research entity-research \
+  --domains biochemistry --entities karl_friston --json
+uv run start-curriculum --non-interactive --stages curriculum visualizations translations \
+  --run-id example-001 --resume --json
+```
+
+The numbered scripts remain import-compatible wrappers only. Use the canonical
+command above for new runs; their old names are retained so existing local
+automation can migrate incrementally.
+
 ## Quick Start
 
 ### 1. Prerequisites
@@ -31,7 +46,7 @@ export OPENROUTER_MODEL="anthropic/claude-3.5-sonnet"
 Create the required input directory structure:
 
 ```
-Languages/
+data/
 └── Inputs_and_Outputs/
     ├── Domain/
     │   ├── Synthetic_FEP-ActInf.md          # Core FEP content
@@ -61,11 +76,11 @@ Analyze domain characteristics and generate domain-specific curriculum foundatio
 
 ```bash
 cd learning/curriculum_creation
-python 1_Research_Domain.py
+uv run start-curriculum --non-interactive --stages domain-research
 ```
 
 **What it does**:
-- Reads domain files from `Languages/Inputs_and_Outputs/Domain/`
+- Reads domain files from `data/domain_research/`
 - Uses Perplexity API for online research and analysis
 - Generates comprehensive domain analysis reports
 - Creates initial curriculum structures tailored to each domain
@@ -89,11 +104,11 @@ data/domain_research/
 Analyze target audiences to create personalized curriculum recommendations.
 
 ```bash
-python 1_Research_Entity.py
+uv run start-curriculum --non-interactive --stages entity-research
 ```
 
 **What it does**:
-- Reads entity files from `Languages/Inputs_and_Outputs/Entity/`
+- Reads entity files from `data/audience_research/`
 - Analyzes audience characteristics and learning needs
 - Generates personalized curriculum recommendations
 - Saves audience research to `data/audience_research/`
@@ -115,7 +130,7 @@ data/audience_research/
 Convert research reports into comprehensive Active Inference curricula.
 
 ```bash
-python 2_Write_Introduction.py
+uv run start-curriculum --non-interactive --stages curriculum
 ```
 
 **What it does**:
@@ -154,16 +169,16 @@ Each curriculum includes:
 Create PNG charts and Mermaid diagrams to visualize curriculum structure and metrics.
 
 ```bash
-python 3_Introduction_Visualizations.py
+uv run start-curriculum --non-interactive --stages visualizations
 ```
 
 **Advanced usage**:
 ```bash
 # Custom input/output directories
-python 3_Introduction_Visualizations.py --input /path/to/curricula --output /path/to/visualizations
+uv run start-curriculum --non-interactive --stages visualizations --input /path/to/curricula --output /path/to/visualizations
 
 # Using default data directories
-python 3_Introduction_Visualizations.py
+uv run start-curriculum --non-interactive --stages visualizations
 ```
 
 **What it does**:
@@ -176,11 +191,11 @@ python 3_Introduction_Visualizations.py
 **Expected outputs**:
 ```
 data/visualizations/
-├── curriculum_metrics.png              # Comprehensive metrics dashboard
-├── curriculum_structure.mmd            # Overall curriculum structure
-├── data_scientist_flow.mmd             # Learning flow diagram
-├── neuroscientist_flow.mmd             # Learning flow diagram
-└── curriculum_metrics.json             # Detailed metrics data
+├── charts/curriculum_metrics.png      # Deterministic metrics summary
+├── diagrams/curriculum_structure.mmd  # Overall curriculum structure
+├── diagrams/<stable-item-id>_flow.mmd # Stable-ID learning flow diagram
+├── metrics/curriculum_metrics.json    # Structured metrics data
+└── visualization_manifest.json        # Input/output hashes and limits
 ```
 
 **Visualization features**:
@@ -193,19 +208,19 @@ data/visualizations/
 Translate curricula into multiple configured languages.
 
 ```bash
-python 4_Translate_Introductions.py
+uv run start-curriculum --non-interactive --stages translations
 ```
 
 **Advanced usage**:
 ```bash
 # Translate specific languages only
-python 4_Translate_Introductions.py --languages Spanish French German
+uv run start-curriculum --non-interactive --stages translations --languages Spanish French German
 
 # Custom input/output directories
-python 4_Translate_Introductions.py --input /path/to/curricula --output /path/to/translations
+uv run start-curriculum --non-interactive --stages translations --input /path/to/curricula --output /path/to/translations
 
 # Combine options
-python 4_Translate_Introductions.py --input custom_curricula --output custom_translations --languages Chinese Arabic Hindi
+uv run start-curriculum --non-interactive --stages translations --input custom_curricula --output custom_translations --languages Chinese Arabic Hindi
 ```
 
 **What it does**:
@@ -284,7 +299,7 @@ All scripts provide detailed logging:
 
 ```bash
 # Run with verbose output
-python 1_Research_Domain.py 2>&1 | tee domain_research.log
+uv run start-curriculum --non-interactive --stages domain-research 2>&1 | tee domain_research.log
 
 # Monitor in real-time
 tail -f domain_research.log
@@ -400,7 +415,7 @@ Use the generated metrics to assess quality:
 import json
 
 # Load curriculum metrics
-with open('data/visualizations/curriculum_metrics.json', 'r') as f:
+with open('data/visualizations/metrics/curriculum_metrics.json', 'r') as f:
     metrics = json.load(f)
 
 # Analyze curriculum characteristics
@@ -432,14 +447,14 @@ for domain_set in neuroscience machine_learning biology psychology; do
     echo "Processing domain set: $domain_set"
     
     # Switch to domain-specific input
-    cp -r "inputs/${domain_set}" "Languages/Inputs_and_Outputs/"
+    cp -r "inputs/${domain_set}" "data/domain_research/"
     
     # Run full pipeline
-    python 1_Research_Domain.py
-    python 1_Research_Entity.py
-    python 2_Write_Introduction.py
-    python 3_Introduction_Visualizations.py
-    python 4_Translate_Introductions.py
+    uv run start-curriculum --non-interactive --stages domain-research
+    uv run start-curriculum --non-interactive --stages entity-research
+    uv run start-curriculum --non-interactive --stages curriculum
+    uv run start-curriculum --non-interactive --stages visualizations
+    uv run start-curriculum --non-interactive --stages translations
     
     # Archive results
     mv data "results/${domain_set}_$(date +%Y%m%d_%H%M%S)"
@@ -490,7 +505,7 @@ def run_curriculum_pipeline(domain_files, entity_files, output_dir):
 
 def setup_inputs(domain_files, entity_files):
     """Set up input files for processing."""
-    input_dir = Path("Languages/Inputs_and_Outputs")
+    input_dir = Path("data")
     
     # Copy domain files
     domain_dir = input_dir / "Domain"
@@ -510,7 +525,7 @@ def collect_results(output_dir):
         "curricula": list(Path("data/written_curriculums").rglob("*.md")),
         "visualizations": list(Path("data/visualizations").rglob("*")),
         "translations": list(Path("data/translated_curriculums").rglob("*.md")),
-        "metrics": "data/visualizations/curriculum_metrics.json"
+        "metrics": "data/visualizations/metrics/curriculum_metrics.json"
     }
     
     # Copy to custom output directory if specified
@@ -541,8 +556,8 @@ The scripts include built-in rate limiting, but for heavy usage:
 3. **Parallel processing**:
    ```bash
    # Process multiple domains in parallel
-   python 1_Research_Domain.py &
-   python 1_Research_Entity.py &
+   uv run start-curriculum --non-interactive --stages domain-research &
+   uv run start-curriculum --non-interactive --stages entity-research &
    wait
    ```
 

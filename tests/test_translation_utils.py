@@ -23,3 +23,14 @@ def test_save_translation(tmp_path):
     text = out.read_text(encoding="utf-8")
     assert "language: Spanish" in text
     assert "original_entity: EntityX" in text
+    assert "entity_id: entityx" in text
+    assert out.parent.name == "spanish"
+
+
+def test_save_translation_rejects_empty_content(tmp_path):
+    try:
+        save_translation(str(tmp_path), "EntityX", "Spanish", "")
+    except ValueError as exc:
+        assert "content" in str(exc)
+    else:
+        raise AssertionError("empty translation was accepted")

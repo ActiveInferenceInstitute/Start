@@ -1,0 +1,469 @@
+{
+  "schema_version": "1.0",
+  "kind": "visualization_bundle",
+  "evidence_status": "derived_visualization",
+  "generator": "src.visualization.runner",
+  "input_root": "/Users/4d/Documents/GitHub/projects/ongoing/instituteos/repos/Start/data/written_curriculums",
+  "inputs": [
+    {
+      "item_id": "barry_bonds-complete_curriculum_20250903_080849",
+      "path": "Barry Bonds/complete_curriculum_20250903_080849.md",
+      "sha256": "988197d071ba56505831cdd123660f42e3ab7322fb331b22af605831cf26ccc4"
+    },
+    {
+      "item_id": "barry_bonds-complete_curriculum_20250903_170709",
+      "path": "Barry Bonds/complete_curriculum_20250903_170709.md",
+      "sha256": "b87d67afa0fc3263a40a408101478df6d1ff3ec4d7e6cbf76256ac0cdc77e88a"
+    },
+    {
+      "item_id": "barry_bonds-complete_curriculum_20250903_172542",
+      "path": "Barry Bonds/complete_curriculum_20250903_172542.md",
+      "sha256": "72b536b351e5b91db8b9b2090975ed37108d446016a85194df6dbaca004515c4"
+    },
+    {
+      "item_id": "barry_bonds-complete_curriculum_20250903_174436",
+      "path": "Barry Bonds/complete_curriculum_20250903_174436.md",
+      "sha256": "7e1cddb617ba919321e8cbf151361345f772538f985c1afe9da4c43c3c35ec08"
+    },
+    {
+      "item_id": "bill_gates-complete_curriculum_20250903_172901",
+      "path": "Bill Gates/complete_curriculum_20250903_172901.md",
+      "sha256": "47b58554c8579055c0bcaaec0b5d2de84311787e069f73ba436218c089098e63"
+    },
+    {
+      "item_id": "bill_gates-complete_curriculum_20250903_174607",
+      "path": "Bill Gates/complete_curriculum_20250903_174607.md",
+      "sha256": "173a0762935740712e53be6cfdd50d0d2aa515a2c5e6b79dfe3b4678f2f5267b"
+    },
+    {
+      "item_id": "coffee_roasting-complete_curriculum_20250903_075916",
+      "path": "Coffee Roasting/complete_curriculum_20250903_075916.md",
+      "sha256": "65b74ffd7b86e6cc10287dd1e83154925ecdad9a99b7e4ce5b03ae29fd840b49"
+    },
+    {
+      "item_id": "coffee_roasting-complete_curriculum_20250903_080345",
+      "path": "Coffee Roasting/complete_curriculum_20250903_080345.md",
+      "sha256": "1684677a2ce8e1c9229ee405147044bd6ac3a07937e093da143c47a48bad7c36"
+    },
+    {
+      "item_id": "coffee_roasting-complete_curriculum_20250903_081359",
+      "path": "Coffee Roasting/complete_curriculum_20250903_081359.md",
+      "sha256": "d203eda0ca30df615b3c8b8fb317025518147d8cb6500d2caea988b6caebd2d0"
+    },
+    {
+      "item_id": "coffee_roasting-complete_curriculum_20250903_081740",
+      "path": "Coffee Roasting/complete_curriculum_20250903_081740.md",
+      "sha256": "52d58486a7f2df7be031d8d4db45f45bce0bdb0af3c64a58e27c5c53be446111"
+    },
+    {
+      "item_id": "coffee_roasting-complete_curriculum_20250903_171617",
+      "path": "Coffee Roasting/complete_curriculum_20250903_171617.md",
+      "sha256": "7c33ac1b760bce60d35bda06b082bb81c7cc5faa827a2d913c792aa76bd5a679"
+    },
+    {
+      "item_id": "coffee_roasting-complete_curriculum_20250903_171952",
+      "path": "Coffee Roasting/complete_curriculum_20250903_171952.md",
+      "sha256": "d2f0d6c5d1074cc7210981d0f2edd7c17eee3546e1aae3618b047991833cc90c"
+    },
+    {
+      "item_id": "coffee_roasting-complete_curriculum_20250903_173710",
+      "path": "Coffee Roasting/complete_curriculum_20250903_173710.md",
+      "sha256": "bd1e626a8715c186d2277e8ec42116deb754d1954fa56fde07e79cc8a5b0267b"
+    },
+    {
+      "item_id": "coffee_roasting-complete_curriculum_20250903_174156",
+      "path": "Coffee Roasting/complete_curriculum_20250903_174156.md",
+      "sha256": "268f7f8803a722701ae5638922806c86c599ead82fdd546452469ac587df6071"
+    },
+    {
+      "item_id": "coffee_roasting-complete_curriculum_20250903_175827",
+      "path": "Coffee Roasting/complete_curriculum_20250903_175827.md",
+      "sha256": "b53e7541bfb10345935059724498334f13088a800d3d2b9d466621a7864f5a31"
+    },
+    {
+      "item_id": "coffee_roasting-complete_curriculum_20250903_180307",
+      "path": "Coffee Roasting/complete_curriculum_20250903_180307.md",
+      "sha256": "d333b0f6f897ed08f458f68048cd166dc7b363ca52a25216e24aa2b3a25b58fe"
+    },
+    {
+      "item_id": "coffee_tasting-complete_curriculum_20250903_172253",
+      "path": "Coffee tasting/complete_curriculum_20250903_172253.md",
+      "sha256": "2e6d4988866d4ce41f5fea31e9e3a033d3069e10b279cb830c9f160bc2ee9fee"
+    },
+    {
+      "item_id": "coffee_tasting-complete_curriculum_20250903_172926",
+      "path": "Coffee tasting/complete_curriculum_20250903_172926.md",
+      "sha256": "9ca3b8ee74be210d59e8fca548546cc2ce0d85d21da9ad7ab0eae57ed058a8ba"
+    },
+    {
+      "item_id": "coffee_tasting-complete_curriculum_20250903_174603",
+      "path": "Coffee tasting/complete_curriculum_20250903_174603.md",
+      "sha256": "f89fc596a0343c479da345d699e96e6e5a46e57588ccce41dc537c955698e684"
+    },
+    {
+      "item_id": "coffee_tasting-complete_curriculum_20250903_174923",
+      "path": "Coffee tasting/complete_curriculum_20250903_174923.md",
+      "sha256": "40f413756866b865bd6c1fe366669cfaef806e871868663610c8c27fa970cd0e"
+    },
+    {
+      "item_id": "coffee_tasting-complete_curriculum_20250903_180551",
+      "path": "Coffee tasting/complete_curriculum_20250903_180551.md",
+      "sha256": "dd674da41e404ce3e1cbe72c5312dcb8276390a56f7d2ce826b971c1f181ba88"
+    },
+    {
+      "item_id": "elon_musk",
+      "path": "Elon Musk/complete_curriculum_20250903_174914.md",
+      "sha256": "442808dbec0bd0b86f2be26dfdf256bf8b14c0cc0a7b175d5242f5fbb5c1a6cd"
+    },
+    {
+      "item_id": "island_navigation_using_boat-complete_curriculum_20250903_175154",
+      "path": "Island navigation using boat/complete_curriculum_20250903_175154.md",
+      "sha256": "a5ee04603675c6c8021cbdb9d14bfcb8045c6ed1f78d6cb728f5d68ecb6db6e2"
+    },
+    {
+      "item_id": "island_navigation_using_boat-complete_curriculum_20250903_175816",
+      "path": "Island navigation using boat/complete_curriculum_20250903_175816.md",
+      "sha256": "050a29a6c0b836cfc726218e97513c3cfa8916fd0823dc85ddac1aa0da9fe3a5"
+    },
+    {
+      "item_id": "myrmecology-complete_curriculum_20250903_082146",
+      "path": "Myrmecology/complete_curriculum_20250903_082146.md",
+      "sha256": "82cd5b53ee9ba5c7ce7c0bb81aae6c539f1a8ac0a64bce49756a3e9bfd795ba9"
+    },
+    {
+      "item_id": "myrmecology-complete_curriculum_20250903_082603",
+      "path": "Myrmecology/complete_curriculum_20250903_082603.md",
+      "sha256": "9cfe338bb2d94551870b9fb879134ef793ba7d6321a8264b45ba0831a5dce187"
+    },
+    {
+      "item_id": "myrmecology-complete_curriculum_20250903_173118",
+      "path": "Myrmecology/complete_curriculum_20250903_173118.md",
+      "sha256": "98aadc49adf87542d2f16fe91d23dd753ba5b062871fd9caf8c8dd13ae5c0853"
+    },
+    {
+      "item_id": "myrmecology-complete_curriculum_20250903_173548",
+      "path": "Myrmecology/complete_curriculum_20250903_173548.md",
+      "sha256": "9ea3fc2bd28659135a637770a53a94eb970d28f8ae34c9c8d847cdc5a596644f"
+    },
+    {
+      "item_id": "myrmecology-complete_curriculum_20250903_180125",
+      "path": "Myrmecology/complete_curriculum_20250903_180125.md",
+      "sha256": "8ec5865a60c5d21e87d724e965d674f9eb81f3159ed1a8754d6b99e8bdab57cb"
+    },
+    {
+      "item_id": "myrmecology-complete_curriculum_20250903_180551",
+      "path": "Myrmecology/complete_curriculum_20250903_180551.md",
+      "sha256": "735de0d709dea0580b1d37408c4279c4faf46934c5f18b47de4bc2b672ebb6c8"
+    },
+    {
+      "item_id": "tulsi_gabbard-complete_curriculum_20250903_170826",
+      "path": "Tulsi Gabbard/complete_curriculum_20250903_170826.md",
+      "sha256": "dcd20778ea69602bf3bdd3ffed9af74aea43f9a984f72bdc9d017147cbf08276"
+    },
+    {
+      "item_id": "tulsi_gabbard-complete_curriculum_20250903_173140",
+      "path": "Tulsi Gabbard/complete_curriculum_20250903_173140.md",
+      "sha256": "45381af754c4ca16262a54942a46569ac777833e7cb1d3b5445dbcf9de8a3c58"
+    },
+    {
+      "item_id": "tulsi_gabbard-complete_curriculum_20250903_175033",
+      "path": "Tulsi Gabbard/complete_curriculum_20250903_175033.md",
+      "sha256": "1928d46541ba88c5215bfe1dfc2f9d4b156b31d77a48d2b7b2b1b93b0f759790"
+    },
+    {
+      "item_id": "william_blake-complete_curriculum_20250903_074048",
+      "path": "William Blake/complete_curriculum_20250903_074048.md",
+      "sha256": "c0a74884e44800570240263daa287b7e6ca63cee8ca9e8f67578ab6edfb03874"
+    },
+    {
+      "item_id": "william_blake-complete_curriculum_20250903_075428",
+      "path": "William Blake/complete_curriculum_20250903_075428.md",
+      "sha256": "60d272459f9ad32bb714601d324067dc319caa2b7512028bf2a59d0510a4978b"
+    },
+    {
+      "item_id": "william_blake-complete_curriculum_20250903_081018",
+      "path": "William Blake/complete_curriculum_20250903_081018.md",
+      "sha256": "de8597ed3059d13182287d1a9f57cc744037b10ca48793345ef350cdadff09e5"
+    },
+    {
+      "item_id": "william_blake-complete_curriculum_20250903_171139",
+      "path": "William Blake/complete_curriculum_20250903_171139.md",
+      "sha256": "53430cf94165962b576a46806ffa3b01500a7bcbdd27324dd1de6a1da847f858"
+    },
+    {
+      "item_id": "william_blake-complete_curriculum_20250903_173230",
+      "path": "William Blake/complete_curriculum_20250903_173230.md",
+      "sha256": "88806b577c6cc1aeac4d6a49d0066daad3b8d44ba58cd1fcc62b3e215dff727d"
+    },
+    {
+      "item_id": "william_blake-complete_curriculum_20250903_175205",
+      "path": "William Blake/complete_curriculum_20250903_175205.md",
+      "sha256": "0a902d3d3b893d0b7ac5a216975675d26999c66cbc1910cd45cf659c0e50199b"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "charts/curriculum_metrics.png",
+      "kind": "png",
+      "sha256": "e494f433b8941572a5ba9457bc39c482f8412ffdc4489942c18d6cc079377ab6",
+      "size_bytes": 87594
+    },
+    {
+      "path": "diagrams/barry_bonds-complete_curriculum_20250903_080849_flow.mmd",
+      "kind": "mmd",
+      "sha256": "afb50c49b3710d89039dc76240576c6a143d11a20cb84be8f30abc93533af219",
+      "size_bytes": 8970
+    },
+    {
+      "path": "diagrams/barry_bonds-complete_curriculum_20250903_170709_flow.mmd",
+      "kind": "mmd",
+      "sha256": "7351c7eaf9e88e5832e8b065bef35ae9630a8991b13c5f39426e1465e217b876",
+      "size_bytes": 8119
+    },
+    {
+      "path": "diagrams/barry_bonds-complete_curriculum_20250903_172542_flow.mmd",
+      "kind": "mmd",
+      "sha256": "a28f9b5a46c07553a795018a9c912887d982dc6a7fd172cdf5f6de19d75c4771",
+      "size_bytes": 7196
+    },
+    {
+      "path": "diagrams/barry_bonds-complete_curriculum_20250903_174436_flow.mmd",
+      "kind": "mmd",
+      "sha256": "57b1ba46dc7b491f6a125424c3afb26cb3eecea0fdcaa8114cf8784e66650a22",
+      "size_bytes": 4791
+    },
+    {
+      "path": "diagrams/bill_gates-complete_curriculum_20250903_172901_flow.mmd",
+      "kind": "mmd",
+      "sha256": "14c89b5698a5189f701dcd73cb0243e23f65793f3e0906ffeb6ac9935b9b480b",
+      "size_bytes": 6644
+    },
+    {
+      "path": "diagrams/bill_gates-complete_curriculum_20250903_174607_flow.mmd",
+      "kind": "mmd",
+      "sha256": "ba2f5fa79a97635f25ae1adfe6fecc2f1c18b886d8037144eb352dc7cc7318d2",
+      "size_bytes": 8929
+    },
+    {
+      "path": "diagrams/coffee_roasting-complete_curriculum_20250903_075916_flow.mmd",
+      "kind": "mmd",
+      "sha256": "790e9919d73a994d23442b58cead148ba78eef0a1d42491f945d0c3afd766591",
+      "size_bytes": 16156
+    },
+    {
+      "path": "diagrams/coffee_roasting-complete_curriculum_20250903_080345_flow.mmd",
+      "kind": "mmd",
+      "sha256": "0cf2e2dfd1185001c7b4d58162dd1ca05d7ca8b8568b60ccf5c0e575620e2b70",
+      "size_bytes": 16750
+    },
+    {
+      "path": "diagrams/coffee_roasting-complete_curriculum_20250903_081359_flow.mmd",
+      "kind": "mmd",
+      "sha256": "b533a3591b4b977e6c436609237196c0f8f33b55587b57a4e47ac35f3203c939",
+      "size_bytes": 14893
+    },
+    {
+      "path": "diagrams/coffee_roasting-complete_curriculum_20250903_081740_flow.mmd",
+      "kind": "mmd",
+      "sha256": "52b305968a48754138531367e4618001718b764ac90c12c7a3f507f44c07e3df",
+      "size_bytes": 16633
+    },
+    {
+      "path": "diagrams/coffee_roasting-complete_curriculum_20250903_171617_flow.mmd",
+      "kind": "mmd",
+      "sha256": "0705e06240ddb7decdecae946313d6f8c19c2c59bdf9d83a4645e6a5bfed2beb",
+      "size_bytes": 12835
+    },
+    {
+      "path": "diagrams/coffee_roasting-complete_curriculum_20250903_171952_flow.mmd",
+      "kind": "mmd",
+      "sha256": "20a56b720d27c03544473dd9369e394bec0ca2384f7121142876b7128f82028f",
+      "size_bytes": 16513
+    },
+    {
+      "path": "diagrams/coffee_roasting-complete_curriculum_20250903_173710_flow.mmd",
+      "kind": "mmd",
+      "sha256": "6a71617f81599405dff06203ccffa6aa87bfee72ab3ffb23da0a098adac70ebe",
+      "size_bytes": 13594
+    },
+    {
+      "path": "diagrams/coffee_roasting-complete_curriculum_20250903_174156_flow.mmd",
+      "kind": "mmd",
+      "sha256": "f986bdfdb5f9b7e28c3773287e8ab2c8e82f997639aa9c9f22df110ad6cbeb0b",
+      "size_bytes": 14130
+    },
+    {
+      "path": "diagrams/coffee_roasting-complete_curriculum_20250903_175827_flow.mmd",
+      "kind": "mmd",
+      "sha256": "53467be92ae635e1777d2e1f34ecb3549bf0e3d7af30a5ecddbe4b8710cd8cb1",
+      "size_bytes": 12632
+    },
+    {
+      "path": "diagrams/coffee_roasting-complete_curriculum_20250903_180307_flow.mmd",
+      "kind": "mmd",
+      "sha256": "9f41887baa104d214b6005c35545a14da6104a84db83efd2323705adc3ce3eed",
+      "size_bytes": 13826
+    },
+    {
+      "path": "diagrams/coffee_tasting-complete_curriculum_20250903_172253_flow.mmd",
+      "kind": "mmd",
+      "sha256": "e6c3c0cf7a0d00905cef3250753261d5467f81a51e763add91e397d9ff3922bb",
+      "size_bytes": 14299
+    },
+    {
+      "path": "diagrams/coffee_tasting-complete_curriculum_20250903_172926_flow.mmd",
+      "kind": "mmd",
+      "sha256": "f8d3eff4589219cfcf290e1bd2e032ff8b9fa0337c4932a47115411f0548833a",
+      "size_bytes": 15402
+    },
+    {
+      "path": "diagrams/coffee_tasting-complete_curriculum_20250903_174603_flow.mmd",
+      "kind": "mmd",
+      "sha256": "7bcbbe5d3439fe99ca815d4058d9aa4877d8752ec0041ffe6f5c306af616b229",
+      "size_bytes": 14072
+    },
+    {
+      "path": "diagrams/coffee_tasting-complete_curriculum_20250903_174923_flow.mmd",
+      "kind": "mmd",
+      "sha256": "f83ecb0bf7c0b21dce305dbcd73c236a6780ca2f0d8e446106b3a0ede9b37ed4",
+      "size_bytes": 17061
+    },
+    {
+      "path": "diagrams/coffee_tasting-complete_curriculum_20250903_180551_flow.mmd",
+      "kind": "mmd",
+      "sha256": "1fd053e1c967f5ec32a78b877d519f9b432caf84f5fff16e7b61f6ebaea0952d",
+      "size_bytes": 14829
+    },
+    {
+      "path": "diagrams/curriculum_structure.mmd",
+      "kind": "mmd",
+      "sha256": "3895e8f1f0cf0f5b2a55d7110af3e2918736537176ee4290644e7a54e6766758",
+      "size_bytes": 2089
+    },
+    {
+      "path": "diagrams/elon_musk_flow.mmd",
+      "kind": "mmd",
+      "sha256": "c8028f68c6c47189b89372bb598ec340b7dee03f9f52528c676b3f882c5afbce",
+      "size_bytes": 14472
+    },
+    {
+      "path": "diagrams/island_navigation_using_boat-complete_curriculum_20250903_175154_flow.mmd",
+      "kind": "mmd",
+      "sha256": "5096a923c5c93aea41bf54ea008e9311931bd518896e6f6b980f109a56dd4d4d",
+      "size_bytes": 14522
+    },
+    {
+      "path": "diagrams/island_navigation_using_boat-complete_curriculum_20250903_175816_flow.mmd",
+      "kind": "mmd",
+      "sha256": "3dcbe5b0b43b3af0942b77b4ba6c2eb3506b5dabc38541300b05202d597ec951",
+      "size_bytes": 15283
+    },
+    {
+      "path": "diagrams/myrmecology-complete_curriculum_20250903_082146_flow.mmd",
+      "kind": "mmd",
+      "sha256": "af9781cbfc5492b28138bfa710fdf6c33e2b830830369fa93357d920c9c680f7",
+      "size_bytes": 14755
+    },
+    {
+      "path": "diagrams/myrmecology-complete_curriculum_20250903_082603_flow.mmd",
+      "kind": "mmd",
+      "sha256": "7f4041ed9125fb94fcec1984bcf3279901b12670f2df4b6114b082a3a0e333db",
+      "size_bytes": 20295
+    },
+    {
+      "path": "diagrams/myrmecology-complete_curriculum_20250903_173118_flow.mmd",
+      "kind": "mmd",
+      "sha256": "f2db117dd8f981e80e9f406a5d4ee3c0e6dd1116b3d55420bf8852a8b10afe5c",
+      "size_bytes": 11164
+    },
+    {
+      "path": "diagrams/myrmecology-complete_curriculum_20250903_173548_flow.mmd",
+      "kind": "mmd",
+      "sha256": "1baacf8ac05e976bd6a9544802955f8a8ea1f322973686557fa828c860bff877",
+      "size_bytes": 20156
+    },
+    {
+      "path": "diagrams/myrmecology-complete_curriculum_20250903_180125_flow.mmd",
+      "kind": "mmd",
+      "sha256": "a2ce8f87b921917d1168face858bea46e4d8e68294fd01e512cd545ce97044cc",
+      "size_bytes": 12424
+    },
+    {
+      "path": "diagrams/myrmecology-complete_curriculum_20250903_180551_flow.mmd",
+      "kind": "mmd",
+      "sha256": "20fe7278465cae94fdb3aa41ecaf0657054041750edb43e77d6cdd2b0cbb3a1c",
+      "size_bytes": 12186
+    },
+    {
+      "path": "diagrams/tulsi_gabbard-complete_curriculum_20250903_170826_flow.mmd",
+      "kind": "mmd",
+      "sha256": "f698b4e3772e50e94339333457b98633a6c17006b27400ab2f30cd30e62ce012",
+      "size_bytes": 6310
+    },
+    {
+      "path": "diagrams/tulsi_gabbard-complete_curriculum_20250903_173140_flow.mmd",
+      "kind": "mmd",
+      "sha256": "91fe3b3ce022847eac39aaed140b2445235d95ffaf49fc3e6afb2ba454a21280",
+      "size_bytes": 4412
+    },
+    {
+      "path": "diagrams/tulsi_gabbard-complete_curriculum_20250903_175033_flow.mmd",
+      "kind": "mmd",
+      "sha256": "5bfa683c9d5b614249cef024f1dcb79d1c5cadcfe3df56543f4c218ca10d5eef",
+      "size_bytes": 8080
+    },
+    {
+      "path": "diagrams/william_blake-complete_curriculum_20250903_074048_flow.mmd",
+      "kind": "mmd",
+      "sha256": "76fe2bc594182928184c65e4f8e3f008144c74a729868194a50199d80404d34e",
+      "size_bytes": 746
+    },
+    {
+      "path": "diagrams/william_blake-complete_curriculum_20250903_075428_flow.mmd",
+      "kind": "mmd",
+      "sha256": "7980a8196a507b129a19d976749aeb6073ceb74e1d13552807fa0c32ff280f74",
+      "size_bytes": 6594
+    },
+    {
+      "path": "diagrams/william_blake-complete_curriculum_20250903_081018_flow.mmd",
+      "kind": "mmd",
+      "sha256": "cd82802e9f028ae54561f2ebde357f6c7d64e07d390e5add499244a8a1092a55",
+      "size_bytes": 7553
+    },
+    {
+      "path": "diagrams/william_blake-complete_curriculum_20250903_171139_flow.mmd",
+      "kind": "mmd",
+      "sha256": "20e9f9b6d7c4d0ac274e839813b290a2dc652561e1e47cc3b8e5d87181c63ab0",
+      "size_bytes": 7800
+    },
+    {
+      "path": "diagrams/william_blake-complete_curriculum_20250903_173230_flow.mmd",
+      "kind": "mmd",
+      "sha256": "10f8a30a326797d081247ed2c1c918e0d71010625750027ec897ed200183bab6",
+      "size_bytes": 6024
+    },
+    {
+      "path": "diagrams/william_blake-complete_curriculum_20250903_175205_flow.mmd",
+      "kind": "mmd",
+      "sha256": "7580ab688b047af19f3bb0e8c5e86c9f6afbc2e6f3e709e8a801f9f41ff1ed4d",
+      "size_bytes": 6009
+    },
+    {
+      "path": "metrics/curriculum_metrics.csv",
+      "kind": "csv",
+      "sha256": "43305d3be6cbaae2232b7714bfd14228ed5c693a08541e1d013855b41117702d",
+      "size_bytes": 4498
+    },
+    {
+      "path": "metrics/curriculum_metrics.json",
+      "kind": "json",
+      "sha256": "7f7f8817819fe502f9903d648ebbbb4b04fe2d2bb07e9b180cc3463cb313f87f",
+      "size_bytes": 11209
+    }
+  ],
+  "reproducibility": {
+    "ordering": "stable item identifier and relative artifact path",
+    "source": "curriculum Markdown content and hashes",
+    "semantic_limit": "charts summarize structure; they do not establish factual truth"
+  }
+}

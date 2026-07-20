@@ -1,6 +1,10 @@
 # External Repositories & Clone Management
 
-The START project integrates with several Active Inference and computational neuroscience repositories to provide comprehensive educational resources and examples. These can be optionally cloned into `src/_clones/` for local development and curriculum enhancement.
+The START project can optionally clone several Active Inference and
+computational neuroscience repositories into `src/_clones/` for local
+inspection and curriculum development. Cloned content is reference material
+only: it is not automatically treated as verified evidence, imported into
+generated curricula, or included in the release bundle.
 
 ## Repository Ecosystem
 
@@ -11,14 +15,14 @@ The START project integrates with several Active Inference and computational neu
 - **URL**: [github.com/ActiveInferenceInstitute/cognitive](https://github.com/ActiveInferenceInstitute/cognitive)
 - **Destination**: `src/_clones/cognitive`
 - **Purpose**: Knowledge graph backing for curriculum development, providing structured Active Inference concepts and relationships
-- **Integration**: Used as reference material for comprehensive curriculum content and concept validation
+- **Integration**: Optional reference material; any use in a published artifact must be cited and reviewed
 
 #### **RxInferExamples.jl** (Bayesian Inference Examples)
 
 - **URL**: [github.com/docxology/RxInferExamples.jl](https://github.com/docxology/RxInferExamples.jl/)
 - **Destination**: `src/_clones/RxInferExamples.jl`
 - **Purpose**: Practical examples of Bayesian inference and probabilistic programming
-- **Integration**: Source of hands-on exercises and computational examples for technical curricula
+- **Integration**: Optional source of examples; copied material requires licensing and technical review
 
 ### Implementation Resources
 
@@ -28,7 +32,7 @@ The START project integrates with several Active Inference and computational neu
 - **Destination**: `src/_clones/ActiveInference.jl`
 - **Branch**: `textbook` (educational focus)
 - **Purpose**: Julia-based Active Inference implementation with educational documentation
-- **Integration**: Technical reference and code examples for programming-focused curricula
+- **Integration**: Optional technical reference; generated claims require independent source review
 
 #### **pymdp** (Python Active Inference)
 
@@ -36,7 +40,7 @@ The START project integrates with several Active Inference and computational neu
 - **Destination**: `src/_clones/pymdp`
 - **Branch**: `textbook` (educational focus)
 - **Purpose**: Python implementation of Active Inference and Free Energy Principle
-- **Integration**: Hands-on programming exercises and computational examples
+- **Integration**: Optional implementation reference; generated examples require execution and review
 
 #### **lean_niche** (Lean Theorem Proving & Verification)
 
@@ -71,7 +75,7 @@ Steps
 
 Links
 
-- Clone utility: `src/repos/clone_repo.py`
+- Clone utility: `uv run start-clone` (the module is also importable as a Python API)
 
 ### Interactive (recommended)
 
@@ -88,25 +92,25 @@ Use the integrated clone utility for consistent repository management:
 
 ```bash
 # Core knowledge graph
-uv run python src/repos/clone_repo.py --url https://github.com/ActiveInferenceInstitute/cognitive --dest src/_clones/cognitive --shallow
+uv run start-clone --url https://github.com/ActiveInferenceInstitute/cognitive --dest src/_clones/cognitive --shallow
 
 # Bayesian inference examples
-uv run python src/repos/clone_repo.py --url https://github.com/docxology/RxInferExamples.jl --dest src/_clones/RxInferExamples.jl --shallow
+uv run start-clone --url https://github.com/docxology/RxInferExamples.jl --dest src/_clones/RxInferExamples.jl --shallow
 
 # Julia Active Inference (textbook branch)
-uv run python src/repos/clone_repo.py --url https://github.com/docxology/ActiveInference.jl --dest src/_clones/ActiveInference.jl --branch textbook --shallow
+uv run start-clone --url https://github.com/docxology/ActiveInference.jl --dest src/_clones/ActiveInference.jl --branch textbook --shallow
 
 # Python Active Inference (textbook branch)  
-uv run python src/repos/clone_repo.py --url https://github.com/docxology/pymdp --dest src/_clones/pymdp --branch textbook --shallow
+uv run start-clone --url https://github.com/docxology/pymdp --dest src/_clones/pymdp --branch textbook --shallow
 
 # Lean theorem proving (LeanNiche)
-uv run python src/repos/clone_repo.py --url https://github.com/docxology/lean_niche --dest src/_clones/lean_niche --shallow
+uv run start-clone --url https://github.com/docxology/lean_niche --dest src/_clones/lean_niche --shallow
 
 # Research manuscript template (Thin Orchestrator)
-uv run python src/repos/clone_repo.py --url https://github.com/docxology/template --dest src/_clones/template --shallow
+uv run start-clone --url https://github.com/docxology/template --dest src/_clones/template --shallow
 
 # VERSES AXIOM
-uv run python src/repos/clone_repo.py --url https://github.com/VersesTech/axiom --dest src/_clones/axiom --shallow
+uv run start-clone --url https://github.com/VersesTech/axiom --dest src/_clones/axiom --shallow
 ```
 
 ### Manual Repository Management
@@ -125,14 +129,14 @@ cd src/_clones/pymdp && git pull origin textbook
 ### Knowledge Graph Integration
 
 - **cognitive** repository provides structured concept relationships
-- Used by domain analysis scripts to validate Active Inference concepts
-- Enhances curriculum content with authoritative concept definitions
+- Available for manual inspection when explicitly cloned
+- Does not by itself make generated content authoritative or independently verified
 
 ### Code Example Integration
 
 - **pymdp** and **ActiveInference.jl** provide working code examples
-- Integrated into hands-on curriculum sections
-- Used for generating programming exercises and computational labs
+- May inform hands-on sections when explicitly selected by a human
+- Examples must be tested, attributed, and checked against their license requirements
 
 ### Educational Resource Enhancement
 
@@ -168,20 +172,20 @@ src/_clones/
 
 ### Content Enhancement
 
-- Reference cloned repositories for authoritative Active Inference content
-- Adapt examples from implementation repositories for specific domains
-- Use knowledge graph structure to ensure comprehensive concept coverage
+- Consult cloned repositories as candidate sources for Active Inference content
+- Adapt examples only after checking provenance, license, version, and technical behavior
+- Use graph structure as an organizing aid, not as independent validation
 
 ### Technical Integration
 
-- Import code examples into curriculum programming sections
-- Generate domain-specific computational exercises
-- Provide working implementations for hands-on learning
+- Import code examples only through an explicit, reviewed workflow
+- Generate domain-specific exercises only after executing or otherwise validating them
+- Provide working implementations with source attribution and version metadata
 
 ### Quality Assurance
 
-- Validate curriculum content against authoritative sources
-- Ensure technical accuracy using reference implementations
+- Validate curriculum content against cited, independently reviewed sources
+- Check technical accuracy using reference implementations without treating them as proof
 - Maintain consistency with Active Inference Institute standards
 
 ## Verification & Maintenance
@@ -211,5 +215,5 @@ git -C src/_clones/pymdp pull --ff-only origin textbook
 
 ```bash
 rm -rf src/_clones/ActiveInference.jl
-uv run python src/repos/clone_repo.py --url https://github.com/docxology/ActiveInference.jl --dest src/_clones/ActiveInference.jl --branch textbook --shallow
+uv run start-clone --url https://github.com/docxology/ActiveInference.jl --dest src/_clones/ActiveInference.jl --branch textbook --shallow
 ```

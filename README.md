@@ -7,7 +7,7 @@
 > **An advanced AI-powered system for creating personalized Active Inference and Free Energy Principle curricula**
 > Quick links: [activeinference.institute](https://www.activeinference.institute/) • [activities.activeinference.institute](https://activities.activeinference.institute/) • [x.com/InferenceActive](https://x.com/InferenceActive) • [discord.activeinference.institute](https://discord.activeinference.institute/) • [donate.activeinference.institute](http://donate.activeinference.institute/) • [youtube.com/c/ActiveInference](https://www.youtube.com/c/ActiveInference/) • [video.activeinference.institute](https://video.activeinference.institute/)
 
-START combines real-time research capabilities with sophisticated content generation to produce professional-grade, personalized educational materials for Active Inference and the Free Energy Principle. The system integrates multiple APIs, comprehensive prompt engineering, and multilingual capabilities to create world-class curricula tailored to specific domains and individual learners.
+START combines optional live research capabilities with sophisticated content generation to produce personalized educational materials for Active Inference and the Free Energy Principle. Every generated artifact carries an evidence status; synthetic foundation material is not presented as live research.
 
 > 📌 Start here: **[here.md](here.md)** — interactive landing for the full experience. Also see the **[Docs Hub](docs/README.md)** and this **README** for GitHub-oriented navigation.
 
@@ -74,7 +74,7 @@ graph LR
   R --> R1[Perplexity API]
   C --> C1[OpenRouter LLMs]
   V --> V1[Charts & Mermaid]
-  T --> T1[11+ Languages]
+  T --> T1[Configured languages]
   Q --> Q1[pytest, ruff, black]
 
   click R "docs/pipeline.md" "Pipeline"
@@ -85,18 +85,18 @@ graph LR
 
 ### 🔍 **Intelligent Research**
 
-- **Real-time Domain Analysis**: Live research using Perplexity API for current industry insights
+- **Live Domain Analysis**: Optional research using Perplexity API for current industry insights
 - **Personalized Learner Profiling**: In-depth analysis of individual learning needs and backgrounds  
-- **16+ Professional Domains**: Life sciences, technology, business, healthcare, education, and more
+- **Configurable Professional Domains**: Life sciences, technology, business, healthcare, education, and more
 - **Configuration-Driven**: YAML-based target management with priority and category filtering
 - **Enhanced Error Handling**: Robust validation and retry mechanisms for reliable operation
 
 ### ✍️ **Advanced Content Generation** 
 
-- **Professional-Grade Curricula**: 40-60 hour structured learning programs
-- **Comprehensive Modules**: 3-5 hour learning units with integrated assessments
-- **5,000-8,000 Word Analyses**: Deep personalization and domain integration
-- **Enhanced Prompts**: 6-9 section frameworks with validation and quality assurance
+- **Structured Curricula**: Prompt-guided learning programs whose actual scope is checked by output quality gates
+- **Prompt-defined Modules**: structured learning units with integrated assessment prompts; generated scope is recorded and requires review
+- **Prompt-Guided Analyses**: Research and personalization prompts with explicit length, structure, citation, and evidence checks
+- **Enhanced Prompts**: Section frameworks with validation and quality assurance; generated length is not a factual guarantee
 - **Content Quality Validation**: Automatic checking for completeness and consistency
 
 ### 📊 **Rich Visualizations**
@@ -108,17 +108,18 @@ graph LR
 
 ### 🌍 **Multilingual Excellence**
 
-- **11+ Languages**: Chinese, Spanish, Arabic, Hindi, French, Japanese, Russian, Swahili, Tagalog, and custom languages
+- **Configured Languages**: Language and script mappings are loaded from `data/config/languages.yaml`
 - **Cultural Adaptation**: Full localization beyond literal translation
-- **Professional Quality**: Native-speaker level fluency with technical accuracy
-- **Smart Language Handling**: Flexible language support with custom language warnings
+- **Quality Boundaries**: Structural, parity, and script checks are automated; fluency and technical accuracy still require human review
+- **Smart Language Handling**: Configured language/script mappings with explicit warnings for unsupported or unverified outputs
 
 ### 🧪 **Comprehensive Testing & Quality Assurance**
 
-- **375+ Test Cases**: Extensive unit and integration test coverage
-- **API Validation**: Robust testing of all external API integrations
+- **Test Suite**: Unit, integration, CLI, GUI, repository, and pipeline coverage; run `uv run pytest --collect-only -q` for the current count
+- **Provider Validation**: Real local HTTP protocol tests by default; live provider probes are opt-in
 - **Error Scenario Coverage**: Comprehensive testing of edge cases and error conditions
-- **Continuous Integration**: Automated testing pipeline ensuring reliability
+- **Continuous Integration**: Ruff, Black, shell syntax, repository validation, all-`src` coverage, and strict docs gates
+- **Reviewable methods**: First-principles constraints, falsifiable engineering hypotheses, and a manuscript-facing evidence note
 
 ## 📦 **Core Pipeline Scripts**
 
@@ -181,14 +182,14 @@ See `docs/configuration.md` for YAML examples and CLI usage.
 ## 📈 **Generated Content Quality**
 
 ### Research Analysis (Enhanced with new prompts)
-- **Domain Reports**: 3,000-5,000 words of professional landscape analysis
-- **Entity Profiles**: 5,000-8,000 words of personalized learning strategies
-- **Real-time Data**: Current industry insights via Perplexity API
-- **Evidence-Based**: Grounded in current research and best practices
+- **Domain Reports**: Prompt-targeted professional landscape analysis, validated for structure and provenance
+- **Entity Profiles**: Prompt-targeted personalized learning strategies, validated before publication
+- **Evidence-labeled Data**: Live, source-material, synthetic, and offline-fixture outputs remain distinguishable
+- **Source-aware Generation**: Provider, model, prompt, input hashes, citations, and quality status are recorded when available
 
 ### Curriculum Content (Professional-grade)
-- **Structured Programs**: 40-60 hour comprehensive learning experiences
-- **Modular Design**: 6-9 section frameworks with integrated assessments
+- **Structured Programs**: Comprehensive learning experiences whose sections and quality status are recorded in manifests
+- **Modular Design**: Prompt-defined frameworks with integrated assessments where the generated artifact passes validation
 - **Practical Applications**: Real-world case studies and hands-on exercises
 - **Professional Integration**: Career development and workplace applications
 
@@ -196,7 +197,7 @@ See `docs/configuration.md` for YAML examples and CLI usage.
 - **Full Localization**: Examples adapted to target cultures
 - **Technical Accuracy**: Precise translation of scientific terms
 - **Educational Quality**: Maintains pedagogical effectiveness across languages
-- **Native Fluency**: Professional-quality content for each target language
+- **Review Required**: Translation completeness and script checks are automated; publication requires qualified language review
 
 ## 🏗️ **System Architecture**
 
@@ -218,9 +219,9 @@ See `docs/pipeline.md` for architecture, templates, and data flow.
 ```
 data/prompts/
 ├── research_domain_analysis.md     # 6-section domain framework (3K-5K words)
-├── research_domain_curriculum.md   # 9-section curriculum generation (40-60 hours)
+├── research_domain_curriculum.md   # Prompt-defined curriculum generation framework
 ├── research_entity.md              # 6-section personalization (5K-8K words)
-├── curriculum_section.md           # Comprehensive module creation (3-5 hours)
+├── curriculum_section.md           # Prompt target for a substantial module (not a duration guarantee)
 └── translation.md                  # 7-section multilingual framework
 ```
 
@@ -228,7 +229,7 @@ data/prompts/
 - **Comprehensive Testing**: pytest with TDD approach
 - **Code Quality**: ruff linting and black formatting  
 - **API Integration**: Real-time validation with Perplexity and OpenRouter
-- **Content Standards**: Professional-grade educational material validation
+- **Content Standards**: Structural, provenance, and quality-gate validation with explicit human-review boundaries
 
 ## 📊 **Example Outputs**
 
@@ -257,6 +258,8 @@ See `docs/examples.md` for example outputs and paths.
 - See the Docs Hub for the complete documentation: `docs/README.md`
 - Environment Setup: `docs/environment.md`
 - Pipeline Overview: `docs/pipeline.md`
+- Methods & evidence protocol: `docs/methods.md`
+- Manuscript-facing engineering note: `docs/manuscript.md`
 - Usage Guide: `learning/curriculum_creation/USAGE_GUIDE.md`
 
 ### 🔧 **Technical References** 
@@ -283,21 +286,12 @@ See also: implementation repos and knowledge resources in [docs/clones.md](docs/
 
 ## 🔄 **Development Roadmap**
 
-### Immediate Enhancements
-- [ ] Expanded domain coverage (20+ professional fields)
-- [ ] Enhanced visualization types (interactive diagrams, 3D models)
-- [ ] Integration with learning management systems (LMS)
-- [ ] Mobile-responsive curriculum formats
-
-### Future Vision
-- [ ] Real-time personalization based on learning progress
-- [ ] Community-contributed domain and entity profiles  
-- [ ] AR/VR learning platform integration
-- [ ] Automated assessment and credentialing systems
+The actionable forward backlog is maintained in [TODO.md](TODO.md), the sole
+canonical list of future work.
 
 ## 🤝 **Contributing**
 
-We welcome contributions! See our [Contributing Guide](CONTRIBUTING.md) for details on:
+We welcome contributions! See our [Contributing Guide](docs/CONTRIBUTING.md) for details on:
 
 - Code style and development process
 - Pull request procedure and review guidelines
@@ -314,40 +308,46 @@ uv run pytest -q           # Test suite
 uv run ruff check .        # Linting
 uv run black --check .     # Formatting
 
-# Development with proper Python path
-export PYTHONPATH=$(pwd):$PYTHONPATH
+# Stable installed entry points
+uv run start-curriculum --help
+uv run start-clone --help
+uv run start-validate-outputs --check
 ```
 
 ## 🧪 **Development & Testing**
 
 ### Testing Framework
-The project includes a comprehensive testing framework with 375+ test cases covering:
-- **Unit Tests**: Individual component testing with proper mocking
-- **Integration Tests**: End-to-end pipeline validation  
-- **API Tests**: External service integration validation
+The project includes a comprehensive testing framework covering:
+- **Unit Tests**: Individual component testing with local protocols and temporary data
+- **Integration Tests**: End-to-end pipeline validation
+- **Provider Tests**: Local HTTP completion servers exercising the production client protocol
 - **Error Handling**: Edge cases and failure scenarios
+- **Repository Gates**: Authored terminology, stale path, Markdown link, and tracked JSON/YAML/TOML validation
 
 ### Running Tests
 ```bash
 # Run full test suite
-uv run pytest
+uv run pytest -q
 
 # Run specific test categories  
 uv run pytest -m "not integration"     # Skip integration tests
 uv run pytest -m integration           # Only integration tests
 uv run pytest tests/test_domain.py     # Specific test file
 
-# Run with coverage
-uv run pytest --cov=src --cov-report=html
+# Branch-aware release coverage gate
+uv run pytest --cov=src --cov-branch --cov-report=term-missing --cov-fail-under=90 -q
+
+# Repository validation gate
+uv run python scripts/validate_repository.py
 
 # Set environment for GUI-free testing
 export MPLBACKEND=Agg
-uv run pytest
+uv run pytest -q
 ```
 
 ### Development Guidelines
 - **Code Quality**: Black formatting, Ruff linting, comprehensive type hints
-- **Testing**: Write tests for all new functionality with proper mocking
+- **Testing**: Write tests for all new functionality using real local I/O
 - **Documentation**: Include docstrings and update relevant docs
 - **Error Handling**: Implement graceful degradation and user-friendly messages
 
@@ -359,7 +359,7 @@ uv run pytest
 │   ├── system/            # System utilities
 │   └── terminal/          # CLI components
 ├── learning/              # Educational pipeline scripts
-├── tests/                 # Test suite (375+ tests)
+├── tests/                 # Test suite (run pytest --collect-only for the current count)
 ├── docs/                  # Documentation
 │   ├── TESTING.md         # Testing guide
 │   └── environment.md     # Setup instructions

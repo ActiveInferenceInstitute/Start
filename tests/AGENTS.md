@@ -8,8 +8,8 @@ Technical documentation for test files and their coverage.
 
 ### Common Utilities
 - `test_common_io.py`: File I/O operations
-- `test_common_paths.py`: Path management
-- `test_logging_utils.py`: Logging configuration
+- `test_paths.py`: Path management
+- `test_terminal_*.py`: Terminal utilities and UI behavior
 - `test_config.py`: Configuration loading
 
 ### LLM API Integration
@@ -17,7 +17,7 @@ Technical documentation for test files and their coverage.
 - `test_domain.py`: Domain research
 - `test_entity.py`: Entity research
 - `test_openrouter_integration.py`: OpenRouter integration
-- `test_translation_utils.py`: Translation utilities
+- `test_curriculum_generation.py`: Curriculum generation utilities
 
 ### System Utilities
 - `test_system_dependencies.py`: Dependency checking
@@ -33,20 +33,19 @@ Technical documentation for test files and their coverage.
 - `test_visualization_runner.py`: Visualization runner
 
 ### Curriculum Creation
-- `test_1_research_domain.py`: Domain research script
-- `test_2_write_introduction.py`: Curriculum generation script
-- `test_3_introduction_visualizations.py`: Visualization script
-- `test_4_translate_introductions.py`: Translation script
+- `test_curriculum_entrypoints.py`: Curriculum script helpers and translation chunks
+- `test_core_hardening.py`: Configuration, provider, pipeline, and transactional behavior
+- `test_remaining_source.py`: Repository, system, reporting, terminal, and CLI coverage
 - `test_curriculum_sections.py`: Curriculum sections
 - `test_curriculum_scripts_integration.py`: Integration tests
 
 ### Repository Management
 - `test_repos_cloning.py`: Repository cloning
 - `test_repos_manager.py`: Repository manager
-- `test_clone_repo.py`: Clone utilities
+- `test_repos_cloning.py`: Clone utilities
 
 ### Integration Tests
-- `test_integration.py`: End-to-end integration tests
+- `test_run_script_integration.py`: Run script integration
 - `test_run_script_integration.py`: Run script integration
 
 ## Test Utilities
@@ -55,7 +54,7 @@ Technical documentation for test files and their coverage.
 Pytest configuration and fixtures:
 - Common fixtures
 - Test setup/teardown
-- Mock configurations
+- Isolated temporary configurations
 
 ## Cross-References
 
