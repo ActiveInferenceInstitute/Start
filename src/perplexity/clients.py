@@ -33,6 +33,9 @@ class PerplexityConfig:
     api_key: str
     base_url: str = "https://api.perplexity.ai"
     model: str = "llama-3.1-sonar-small-128k-online"
+    fallback_models: tuple[str, ...] = ()
+    input_cost_per_million: float = 0.0
+    output_cost_per_million: float = 0.0
     timeout: float = 60.0
     max_retries: int = 3
     backoff_seconds: float = 1.0
@@ -45,6 +48,21 @@ class PerplexityConfig:
             self.timeout,
             self.max_retries,
             self.backoff_seconds,
+            self.fallback_models,
+            self.input_cost_per_million,
+            self.output_cost_per_million,
+        )
+
+    def to_chat_policy(self) -> "ChatPolicy":
+        """Build an execution policy mirroring this provider configuration."""
+        return ChatPolicy(
+            model=self.model,
+            fallback_models=self.fallback_models,
+            timeout=self.timeout,
+            max_retries=self.max_retries,
+            backoff_seconds=self.backoff_seconds,
+            input_cost_per_million=self.input_cost_per_million,
+            output_cost_per_million=self.output_cost_per_million,
         )
 
 
@@ -58,6 +76,9 @@ class OpenRouterConfig:
     api_key: str
     base_url: str = "https://openrouter.ai/api/v1"
     model: str = "anthropic/claude-3.5-sonnet"
+    fallback_models: tuple[str, ...] = ()
+    input_cost_per_million: float = 0.0
+    output_cost_per_million: float = 0.0
     timeout: float = 120.0
     max_retries: int = 3
     backoff_seconds: float = 1.0
@@ -70,6 +91,21 @@ class OpenRouterConfig:
             self.timeout,
             self.max_retries,
             self.backoff_seconds,
+            self.fallback_models,
+            self.input_cost_per_million,
+            self.output_cost_per_million,
+        )
+
+    def to_chat_policy(self) -> "ChatPolicy":
+        """Build an execution policy mirroring this provider configuration."""
+        return ChatPolicy(
+            model=self.model,
+            fallback_models=self.fallback_models,
+            timeout=self.timeout,
+            max_retries=self.max_retries,
+            backoff_seconds=self.backoff_seconds,
+            input_cost_per_million=self.input_cost_per_million,
+            output_cost_per_million=self.output_cost_per_million,
         )
 
 
@@ -96,6 +132,13 @@ class ChatPolicy:
         for fallback in self.fallback_models:
             if not isinstance(fallback, str) or not fallback.strip():
                 raise ValueError("fallback_models must contain non-empty model names")
+        if (
+            not math.isfinite(self.input_cost_per_million)
+            or self.input_cost_per_million < 0
+            or not math.isfinite(self.output_cost_per_million)
+            or self.output_cost_per_million < 0
+        ):
+            raise ValueError("per-million token costs cannot be negative")
         if not math.isfinite(self.timeout) or self.timeout <= 0:
             raise ValueError("timeout must be greater than zero")
         if self.max_retries < 1:
@@ -161,6 +204,9 @@ def _validate_provider_settings(
     timeout: float,
     max_retries: int,
     backoff_seconds: float,
+    fallback_models: tuple[str, ...] = (),
+    input_cost_per_million: float = 0.0,
+    output_cost_per_million: float = 0.0,
 ) -> None:
     if not isinstance(api_key, str) or not api_key.strip():
         raise ValueError("API key cannot be empty")
@@ -174,9 +220,12 @@ def _validate_provider_settings(
         )
     ChatPolicy(
         model=model,
+        fallback_models=fallback_models,
         timeout=timeout,
         max_retries=max_retries,
         backoff_seconds=backoff_seconds,
+        input_cost_per_million=input_cost_per_million,
+        output_cost_per_million=output_cost_per_million,
     )
 
 

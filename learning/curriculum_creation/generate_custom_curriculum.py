@@ -28,7 +28,7 @@ import uuid
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 
 # Resolve repository-owned data and prompt paths from the installed package root.
 project_root = Path(__file__).resolve().parents[2]
@@ -163,6 +163,14 @@ class CurriculumConfig:
     perplexity_model: Optional[str] = None
     # For content generation and translation
     openrouter_model: Optional[str] = None
+    # Ordered fallback models tried when a model-level failure occurs
+    perplexity_fallback_models: Tuple[str, ...] = ()
+    openrouter_fallback_models: Tuple[str, ...] = ()
+    # Optional USD cost-rate overrides (per million tokens); 0 = use default
+    perplexity_input_cost_per_million: float = 0.0
+    perplexity_output_cost_per_million: float = 0.0
+    openrouter_input_cost_per_million: float = 0.0
+    openrouter_output_cost_per_million: float = 0.0
 
     # === PERFORMANCE OPTIONS ===
     # Limit concurrent API requests
@@ -231,6 +239,24 @@ class CurriculumConfig:
             value = getattr(self, name)
             if value is not None and (not value.strip() or any(char in value for char in "\r\n")):
                 raise ValueError(f"{name} must be a non-empty single-line model name")
+        for name in ("perplexity_fallback_models", "openrouter_fallback_models"):
+            value = getattr(self, name)
+            if not isinstance(value, tuple) or any(
+                not isinstance(model, str)
+                or not model.strip()
+                or any(char in model for char in "\r\n")
+                for model in value
+            ):
+                raise ValueError(f"{name} must be a tuple of non-empty single-line model names")
+        for name in (
+            "perplexity_input_cost_per_million",
+            "perplexity_output_cost_per_million",
+            "openrouter_input_cost_per_million",
+            "openrouter_output_cost_per_million",
+        ):
+            value = getattr(self, name)
+            if not math.isfinite(value) or value < 0:
+                raise ValueError(f"{name} cannot be negative")
         for path_name in (
             "custom_output_dir",
             "domain_research_dir",
@@ -485,6 +511,9 @@ class CurriculumOrchestrator:
                         domain_id=item_id,
                         limiter=self.provider_limiter,
                         cancellation_event=self.cancellation_event,
+                        fallback_models=self.config.perplexity_fallback_models,
+                        input_cost_per_million=self.config.perplexity_input_cost_per_million,
+                        output_cost_per_million=self.config.perplexity_output_cost_per_million,
                     )
                     return "success", item_id, result
                 except Exception as exc:
@@ -615,6 +644,9 @@ class CurriculumOrchestrator:
                         entity_id=item_id,
                         limiter=self.provider_limiter,
                         cancellation_event=self.cancellation_event,
+                        fallback_models=self.config.perplexity_fallback_models,
+                        input_cost_per_million=self.config.perplexity_input_cost_per_million,
+                        output_cost_per_million=self.config.perplexity_output_cost_per_million,
                     )
                     return "success", item_id, result
                 except Exception as exc:
@@ -707,6 +739,9 @@ class CurriculumOrchestrator:
                     strict_schema=self.config.publication_mode,
                     limiter=self.provider_limiter,
                     cancellation_event=self.cancellation_event,
+                    fallback_models=self.config.openrouter_fallback_models,
+                    input_cost_per_million=self.config.openrouter_input_cost_per_million,
+                    output_cost_per_million=self.config.openrouter_output_cost_per_million,
                 )
                 total_success += success
                 total_error += error
@@ -731,6 +766,9 @@ class CurriculumOrchestrator:
                     strict_schema=self.config.publication_mode,
                     limiter=self.provider_limiter,
                     cancellation_event=self.cancellation_event,
+                    fallback_models=self.config.openrouter_fallback_models,
+                    input_cost_per_million=self.config.openrouter_input_cost_per_million,
+                    output_cost_per_million=self.config.openrouter_output_cost_per_million,
                 )
                 total_success += success
                 total_error += error
@@ -851,6 +889,9 @@ class CurriculumOrchestrator:
                 strict_schema=self.config.publication_mode,
                 limiter=self.provider_limiter,
                 cancellation_event=self.cancellation_event,
+                fallback_models=self.config.openrouter_fallback_models,
+                input_cost_per_million=self.config.openrouter_input_cost_per_million,
+                output_cost_per_million=self.config.openrouter_output_cost_per_million,
             )
 
             self.results["translations"]["success"] = success_count

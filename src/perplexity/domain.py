@@ -13,7 +13,7 @@ import time
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, Optional, Tuple
 
 from openai import OpenAI
 
@@ -57,6 +57,9 @@ def chat_result(
     strict_schema: bool = False,
     limiter: RequestLimiter | None = None,
     cancellation_event: threading.Event | None = None,
+    fallback_models: Tuple[str, ...] = (),
+    input_cost_per_million: float = 0.0,
+    output_cost_per_million: float = 0.0,
 ) -> CompletionResult:
     """Send chat completion request to Perplexity for domain research.
 
@@ -85,9 +88,12 @@ def chat_result(
         provider="perplexity",
         policy=ChatPolicy(
             model=model or os.environ.get("PERPLEXITY_MODEL", "llama-3.1-sonar-small-128k-online"),
+            fallback_models=fallback_models,
             timeout=timeout,
             max_retries=max_retries,
             backoff_seconds=retry_delay,
+            input_cost_per_million=input_cost_per_million,
+            output_cost_per_million=output_cost_per_million,
             response_format={"type": "json_object"} if strict_schema else None,
         ),
         limiter=limiter,
@@ -120,6 +126,9 @@ def analyze_domain(
     domain_id: Optional[str] = None,
     limiter: RequestLimiter | None = None,
     cancellation_event: threading.Event | None = None,
+    fallback_models: Tuple[str, ...] = (),
+    input_cost_per_million: float = 0.0,
+    output_cost_per_million: float = 0.0,
 ) -> DomainResult:
     """Analyze domain using Perplexity API for online research.
 
@@ -194,6 +203,9 @@ def analyze_domain(
         strict_schema,
         limiter,
         cancellation_event,
+        fallback_models=fallback_models,
+        input_cost_per_million=input_cost_per_million,
+        output_cost_per_million=output_cost_per_million,
     )
     analysis_payload = (
         parse_structured_response(analysis_response.content, "research") if strict_schema else None
@@ -218,6 +230,9 @@ def analyze_domain(
         strict_schema,
         limiter,
         cancellation_event,
+        fallback_models=fallback_models,
+        input_cost_per_million=input_cost_per_million,
+        output_cost_per_million=output_cost_per_million,
     )
     curriculum_payload = (
         parse_structured_response(curriculum_response.content, "curriculum")

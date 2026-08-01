@@ -12,7 +12,7 @@ import re
 import threading
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, Tuple
 
 from openai import OpenAI
 
@@ -58,6 +58,9 @@ def chat_result(
     strict_schema: bool = False,
     limiter: RequestLimiter | None = None,
     cancellation_event: threading.Event | None = None,
+    fallback_models: Tuple[str, ...] = (),
+    input_cost_per_million: float = 0.0,
+    output_cost_per_million: float = 0.0,
 ) -> CompletionResult:
     """Send chat completion request to OpenRouter for content generation.
 
@@ -75,11 +78,14 @@ def chat_result(
         provider="openrouter",
         policy=ChatPolicy(
             model=model or os.environ.get("OPENROUTER_MODEL", "anthropic/claude-3.5-sonnet"),
+            fallback_models=fallback_models,
             timeout=timeout,
             max_retries=max_retries,
             backoff_seconds=retry_delay,
             min_content_length=20,
             delay_seconds=delay_seconds,
+            input_cost_per_million=input_cost_per_million,
+            output_cost_per_million=output_cost_per_million,
             response_format={"type": "json_object"} if strict_schema else None,
         ),
         limiter=limiter,
@@ -388,6 +394,9 @@ def process_research_file(
     strict_schema: bool = False,
     limiter: RequestLimiter | None = None,
     cancellation_event: threading.Event | None = None,
+    fallback_models: Tuple[str, ...] = (),
+    input_cost_per_million: float = 0.0,
+    output_cost_per_million: float = 0.0,
 ) -> Optional[Path]:
     """Process a research file and generate curriculum content.
 
@@ -452,6 +461,9 @@ def process_research_file(
                     strict_schema,
                     limiter,
                     cancellation_event,
+                    fallback_models=fallback_models,
+                    input_cost_per_million=input_cost_per_million,
+                    output_cost_per_million=output_cost_per_million,
                 )
                 structured = (
                     parse_structured_response(response.content, "curriculum")

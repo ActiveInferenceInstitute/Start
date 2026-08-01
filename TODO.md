@@ -58,11 +58,8 @@ work that remains after the deepest red-team review and hardening pass
 
 ## Major — Scoped (deferred) — validated but intentionally NOT implemented
 
-- [ ] **MAJOR (quality): mypy is now clean as of 2026-08-01** — `uv run mypy src
-  scripts learning` reports 0 errors after the comprehensive typing pass
-  (annotated orchestrator `self.results`, repos/system/learning annotations,
-  API typing fixes). Keep mypy in CI to prevent regressions; add it to the
-  workflow gate.
+None currently. The one quality Major (mypy debt) was resolved in the
+2026-08-01 comprehensive pass and is now enforced in CI.
 
 ### Documented deferrals (validated but deliberately NOT modified this pass)
 
@@ -83,13 +80,34 @@ they are documented here so the reasoning is not lost.
   symlinks would break those legitimate installs. Writes still reject both.
 - `src/perplexity/entity.py` `extract_entity_description` falls back to the
   full input when no `Description:` line exists; existing tests pin this.
-- Provider cost rates: `_DEFAULT_COST_PER_MILLION` provides documented
-  list-price estimates for known default models (currently
-  `anthropic/claude-3.5-sonnet` $3/$15); unknown models honestly report 0.0.
-  Exact spend should come from provider-reported actual cost or explicit
-  `ChatPolicy` rates.
 
-## Completed / Closed (2026-08-01 comprehensive pass)
+## Completed / Closed (2026-08-01 comprehensive + wiring pass)
+
+Additional improvements landed after the first comprehensive pass (all four
+gates green: pytest exit 0, ruff clean, black clean, mypy 0):
+
+- **mypy now enforced in CI.** The `ci.yml` type-check step was expanded from a
+  small subset (`src/pipeline src/config/schemas.py --follow-imports=skip`) to
+  the full clean scope (`mypy src scripts learning`). This prevents regression
+  of the now-zero typing debt.
+- **Model fallback + cost rates wired live through the pipeline.** The features
+  are no longer dormant in the API:
+  - `PerplexityConfig`/`OpenRouterConfig` gained `fallback_models` and
+    `input/output_cost_per_million` fields (validated) plus a `to_chat_policy()`
+    helper.
+  - `CurriculumConfig` gained `perplexity_fallback_models`,
+    `openrouter_fallback_models`, and the four cost-rate overrides (validated).
+  - `domain`, `entity`, `curriculum`, and `translation` provider paths thread
+    `fallback_models` and cost rates into `ChatPolicy`, so a model-level failure
+    now falls back to the next configured model and cost overrides reach usage
+    accounting.
+  - New tests cover `to_chat_policy` mirroring and `CurriculumConfig`
+    validation; the existing negative-cost error contract is preserved.
+
+The earlier comprehensive + red-team passes (StageResult partial-failure,
+skip_existing freshness, post-clone git hardening, prompt-injection data
+framing, legacy `3_Intro` cleanup, schema/io/repos/GUI/system hardening)
+remain complete as recorded below.
 
 Implemented and verified (pytest, ruff, black, mypy all green) during the
 comprehensive pass. This adds to the earlier red-team hardening:

@@ -12,7 +12,7 @@ import time
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, Optional, Tuple
 
 from openai import OpenAI
 
@@ -68,6 +68,9 @@ def chat_result(
     strict_schema: bool = False,
     limiter: RequestLimiter | None = None,
     cancellation_event: threading.Event | None = None,
+    fallback_models: Tuple[str, ...] = (),
+    input_cost_per_million: float = 0.0,
+    output_cost_per_million: float = 0.0,
 ) -> CompletionResult:
     """Send chat completion request to Perplexity for entity research.
 
@@ -88,9 +91,12 @@ def chat_result(
         provider="perplexity",
         policy=ChatPolicy(
             model=model or os.environ.get("PERPLEXITY_MODEL", "llama-3.1-sonar-small-128k-online"),
+            fallback_models=fallback_models,
             timeout=timeout,
             max_retries=max_retries,
             backoff_seconds=retry_delay,
+            input_cost_per_million=input_cost_per_million,
+            output_cost_per_million=output_cost_per_million,
             response_format={"type": "json_object"} if strict_schema else None,
         ),
         limiter=limiter,
@@ -123,6 +129,9 @@ def research_target_audience(
     entity_id: Optional[str] = None,
     limiter: RequestLimiter | None = None,
     cancellation_event: threading.Event | None = None,
+    fallback_models: Tuple[str, ...] = (),
+    input_cost_per_million: float = 0.0,
+    output_cost_per_million: float = 0.0,
 ) -> ResearchResult:
     """Research target audience using Perplexity API.
 
@@ -183,6 +192,9 @@ def research_target_audience(
         strict_schema,
         limiter,
         cancellation_event,
+        fallback_models=fallback_models,
+        input_cost_per_million=input_cost_per_million,
+        output_cost_per_million=output_cost_per_million,
     )
     payload = parse_structured_response(response.content, "research") if strict_schema else None
     content = payload_markdown(payload) if payload else response.content

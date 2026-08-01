@@ -291,6 +291,33 @@ def test_skip_existing_skips_fresh_but_regenerates_stale(tmp_path):
     assert items2[0]["status"] != "skipped"
 
 
+# --- provider config to_chat_policy + curriculum fallback wiring -------------
+def test_provider_config_to_chat_policy_mirrors_fallback_and_cost():
+    from src.perplexity.clients import OpenRouterConfig
+
+    config = OpenRouterConfig(
+        api_key="sk-test",
+        fallback_models=("a/x", "b/y"),
+        input_cost_per_million=1.5,
+        output_cost_per_million=9.0,
+    )
+    policy = config.to_chat_policy()
+    assert policy.model == config.model
+    assert policy.fallback_models == ("a/x", "b/y")
+    assert policy.input_cost_per_million == 1.5
+    assert policy.output_cost_per_million == 9.0
+
+
+def test_curriculum_config_validates_fallback_and_cost_settings():
+    from learning.curriculum_creation.generate_custom_curriculum import CurriculumConfig
+
+    CurriculumConfig(openrouter_fallback_models=("b/y",)).validate()
+    with pytest.raises(ValueError, match="fallback_models"):
+        CurriculumConfig(perplexity_fallback_models=(42,)).validate()
+    with pytest.raises(ValueError, match="cannot be negative"):
+        CurriculumConfig(openrouter_output_cost_per_million=-0.01).validate()
+
+
 # --- prompt-injection data framing -------------------------------------------
 def test_as_data_block_frames_untrusted_content():
     from src.common.prompts import as_data_block

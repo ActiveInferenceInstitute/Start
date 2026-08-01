@@ -12,7 +12,7 @@ from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
-from typing import Any, List, Optional
+from typing import Any, List, Optional, Tuple
 
 from openai import OpenAI
 
@@ -108,6 +108,9 @@ def translate_curriculum_result(
     strict_schema: bool = False,
     limiter: RequestLimiter | None = None,
     cancellation_event: threading.Event | None = None,
+    fallback_models: Tuple[str, ...] = (),
+    input_cost_per_million: float = 0.0,
+    output_cost_per_million: float = 0.0,
 ) -> TranslationResult:
     """Translate curriculum content to target language using OpenRouter.
 
@@ -143,11 +146,14 @@ def translate_curriculum_result(
             provider="openrouter",
             policy=ChatPolicy(
                 model=model or os.environ.get("OPENROUTER_MODEL", "anthropic/claude-3.5-sonnet"),
+                fallback_models=fallback_models,
                 timeout=timeout,
                 max_retries=max_retries,
                 backoff_seconds=retry_delay,
                 min_content_length=20,
                 delay_seconds=delay_seconds,
+                input_cost_per_million=input_cost_per_million,
+                output_cost_per_million=output_cost_per_million,
                 response_format={"type": "json_object"} if strict_schema else None,
             ),
             limiter=limiter,
@@ -246,6 +252,9 @@ def process_translations_detailed(
     strict_schema: bool = False,
     limiter: RequestLimiter | None = None,
     cancellation_event: threading.Event | None = None,
+    fallback_models: Tuple[str, ...] = (),
+    input_cost_per_million: float = 0.0,
+    output_cost_per_million: float = 0.0,
 ) -> tuple[int, int, list[dict[str, Any]]]:
     if max_concurrent < 1:
         raise ValueError("max_concurrent must be at least one")
@@ -326,6 +335,9 @@ def process_translations_detailed(
                 strict_schema=strict_schema,
                 limiter=limiter,
                 cancellation_event=cancellation_event,
+                fallback_models=fallback_models,
+                input_cost_per_million=input_cost_per_million,
+                output_cost_per_million=output_cost_per_million,
             )
             translated = translation.content
             if not translated.strip():
