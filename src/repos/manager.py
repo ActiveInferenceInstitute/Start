@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Callable, Dict, List, Optional, Tuple
 
 from .cloning import (
     CloneResult,
@@ -26,13 +26,13 @@ from .cloning import (
 class RepositoryManager:
     """High-level repository management interface."""
 
-    base_dir: Union[Path, str] = field(default_factory=lambda: Path("src/_clones"))
+    base_dir: Path = field(default_factory=lambda: Path("src/_clones"))
 
     def __post_init__(self):
         """Ensure base directory is absolute."""
-        # Normalize base_dir to Path
-        if isinstance(self.base_dir, str):
-            self.base_dir = Path(self.base_dir)
+        # Normalize base_dir to an absolute Path; str values are accepted from
+        # callers and normalized here so every method sees a real Path.
+        self.base_dir = Path(self.base_dir)
         # Ensure absolute path
         if not self.base_dir.is_absolute():
             from src.common.paths import repo_root
@@ -85,7 +85,7 @@ class RepositoryManager:
             Dictionary mapping categories to repo lists
         """
         predefined = get_predefined_repositories()
-        categories = {}
+        categories: Dict[str, List[str]] = {}
 
         for name, repo_info in predefined.items():
             category = repo_info.category
@@ -99,7 +99,7 @@ class RepositoryManager:
         self,
         repo_name: str,
         force: bool = False,
-        progress_callback: Optional[callable] = None,
+        progress_callback: Optional[Callable[..., Any]] = None,
     ) -> CloneResult:
         """Clone a single repository.
 
@@ -120,7 +120,7 @@ class RepositoryManager:
         self,
         repo_names: List[str],
         force: bool = False,
-        progress_callback: Optional[callable] = None,
+        progress_callback: Optional[Callable[..., Any]] = None,
     ) -> List[CloneResult]:
         """Clone multiple repositories.
 
@@ -140,7 +140,7 @@ class RepositoryManager:
         self,
         category: Optional[str] = None,
         force: bool = False,
-        progress_callback: Optional[callable] = None,
+        progress_callback: Optional[Callable[..., Any]] = None,
     ) -> List[CloneResult]:
         """Clone all repositories or all in a category.
 

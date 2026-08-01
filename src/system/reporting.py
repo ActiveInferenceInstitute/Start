@@ -211,7 +211,7 @@ def get_memory_info() -> Dict[str, float]:
         }
 
 
-def get_disk_usage(target_paths: List[str] = None) -> Dict[str, Dict[str, float]]:
+def get_disk_usage(target_paths: Optional[List[str]] = None) -> Dict[str, Dict[str, float]]:
     """Get disk usage information for specified paths.
 
     Args:
@@ -254,7 +254,7 @@ def get_network_info(timeout: float = 3.0, dns_host: str = "google.com") -> Dict
     if not dns_host.strip():
         raise ValueError("dns_host cannot be empty")
 
-    info = {
+    info: Dict[str, Any] = {
         "ip_addresses": [],
         "internet_connected": False,
         "dns_resolution": False,
@@ -295,7 +295,7 @@ def get_git_info() -> Dict[str, str]:
     Returns:
         Dictionary containing Git information
     """
-    info: Dict[str, str] = {}
+    info: Dict[str, Any] = {}
 
     try:
         root = paths.repo_root()
@@ -366,7 +366,7 @@ def get_git_info() -> Dict[str, str]:
             pass
 
     except Exception:
-        info = {"status": "Error accessing git information"}
+        info["status"] = "Error accessing git information"
 
     return info
 
@@ -377,7 +377,7 @@ def get_cpu_info() -> Dict[str, Any]:
     Returns:
         Dictionary containing CPU details
     """
-    info = {
+    info: Dict[str, Any] = {
         "logical_cores": os.cpu_count(),
         "load_average": [],
     }

@@ -727,7 +727,7 @@ def run_gui_server(
         raise ValueError("non-loopback binding requires an authentication token")
 
     class SecureGuiServer(ThreadingHTTPServer):
-        pass
+        auth_token: Optional[str] = None
 
     httpd = SecureGuiServer((host, port), _GuiHandler)
     httpd.auth_token = auth_token

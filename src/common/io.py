@@ -148,7 +148,7 @@ def write_text(file_path: os.PathLike | str, content: str) -> Path:
     return resolved
 
 
-def write_text_bundle(files: Mapping[os.PathLike | str, str]) -> list[Path]:
+def write_text_bundle(files: Mapping[Any, str]) -> list[Path]:
     """Publish several text files as one in-process transaction.
 
     All destinations are validated before any destination is replaced.  If a

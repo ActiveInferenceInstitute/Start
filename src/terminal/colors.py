@@ -7,6 +7,7 @@ including Matrix-style green effects and various styling options.
 from __future__ import annotations
 
 import os
+import sys
 from enum import Enum
 
 
@@ -65,9 +66,7 @@ def is_color_supported() -> bool:
     Returns:
         True if colors are supported, False otherwise
     """
-    return (
-        os.getenv("TERM") != "dumb" and hasattr(os.sys.stdout, "isatty") and os.sys.stdout.isatty()
-    )
+    return os.getenv("TERM") != "dumb" and hasattr(sys.stdout, "isatty") and sys.stdout.isatty()
 
 
 def colorize(text: str, color: Color | str, reset: bool = True) -> str:

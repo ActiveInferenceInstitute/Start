@@ -102,7 +102,7 @@ def _structure_diagram(records: list[dict[str, object]]) -> str:
     for index, record in enumerate(records, start=1):
         node = f"C{index}"
         entity = str(record["Entity"]).replace('"', "'")
-        sections = int(record["Sections"])
+        sections = int(str(record["Sections"]))
         lines.append(f'    START --> {node}["{entity}<br/>{sections} sections"]')
     return "\n".join(lines) + "\n"
 
@@ -121,7 +121,7 @@ def _metrics_chart(records: list[dict[str, object]], output_path: Path) -> None:
     if not records:
         raise ValueError("records cannot be empty")
     labels = [str(record["Entity"]) for record in records]
-    values = [int(record["Total Words"]) for record in records]
+    values = [int(str(record["Total Words"])) for record in records]
     figure, axis = plt.subplots(figsize=(max(6, len(labels) * 1.2), 4.5))
     axis.bar(labels, values, color="#3568a8")
     axis.set_title("Curriculum volume by target")

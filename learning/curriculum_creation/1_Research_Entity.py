@@ -12,7 +12,7 @@ Reads entity list from data/config/entities.yaml configuration file.
 
 import argparse
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 from src.common.config import load_config
 from src.common.logging_utils import setup_logging as common_setup_logging
@@ -54,7 +54,7 @@ def load_entities_config() -> Dict[str, Any]:
 
 
 def get_entities_to_process(
-    config: Dict[str, Any], priority_filter: str = None
+    config: Dict[str, Any], priority_filter: Optional[str] = None
 ) -> List[Dict[str, Any]]:
     """Get list of entities to process based on configuration.
 

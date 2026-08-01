@@ -15,7 +15,7 @@ import threading
 import time
 from dataclasses import dataclass
 from email.utils import parsedate_to_datetime
-from typing import Optional
+from typing import Any, Optional
 from urllib.parse import urlparse
 
 from openai import OpenAI
@@ -78,6 +78,7 @@ class ChatPolicy:
     """Execution policy shared by all provider calls."""
 
     model: str
+    fallback_models: tuple[str, ...] = ()
     timeout: float = 120.0
     max_retries: int = 3
     backoff_seconds: float = 1.0
@@ -92,6 +93,9 @@ class ChatPolicy:
     def __post_init__(self) -> None:
         if not isinstance(self.model, str) or not self.model.strip():
             raise ValueError("Model name cannot be empty")
+        for fallback in self.fallback_models:
+            if not isinstance(fallback, str) or not fallback.strip():
+                raise ValueError("fallback_models must contain non-empty model names")
         if not math.isfinite(self.timeout) or self.timeout <= 0:
             raise ValueError("timeout must be greater than zero")
         if self.max_retries < 1:
@@ -121,7 +125,7 @@ class ChatPolicy:
             raise ValueError("min_content_length must be positive")
 
 
-def validate_chat_response(response: object, *, min_content_length: int = 1) -> str:
+def validate_chat_response(response: Any, *, min_content_length: int = 1) -> str:
     """Extract and validate assistant text from an OpenAI-compatible response."""
     if min_content_length < 1:
         raise ValueError("min_content_length must be positive")
@@ -335,14 +339,30 @@ def _is_retryable_error(exc: Exception) -> bool:
     return any(token in name for token in ("timeout", "connection", "rate_limit"))
 
 
+# Published list-price estimates (USD per million tokens) for default models.
+# These are *estimates* provided so local telemetry is non-zero for the default
+# path; callers requiring exact spend should set ChatPolicy cost rates directly
+# or rely on the provider-reported actual cost. Unknown models default to 0.0,
+# reported as "no local rate configured" rather than a guessed price.
+_DEFAULT_COST_PER_MILLION: dict[str, tuple[float, float]] = {
+    "anthropic/claude-3.5-sonnet": (3.00, 15.00),
+}
+
+
+def _effective_cost_rates(policy: ChatPolicy) -> tuple[float, float]:
+    """Resolve explicit policy rates, falling back to known default-model rates."""
+    if policy.input_cost_per_million or policy.output_cost_per_million:
+        return policy.input_cost_per_million, policy.output_cost_per_million
+    return _DEFAULT_COST_PER_MILLION.get(policy.model, (0.0, 0.0))
+
+
 def _usage_from_response(response: object, policy: ChatPolicy) -> CompletionUsage:
     usage = getattr(response, "usage", None)
     prompt = int(getattr(usage, "prompt_tokens", 0) or 0)
     completion = int(getattr(usage, "completion_tokens", 0) or 0)
     total = int(getattr(usage, "total_tokens", prompt + completion) or 0)
-    cost = (
-        prompt * policy.input_cost_per_million + completion * policy.output_cost_per_million
-    ) / 1_000_000
+    input_rate, output_rate = _effective_cost_rates(policy)
+    cost = (prompt * input_rate + completion * output_rate) / 1_000_000
     provider_cost = getattr(usage, "cost", None)
     if provider_cost is None:
         provider_cost = getattr(usage, "total_cost", None)
@@ -377,65 +397,82 @@ def complete_chat_result(
         for message in messages
     ):
         raise ValueError("messages must contain non-empty role and content strings")
-    for attempt in range(policy.max_retries):
-        if cancellation_event is not None and cancellation_event.is_set():
-            raise ProviderRequestError("provider request cancelled", attempts=attempt)
-        try:
-            if limiter is None:
-                request = {"model": policy.model, "messages": messages, "timeout": policy.timeout}
-                if policy.response_format is not None:
-                    request["response_format"] = policy.response_format
-                response = client.chat.completions.create(**request)
-            else:
-                limiter.acquire(cancellation_event)
-                try:
-                    request = {
-                        "model": policy.model,
+    model_pool = (policy.model, *policy.fallback_models)
+    total_attempts = 0
+    last_error: Exception | None = None
+    last_retryable = False
+    for active_model in model_pool:
+        for attempt in range(policy.max_retries):
+            total_attempts += 1
+            if cancellation_event is not None and cancellation_event.is_set():
+                raise ProviderRequestError("provider request cancelled", attempts=total_attempts)
+            try:
+                if limiter is None:
+                    request: dict[str, Any] = {
+                        "model": active_model,
                         "messages": messages,
                         "timeout": policy.timeout,
                     }
                     if policy.response_format is not None:
                         request["response_format"] = policy.response_format
                     response = client.chat.completions.create(**request)
-                finally:
-                    limiter.release()
-            content = validate_chat_response(response, min_content_length=policy.min_content_length)
-            if _wait_with_cancellation(policy.delay_seconds, cancellation_event):
-                raise ProviderRequestError("provider request cancelled", attempts=attempt + 1)
-            return CompletionResult(
-                content=content,
-                model=policy.model,
-                provider=provider,
-                attempts=attempt + 1,
-                usage=_usage_from_response(response, policy),
-            )
-        except Exception as exc:
-            if isinstance(exc, ProviderRequestError):
-                raise
-            retryable = _is_retryable_error(exc)
-            if not retryable or attempt + 1 >= policy.max_retries:
-                raise ProviderRequestError(
-                    "Chat completion failed after "
-                    f"{attempt + 1} attempt(s): {_safe_provider_error(exc)}",
-                    retryable=retryable,
-                    attempts=attempt + 1,
-                ) from exc
-            retry_after = _retry_after_seconds(exc)
-            delay = (
-                retry_after if retry_after is not None else policy.backoff_seconds * (2**attempt)
-            )
-            # Apply jitter before capping so the configured bound is respected.
-            if policy.jitter_seconds:
-                delay += random.uniform(0.0, policy.jitter_seconds)
-            delay = min(policy.max_backoff_seconds, delay)
-            if _wait_with_cancellation(delay, cancellation_event):
-                raise ProviderRequestError(
-                    "provider request cancelled", attempts=attempt + 1
-                ) from exc
-    # The retry loop always returns on success or raises on exhaustion, so no
-    # statement is reachable after it.  This satisfies the type checker that the
-    # function cannot fall through without a return value.
-    raise AssertionError("unreachable: retry loop must return or raise")
+                else:
+                    limiter.acquire(cancellation_event)
+                    try:
+                        request2: dict[str, Any] = {
+                            "model": active_model,
+                            "messages": messages,
+                            "timeout": policy.timeout,
+                        }
+                        if policy.response_format is not None:
+                            request2["response_format"] = policy.response_format
+                        response = client.chat.completions.create(**request2)
+                    finally:
+                        limiter.release()
+                content = validate_chat_response(
+                    response, min_content_length=policy.min_content_length
+                )
+                if _wait_with_cancellation(policy.delay_seconds, cancellation_event):
+                    raise ProviderRequestError(
+                        "provider request cancelled", attempts=total_attempts
+                    )
+                return CompletionResult(
+                    content=content,
+                    model=active_model,
+                    provider=provider,
+                    attempts=total_attempts,
+                    usage=_usage_from_response(response, policy),
+                )
+            except Exception as exc:
+                if isinstance(exc, ProviderRequestError):
+                    raise
+                retryable = _is_retryable_error(exc)
+                last_error = exc
+                last_retryable = retryable
+                if not retryable or attempt + 1 >= policy.max_retries:
+                    # Give up on this model; fall back to the next one if any.
+                    break
+                retry_after = _retry_after_seconds(exc)
+                delay = (
+                    retry_after
+                    if retry_after is not None
+                    else policy.backoff_seconds * (2**attempt)
+                )
+                # Apply jitter before capping so the configured bound is respected.
+                if policy.jitter_seconds:
+                    delay += random.uniform(0.0, policy.jitter_seconds)
+                delay = min(policy.max_backoff_seconds, delay)
+                if _wait_with_cancellation(delay, cancellation_event):
+                    raise ProviderRequestError(
+                        "provider request cancelled", attempts=total_attempts
+                    ) from exc
+    raise ProviderRequestError(
+        "Chat completion failed after "
+        f"{total_attempts} attempt(s) across {len(model_pool)} model(s): "
+        f"{_safe_provider_error(last_error) if last_error else 'unknown error'}",
+        retryable=last_retryable,
+        attempts=total_attempts,
+    ) from last_error
 
 
 class ProviderAdapter:

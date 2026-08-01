@@ -16,7 +16,7 @@ import uuid
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Callable, Dict, List, Optional, Tuple
 from urllib.parse import urlparse
 
 import src.common.paths as paths
@@ -259,7 +259,7 @@ def clone_repository(
     repo_info: RepoInfo,
     destination: Optional[Path] = None,
     force: bool = False,
-    progress_callback: Optional[callable] = None,
+    progress_callback: Optional[Callable[..., Any]] = None,
     base_dir: Optional[Path] = None,
     allow_unsafe_sources: bool = False,
 ) -> CloneResult:
@@ -440,7 +440,7 @@ def clone_multiple_repositories(
     repo_names: List[str],
     force: bool = False,
     max_concurrent: int = 3,
-    progress_callback: Optional[callable] = None,
+    progress_callback: Optional[Callable[..., Any]] = None,
     base_dir: Optional[Path] = None,
     allow_unsafe_sources: bool = False,
 ) -> List[CloneResult]:
@@ -479,7 +479,7 @@ def clone_multiple_repositories(
 def clone_all_repositories(
     category: Optional[str] = None,
     force: bool = False,
-    progress_callback: Optional[callable] = None,
+    progress_callback: Optional[Callable[..., Any]] = None,
     max_concurrent: int = 3,
     base_dir: Optional[Path] = None,
     allow_unsafe_sources: bool = False,
@@ -605,7 +605,7 @@ def get_repository_status(repo_path: Path) -> Dict[str, Any]:
     Returns:
         Dictionary with repository status information
     """
-    status = {
+    status: Dict[str, Any] = {
         "name": repo_path.name,
         "path": str(repo_path),
         "exists": repo_path.exists(),

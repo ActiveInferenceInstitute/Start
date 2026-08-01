@@ -4,7 +4,7 @@ import argparse
 import shutil
 import sys
 from pathlib import Path
-from typing import Optional
+from typing import Any, Optional
 
 from git import Repo
 
@@ -43,7 +43,7 @@ def clone_repository(
     destination = _validate_destination(destination)
     destination.parent.mkdir(parents=True, exist_ok=True)
     created_by_call = not destination.exists()
-    clone_kwargs = {}
+    clone_kwargs: dict[str, Any] = {}
     if branch:
         clone_kwargs["branch"] = branch
     if shallow:

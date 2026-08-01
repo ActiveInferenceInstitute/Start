@@ -19,7 +19,7 @@ from openai import OpenAI
 
 from src.common.io import next_available_bundle, read_text, write_text_bundle
 from src.common.paths import data_domain_research_dir
-from src.common.prompts import render_prompt
+from src.common.prompts import as_data_block, render_prompt
 from src.config.schemas import stable_identifier
 from src.perplexity.clients import (
     ChatPolicy,
@@ -179,7 +179,9 @@ def analyze_domain(
         fep_actinf_data = fep_actinf_input
 
     # Analysis
-    analysis_prompt = render_prompt("research_domain_analysis", {"domain_content": domain_content})
+    analysis_prompt = render_prompt(
+        "research_domain_analysis", {"domain_content": as_data_block(domain_content)}
+    )
     start = time.time()
     analysis_response = chat_result(
         client,
@@ -203,7 +205,7 @@ def analyze_domain(
     # Curriculum
     curriculum_prompt = render_prompt(
         "research_domain_curriculum",
-        {"domain_analysis": domain_analysis, "fep_actinf_data": fep_actinf_data},
+        {"domain_analysis": domain_analysis, "fep_actinf_data": as_data_block(fep_actinf_data)},
     )
     curriculum_response = chat_result(
         client,

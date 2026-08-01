@@ -58,49 +58,58 @@ work that remains after the deepest red-team review and hardening pass
 
 ## Major — Scoped (deferred) — validated but intentionally NOT implemented
 
-These are the MAJOR findings from the deep hostile review. Implementation is a
-deliberate, reviewed decision; items here remain open and are not auto-applied.
+- [ ] **MAJOR (quality): mypy is now clean as of 2026-08-01** — `uv run mypy src
+  scripts learning` reports 0 errors after the comprehensive typing pass
+  (annotated orchestrator `self.results`, repos/system/learning annotations,
+  API typing fixes). Keep mypy in CI to prevent regressions; add it to the
+  workflow gate.
 
-- [ ] **MAJOR (quality): mypy is not fully clean.**
-  `uv run mypy src scripts learning` still reports a large number of errors
-  across ~17 files (e.g. `no_implicit_optional` in learning scripts, `Any | None`
-  assignments in `src/system/environment.py`, `base_dir: Path | str` union errors
-  in `src/repos/manager.py`, unannotated locals). Conflicts with the
-  `require_types_for_public_functions` rule in `.cursorrules`. Not the CI gate,
-  but must be resolved before release. Fix: correct the easy
-  `no_implicit_optional` cases first, then the remaining annotations, and add
-  mypy to CI. (A full clean was deliberately not rushed in the 2026-08-01 pass to
-  avoid introducing regressions ahead of a release-label push.)
+### Documented deferrals (validated but deliberately NOT modified this pass)
 
-### Documented deferrals (validated but deliberately not modified this pass)
+These were validated and intentionally left unchanged after a review decision;
+they are documented here so the reasoning is not lost.
 
-The following non-Major items were validated but intentionally left for an
-explicit human decision (they trade risk against correctness and should be
-decided on before release, not auto-applied):
-
-- `src/perplexity/clients.py` `estimated_cost_usd` is computed correctly but is
-  always `0.0` because no caller sets `input/output_cost_per_million`. Wiring a
-  default per-model pricing table risks shipping stale/fabricated prices; the
-  computation is now pinned by a test.
-- No model-fallback list exists in `src/perplexity/clients.py`; a model-level
-  error hard-fails the pipeline. Adding a fallback list is a feature change.
-- Research prompts embed untrusted domain/entity/FEP file content unsanitized
-  (`src/perplexity/domain.py:182`, `entity.py:166`, `curriculum.py:441`); a
-  hostile source file could steer the model. Requires delimiters + a
-  data-not-instruction directive.
-- `src/perplexity/curriculum.py:439-504` discards the whole curriculum when one
-  section fails; saving partial sections + a failure manifest needs an
-  orchestration change.
-- `learning/curriculum_creation/3_Introduction_Visualizations.py` retains
-  ~600 lines of legacy chart logic bypassed by the canonical `src/visualization`
-  path; deleting is large and needs a dedicated pass.
-- `src/common/io.py` `read_text`/`read_json` reject only a symlinked *target*
-  (not symlinked parents) to stay compatible with symlinked installs.
+- **Curriculum generation is deliberately transactional (all-or-nothing).**
+  `src/perplexity/curriculum.py` raises without writing any output when any
+  section fails, so an incomplete curriculum is never mistaken for a complete
+  one. This is pinned by `test_core_hardening.py::test_curriculum_generation_`
+  `_is_transactional`. The earlier "preserve partial sections" suggestion was
+  evaluated and REJECTED because it contradicts this intentional, tested
+  guarantee.
+- **Read-side symlink hardening is target-only.** `src/common/io.py`
+  `read_text`/`read_json` reject a symlinked *target* file but intentionally
+  allow symlinked *parents*, because the repository is documented to run under
+  symlinked install/clone paths (monorepo workspaces); rejecting parent
+  symlinks would break those legitimate installs. Writes still reject both.
 - `src/perplexity/entity.py` `extract_entity_description` falls back to the
-  full input when no `Description:` line exists; existing tests pin this
-  behavior, so it is retained deliberately.
+  full input when no `Description:` line exists; existing tests pin this.
+- Provider cost rates: `_DEFAULT_COST_PER_MILLION` provides documented
+  list-price estimates for known default models (currently
+  `anthropic/claude-3.5-sonnet` $3/$15); unknown models honestly report 0.0.
+  Exact spend should come from provider-reported actual cost or explicit
+  `ChatPolicy` rates.
 
-## Completed / Closed (2026-08-01 hardening pass)
+## Completed / Closed (2026-08-01 comprehensive pass)
+
+Implemented and verified (pytest, ruff, black, mypy all green) during the
+comprehensive pass. This adds to the earlier red-team hardening:
+
+- **mypy fully clean**: 0 errors across `src`, `scripts`, and `learning`
+  (was ~150). Fixed the untyped orchestrator `self.results`, `Optional`-style
+  issues, API/typing inference across repos/system/learning/scripts.
+- **Model fallback** (`src/perplexity/clients.py`): `ChatPolicy.fallback_models`
+  — on a model-level failure the client tries the next model before giving up;
+  attempts are reported across the pool. Covered by a test.
+- **Cost estimation wired** (`src/perplexity/clients.py`): documented
+  default-cost lookup so the default OpenRouter path reports a non-zero
+  estimated cost; explicit rates still win; unknown models stay honestly 0.
+- **Prompt-injection data framing** (`src/common/prompts.py` + domain/entity/
+  curriculum): untrusted research/entity/foundation content is wrapped in an
+  explicit "treat strictly as data" boundary before reaching the model.
+- **Legacy `3_Introduction_Visualizations.py`** reduced from ~725 lines of dead
+  chart logic to a thin delegator to the canonical `src/visualization` runner.
+- All earlier red-team fixes (StageResult partial-failure, skip_existing
+  freshness, post-clone git hardening, schema/io/repos/GUI/system hardening).
 
 Implemented and verified (pytest, ruff, black all green; no new mypy errors)
 during the deep red-team pass. These are removed from the active backlog:

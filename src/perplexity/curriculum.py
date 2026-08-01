@@ -26,7 +26,7 @@ from src.common.io import (
     write_text_bundle,
 )
 from src.common.paths import data_written_curriculums_dir
-from src.common.prompts import render_prompt
+from src.common.prompts import as_data_block, render_prompt
 from src.config.schemas import stable_identifier
 from src.perplexity.clients import ChatPolicy, CompletionResult, ProviderAdapter, RequestLimiter
 from src.pipeline import (
@@ -97,7 +97,7 @@ def validate_curriculum_content(content: str, min_word_count: int = 100) -> Dict
     Returns:
         Dictionary with validation results
     """
-    validation = {"valid": True, "errors": [], "warnings": [], "metrics": {}}
+    validation: Dict[str, Any] = {"valid": True, "errors": [], "warnings": [], "metrics": {}}
 
     if not content or not content.strip():
         validation["valid"] = False
@@ -317,21 +317,14 @@ def save_complete_curriculum(
         )
         + "\n"
     )
-    write_text_bundle(
-        {
-            **{
-                md_path: _concatenate_sections_with_metadata(
-                    str(entity_dir), sections, stored_metadata
-                ),
-                json_path: json_content,
-            },
-            **(
-                _intermediate_section_files(entity_dir, sections, timestamp)
-                if save_intermediate_results
-                else {}
-            ),
-        }
-    )
+    bundle: dict[Path, str] = {
+        md_path: _concatenate_sections_with_metadata(str(entity_dir), sections, stored_metadata),
+        json_path: json_content,
+    }
+    if save_intermediate_results:
+        for key, value in _intermediate_section_files(entity_dir, sections, timestamp).items():
+            bundle[key] = value
+    write_text_bundle(bundle)
     return md_path
 
 
@@ -443,8 +436,8 @@ def process_research_file(
                     {
                         "section_name": section_name,
                         "entity_name": entity_name,
-                        "section_content": content,
-                        "fep_actinf_data": fep_actinf_data,
+                        "section_content": as_data_block(content),
+                        "fep_actinf_data": as_data_block(fep_actinf_data),
                     },
                 )
                 response = chat_result(
@@ -498,6 +491,8 @@ def process_research_file(
                 failures.append(f"{section_name}: {exc}")
 
         if failures:
+            # Transactional by design: a failed generation writes no output so
+            # an incomplete curriculum is never mistaken for a complete one.
             raise RuntimeError(
                 f"Curriculum generation failed for {entity_name}; no partial output written: "
                 + "; ".join(failures)

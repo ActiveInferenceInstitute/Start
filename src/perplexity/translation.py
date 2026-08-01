@@ -156,7 +156,10 @@ def translate_curriculum_result(
         structured = (
             parse_structured_response(response.content, "translation") if strict_schema else None
         )
-        if structured and structured.target_language.casefold() != target_language.casefold():
+        if (
+            structured
+            and (structured.target_language or "").casefold() != target_language.casefold()
+        ):
             raise ValueError(
                 "translation provider payload target_language does not match requested language"
             )

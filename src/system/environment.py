@@ -224,7 +224,7 @@ def get_environment_info() -> Dict[str, Any]:
     Returns:
         Dictionary containing environment details
     """
-    info = {}
+    info: Dict[str, Any] = {}
 
     # Python environment
     info["python_version"] = (
@@ -423,7 +423,7 @@ def run_health_check() -> Tuple[bool, Dict[str, Any]]:
     Returns:
         Tuple of (overall_healthy, detailed_results)
     """
-    results = {
+    results: Dict[str, Any] = {
         "python_environment": {},
         "dependencies": {},
         "configuration": {},

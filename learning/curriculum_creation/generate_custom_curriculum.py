@@ -305,7 +305,7 @@ class CurriculumOrchestrator:
         """
         self.config = config
         self.logger = common_setup_logging()
-        self.results = {
+        self.results: dict[str, Any] = {
             "domain_research": {"success": 0, "failed": 0, "skipped": 0, "items": []},
             "entity_research": {"success": 0, "failed": 0, "skipped": 0, "items": []},
             "curriculum_generation": {"success": 0, "failed": 0, "items": []},
@@ -496,7 +496,7 @@ class CurriculumOrchestrator:
             for status, message, details in outcomes:
                 self.results["domain_research"][status] += 1
                 item_id = message.split(":", 1)[0] if status == "failed" else message
-                item = {"item_id": item_id, "status": status}
+                item: dict[str, Any] = {"item_id": item_id, "status": status}
                 if details is not None:
                     item.update(
                         {
@@ -626,7 +626,7 @@ class CurriculumOrchestrator:
             for status, message, details in outcomes:
                 self.results["entity_research"][status] += 1
                 item_id = message.split(":", 1)[0] if status == "failed" else message
-                item = {"item_id": item_id, "status": status}
+                item: dict[str, Any] = {"item_id": item_id, "status": status}
                 if details is not None:
                     item.update(
                         {
@@ -914,7 +914,7 @@ professionals in this field.
                 artifact_hashes = dict(raw_item.get("artifact_hashes", {}))
                 if not artifact_hashes:
                     artifact_hashes = {
-                        path: sha256_file(path)
+                        path: sha256_file(Path(path))
                         for path in output_paths
                         if Path(path).is_file() and not Path(path).is_symlink()
                     }
@@ -940,7 +940,7 @@ professionals in this field.
                 "success": StageStatus.SUCCEEDED,
                 "skipped": StageStatus.SKIPPED,
                 "failed": StageStatus.FAILED,
-            }.get(str(status), status)
+            }.get(str(status), status) or StageStatus.FAILED
             errors = item_errors or (
                 [] if status_value != StageStatus.FAILED else [message or "item failed"]
             )

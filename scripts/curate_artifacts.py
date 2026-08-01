@@ -19,6 +19,7 @@ from src.pipeline.artifacts import sha256_file
 
 def _load_keep(path: Path) -> set[str]:
     payload = json.loads(path.read_text(encoding="utf-8"))
+    values: Any
     if isinstance(payload, list):
         values = payload
     elif isinstance(payload, dict):
