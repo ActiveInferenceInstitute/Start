@@ -32,9 +32,11 @@ def repo_root() -> Path:
 
 
 def ensure_dir(path: os.PathLike | str) -> Path:
-    p = Path(path)
-    p.mkdir(parents=True, exist_ok=True)
-    return p.resolve()
+    # Reuse the hardened, symlink-aware implementation so there is a single
+    # source of truth for directory creation guarantees.
+    from src.common.io import ensure_directory
+
+    return ensure_directory(path)
 
 
 # Data directories (outputs)

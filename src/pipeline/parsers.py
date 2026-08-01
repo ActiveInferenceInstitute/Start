@@ -80,11 +80,21 @@ def parse_curriculum_response(content: str) -> CurriculumResponse:
     quality = validate_generated_text(content, min_words=1, require_sections=True)
     sections: dict[str, str] = {}
     current: str | None = None
+    in_fence = False
     for line in (content or "").splitlines():
+        if line.lstrip().startswith("```"):
+            in_fence = not in_fence
+            continue
+        if in_fence:
+            continue
         match = re.match(r"^#{1,6}\s+(.+?)\s*$", line)
         if match:
-            current = match.group(1)
-            sections.setdefault(current, "")
+            name = match.group(1).strip()
+            if name in sections:
+                quality.warnings.append(f"curriculum contains duplicate section heading: {name}")
+            else:
+                sections.setdefault(name, "")
+            current = name
         elif current is not None:
             sections[current] += line + "\n"
     sections = {name: text.strip() for name, text in sections.items() if text.strip()}

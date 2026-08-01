@@ -274,7 +274,6 @@ def check_project_files() -> List[DependencyCheck]:
         "uv.lock",
         "README.md",
         "src/__init__.py",
-        "data/domain_research/Synthetic_FEP-ActInf.md",
     ]
 
     for file_path in required_files:
@@ -288,6 +287,21 @@ def check_project_files() -> List[DependencyCheck]:
             check.error_message = f"Required file not found: {full_path}"
 
         checks.append(check)
+
+    # A generated synthetic-foundation artifact is content, not a runtime
+    # dependency; its absence must not fail an environment/dependency report.
+    synthetic = root / "data/domain_research/Synthetic_FEP-ActInf.md"
+    content_check = DependencyCheck(
+        name="data/domain_research/Synthetic_FEP-ActInf.md",
+        required=False,
+        available=False,
+    )
+    if synthetic.exists():
+        content_check.available = True
+        content_check.version = f"Size: {synthetic.stat().st_size} bytes"
+    else:
+        content_check.error_message = "Synthetic foundation artifact not present"
+    checks.append(content_check)
 
     return checks
 

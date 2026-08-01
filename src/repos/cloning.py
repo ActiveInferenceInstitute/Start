@@ -6,6 +6,7 @@ with progress tracking, error handling, and management features.
 
 from __future__ import annotations
 
+import os
 import re
 import shutil
 import subprocess
@@ -20,6 +21,64 @@ from urllib.parse import urlparse
 
 import src.common.paths as paths
 from src.common.io import path_within
+
+
+def _redact_credentials(value: object) -> str:
+    """Strip userinfo credentials from URLs that appear in error/progress text."""
+    text = str(value)
+
+    def _replace(match: re.Match[str]) -> str:
+        return f"{match.group('scheme')}//{match.group('host')}"
+
+    return re.sub(
+        r"(?P<scheme>[a-z][a-z0-9+.-]*://)(?P<userinfo>[^/@\s]+@)(?P<host>[^/\s]+)",
+        _replace,
+        text,
+        flags=re.IGNORECASE,
+    )
+
+
+_GIT_UNSAFE_CONFIG = re.compile(
+    r"\bhookspath\s*=|^\s*fsmonitor\s*=|insteadOf\s*=|" r"^\s*\[\s*filter\b|^\s*\[\s*url\b",
+    re.IGNORECASE | re.MULTILINE,
+)
+
+
+def _git_safe_env() -> dict[str, str]:
+    """Environment for git commands run inside potentially-untrusted trees."""
+    env = dict(os.environ)
+    env["GIT_CONFIG_NOSYSTEM"] = "1"
+    env["GIT_CONFIG_GLOBAL"] = "/dev/null"
+    env["GIT_TERMINAL_PROMPT"] = "0"
+    return env
+
+
+def _git_safe_command(*args: str) -> list[str]:
+    """Git command that disables committed hooks and optional locking."""
+    return [
+        "git",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "--no-optional-locks",
+        *args,
+    ]
+
+
+def _unsafe_repo_config_message(repo_path: Path) -> str | None:
+    """Return a refusal reason when a clone's .git/config is unsafe to run."""
+    config_path = repo_path / ".git" / "config"
+    if not config_path.is_file() or config_path.is_symlink():
+        return "repository .git/config missing or is a symlink"
+    try:
+        content = config_path.read_text(encoding="utf-8", errors="replace")
+    except OSError as exc:
+        return f"repository .git/config unreadable: {exc}"
+    if _GIT_UNSAFE_CONFIG.search(content):
+        return (
+            "repository .git/config enables hooks, filters, fsmonitor, or url rewrites; "
+            "refusing to run git inside this tree"
+        )
+    return None
 
 
 @dataclass
@@ -283,6 +342,11 @@ def clone_repository(
         # Build git clone command
         cmd = ["git", "clone"]
 
+        if repo_info.branch and (
+            repo_info.branch.startswith("-") or any(char in repo_info.branch for char in "\r\n\x00")
+        ):
+            raise ValueError(f"Unsafe branch name: {repo_info.branch!r}")
+
         if repo_info.shallow:
             cmd.extend(["--depth", "1", "--single-branch"])
 
@@ -336,7 +400,7 @@ def clone_repository(
             if progress_callback:
                 progress_callback(f"✅ Successfully cloned {repo_info.name}")
         else:
-            result.error_message = f"Git clone failed: {process.stderr}"
+            result.error_message = _redact_credentials(f"Git clone failed: {process.stderr}")
             if progress_callback:
                 progress_callback(f"❌ Failed to clone {repo_info.name}")
 
@@ -346,9 +410,9 @@ def clone_repository(
             progress_callback(f"⏰ Clone timed out: {repo_info.name}")
 
     except Exception as e:
-        result.error_message = str(e)
+        result.error_message = _redact_credentials(str(e))
         if progress_callback:
-            progress_callback(f"❌ Error cloning {repo_info.name}: {e}")
+            progress_callback(f"❌ Error cloning {repo_info.name}: {_redact_credentials(e)}")
 
     if staging is not None and staging.exists():
         try:
@@ -481,11 +545,16 @@ def update_repository(repo_path: Path) -> Tuple[bool, str]:
     if not (repo_path / ".git").exists():
         return False, "Not a git repository"
 
+    unsafe = _unsafe_repo_config_message(repo_path)
+    if unsafe:
+        return False, unsafe
+
     try:
         # Check current branch
         result = subprocess.run(
-            ["git", "branch", "--show-current"],
+            _git_safe_command("branch", "--show-current"),
             cwd=repo_path,
+            env=_git_safe_env(),
             capture_output=True,
             text=True,
             timeout=10,
@@ -498,24 +567,33 @@ def update_repository(repo_path: Path) -> Tuple[bool, str]:
         if not current_branch:
             return False, "Repository is detached; refusing to select an update branch"
 
-        # Pull latest changes
-        result = subprocess.run(
-            ["git", "pull", "--ff-only", "origin", current_branch],
+        # Fetch + fast-forward instead of pull so no repo-committed hook can run.
+        fetch = subprocess.run(
+            _git_safe_command("fetch", "--force", "--quiet", "origin", current_branch),
             cwd=repo_path,
+            env=_git_safe_env(),
             capture_output=True,
             text=True,
             timeout=60,
         )
-
-        if result.returncode == 0:
+        if fetch.returncode != 0:
+            return False, _redact_credentials(f"Failed to update: {fetch.stderr}")
+        merge = subprocess.run(
+            _git_safe_command("merge", "--ff-only", f"origin/{current_branch}"),
+            cwd=repo_path,
+            env=_git_safe_env(),
+            capture_output=True,
+            text=True,
+            timeout=60,
+        )
+        if merge.returncode == 0:
             return True, f"Successfully updated {repo_path.name}"
-        else:
-            return False, f"Failed to update: {result.stderr}"
+        return False, _redact_credentials(f"Failed to update: {merge.stderr}")
 
     except subprocess.TimeoutExpired:
         return False, "Update operation timed out"
     except Exception as e:
-        return False, str(e)
+        return False, _redact_credentials(str(e))
 
 
 def get_repository_status(repo_path: Path) -> Dict[str, Any]:
@@ -552,11 +630,17 @@ def get_repository_status(repo_path: Path) -> Dict[str, Any]:
 
     status["is_git_repo"] = True
 
+    unsafe = _unsafe_repo_config_message(repo_path)
+    if unsafe:
+        status["errors"].append(unsafe)
+        return status
+
     try:
         # Get current branch
         result = subprocess.run(
-            ["git", "branch", "--show-current"],
+            _git_safe_command("branch", "--show-current"),
             cwd=repo_path,
+            env=_git_safe_env(),
             capture_output=True,
             text=True,
             timeout=5,
@@ -569,8 +653,9 @@ def get_repository_status(repo_path: Path) -> Dict[str, Any]:
     try:
         # Get last commit
         result = subprocess.run(
-            ["git", "log", "-1", "--format=%H %s %ad", "--date=short"],
+            _git_safe_command("log", "-1", "--format=%H %s %ad", "--date=short"),
             cwd=repo_path,
+            env=_git_safe_env(),
             capture_output=True,
             text=True,
             timeout=5,
@@ -583,8 +668,9 @@ def get_repository_status(repo_path: Path) -> Dict[str, Any]:
     try:
         # Check for uncommitted changes
         result = subprocess.run(
-            ["git", "status", "--porcelain"],
+            _git_safe_command("status", "--porcelain"),
             cwd=repo_path,
+            env=_git_safe_env(),
             capture_output=True,
             text=True,
             timeout=5,
@@ -619,13 +705,20 @@ def cleanup_failed_clones(base_dir: Optional[Path] = None) -> List[str]:
 
     for item in clones_dir.iterdir():
         if item.is_dir() and not item.is_symlink():
-            # Check if it's a proper git repository
-            if not Path.exists(item / ".git"):
-                try:
-                    shutil.rmtree(item)
-                    cleaned.append(item.name)
-                except OSError:
-                    continue
+            # Only remove directories we can identify as our own staging
+            # leftovers or that are completely empty.  A non-empty, non-git
+            # directory may be user data and is never auto-deleted.
+            if Path.exists(item / ".git"):
+                continue
+            is_staging = item.name.startswith(".") and "clone-" in item.name
+            is_empty = not any(item.iterdir())
+            if not (is_staging or is_empty):
+                continue
+            try:
+                shutil.rmtree(item)
+                cleaned.append(item.name)
+            except OSError:
+                continue
 
     return cleaned
 

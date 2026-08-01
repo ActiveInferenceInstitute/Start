@@ -398,7 +398,7 @@ class PipelineRunner:
             if existing.get("status") == "succeeded" and not self.manifest.errors and not rebuild:
                 result = PipelineResult(
                     stages=list(results.values()),
-                    duration_seconds=0.0,
+                    duration_seconds=time.monotonic() - started,
                     run_id=self.config.run_id,
                     manifest_path=str(self.manifest_path),
                     usage=dict(self.manifest.usage),
@@ -480,6 +480,19 @@ class PipelineRunner:
             write_stage_checkpoint(self.run_dir, spec.name, stage.as_dict())
             self._persist(result)
             if not continue_independent and not stage.ok:
+                # Record every not-yet-run stage so the final status reflects
+                # work that was skipped by the early stop, instead of silently
+                # omitting required stages from the manifest.
+                for remaining in self._ordered_specs():
+                    if remaining.name in results:
+                        continue
+                    results[remaining.name] = StageResult(
+                        name=remaining.name,
+                        status=(StageStatus.BLOCKED if remaining.required else StageStatus.SKIPPED),
+                        required=remaining.required,
+                        dependencies=list(remaining.depends_on),
+                        errors=["stage not run: earlier required stage failed"],
+                    )
                 break
 
         result = PipelineResult(

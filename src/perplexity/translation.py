@@ -255,6 +255,27 @@ def process_translations_detailed(
     curriculum_files = sorted(Path(curriculum_dir).glob("*/complete_curriculum_*.md"))
     jobs: list[tuple[str, str, str]] = []
     skipped_items: list[dict[str, Any]] = []
+
+    def translation_fresh(existing: list[Path], current_hash: str) -> bool:
+        """True when an existing translation provably matches the source hash.
+
+        Legacy files without a recorded source_sha256 are treated as fresh so
+        skip_existing does not force a full re-translation, but a verifiable
+        mismatch (source changed after the translation was made) is never
+        silently reused.
+        """
+        for path in existing:
+            try:
+                prefix = path.read_text(encoding="utf-8")[:4000]
+            except OSError:
+                continue
+            for line in prefix.splitlines():
+                if line.startswith("source_sha256:"):
+                    recorded = line.split(":", 1)[1].strip()
+                    if recorded:
+                        return recorded == current_hash
+        return True
+
     for curr_file in curriculum_files:
         entity_name = curr_file.parent.name
         content = read_text(curr_file)
@@ -269,14 +290,15 @@ def process_translations_detailed(
                 if lang_dir.exists()
                 else []
             )
-            if existing and skip_existing:
+            source_hash = input_record(content, label="source")["sha256"]
+            if existing and skip_existing and translation_fresh(existing, source_hash):
                 skipped_items.append(
                     {
                         "item_id": f"{normalized_entity}:{normalized_language}",
                         "status": "skipped",
                         "output_paths": [str(path) for path in existing],
                         "provenance": {"mode": "existing_output"},
-                        "input_hashes": {"source": input_record(content, label="source")["sha256"]},
+                        "input_hashes": {"source": source_hash},
                     }
                 )
                 continue
@@ -356,7 +378,11 @@ def process_translations_detailed(
                 }
             )
         elif not success:
-            item["errors"] = [message.split(":", 1)[1].strip()]
+            # The failure message is "{entity}/{language}: {detail}"; strip the
+            # prefix when present but never assume a colon exists.
+            item["errors"] = [
+                message.split(":", 1)[1].strip() if ":" in message else message.strip()
+            ]
         items.append(item)
     return (
         sum(outcome[0] for outcome in outcomes),

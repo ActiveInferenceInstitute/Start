@@ -43,6 +43,18 @@ def _reject_symlink_components(path: Path) -> None:
             raise ValueError(f"Refusing to write through symlink parent: {parent}")
 
 
+def _reject_symlink_target(path: Path) -> None:
+    """Reject reading a file that is itself a symlink.
+
+    Parent symlinks are deliberately allowed so the repository can live under
+    a symlinked install location, but the final target must be a real file so
+    an attacker-supplied symlink cannot redirect a config/env/prompt read.
+    """
+
+    if path.is_symlink():
+        raise ValueError(f"Refusing to read through symlink: {path}")
+
+
 def next_available_path(path: os.PathLike | str) -> Path:
     """Choose a collision-safe path without overwriting an existing artifact."""
     candidate = Path(path).expanduser()
@@ -103,6 +115,7 @@ def ensure_directory(directory: os.PathLike | str) -> Path:
 
 def read_text(file_path: os.PathLike | str) -> str:
     path = Path(file_path).expanduser()
+    _reject_symlink_target(path)
     with open(path, "r", encoding="utf-8") as handle:
         return handle.read()
 
@@ -192,6 +205,7 @@ def write_text_bundle(files: Mapping[os.PathLike | str, str]) -> list[Path]:
 
 def read_json(file_path: os.PathLike | str) -> Any:
     path = Path(file_path).expanduser()
+    _reject_symlink_target(path)
     with open(path, "r", encoding="utf-8") as handle:
         return json.load(handle)
 
@@ -213,10 +227,23 @@ def list_files(
         return sorted(p for p in base.iterdir() if p.is_file())
     results: list[Path] = []
     for pattern in patterns:
+        pattern_path = Path(pattern).expanduser()
+        # Reject patterns that could traverse above the base directory.
+        if pattern_path.is_absolute() or any(part == ".." for part in pattern_path.parts):
+            continue
         results.extend(base.glob(pattern))
-    # unique and sorted
-    unique_sorted = sorted({p.resolve() for p in results if p.is_file()})
-    return unique_sorted
+    # Keep unique, sorted, and confined to the base directory.
+    confined: list[Path] = []
+    for result in results:
+        if not result.is_file():
+            continue
+        try:
+            resolved = result.resolve()
+            resolved.relative_to(base)
+        except (ValueError, OSError):
+            continue
+        confined.append(resolved)
+    return sorted(set(confined))
 
 
 def load_key_from_file(key_file_path: os.PathLike | str, key_name: str) -> str:
@@ -225,11 +252,19 @@ def load_key_from_file(key_file_path: os.PathLike | str, key_name: str) -> str:
         raise FileNotFoundError(f"Key file not found: {path}")
     with open(path, "r", encoding="utf-8") as handle:
         lines = [line.strip() for line in handle if line.strip()]
-    key_pairs = dict(pair.split("=", 1) for pair in lines if "=" in pair)
-    value = key_pairs.get(key_name)
-    if not value:
+    # Keep the first occurrence of a repeated key and distinguish a present
+    # (possibly empty) value from an absent key.
+    key_pairs: dict[str, str] = {}
+    for line in lines:
+        if "=" not in line:
+            continue
+        key, _, value = line.partition("=")
+        key = key.strip()
+        if key and key not in key_pairs:
+            key_pairs[key] = value.strip()
+    if key_name not in key_pairs:
         raise ValueError(f"{key_name} not found in {path}")
-    return value
+    return key_pairs[key_name]
 
 
 def list_domain_markdown_files(

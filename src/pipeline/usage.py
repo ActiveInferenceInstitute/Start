@@ -54,7 +54,9 @@ def normalize_usage(value: Mapping[str, Any] | None) -> dict[str, float | int]:
     # separate so a preflight estimate cannot be mistaken for spend.
     result["actual_cost_usd"] = _number(value.get("actual_cost_usd"))
     result["requests"] = _number(value.get("requests", 1), integer=True)
-    if result["total_tokens"] == 0:
+    if result["total_tokens"] <= 0 or result["total_tokens"] < int(result["prompt_tokens"]) + int(
+        result["completion_tokens"]
+    ):
         result["total_tokens"] = int(result["prompt_tokens"]) + int(result["completion_tokens"])
     return result
 

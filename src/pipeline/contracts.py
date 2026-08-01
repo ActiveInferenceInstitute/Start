@@ -152,6 +152,14 @@ class StageResult:
                 for item_id, item in self.items.items()
                 if not item.ok
             }
+            # Item-derived failures are computed only inside this branch, so the
+            # status must be re-assessed here: a handler that passes a FAILED
+            # item with default status must not silently report success.
+            if (self.failures or self.errors) and status_value(self.status) in {
+                StageStatus.SUCCEEDED.value,
+                StageStatus.PENDING.value,
+            }:
+                self.status = StageStatus.FAILED
             if not self.usage:
                 from .usage import merge_usage
 

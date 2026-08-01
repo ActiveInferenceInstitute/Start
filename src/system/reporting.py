@@ -140,16 +140,18 @@ def get_memory_info() -> Dict[str, float]:
     except ImportError:
         # Fallback to system commands
         try:
-            if platform.system() == "Linux":
+            system = platform.system()
+            if system == "Linux":
                 # Parse /proc/meminfo
-                with open("/proc/meminfo", "r") as f:
+                with open("/proc/meminfo", "r", encoding="utf-8") as f:
                     meminfo = f.read()
 
                 total_line = next(
                     (line for line in meminfo.split("\n") if line.startswith("MemTotal")), None
                 )
                 avail_line = next(
-                    (line for line in meminfo.split("\n") if line.startswith("MemAvailable")), None
+                    (line for line in meminfo.split("\n") if line.startswith("MemAvailable")),
+                    None,
                 )
                 if not total_line or not avail_line:
                     raise ValueError("/proc/meminfo missing expected fields")
@@ -166,7 +168,38 @@ def get_memory_info() -> Dict[str, float]:
                     "used_gb": used_gb,
                     "percent_used": (used_gb / total_gb) * 100,
                 }
-        except Exception:
+            if system == "Darwin":
+                # macOS fallback when psutil is not installed.
+                result = subprocess.run(
+                    ["sysctl", "-n", "hw.memsize"],
+                    capture_output=True,
+                    text=True,
+                    timeout=5,
+                )
+                total_bytes = float(result.stdout.strip())
+                total_gb = total_bytes / (1024**3)
+                page_size = subprocess.run(
+                    ["sysctl", "-n", "hw.pagesize"],
+                    capture_output=True,
+                    text=True,
+                    timeout=5,
+                )
+                free_pages = subprocess.run(
+                    ["sysctl", "-n", "vm.page_free_count"],
+                    capture_output=True,
+                    text=True,
+                    timeout=5,
+                )
+                available_bytes = float(page_size.stdout.strip()) * float(free_pages.stdout.strip())
+                available_gb = available_bytes / (1024**3)
+                used_gb = max(0.0, total_gb - available_gb)
+                return {
+                    "total_gb": total_gb,
+                    "available_gb": available_gb,
+                    "used_gb": used_gb,
+                    "percent_used": (used_gb / total_gb) * 100 if total_gb else 0.0,
+                }
+        except (subprocess.SubprocessError, OSError, ValueError, TypeError):  # noqa: F821
             pass
 
         # Ultimate fallback

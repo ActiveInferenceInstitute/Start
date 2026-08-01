@@ -2,12 +2,15 @@
 
 from __future__ import annotations
 
+import logging
 import re
 from pathlib import Path
 from typing import Any, Dict, Optional
 
 from src.common.io import read_text, write_text
 from src.common.paths import data_root
+
+logger = logging.getLogger(__name__)
 
 
 def prompts_dir() -> Path:
@@ -94,6 +97,9 @@ def substitute_variables(template: str, variables: Dict[str, Any], strict: bool 
             missing_vars.append(var_name)
             if strict:
                 return match.group(0)  # Keep original for error reporting
+            # Non-strict mode: keep the placeholder but surface the gap so a
+            # typo'd/stale variable cannot silently reach the model or a file.
+            logger.warning("Unresolved prompt template variable: %s", var_name)
             return match.group(0)  # Return original if variable not found
 
     result = re.sub(r"\{\{\s*([^}]+)\s*\}\}", replace_var, template)
@@ -117,7 +123,7 @@ def validate_prompt_template(template: str) -> Dict[str, Any]:
         "valid": True,
         "errors": [],
         "warnings": [],
-        "variables": set(),
+        "variables": [],
         "word_count": len(template.split()),
         "line_count": len(template.split("\n")),
     }
@@ -129,7 +135,7 @@ def validate_prompt_template(template: str) -> Dict[str, Any]:
 
     # Extract all template variables
     variables = re.findall(r"\{\{\s*([^}]+)\s*\}\}", template)
-    result["variables"] = set(var.strip() for var in variables)
+    result["variables"] = sorted({var.strip() for var in variables})
 
     # Check for malformed template syntax
     malformed = re.findall(r"\{[^{]|\}[^}]", template)

@@ -63,6 +63,31 @@ def process_research_directory_detailed(
             paths.extend(sorted(curriculum_path.parent.glob(f"section_*_{timestamp}.md")))
         return [str(path) for path in dict.fromkeys(paths)]
 
+    def existing_is_fresh(existing: list[Path], source_hash: str, fep_hash: str) -> bool:
+        """Return True only when the existing output provably used these inputs.
+
+        A skip_existing cache hit is only authoritative when the existing
+        curriculum's published metadata records the same research and
+        foundation digests as the current inputs; otherwise we cannot prove
+        freshness and must regenerate rather than publish stale content.
+        """
+        try:
+            latest = max(existing, key=lambda p: p.stat().st_mtime)
+        except OSError:
+            return False
+        json_path = latest.with_suffix(".json")
+        if not json_path.is_file() or json_path.is_symlink():
+            return False
+        try:
+            payload = json.loads(json_path.read_text(encoding="utf-8"))
+        except (OSError, UnicodeDecodeError, json.JSONDecodeError):
+            return False
+        inputs = payload.get("metadata", {}).get("inputs", [])
+        recorded = {
+            item.get("label"): item.get("sha256") for item in inputs if isinstance(item, dict)
+        }
+        return recorded.get("research") == source_hash and recorded.get("fep_actinf") == fep_hash
+
     if max_concurrent < 1:
         raise ValueError("max_concurrent must be at least one")
     if not research_dir.exists() or not fep_actinf_file.exists():
@@ -86,7 +111,8 @@ def process_research_directory_detailed(
         item_id = safe_name(path.stem.split("_research_", 1)[0]).casefold()
         source_hash = file_input_record(path, label="research")["sha256"]
         existing = list((output_dir / item_id).glob("complete_curriculum_*.md"))
-        if skip_existing and existing:
+        fep_hash = file_input_record(fep_actinf_file, label="fep_actinf")["sha256"]
+        if skip_existing and existing and existing_is_fresh(existing, source_hash, fep_hash):
             skipped.append(
                 {
                     "item_id": item_id,

@@ -132,10 +132,22 @@ def validate_chat_response(response: object, *, min_content_length: int = 1) -> 
     except (AttributeError, IndexError, TypeError) as exc:
         raise ValueError("Provider response does not contain a completion choice") from exc
     if not isinstance(content, str) or len(content.strip()) < min_content_length:
-        raise ValueError(
+        raise ContentValidationError(
             f"Provider response content is empty or shorter than {min_content_length} characters"
         )
     return content.strip()
+
+
+def _is_loopback_host(hostname: str | None) -> bool:
+    """Return True for loopback hosts where an http:// API key is permitted."""
+    if not hostname:
+        return False
+    hostname = hostname.lower().rstrip(".")
+    if hostname in {"localhost", "127.0.0.1", "::1", "0.0.0.0"}:
+        return True
+    if hostname.startswith("127.") and hostname.replace(".", "", 3).isdigit():
+        return True
+    return False
 
 
 def _validate_provider_settings(
@@ -151,6 +163,11 @@ def _validate_provider_settings(
     parsed = urlparse(base_url)
     if parsed.scheme not in {"http", "https"} or not parsed.netloc:
         raise ValueError(f"Invalid base URL: {base_url}")
+    if parsed.scheme == "http" and not _is_loopback_host(parsed.hostname):
+        raise ValueError(
+            f"base_url http:// is only allowed for loopback hosts; refusing to send an API key "
+            f"to {base_url}"
+        )
     ChatPolicy(
         model=model,
         timeout=timeout,
@@ -213,6 +230,10 @@ class ProviderRequestError(RuntimeError):
 
 class ProviderOfflineError(ProviderRequestError):
     """Raised when an offline run reaches a live provider boundary."""
+
+
+class ContentValidationError(ValueError):
+    """Transient empty or too-short content that should be retried."""
 
 
 def _wait_with_cancellation(
@@ -290,6 +311,7 @@ def _redact_sensitive(value: object) -> str:
     text = re.sub(r"(?:sk|pplx)-[A-Za-z0-9_-]+", "[redacted-key]", text)
     text = re.sub(r"Bearer\s+[A-Za-z0-9._-]+", "Bearer [redacted]", text, flags=re.IGNORECASE)
     text = re.sub(r"(?i)(api[_ -]?key\s*[:=]\s*)\S+", r"\1[redacted]", text)
+    text = re.sub(r"eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+", "[redacted-jwt]", text)
     return text[:500]
 
 
@@ -304,6 +326,8 @@ def _safe_provider_error(exc: Exception) -> str:
 
 
 def _is_retryable_error(exc: Exception) -> bool:
+    if isinstance(exc, ContentValidationError):
+        return True
     status_code = getattr(exc, "status_code", None)
     if isinstance(status_code, int):
         return status_code in {408, 409, 425, 429} or status_code >= 500
@@ -353,7 +377,6 @@ def complete_chat_result(
         for message in messages
     ):
         raise ValueError("messages must contain non-empty role and content strings")
-    last_error: Exception | None = None
     for attempt in range(policy.max_retries):
         if cancellation_event is not None and cancellation_event.is_set():
             raise ProviderRequestError("provider request cancelled", attempts=attempt)
@@ -389,7 +412,6 @@ def complete_chat_result(
         except Exception as exc:
             if isinstance(exc, ProviderRequestError):
                 raise
-            last_error = exc
             retryable = _is_retryable_error(exc)
             if not retryable or attempt + 1 >= policy.max_retries:
                 raise ProviderRequestError(
@@ -402,19 +424,18 @@ def complete_chat_result(
             delay = (
                 retry_after if retry_after is not None else policy.backoff_seconds * (2**attempt)
             )
-            delay = min(policy.max_backoff_seconds, delay)
+            # Apply jitter before capping so the configured bound is respected.
             if policy.jitter_seconds:
                 delay += random.uniform(0.0, policy.jitter_seconds)
+            delay = min(policy.max_backoff_seconds, delay)
             if _wait_with_cancellation(delay, cancellation_event):
                 raise ProviderRequestError(
                     "provider request cancelled", attempts=attempt + 1
                 ) from exc
-    raise ProviderRequestError(
-        "Chat completion failed after "
-        f"{policy.max_retries} attempts: {_safe_provider_error(last_error)}",
-        retryable=_is_retryable_error(last_error) if last_error else False,
-        attempts=policy.max_retries,
-    ) from last_error
+    # The retry loop always returns on success or raises on exhaustion, so no
+    # statement is reachable after it.  This satisfies the type checker that the
+    # function cannot fall through without a return value.
+    raise AssertionError("unreachable: retry loop must return or raise")
 
 
 class ProviderAdapter:
@@ -505,7 +526,7 @@ def build_perplexity_client(config: Optional[PerplexityConfig] = None) -> OpenAI
             max_retries=0,
         )
     except Exception as e:
-        raise EnvironmentError(f"Failed to create Perplexity client: {str(e)}") from e
+        raise EnvironmentError(f"Failed to create Perplexity client: {_redact_sensitive(e)}") from e
 
 
 def build_openrouter_client(config: Optional[OpenRouterConfig] = None) -> OpenAI:
@@ -549,4 +570,4 @@ def build_openrouter_client(config: Optional[OpenRouterConfig] = None) -> OpenAI
             max_retries=0,
         )
     except Exception as e:
-        raise EnvironmentError(f"Failed to create OpenRouter client: {str(e)}") from e
+        raise EnvironmentError(f"Failed to create OpenRouter client: {_redact_sensitive(e)}") from e

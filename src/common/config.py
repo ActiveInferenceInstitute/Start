@@ -75,6 +75,8 @@ def load_markdown_config(name: str) -> Dict[str, Any]:
         raise FileNotFoundError(f"Config file not found: {config_path}")
 
     content = read_text(config_path)
+    # Normalize CRLF so Windows-authored configs parse identically to LF.
+    content = content.replace("\r\n", "\n")
 
     # Extract YAML frontmatter
     if not content.startswith("---\n"):

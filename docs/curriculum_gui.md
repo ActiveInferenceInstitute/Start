@@ -22,7 +22,9 @@ This launches a local HTTP server (default: `http://127.0.0.1:8765`) and opens y
 
 ## How It Works
 
-The GUI uses **only the Python standard library** — no extra dependencies. It:
+The GUI server itself uses **only the Python standard library** — it introduces
+no new third-party dependencies beyond the project's existing pipeline
+dependencies (which the shared orchestrator already requires). It:
 
 1. Serves an HTML/CSS/JS frontend from a built-in HTTP server
 2. Accepts form input (domain, entity, language, entity description)

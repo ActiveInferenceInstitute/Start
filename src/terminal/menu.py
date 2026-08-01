@@ -62,24 +62,31 @@ class Menu:
         self.show_descriptions = show_descriptions
         self.selected_index = 0
 
-        # Find first enabled item; handle case when first item is disabled
+        # Find first enabled item; handle case when first item is disabled.  If
+        # nothing is enabled, no entry is selected so nothing gets highlighted.
         if self.items and not self.items[self.selected_index].enabled:
-            self._move_to_next_enabled(1)
+            if not self._move_to_next_enabled(1):
+                self.selected_index = -1
 
-    def _move_to_next_enabled(self, direction: int = 1) -> None:
+    def _move_to_next_enabled(self, direction: int = 1) -> bool:
         """Move selection to next enabled item.
 
         Args:
             direction: 1 for forward, -1 for backward
+
+        Returns:
+            True if an enabled item was selected, False if none exists.
         """
         if not self.items:
-            return
+            return False
         attempts = 0
         while attempts < len(self.items):
             self.selected_index = (self.selected_index + direction) % len(self.items)
             if self.items[self.selected_index].enabled:
-                return
+                return True
             attempts += 1
+        self.selected_index = -1
+        return False
 
     def _render_header(self) -> str:
         """Render menu header with title and banner.

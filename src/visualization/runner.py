@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import re
 from pathlib import Path
 from typing import List, Tuple
@@ -10,6 +11,8 @@ import pandas as pd
 from src.common.io import ensure_directory, write_json, write_text
 from src.config.schemas import stable_identifier
 from src.pipeline.artifacts import sha256_file
+
+logger = logging.getLogger(__name__)
 
 
 def collect_curriculum_files(base_dir: str) -> List[Tuple[str, str]]:
@@ -193,7 +196,12 @@ def run(input_root: str, output_root: str) -> list[str]:
             labels.append(entity)
             inputs.append((entity, content, source_path))
         except OSError as exc:
-            raise RuntimeError(f"Unable to read curriculum file {path}: {exc}") from exc
+            # A single unreadable file must not discard an otherwise healthy
+            # visualization bundle; skip it and continue.
+            logger.warning("Skipping unreadable curriculum file %s: %s", path, exc)
+            continue
+    if not inputs:
+        return []
     metrics_dir = output_path / "metrics"
     diagrams_dir = output_path / "diagrams"
     charts_dir = output_path / "charts"

@@ -7,7 +7,8 @@ indicator with a progress estimate. When finished, a concise result summary is
 shown in the UI.
 
 Design notes:
-- No extra dependencies are introduced; only the Python standard library is used.
+- The GUI server introduces no new third-party dependencies beyond the project's
+  existing pipeline dependencies (the script itself uses only the standard library).
 - The script imports the canonical orchestrator and typed configuration helpers
   directly so the browser and CLI share one execution path.
 - Progress is estimated at stage granularity with simple weights; ETA is
@@ -30,6 +31,7 @@ from dataclasses import dataclass
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from typing import Any, Callable, Dict, List, Optional, Tuple
+from urllib.parse import urlparse
 
 from learning.curriculum_creation.generate_custom_curriculum import (  # noqa: E402
     CurriculumConfig,
@@ -139,7 +141,12 @@ def _safe_public_error(value: object) -> str:
     text = redact_log_value(value)
     # Local paths and provider request details are operational diagnostics,
     # not browser data.  Keep only a short, non-sensitive summary.
-    text = re.sub(r"(?<![A-Za-z0-9])/(?:Users|private|tmp|var|home)/[^\s,;]+", "[path]", text)
+    text = re.sub(
+        r"(?<![A-Za-z0-9])/(?:Users|private|tmp|var|home|etc|usr|opt|System|Library|bin|sbin|srv|dev|proc|Volumes|Applications)/[^\s,;]+",
+        "[path]",
+        text,
+    )
+    text = re.sub(r"(?i)\b[A-Za-z]:\\[^\s,;]*", "[path]", text)
     return text[:500]
 
 
@@ -338,6 +345,28 @@ class _GuiHandler(BaseHTTPRequestHandler):
         supplied = self.headers.get("X-START-Token", "")
         return secrets.compare_digest(supplied, expected)
 
+    def _cross_site_request(self) -> bool:
+        """Reject state-changing POSTs that came from a non-loopback origin.
+
+        A browser-driven cross-site form POST carries an Origin/Referer header
+        of the attacker's host; rejecting non-loopback origins blocks that
+        CSRF vector while still allowing same-origin and local tool requests.
+        """
+        for header in ("Origin", "Referer"):
+            value = self.headers.get(header)
+            if not value:
+                continue
+            parsed = urlparse(value)
+            hostname = (parsed.hostname or "").lower().rstrip(".")
+            if hostname not in {
+                "localhost",
+                "127.0.0.1",
+                "::1",
+                "0.0.0.0",
+            } and not hostname.startswith("127."):
+                return True
+        return False
+
     def do_GET(self) -> None:  # noqa: N802 (BaseHTTPRequestHandler API)
         if not self._authorized():
             self._set_headers(HTTPStatus.UNAUTHORIZED, "text/plain; charset=utf-8")
@@ -362,6 +391,10 @@ class _GuiHandler(BaseHTTPRequestHandler):
         if not self._authorized():
             self._set_headers(HTTPStatus.UNAUTHORIZED, "text/plain; charset=utf-8")
             self.wfile.write(b"Authentication required")
+            return
+        if self._cross_site_request():
+            self._set_headers(HTTPStatus.FORBIDDEN, "text/plain; charset=utf-8")
+            self.wfile.write(b"Cross-site request rejected")
             return
         if self.path == "/start":
             self._handle_start()
@@ -487,7 +520,7 @@ class _GuiHandler(BaseHTTPRequestHandler):
             cfg.run_id = f"gui-{int(time.time())}-{uuid.uuid4().hex[:8]}"
             cfg.cancellation_event = _CANCEL_EVENT
             cfg.validate()
-        except ValueError as exc:
+        except Exception as exc:  # any config failure must free the run slot
             with _STATUS_LOCK:
                 _RUN_ACTIVE = False
             self._set_headers(HTTPStatus.BAD_REQUEST)

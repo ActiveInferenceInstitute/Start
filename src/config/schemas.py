@@ -54,10 +54,15 @@ def _optional_sources(entry: Mapping[str, Any], label: str) -> list[str]:
         raise ValueError(f"{label} source_urls must be a list of URL strings")
     normalized: list[str] = []
     for source in sources:
-        parsed = urlparse(source.strip())
+        stripped = source.strip()
+        # Reject control characters (CR/LF) so a hostile source cannot inject
+        # extra headers or lines into manifests/logs that embed the URL.
+        if any(char in stripped for char in "\r\n"):
+            raise ValueError(f"{label} contains a source URL with control characters")
+        parsed = urlparse(stripped)
         if parsed.scheme not in {"http", "https"} or not parsed.netloc:
             raise ValueError(f"{label} contains an unsafe source URL: {source!r}")
-        normalized.append(source.strip())
+        normalized.append(stripped)
     if len(set(normalized)) != len(normalized):
         raise ValueError(f"{label} source_urls contains duplicates")
     return normalized

@@ -29,10 +29,11 @@ Entity/audience research script using Perplexity API.
 **Output**: Research reports in `data/audience_research/`
 
 ### `2_Write_Introduction.py`
-Curriculum generation script using OpenRouter API.
+Curriculum generation script. This is a thin delegator to the canonical
+`generate_custom_curriculum.py` orchestrator; it forwards the curriculum
+generation stage rather than re-implementing it.
 
 **Functions**:
-- `get_research_files(research_dir: Path, pattern: str) -> List[Path]`: Get research files
 - `get_research_files(research_dir: Path, pattern: str) -> list[Path]`: Locate research inputs
 - `main()`: Main execution function
 

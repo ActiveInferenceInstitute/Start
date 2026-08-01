@@ -120,3 +120,24 @@ def test_invalid_concurrency_is_rejected():
 
     with pytest.raises(ValueError, match="max_concurrent"):
         clone_multiple_repositories([], max_concurrent=0)
+
+
+def test_update_and_status_refuse_unsafe_repo_config(tmp_path):
+    """Post-clone git ops must refuse repos whose config enables hooks/filters."""
+    bare, source = _local_remote(tmp_path)
+    destination = tmp_path / "clones" / "project"
+    assert clone_repository(
+        RepoInfo("project", str(bare), shallow=False),
+        destination,
+        allow_unsafe_sources=True,
+    ).success
+    config_path = destination / ".git" / "config"
+    config_path.write_text(
+        (config_path.read_text(encoding="utf-8") + "\n[core]\n\thooksPath = /tmp/evil-hooks\n"),
+        encoding="utf-8",
+    )
+    ok, message = update_repository(destination)
+    assert not ok
+    assert "refusing" in message.lower()
+    status = get_repository_status(destination)
+    assert status["errors"] and "refusing" in status["errors"][0].lower()

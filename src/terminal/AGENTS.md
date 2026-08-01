@@ -57,14 +57,14 @@ Shows confirmation dialog.
 
 **Returns**: True if confirmed, False otherwise
 
-#### `input_dialog(prompt: str, default: Optional[str] = None) -> str`
-Shows input dialog.
+#### `input_dialog(prompt: str, default: str = "", validation: Optional[Callable[[str], bool]] = None, error_message: str = "Invalid input") -> str`
+Shows an input dialog with optional validation.
 
 **Parameters**:
 - `prompt`: Input prompt
-- `default`: Default value
-
-**Returns**: User input string
+- `default`: Default value (default: "")
+- `validation`: Optional predicate that must return True for the value to be accepted
+- `error_message`: Message shown when validation fails (default: "Invalid input")
 
 ## Module: `colors.py`
 
@@ -145,23 +145,23 @@ Loading spinner animation.
 
 ### Functions
 
-#### `typewriter_effect(text: str, delay: float = 0.05, color: Optional[str] = None) -> Generator[str, None, None]`
+#### `typewriter_effect(text: str, delay: float = 0.05, color_style: str = "normal") -> Generator[str, None, None]`
 Creates typewriter text effect.
 
 **Parameters**:
 - `text`: Text to animate
 - `delay`: Delay between characters (default: 0.05)
-- `color`: Optional color
+- `color_style`: Matrix color style ("normal", "bright", "dim")
 
 **Returns**: Generator yielding animated text
 
-#### `glitch_effect(text: str, iterations: int = 5, color: Optional[str] = None) -> Generator[str, None, None]`
+#### `glitch_effect(text: str, intensity: int = 3, duration: float = 1.0) -> Generator[str, None, None]`
 Creates glitch text effect.
 
 **Parameters**:
 - `text`: Text to glitch
-- `iterations`: Number of glitch iterations (default: 5)
-- `color`: Optional color
+- `intensity`: Glitch intensity (number of variations, default: 3)
+- `duration`: Effect duration in seconds (default: 1.0)
 
 **Returns**: Generator yielding glitched text
 

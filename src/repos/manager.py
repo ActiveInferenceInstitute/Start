@@ -159,6 +159,15 @@ class RepositoryManager:
             base_dir=self.base_dir,
         )
 
+    @staticmethod
+    def _repo_name_allowed(repo_name: str) -> bool:
+        """Return False for names that would escape the manager base directory."""
+        if not isinstance(repo_name, str) or not repo_name:
+            return False
+        if repo_name in {".", ".."} or "/" in repo_name or "\\" in repo_name:
+            return False
+        return Path(repo_name).name == repo_name
+
     def update_repository(self, repo_name: str) -> Tuple[bool, str]:
         """Update a single repository.
 
@@ -168,7 +177,9 @@ class RepositoryManager:
         Returns:
             Tuple of (success, message)
         """
-        repo_path = self.base_dir / repo_name
+        if not self._repo_name_allowed(repo_name):
+            return False, f"Refusing invalid repository name: {repo_name!r}"
+        repo_path = Path(self.base_dir) / repo_name
         if not repo_path.exists():
             return False, f"Repository not found: {repo_name}"
         return update_repository(repo_path)
@@ -197,7 +208,9 @@ class RepositoryManager:
         Returns:
             Status dictionary or None if not found
         """
-        repo_path = self.base_dir / repo_name
+        if not self._repo_name_allowed(repo_name):
+            return None
+        repo_path = Path(self.base_dir) / repo_name
 
         if not repo_path.exists():
             return None
@@ -229,7 +242,9 @@ class RepositoryManager:
         Returns:
             Tuple of (success, message)
         """
-        repo_path = self.base_dir / repo_name
+        if not self._repo_name_allowed(repo_name):
+            return False, f"Refusing invalid repository name: {repo_name!r}"
+        repo_path = Path(self.base_dir) / repo_name
 
         if not repo_path.exists():
             return False, f"Repository not found: {repo_name}"

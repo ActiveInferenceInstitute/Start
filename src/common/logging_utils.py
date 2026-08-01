@@ -9,6 +9,7 @@ _SECRET_PATTERNS = (
     re.compile(r"(?:sk|pplx)-[A-Za-z0-9_-]+"),
     re.compile(r"Bearer\s+[A-Za-z0-9._-]+", re.IGNORECASE),
     re.compile(r"(?i)(api[_ -]?key\s*[:=]\s*)\S+"),
+    re.compile(r"eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+"),
 )
 
 
@@ -19,6 +20,7 @@ def redact_log_value(value: object) -> str:
     text = _SECRET_PATTERNS[0].sub("[redacted-key]", text)
     text = _SECRET_PATTERNS[1].sub("Bearer [redacted]", text)
     text = _SECRET_PATTERNS[2].sub(r"\1[redacted]", text)
+    text = _SECRET_PATTERNS[3].sub("[redacted-jwt]", text)
     return text[:2000]
 
 

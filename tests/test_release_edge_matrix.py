@@ -233,6 +233,22 @@ def test_research_stage_covers_skip_cancel_failure_and_input_reading(
 
     output.parent.mkdir(parents=True)
     output.write_text("# Reader\n\nContent", encoding="utf-8")
+    # Provide a verifiable sibling JSON so the fresh cache hit can be proven.
+    from src.pipeline.provenance import file_input_record
+
+    output.with_suffix(".json").write_text(
+        json.dumps(
+            {
+                "metadata": {
+                    "inputs": [
+                        file_input_record(source, label="research"),
+                        file_input_record(foundation, label="fep_actinf"),
+                    ]
+                }
+            }
+        ),
+        encoding="utf-8",
+    )
     existing_success, existing_failed, existing_items = process_research_directory_detailed(
         object(), research, foundation, tmp_path / "outputs", "domain", skip_existing=True
     )
@@ -674,14 +690,25 @@ def test_repository_error_and_retention_paths_are_safe(
 
     repository = tmp_path / "repository"
     (repository / ".git").mkdir(parents=True)
+    # A real repository always ships .git/config; provide a safe one so the
+    # update/status paths reach the git commands rather than the safety guard.
+    (repository / ".git" / "config").write_text(
+        "[core]\n\trepositoryformatversion = 0\n", encoding="utf-8"
+    )
     responses = iter(
         [
+            # update 1: branch fails
             SimpleNamespace(returncode=1, stdout="", stderr="branch failed"),
+            # update 2: detached head
             SimpleNamespace(returncode=0, stdout="", stderr=""),
+            # update 3: branch, fetch, merge all succeed
             SimpleNamespace(returncode=0, stdout="main", stderr=""),
-            SimpleNamespace(returncode=0, stdout="ok", stderr=""),
+            SimpleNamespace(returncode=0, stdout="", stderr=""),
+            SimpleNamespace(returncode=0, stdout="", stderr=""),
+            # update 4: branch ok, fetch ok, merge fails
             SimpleNamespace(returncode=0, stdout="main", stderr=""),
-            SimpleNamespace(returncode=1, stdout="", stderr="pull failed"),
+            SimpleNamespace(returncode=0, stdout="", stderr=""),
+            SimpleNamespace(returncode=1, stdout="", stderr="merge failed"),
         ]
     )
     monkeypatch.setattr(cloning.subprocess, "run", lambda *_args, **_kwargs: next(responses))
@@ -691,7 +718,7 @@ def test_repository_error_and_retention_paths_are_safe(
         "Repository is detached; refusing to select an update branch",
     )
     assert cloning.update_repository(repository) == (True, "Successfully updated repository")
-    assert cloning.update_repository(repository) == (False, "Failed to update: pull failed")
+    assert cloning.update_repository(repository) == (False, "Failed to update: merge failed")
     monkeypatch.setattr(
         cloning.subprocess,
         "run",
@@ -918,7 +945,11 @@ def test_pipeline_contract_validation_and_handler_failures_are_recorded(
         },
         continue_independent=False,
     )
-    assert [stage.name for stage in result.stages] == ["first"]
+    # The not-yet-run required stage is recorded as blocked so the run status
+    # reflects the work that was skipped by the early stop.
+    assert [stage.name for stage in result.stages] == ["first", "independent"]
+    assert result.stages[-1].ok is False
+    assert not result.ok
 
 
 def test_provider_configuration_and_limiter_contract_edges() -> None:
@@ -1102,12 +1133,15 @@ def test_pipeline_contracts_usage_and_run_artifacts_are_serializable(
     skipped = StageItemResult("skip", StageStatus.SKIPPED)
     failed = StageItemResult("bad", StageStatus.FAILED, errors=["broken"])
     stage = StageResult("stage", items={"ok": item, "skip": skipped, "bad": failed})
-    assert stage.ok and stage.attempted == 3
+    # A stage containing a failed item must not report ok; the pipeline must
+    # surface the partial failure instead of treating the run as green.
+    assert not stage.ok and stage.attempted == 3
     assert set(stage.successes) == {"ok"}
     assert stage.skips == ["skip"]
     assert stage.failures == {"bad": "broken"}
     result = PipelineResult(stages=[stage], run_id="run")
-    assert bool(result) and result.as_dict()["stages"]["stage"]["success"] == 1
+    assert not bool(result)
+    assert result.as_dict()["stages"]["stage"]["success"] == 1
 
     assert normalize_usage({"prompt_tokens": True, "completion_tokens": "2"})["prompt_tokens"] == 0
     assert normalize_usage(None)["requests"] == 0

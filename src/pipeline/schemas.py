@@ -53,6 +53,11 @@ def _json_object(raw: str) -> Mapping[str, Any]:
     return payload
 
 
+def _version_matches(value: Any) -> bool:
+    """Accept the canonical '1.0' as string, integer, or float form."""
+    return value == "1.0" or value == 1 or value == 1.0
+
+
 def _text(payload: Mapping[str, Any], key: str, *, required: bool = True) -> str:
     value = payload.get(key)
     if value is None and not required:
@@ -80,7 +85,7 @@ def parse_structured_response(raw: str, kind: str) -> ProviderPayload:
     if kind not in {"research", "curriculum", "translation"}:
         raise ValueError(f"unsupported provider payload kind: {kind}")
     payload = _json_object(raw)
-    if payload.get("schema_version") != "1.0":
+    if not _version_matches(payload.get("schema_version")):
         raise StructuredPayloadError("provider payload schema_version must be '1.0'")
     if payload.get("kind") != kind:
         raise StructuredPayloadError(f"provider payload kind must be '{kind}'")
@@ -93,8 +98,12 @@ def parse_structured_response(raw: str, kind: str) -> ProviderPayload:
         for name, content in sections.items():
             if not isinstance(name, str) or not name.strip():
                 raise StructuredPayloadError("curriculum section names must be non-empty strings")
+            if any(char in name for char in "\r\n"):
+                raise StructuredPayloadError(
+                    "curriculum section names cannot contain newlines or control characters"
+                )
             if not isinstance(content, str) or not content.strip():
-                raise StructuredPayloadError(f"curriculum section '{name}' is empty")
+                raise StructuredPayloadError(f"curriculum section '{name.strip()}' is empty")
             normalized[name.strip()] = content.strip()
         return ProviderPayload(kind, sections=normalized, citations=citations)
     content = _text(payload, "content")

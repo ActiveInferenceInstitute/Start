@@ -84,11 +84,10 @@ Complete dependency check report.
 
 **Attributes**:
 - `python_packages: List[DependencyCheck]`: Python package checks
-- `system_tools: List[DependencyCheck]`: Required tools and project-file checks
-- `optional_tools: List[DependencyCheck]`: Optional tools and environment checks
+- `system_tools: List[DependencyCheck]`: Required tools, project-file checks, and environment-variable checks
+- `optional_tools: List[DependencyCheck]`: Optional tools and optional environment checks
 - `all_required_available: bool`: Whether all required dependencies are available
 - `missing_required: List[str]`: List of missing required dependencies
-- `missing_optional: List[str]`: List of missing optional dependencies
 
 ### Functions
 

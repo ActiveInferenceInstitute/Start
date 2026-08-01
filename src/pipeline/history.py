@@ -73,7 +73,7 @@ def list_runs(work_root: Path | str) -> list[RunSummary]:
                 usage=dict(payload.get("usage", {})),
             )
         )
-    return sorted(summaries, key=lambda item: item.started_at or "", reverse=True)
+    return sorted(summaries, key=lambda item: str(item.started_at or ""), reverse=True)
 
 
 def summarize_runs(summaries: list[RunSummary]) -> dict[str, Any]:
@@ -106,7 +106,7 @@ def retention_candidates(
         raise ValueError("keep cannot be negative")
     if older_than_days is not None and older_than_days < 0:
         raise ValueError("older_than_days cannot be negative")
-    ordered = sorted(summaries, key=lambda item: item.started_at or "", reverse=True)
+    ordered = sorted(summaries, key=lambda item: str(item.started_at or ""), reverse=True)
     candidates = ordered[keep:]
     if older_than_days is None:
         return candidates
@@ -114,8 +114,8 @@ def retention_candidates(
     result: list[RunSummary] = []
     for summary in candidates:
         try:
-            started = datetime.fromisoformat((summary.started_at or "").replace("Z", "+00:00"))
-        except ValueError:
+            started = datetime.fromisoformat(str(summary.started_at or "").replace("Z", "+00:00"))
+        except (ValueError, TypeError, AttributeError):
             continue
         if started < cutoff:
             result.append(summary)

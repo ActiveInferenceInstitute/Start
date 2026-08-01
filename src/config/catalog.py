@@ -57,7 +57,13 @@ def output_exists(
 
     from src.common.io import safe_name
 
-    candidates = {safe_name(display_name), stable_identifier(display_name)}
+    candidates = {safe_name(display_name)}
+    try:
+        candidates.add(stable_identifier(display_name))
+    except ValueError:
+        # Unusual display name from which no stable id can be derived: fall back
+        # to the always-safe slug so the idempotency guard never raises.
+        pass
     if stable_id:
         candidates.add(stable_id)
     return any(
