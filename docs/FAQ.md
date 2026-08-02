@@ -14,7 +14,7 @@ uv run pytest -q
 See Getting Started: ./getting_started.md and Pipeline: ./pipeline.md.
 
 ## Where do outputs go?
-See Data & Outputs: ./data_outputs.md.
+Research in `data/audience_research/` and `data/domain_research/`; curricula in `data/written_curriculums/`; visuals in `data/visualizations/`; translations in `data/translated_curriculums/`. See [Data & Outputs](./data_outputs.md) for directory purposes and artifact descriptions.
 
 ## How do I see the docs site?
 Run `./run_docs.sh --serve` (local) or visit GitHub Pages at the project site.
@@ -42,6 +42,3 @@ Run `uv run start-curriculum --non-interactive --stages visualizations --json`. 
 
 ## CLI examples don’t work from my cwd
 Use the module entrypoints from the repository root; numbered scripts remain available for staged workflows.
-
-## Where do outputs go?
-Research in `data/audience_research/` and `data/domain_research/`; curricula in `data/written_curriculums/`; visuals in `data/visualizations/`; translations in `data/translated_curriculums/`. See ./data_outputs.md.

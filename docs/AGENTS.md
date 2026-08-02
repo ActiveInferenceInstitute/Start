@@ -12,6 +12,9 @@ Technical documentation for the documentation directory structure and organizati
 - `getting_started.md`: Quick start guide
 - `environment.md`: Environment setup and configuration
 - `pipeline.md`: System architecture and pipeline overview
+- `methods.md`: Methods and evidence protocol
+- `manuscript.md`: Manuscript-facing engineering note
+- `operations.md`: Operations and release evidence
 - `configuration.md`: Configuration reference
 - `data_outputs.md`: Data outputs documentation
 - `visualizations.md`: Visualization documentation

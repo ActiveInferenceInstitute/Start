@@ -80,10 +80,9 @@ OPENROUTER_API_KEY=your_openrouter_api_key_here
 # Optional API Keys
 OPENAI_API_KEY=your_openai_api_key_here
 
-# Default Model Configuration
+# Default Model Configuration (built-in defaults if unset)
 PERPLEXITY_MODEL=llama-3.1-sonar-small-128k-online
-OPENROUTER_MODEL=gpt-4o-mini-2024-07-18
-OPENAI_MODEL=gpt-4o-mini
+OPENROUTER_MODEL=anthropic/claude-3.5-sonnet
 ```
 
 ### 3. Configuration Files
@@ -104,8 +103,8 @@ uv run ruff check .                    # Lint checking
 uv run black --check .                 # Format checking
 uv run black .                         # Auto-formatting
 
-# Type checking for the release-critical core
-uv run mypy src/pipeline src/config/schemas.py --ignore-missing-imports --follow-imports=skip
+# Type checking for the release-critical core (full clean scope, enforced in CI)
+uv run mypy src scripts learning --ignore-missing-imports
 
 # Dependency audit
 uv run pip-audit --strict
@@ -177,31 +176,25 @@ tests/                       # Test suite and fixtures
 
 ## Advanced Setup
 
-### Performance Optimization
+### Optional Tooling
+These tools are not required by the locked environment and are not declared
+in `pyproject.toml`. Install them only if you want them for your own workflow:
+
 ```bash
-# Enable faster JSON processing
-pip install orjson
+# Notebook editing (not a project dependency)
+uv run --with jupyter jupyter lab
 
-# GPU acceleration for visualization (optional)
-pip install matplotlib[gpu]
-
-# Parallel processing enhancements
-pip install joblib multiprocessing-logging
+# Faster JSON parsing (optional; the project uses the standard library)
+uv run --with orjson python -c "import orjson; print(orjson.__version__)"
 ```
 
-### Development Tools
-```bash
-# Install additional development tools
-uv add --dev pre-commit jupyter lab ipython
-
-# Set up pre-commit hooks
-pre-commit install
-```
+Avoid installing extra packages into the locked environment with bare `pip`;
+use `uv run --with ...` so dependency resolution stays reproducible.
 
 ### IDE Integration
-- **VS Code**: Install Python, Pylance, and Black formatter extensions
-- **PyCharm**: Configure interpreters to use uv virtual environment
-- **Jupyter**: Use `uv run jupyter lab` for notebook development
+- **VS Code**: Install the Python, Pylance, and Ruff extensions
+- **PyCharm**: Configure the interpreter to use the uv virtual environment
+- **Jupyter**: Use `uv run --with jupyter jupyter lab` for notebook development
 
 ## Troubleshooting
 
@@ -261,4 +254,4 @@ sequenceDiagram
   CI-->>Dev: Status & reports
 ```
 
-See also: Testing policy and markers in `docs/TESTING.md`.
+See also: Testing policy and markers in `TESTING.md`.

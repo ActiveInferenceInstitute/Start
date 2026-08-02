@@ -141,13 +141,13 @@ START is a complete educational content generation pipeline that combines:
 ### In-Repo Entry Points
 
 - **Top-level landing page**: [Here — starting at start/here](https://github.com/ActiveInferenceInstitute/Start/blob/main/here.md)
-- **Other materials**: [docs/other/inferant_stream_015-1.md](./other/inferant_stream_015-1.md)
+- **Other materials**: [Inferant Stream 015-1](./other/inferant_stream_015-1.md)
 
 ## 📋 **System Capabilities**
 
 ### Research & Analysis
 
-- ** Professional Domains**: Life sciences, technology, business, healthcare, education, and whatever you prefer. 
+- **Professional Domains**: Life sciences, technology, business, healthcare, education, and whatever you prefer. 
 - **Configurable Target Entities**: Political figures, scientists, tech leaders, educators, and other explicitly configured audiences
 - **Live Research**: Current industry insights and professional analysis when explicitly enabled
 - **Comprehensive Analysis**: Prompt-targeted domain reports with explicit quality and evidence status

@@ -4,7 +4,7 @@ Use this guide to install, run your first research session, and explore outputs.
 
 ## Prerequisites
 
-See Environment Setup for full details: `docs/environment.md`.
+See Environment Setup for full details: `environment.md`.
 
 ## Quick Installation
 

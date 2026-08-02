@@ -36,7 +36,7 @@ Flow
 # Full suite
 uv run pytest -q
 
-# Verbose / coverage
+# Verbose / coverage (matrix baseline; release gate is 90, see Coverage below)
 uv run pytest -v
 uv run pytest --cov=src --cov-branch --cov-report=term-missing --cov-fail-under=80 -q
 

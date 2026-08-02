@@ -375,7 +375,7 @@ This work is licensed under a [Creative Commons Attribution-ShareAlike 4.0 Inter
 ### DOI & Archive
 [![DOI](https://zenodo.org/badge/903921695.svg)](https://doi.org/10.5281/zenodo.17047617)
 
-This repository is archived and citable via Zenodo: **10.5281/zenodo.17047619**
+This repository is archived and citable via Zenodo: **10.5281/zenodo.17047617**
 
 ### Citation
 If you use START in academic work, please cite:

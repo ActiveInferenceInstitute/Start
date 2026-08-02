@@ -1,5 +1,3 @@
-# START Documentation — README
-
 # START documentation
 
 START is a configurable curriculum research and generation pipeline. The

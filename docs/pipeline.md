@@ -177,6 +177,6 @@ uv run start-run-history --root data/written_curriculums/.runs --keep 10 --prune
 ```
 
 ### Cross-References
-- Environment setup and CI workflow: `docs/environment.md`
-- Testing policy and markers: `docs/TESTING.md`
-- Clone management for optional resources: `docs/clones.md`
+- Environment setup and CI workflow: `environment.md`
+- Testing policy and markers: `TESTING.md`
+- Clone management for optional resources: `clones.md`
