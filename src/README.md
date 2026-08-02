@@ -14,7 +14,22 @@ Shared utilities used across the entire project:
 - Prompt template management
 
 ### `config/`
-Configuration system for language settings and script mappings.
+Configuration loading, stable-identifier policy, and validation:
+- `catalog.py`: Domain/entity/language catalogs with stable IDs
+- `schemas.py`: Typed validation and stable-identifier normalization
+- `languages.py`: Language configuration loading
+
+### `pipeline/`
+Canonical orchestration layer — the typed, resumable runner behind the
+`start-curriculum` entry point:
+- `runner.py`: acquire → prepare → process → parse → render orchestrator
+- `stages.py`, `contracts.py`: stage/item contracts with transactional
+  failure reporting and early-stop semantics
+- `manifest.py`, `artifacts.py`, `provenance.py`: run manifests, published
+  artifact records, and evidence-status metadata
+- `quality.py`, `parsers.py`, `usage.py`, `history.py`, `schemas.py`:
+  quality gates, fence-aware parsing, usage/cost normalization, run history,
+  and pipeline schemas
 
 ### `perplexity/`
 LLM API integration modules:

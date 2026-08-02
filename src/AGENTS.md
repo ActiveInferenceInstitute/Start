@@ -20,12 +20,34 @@ Technical documentation for all modules in the `src/` directory.
 **See**: [common/AGENTS.md](common/AGENTS.md) for detailed function reference
 
 ### `config/`
-**Purpose**: Configuration system for languages and script mappings
+**Purpose**: Configuration loading, stable-identifier policy, and validation
 
 **Key Modules**:
+- `catalog.py`: Domain/entity/language configuration catalogs with stable IDs
+- `schemas.py`: Typed config dataclasses and validation (stable identifiers,
+  provenance fields)
 - `languages.py`: Language configuration loading and validation
 
 **See**: [config/AGENTS.md](config/AGENTS.md) for detailed function reference
+
+### `pipeline/`
+**Purpose**: Canonical orchestration layer — typed, resumable pipeline runner
+
+**Key Modules**:
+- `runner.py`: Canonical acquire → prepare → process → parse → render orchestrator
+- `stages.py`: Stage specifications and early-stop semantics
+- `contracts.py`: Stage/item result contracts (transactional failure reporting)
+- `manifest.py`: Atomic run manifests and checkpoint persistence
+- `artifacts.py`: Published artifact records and output-root enforcement
+- `provenance.py`: Evidence-status and provenance metadata handling
+- `quality.py`: Structural quality checks
+- `parsers.py`: Fence-aware Markdown parsing
+- `usage.py`: Provider usage and cost normalization
+- `history.py`: Filesystem run history management
+- `schemas.py`: Pipeline-level schema validation
+
+**See**: invoked via the `start-curriculum` console entry point and the
+staged `learning/curriculum_creation/*.py` delegators
 
 ### `perplexity/`
 **Purpose**: LLM API integrations for research and content generation
