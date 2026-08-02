@@ -23,8 +23,8 @@ Examples are organized in subfolders, each containing:
 **Purpose**: Interactive demonstration of Variational Free Energy mathematical framework for perception simulation.
 
 **Key Files**:
-- `vfe.jsx` - Main React component (1181 lines)
-- `vfe-compiled.html` - Standalone compiled version (9404 lines)
+- `vfe.jsx` - Main React component (1180 lines)
+- `vfe-compiled.html` - Standalone compiled version (9403 lines)
 - `build-vfe.js` - Build script using esbuild
 - `vfe-entry.jsx` - Build entry point
 

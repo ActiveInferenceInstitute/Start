@@ -34,19 +34,23 @@ Technical documentation for test files and their coverage.
 
 ### Curriculum Creation
 - `test_curriculum_entrypoints.py`: Curriculum script helpers and translation chunks
-- `test_core_hardening.py`: Configuration, provider, pipeline, and transactional behavior
 - `test_remaining_source.py`: Repository, system, reporting, terminal, and CLI coverage
 - `test_curriculum_sections.py`: Curriculum sections
 - `test_curriculum_scripts_integration.py`: Integration tests
 
 ### Repository Management
-- `test_repos_cloning.py`: Repository cloning
+- `test_repos_cloning.py`: Repository cloning and clone utilities
 - `test_repos_manager.py`: Repository manager
-- `test_repos_cloning.py`: Clone utilities
+- `test_clone_repo.py`: Low-level clone CLI
 
-### Integration Tests
+### Integration & Regression
 - `test_run_script_integration.py`: Run script integration
-- `test_run_script_integration.py`: Run script integration
+- `test_core_hardening.py`: Configuration, provider, pipeline, and transactional behavior
+- `test_production_hardening.py`: Production-focused hardening coverage
+- `test_release_edge_matrix.py`: Release edge-case matrix
+- `test_redteam_sweep.py`: Red-team sweep coverage
+- `test_contract_edge_cases.py`: Contract edge cases
+- `test_validate_repository.py`: Repository validator behavior
 
 ## Test Utilities
 

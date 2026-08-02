@@ -14,7 +14,7 @@ Domain research script using Perplexity API.
 - `get_domain_files(domain_dir: Path) -> List[Path]`: Get domain files to process
 - `main()`: Main execution function
 
-**Input**: Domain files from `data/domain_research/`
+**Input**: Domain targets from `data/config/domains.yaml`
 **Output**: Research reports in `data/domain_research/`
 
 ### `1_Research_Entity.py`
@@ -25,7 +25,7 @@ Entity/audience research script using Perplexity API.
 - `get_entity_files(entity_dir: Path) -> List[Path]`: Get entity files to process
 - `main()`: Main execution function
 
-**Input**: Entity files from `data/audience_research/`
+**Input**: Entity targets from `data/config/entities.yaml`
 **Output**: Research reports in `data/audience_research/`
 
 ### `2_Write_Introduction.py`
