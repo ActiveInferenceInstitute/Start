@@ -1,4 +1,4 @@
-an# Curriculum Creation Usage Guide
+# Curriculum Creation Usage Guide
 
 This guide provides step-by-step instructions for using the Active Inference curriculum creation scripts, from initial setup to final output generation.
 
@@ -21,7 +21,7 @@ automation can migrate incrementally.
 
 ### 1. Prerequisites
 Ensure you have the following:
-- Python 3.11+ installed
+- Python 3.10+ installed (3.11+ recommended)
 - API keys for Perplexity and OpenRouter
 - Input data files in the correct structure
 
@@ -43,19 +43,19 @@ export OPENROUTER_MODEL="anthropic/claude-3.5-sonnet"
 ```
 
 ### 3. Prepare Input Data
-Create the required input directory structure:
+Research targets are configuration-driven. Edit the YAML files in
+`data/config/` to define what the pipeline processes:
 
 ```
-data/
-└── Inputs_and_Outputs/
-    ├── Domain/
-    │   ├── Synthetic_FEP-ActInf.md          # Core FEP content
-    │   ├── Synthetic_Neuroscience.md        # Domain example
-    │   └── Synthetic_MachineLearning.md     # Domain example
-    └── Entity/
-        ├── data_scientist.py                # Entity example
-        └── neuroscientist.py               # Entity example
+data/config/
+├── domains.yaml     # Domain targets (name, description, category, priority, keywords)
+├── entities.yaml    # Entity/audience targets (name, description, category, priority)
+└── languages.yaml   # Translation targets and script mappings
 ```
+
+Foundation material for offline runs lives under `data/domain_research/`
+(e.g., `Synthetic_FEP-ActInf.md`); it is explicitly synthetic and is never
+treated as live evidence.
 
 **Domain Files** should contain:
 - Comprehensive domain descriptions
@@ -175,7 +175,8 @@ uv run start-curriculum --non-interactive --stages visualizations
 **Advanced usage**:
 ```bash
 # Custom input/output directories
-uv run start-curriculum --non-interactive --stages visualizations --input /path/to/curricula --output /path/to/visualizations
+uv run start-curriculum --non-interactive --stages visualizations \
+  --curriculum-dir /path/to/curricula --visualizations-dir /path/to/visualizations
 
 # Using default data directories
 uv run start-curriculum --non-interactive --stages visualizations
@@ -217,10 +218,12 @@ uv run start-curriculum --non-interactive --stages translations
 uv run start-curriculum --non-interactive --stages translations --languages Spanish French German
 
 # Custom input/output directories
-uv run start-curriculum --non-interactive --stages translations --input /path/to/curricula --output /path/to/translations
+uv run start-curriculum --non-interactive --stages translations \
+  --curriculum-dir /path/to/curricula --translation-dir /path/to/translations
 
 # Combine options
-uv run start-curriculum --non-interactive --stages translations --input custom_curricula --output custom_translations --languages Chinese Arabic Hindi
+uv run start-curriculum --non-interactive --stages translations \
+  --curriculum-dir custom_curricula --translation-dir custom_translations --languages Chinese Arabic Hindi
 ```
 
 **What it does**:

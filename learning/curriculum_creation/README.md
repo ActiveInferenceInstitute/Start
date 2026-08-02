@@ -39,7 +39,7 @@ The curriculum creation process follows these stages:
 uv run start-curriculum --non-interactive --stages domain-research
 ```
 
-**Input**: Domain files from `data/domain_research/`
+**Input**: Domain targets from `data/config/domains.yaml`
 **Output**: Research reports in `data/domain_research/`
 
 **Functions**:
@@ -60,7 +60,7 @@ uv run start-curriculum --non-interactive --stages domain-research
 uv run start-curriculum --non-interactive --stages entity-research
 ```
 
-**Input**: Entity research files from `data/audience_research/`
+**Input**: Entity targets from `data/config/entities.yaml`
 **Output**: Audience research reports in `data/audience_research/`
 
 **Functions**:
@@ -86,8 +86,7 @@ uv run start-curriculum --non-interactive --stages curriculum
 **Output**: Complete curricula in `data/written_curriculums/`
 
 **Functions**:
-- `get_research_files(research_dir)`: Finds research files to process
-- `get_research_files()`: Lists research files for staged processing
+- `get_research_files(research_dir)`: Lists research files for staged processing
 - `main()`: Orchestrates the complete curriculum generation workflow
 
 ### 3_Introduction_Visualizations.py
@@ -102,12 +101,13 @@ uv run start-curriculum --non-interactive --stages curriculum
 
 **Usage**:
 ```bash
-uv run start-curriculum --non-interactive --stages visualizations [--input INPUT_DIR] [--output OUTPUT_DIR]
+uv run start-curriculum --non-interactive --stages visualizations \
+  [--curriculum-dir INPUT_DIR] [--visualizations-dir OUTPUT_DIR]
 ```
 
 **Options**:
-- `--input`: Custom input directory (default: `data/written_curriculums`)
-- `--output`: Custom output directory (default: `data/visualizations`)
+- `--curriculum-dir`: Custom input directory (default: `data/written_curriculums`)
+- `--visualizations-dir`: Custom output directory (default: `data/visualizations`)
 
 **Outputs**:
 - `charts/curriculum_metrics.png`: Deterministic metrics dashboard
@@ -134,12 +134,13 @@ uv run start-curriculum --non-interactive --stages visualizations [--input INPUT
 
 **Usage**:
 ```bash
-uv run start-curriculum --non-interactive --stages translations [--input INPUT_DIR] [--output OUTPUT_DIR] [--languages LANG1 LANG2 ...]
+uv run start-curriculum --non-interactive --stages translations \
+  [--curriculum-dir INPUT_DIR] [--translation-dir OUTPUT_DIR] [--languages LANG1 LANG2 ...]
 ```
 
 **Options**:
-- `--input`: Custom input directory (default: `data/written_curriculums`)
-- `--output`: Custom output directory (default: `data/translated_curriculums`)
+- `--curriculum-dir`: Custom input directory (default: `data/written_curriculums`)
+- `--translation-dir`: Custom output directory (default: `data/translated_curriculums`)
 - `--languages`: Specific languages to translate (default: all configured languages)
 
 **Functions**:
@@ -200,21 +201,28 @@ Customize prompts in `data/prompts/`:
 
 ## Dependencies
 
+Dependencies are declared in the root `pyproject.toml` and installed with
+`uv sync --all-extras --dev`. Notable groups:
+
 ### Core Dependencies
 - `openai`: API client for Perplexity and OpenRouter
-- `pathlib`: Path handling
-- `pydantic`: Data validation
 - `pyyaml`: Configuration loading
+- `python-dotenv`: `.env` loading
+- `requests`: HTTP utilities
+- `GitPython`: Repository cloning support
 
-### Visualization Dependencies
-- `matplotlib`: Chart generation
-- `seaborn`: Statistical visualizations
-- `pandas`: Data manipulation
+### Data & Visualization Dependencies
+- `numpy`, `pandas`, `scipy`: Numerical data handling
+- `matplotlib`, `seaborn`: Chart generation
+- `scikit-learn`, `nltk`, `spacy`, `wordcloud`, `networkx`, `adjustText`: Text
+  and structure analysis
 
 ### Development Dependencies
 - `pytest`: Testing framework
 - `black`: Code formatting
 - `ruff`: Linting
+- `mypy`: Type checking
+- `mkdocs` / `mkdocs-material`: Documentation site build
 
 ## Environment Setup
 
@@ -259,7 +267,8 @@ uv run start-curriculum --non-interactive --stages translations
 Generate visualizations for specific input:
 
 ```bash
-uv run start-curriculum --non-interactive --stages visualizations --input /path/to/curricula --output /path/to/viz
+uv run start-curriculum --non-interactive --stages visualizations \
+  --curriculum-dir /path/to/curricula --visualizations-dir /path/to/viz
 ```
 
 ### Selective Translation
