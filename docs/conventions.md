@@ -32,4 +32,4 @@ This repository follows a modular, folder-based documentation approach that work
 
 - Keep docs accurate and updated with changes.
 - Use clear, concise language; avoid jargon.
-- Validate locally with `uv run mkdocs serve` when editing site structure.
+- Validate locally with `./run_docs.sh --serve` when editing site structure.

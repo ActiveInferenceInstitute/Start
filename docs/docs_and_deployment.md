@@ -30,8 +30,13 @@ The script uses the repository-locked `uv run mkdocs` environment, matching CI a
 - GitHub Pages serves the site from `gh-pages` automatically when configured to "Deploy from a branch".
 - After deploy, the script opens the computed URL: `https://<org>.github.io/<repo>/`.
 
-### Deploy with Actions (Alternative)
-If you prefer a custom GitHub Actions workflow (checkout → build → upload-pages-artifact → deploy-pages), add a workflow under `.github/workflows/pages.yml` following GitHub's guide. The local script remains useful for previewing changes and local development.
+### Deploy with Actions (already configured)
+The repository ships `.github/workflows/deploy_docs.yml`, which builds the site
+with `mkdocs build --strict` and deploys it to GitHub Pages via
+`upload-pages-artifact` + `deploy-pages` on every push to `main` (and on
+manual `workflow_dispatch`). No extra workflow file is needed; the local
+`./run_docs.sh --deploy` remains useful for previewing or ad-hoc deploys from
+a developer machine.
 
 Reference: GitHub Docs — Publishing with a custom GitHub Actions workflow.
 

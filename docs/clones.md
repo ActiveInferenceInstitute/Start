@@ -17,19 +17,33 @@ generated curricula, or included in the release bundle.
 - **Purpose**: Knowledge graph backing for curriculum development, providing structured Active Inference concepts and relationships
 - **Integration**: Optional reference material; any use in a published artifact must be cited and reviewed
 
-#### **RxInferExamples.jl** (Bayesian Inference Examples)
+#### **gnn** (Generalized Notation Notation)
+
+- **URL**: [github.com/ActiveInferenceInstitute/GeneralizedNotationNotation](https://github.com/ActiveInferenceInstitute/GeneralizedNotationNotation/)
+- **Destination**: `src/_clones/gnn`
+- **Purpose**: Generalized Notation Notation (GNN) project by the Active Inference Institute
+- **Integration**: Optional reference material; generated claims require independent source review
+
+#### **cerebrum** (CEREBRUM)
+
+- **URL**: [github.com/ActiveInferenceInstitute/CEREBRUM](https://github.com/ActiveInferenceInstitute/CEREBRUM)
+- **Destination**: `src/_clones/cerebrum`
+- **Purpose**: CEREBRUM project by the Active Inference Institute
+- **Integration**: Optional reference material; generated claims require independent source review
+
+#### **rxinfer** (RxInfer.jl Examples)
 
 - **URL**: [github.com/docxology/RxInferExamples.jl](https://github.com/docxology/RxInferExamples.jl/)
-- **Destination**: `src/_clones/RxInferExamples.jl`
+- **Destination**: `src/_clones/rxinfer`
 - **Purpose**: Practical examples of Bayesian inference and probabilistic programming
 - **Integration**: Optional source of examples; copied material requires licensing and technical review
 
 ### Implementation Resources
 
-#### **ActiveInference.jl** (Julia Implementation)
+#### **activeinference** (ActiveInference.jl)
 
 - **URL**: [github.com/docxology/ActiveInference.jl/tree/textbook](https://github.com/docxology/ActiveInference.jl/tree/textbook)
-- **Destination**: `src/_clones/ActiveInference.jl`
+- **Destination**: `src/_clones/activeinference`
 - **Branch**: `textbook` (educational focus)
 - **Purpose**: Julia-based Active Inference implementation with educational documentation
 - **Integration**: Optional technical reference; generated claims require independent source review
@@ -94,11 +108,17 @@ Use the integrated clone utility for consistent repository management:
 # Core knowledge graph
 uv run start-clone --url https://github.com/ActiveInferenceInstitute/cognitive --dest src/_clones/cognitive --shallow
 
-# Bayesian inference examples
-uv run start-clone --url https://github.com/docxology/RxInferExamples.jl --dest src/_clones/RxInferExamples.jl --shallow
+# Generalized Notation Notation (GNN)
+uv run start-clone --url https://github.com/ActiveInferenceInstitute/GeneralizedNotationNotation --dest src/_clones/gnn --shallow
+
+# CEREBRUM
+uv run start-clone --url https://github.com/ActiveInferenceInstitute/CEREBRUM --dest src/_clones/cerebrum --shallow
+
+# Bayesian inference examples (RxInfer.jl)
+uv run start-clone --url https://github.com/docxology/RxInferExamples.jl --dest src/_clones/rxinfer --shallow
 
 # Julia Active Inference (textbook branch)
-uv run start-clone --url https://github.com/docxology/ActiveInference.jl --dest src/_clones/ActiveInference.jl --branch textbook --shallow
+uv run start-clone --url https://github.com/docxology/ActiveInference.jl --dest src/_clones/activeinference --branch textbook --shallow
 
 # Python Active Inference (textbook branch)  
 uv run start-clone --url https://github.com/docxology/pymdp --dest src/_clones/pymdp --branch textbook --shallow
@@ -117,7 +137,7 @@ uv run start-clone --url https://github.com/VersesTech/axiom --dest src/_clones/
 
 ```bash
 # Clone with specific options
-git clone --shallow-since="2023-01-01" --branch textbook https://github.com/docxology/ActiveInference.jl src/_clones/ActiveInference.jl
+git clone --shallow-since="2023-01-01" --branch textbook https://github.com/docxology/ActiveInference.jl src/_clones/activeinference
 
 # Update existing clones
 cd src/_clones/cognitive && git pull origin main
@@ -151,21 +171,25 @@ src/_clones/
 ├── cognitive/                 # Knowledge graph and concept definitions
 │   ├── content/              # Structured Active Inference content
 │   └── ontologies/           # Formal concept relationships
-├── RxInferExamples.jl/       # Bayesian inference examples
+├── gnn/                       # Generalized Notation Notation
+├── cerebrum/                  # CEREBRUM
+├── rxinfer/                   # Bayesian inference examples (RxInfer.jl)
 │   ├── notebooks/            # Jupyter notebooks with examples
 │   └── scripts/              # Standalone example scripts
-├── ActiveInference.jl/       # Julia Active Inference implementation
+├── activeinference/           # Julia Active Inference implementation
 │   ├── docs/                 # Educational documentation
 │   ├── examples/             # Code examples and tutorials
 │   └── src/                  # Core implementation
-└── pymdp/                    # Python Active Inference
-    ├── notebooks/            # Educational notebooks
-    ├── examples/             # Example scripts and demonstrations
-    └── pymdp/                # Core Python package
-└── lean_niche/               # Lean theorem proving & verification environment
-    ├── src/                  # Lean and Python sources
-    ├── docs/                 # Project docs and verification workflows
-    └── examples/             # Example proofs and verification scripts
+├── pymdp/                     # Python Active Inference
+│   ├── notebooks/            # Educational notebooks
+│   ├── examples/             # Example scripts and demonstrations
+│   └── pymdp/                # Core Python package
+├── lean_niche/                # Lean theorem proving & verification environment
+│   ├── src/                  # Lean and Python sources
+│   ├── docs/                 # Project docs and verification workflows
+│   └── examples/             # Example proofs and verification scripts
+├── template/                  # Thin orchestrator research manuscript template
+└── axiom/                     # VERSES AXIOM knowledge operating system
 ```
 
 ## Usage in Curriculum Development
@@ -214,6 +238,6 @@ git -C src/_clones/pymdp pull --ff-only origin textbook
 ### Re-clone When Needed
 
 ```bash
-rm -rf src/_clones/ActiveInference.jl
-uv run start-clone --url https://github.com/docxology/ActiveInference.jl --dest src/_clones/ActiveInference.jl --branch textbook --shallow
+rm -rf src/_clones/activeinference
+uv run start-clone --url https://github.com/docxology/ActiveInference.jl --dest src/_clones/activeinference --branch textbook --shallow
 ```

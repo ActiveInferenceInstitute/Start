@@ -12,11 +12,11 @@ data/
 
 ### Audience Research
 - Inputs: entities defined in `data/config/entities.yaml`
-- Outputs: `<entity-id>_research_<YYYYMMDD>.json`; display names remain in metadata
+- Outputs: `<display-name>_research_<YYYYMMDD>.json` (e.g. `Barry Bonds_research_20250903.json`); stable identifiers are recorded in metadata and manifests
 
 ### Domain Research
 - Inputs: domains defined in `data/config/domains.yaml`
-- Outputs: `<domain-id>_research_<YYYYMMDD>.{json,md}`; display names remain in metadata
+- Outputs: `<display-name>_research_<YYYYMMDD>.{json,md}` (e.g. `Coffee Roasting_research_20250903_073951.json`); stable identifiers are recorded in metadata and manifests
 
 ## Curriculum Content
 
@@ -27,8 +27,8 @@ data/
 ```
 
 ### Written Curriculums
-- Structure: per-stable-ID folders containing section `.md` files and a summary `.json`.
-- Example: `data/written_curriculums/coffee_roasting/`
+- Structure: per-display-name folders containing section `.md` files and a summary `.json`.
+- Example: `data/written_curriculums/Coffee Roasting/`
 
 ### Translated Curriculums
 - Structure: stable language-ID subfolders (e.g., `spanish/`, `french/`, `chinese/`).
