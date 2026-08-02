@@ -28,7 +28,8 @@ START generates professional-grade Active Inference curricula using:
 ## Quick Start
 
 ```bash
-cd projects/ongoing/instituteos/repos/Start
+git clone https://github.com/ActiveInferenceInstitute/Start.git
+cd Start
 
 # Install dependencies
 uv sync --all-extras --dev
