@@ -136,11 +136,11 @@ chmod +x ./run_docs.sh && ./run_docs.sh
 
 Equations are supported via LaTeX in Markdown. For example, variational free energy:
 
-\[ F(q) = \mathbb{E}_{q(z)}[\log q(z)] - \mathbb{E}_{q(z)}[\log p(x, z)] \]
+$$ F(q) = \mathbb{E}_{q(z)}[\log q(z)] - \mathbb{E}_{q(z)}[\log p(x, z)] $$
 
 and Bayes' rule:
 
-\( p(z\mid x) = \frac{p(x\mid z)\,p(z)}{p(x)} \).
+$ p(z\mid x) = \frac{p(x\mid z)\,p(z)}{p(x)} $.
 
 ### Common tasks (development)
 
