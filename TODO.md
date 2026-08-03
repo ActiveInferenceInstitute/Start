@@ -5,8 +5,86 @@ work that remains after the deepest red-team review and hardening pass
 (2026-08-01).
 
 - Status: active (no release cut yet)
-- Last reviewed: 2026-08-01 (deep hostile red-team pass; Minor/Medium findings
-  implemented; Major findings scoped below)
+- Last reviewed: 2026-08-02 (docs-deep review pass; Minor/Medium findings
+  implemented; see the dated section below)
+
+## Docs deep review (2026-08-02)
+
+Scoped and implemented during the mega-deep documentation pass. Severity
+definitions: **Minor** = typo, broken link, formatting; **Medium** = stale
+section rewrite, doc restructure, added missing guide; **Major** = large doc
+system overhaul or cross-cutting refactor.
+
+### Major
+
+- [x] ✓ Remove a local developer path from `.aii/SKILL.md` (tracked file in
+  a public repo); replaced with a generic clone instruction.
+  (commit `docs: sanitize local path in .aii/SKILL.md (public repo)`)
+- [x] ✓ Fix `learning/` guides documenting `--input`/`--output` flags that
+  `start-curriculum` rejects (exit 2); the canonical CLI uses
+  `--visualizations-dir`, `--translation-dir`, `--curriculum-dir`.
+  (commit `docs: fix CLI flags in learning guides to canonical start-curriculum`)
+- [x] ✓ Document the `src/pipeline/` module (canonical orchestrator) in
+  `src/AGENTS.md` and `src/README.md`; refresh the stale `src/config/`
+  description (now `catalog.py` + `schemas.py` + `languages.py`).
+  (commit `docs: document src/pipeline in source references`)
+
+### Medium
+
+- [x] ✓ `docs/environment.md`: mypy command now full-scope
+  (`mypy src scripts learning --ignore-missing-imports`), matching CI;
+  fix `docs/TESTING.md` relative path; align model env defaults with
+  `src/perplexity/clients.py`.
+- [x] ✓ `docs/curriculum_gui.md`: remove the "only the Python standard
+  library" overclaim (GUI imports project pipeline modules).
+- [x] ✓ `README.md`: unify Zenodo DOI (badge/citation use
+  `10.5281/zenodo.17047617`; inline text said `...19`).
+- [x] ✓ `docs/clones.md`: add missing `gnn` and `cerebrum` repositories;
+  correct clone destinations to the code keys (`rxinfer`,
+  `activeinference`) and the after-cloning structure tree.
+- [x] ✓ `docs/data_outputs.md`: research filenames use display names
+  (e.g. `Barry Bonds_research_20250903.json`), not stable IDs; stable IDs
+  appear in diagrams/manifests.
+- [x] ✓ `docs/docs_and_deployment.md`: point at the existing
+  `.github/workflows/deploy_docs.yml` instead of describing an Actions
+  workflow as a to-be-added alternative.
+- [x] ✓ `docs/FAQ.md`: merge the duplicated "Where do outputs go?" entry.
+- [x] ✓ `learning/curriculum_creation/README.md`: correct Input lines
+  (config-driven), dependency list (drop `pydantic`, `pathlib`), and
+  `--input`/`--output` CLI examples.
+- [x] ✓ `learning/curriculum_creation/USAGE_GUIDE.md`: fix `--input`/
+  `--output` examples and the broken `an#` H1.
+- [x] ✓ `docs/AGENTS.md` (docs hub list): add `methods.md`, `manuscript.md`,
+  `operations.md`, `curriculum_gui.md` to the file index.
+
+### Minor
+
+- [x] ✓ `docs/README.md`: remove duplicate H1 (`# START Documentation —
+  README` vs `# START documentation`).
+- [x] ✓ `docs/index.md`: fix `** Professional Domains**` bold-marker typo;
+  align the inferant-stream link label with its relative path.
+- [x] ✓ `docs/getting_started.md`, `docs/pipeline.md`,
+  `docs/environment.md`: `docs/`-prefixed intra-doc paths are wrong from
+  inside `docs/`; use relative names.
+- [x] ✓ `docs/TESTING.md`: annotate the `--cov-fail-under=80` example as
+  the matrix baseline (release floor is 90).
+- [x] ✓ `docs/conventions.md`: use `./run_docs.sh --serve` consistently.
+- [x] ✓ `tests/AGENTS.md`: remove duplicate `test_repos_cloning.py` /
+  `test_run_script_integration.py` entries.
+- [x] ✓ `examples/AGENTS.md`: fix off-by-one line counts for `vfe.jsx`
+  (1180) and `vfe-compiled.html` (9403).
+- [x] ✓ `AGENTS.md` root: complete the stable-commands list
+  (`start-clone`, `start-curate-artifacts`, `start-run-history`).
+- [x] ✓ `.env.example`: replace `default_model_name` placeholders with the
+  real defaults used by `src/perplexity/clients.py`.
+- [x] ✓ `here.md`: use `$$`/`$` math delimiters so equations render on
+  GitHub (backslash delimiters are not rendered).
+
+### Open / deferred
+
+- None from this pass. The remaining TODO sections below (P0–P3 and the
+  Major deferrals) are unchanged and remain the forward backlog.
+
 
 ## P0 — Release blockers
 
