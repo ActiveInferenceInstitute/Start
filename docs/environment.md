@@ -2,7 +2,10 @@
 
 START supports Python 3.10, 3.11, and 3.12. Use the locked `uv` environment
 for local commands, CI, and documentation builds so dependency resolution does
-not vary between surfaces.
+not vary between surfaces. The repo pins the interpreter with
+[`.python-version`](../.python-version) (`3.12`) because key dependencies (e.g.
+`spacy`) publish no wheel for newer CPythons; without the pin a cold `uv run`
+on a 3.14-default machine fails at install time.
 
 ```bash
 uv sync --all-extras --dev
