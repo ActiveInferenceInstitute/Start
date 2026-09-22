@@ -19,7 +19,7 @@ generated curricula, or included in the release bundle.
 
 #### **gnn** (Generalized Notation Notation)
 
-- **URL**: [github.com/ActiveInferenceInstitute/GeneralizedNotationNotation](https://github.com/ActiveInferenceInstitute/GeneralizedNotationNotation/)
+- **URL**: [github.com/ActiveInferenceInstitute/Generalized_Notation_Notation](https://github.com/ActiveInferenceInstitute/Generalized_Notation_Notation/)
 - **Destination**: `src/_clones/gnn`
 - **Purpose**: Generalized Notation Notation (GNN) project by the Active Inference Institute
 - **Integration**: Optional reference material; generated claims require independent source review
@@ -109,7 +109,7 @@ Use the integrated clone utility for consistent repository management:
 uv run start-clone --url https://github.com/ActiveInferenceInstitute/cognitive --dest src/_clones/cognitive --shallow
 
 # Generalized Notation Notation (GNN)
-uv run start-clone --url https://github.com/ActiveInferenceInstitute/GeneralizedNotationNotation --dest src/_clones/gnn --shallow
+uv run start-clone --url https://github.com/ActiveInferenceInstitute/Generalized_Notation_Notation --dest src/_clones/gnn --shallow
 
 # CEREBRUM
 uv run start-clone --url https://github.com/ActiveInferenceInstitute/CEREBRUM --dest src/_clones/cerebrum --shallow
