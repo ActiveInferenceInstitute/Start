@@ -122,7 +122,7 @@ def get_predefined_repositories() -> Dict[str, RepoInfo]:
         ),
         "gnn": RepoInfo(
             name="gnn",
-            url="https://github.com/ActiveInferenceInstitute/GeneralizedNotationNotation/",
+            url="https://github.com/ActiveInferenceInstitute/Generalized_Notation_Notation/",
             description="Generalized Notation Notation (GNN) by Active Inference Institute",
             category="active_inference",
             shallow=True,
