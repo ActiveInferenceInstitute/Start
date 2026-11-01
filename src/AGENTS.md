@@ -66,10 +66,20 @@ staged `learning/curriculum_creation/*.py` delegators
 
 **Key Modules**:
 - `manager.py`: High-level repository management interface
-- `cloning.py`: Repository cloning operations
+- `cloning.py`: Repository cloning operations, registered revisions, revision checks
 - `clone_repo.py`: Low-level git cloning utilities
 
 **See**: [repos/AGENTS.md](repos/AGENTS.md) for detailed function reference
+
+### `gnn/`
+**Purpose**: `start-gnn` orchestrator for the cloned GNN pipeline
+
+**Key Modules**:
+- `main.py`: Public API and CLI (run a bounded GNN step selection, summarize outputs)
+- `utils.py`: Report helpers (JSON reading, hashing, step parsing, formatting)
+- `config.py`: Default steps, target/output directories, summary artifact paths
+
+**See**: [gnn/AGENTS.md](gnn/AGENTS.md) for detailed function reference
 
 ### `system/`
 **Purpose**: System utilities, diagnostics, and environment management

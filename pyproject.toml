@@ -64,6 +64,7 @@ dev = [
 start-curriculum = "learning.curriculum_creation.generate_custom_curriculum:main"
 start-curriculum-gui = "learning.curriculum_creation.generate_curriculum_gui:main"
 start-clone = "src.repos.clone_repo:main"
+start-gnn = "src.gnn.main:main"
 start-audit-artifacts = "scripts.audit_artifacts:main"
 start-curate-artifacts = "scripts.curate_artifacts:main"
 start-regenerate-offline = "scripts.regenerate_offline_fixtures:main"

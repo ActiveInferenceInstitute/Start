@@ -75,6 +75,7 @@ Information about a repository to clone.
 - `category: str`: Repository category (default: "general")
 - `shallow: bool`: Whether to perform shallow clone (default: True)
 - `destination: Optional[str]`: Custom destination path (default: None)
+- `revision: str`: Pinned upstream commit for provenance and verification (default: ""; set for `gnn`)
 
 #### `CloneResult`
 Result of a repository cloning operation.
@@ -182,6 +183,19 @@ Gets status information for a repository.
   - `last_commit_date`: Last commit date
   - `remote_url`: Remote repository URL
   - `size_mb`: Repository size in MB
+
+#### `get_repository_revision_info(repo_path: Path, revision: str) -> Dict[str, any]`
+Compares HEAD with an expected upstream revision recorded in the clone
+registration.  A shallow clone cannot resolve an arbitrary commit, so callers
+receive the factual relationship rather than an assumption.
+
+**Parameters**:
+- `repo_path`: Path to the repository working tree
+- `revision`: Expected commit SHA from the clone registration
+
+**Returns**: Dictionary with `head`, `registered_revision`, `relation`
+(`at_revision`, `ahead_of_revision`, `diverged` or `unknown`),
+`revision_object_present`, and a human-readable `detail`
 
 #### `cleanup_failed_clones(base_dir: Optional[Path] = None) -> List[str]`
 Cleans up failed clone attempts.

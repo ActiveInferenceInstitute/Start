@@ -21,7 +21,11 @@ def _git(*args: str, cwd=None) -> None:
 def _local_remote(tmp_path):
     bare = tmp_path / "remote.git"
     source = tmp_path / "source"
-    _git("init", "--bare", str(bare))
+    # Name the bare repository's default branch explicitly: `git init`'s default
+    # depends on the machine's git version and configuration (master on some
+    # hosts, main on others), and a HEAD dangling at a branch that is never
+    # pushed decides what a clone checks out.
+    _git("init", "--bare", "-b", "main", str(bare))
     _git("init", "-b", "main", str(source))
     _git("config", "user.email", "tests@example.invalid", cwd=source)
     _git("config", "user.name", "START tests", cwd=source)
@@ -96,6 +100,17 @@ def test_failed_clone_removes_new_partial_destination(tmp_path):
     )
     assert result.success is False
     assert not destination.exists()
+
+
+def test_gnn_registration_carries_the_pinned_revision():
+    """The GNN checklist pin is registration provenance, not a checkout check."""
+    from src.repos.cloning import get_predefined_repositories
+
+    registered = get_predefined_repositories()["gnn"]
+    assert registered.revision == "8f293d9ba810e6eda5c09842d9c7ed9ffa5f92c1"
+    assert registered.url.endswith("Generalized_Notation_Notation/")
+    positional = RepoInfo("plain", "https://example.invalid/repo")
+    assert positional.revision == ""
 
 
 def test_cleanup_only_removes_incomplete_children(tmp_path):

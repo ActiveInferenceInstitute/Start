@@ -59,6 +59,7 @@ class RepositoryManager:
                 "description": repo_info.description,
                 "category": repo_info.category,
                 "shallow": repo_info.shallow,
+                "revision": repo_info.revision,
             }
 
         return result

@@ -18,7 +18,7 @@ High-level repository management interface:
 
 ### `cloning.py`
 Repository cloning operations:
-- `RepoInfo`: Repository information dataclass
+- `RepoInfo`: Repository information dataclass (including an optional pinned `revision`)
 - `CloneResult`: Cloning operation result dataclass
 - `get_predefined_repositories()`: Get list of predefined repositories
 - `clone_repository()`: Clone a single repository
@@ -27,6 +27,7 @@ Repository cloning operations:
 - `get_cloned_repositories()`: List already cloned repositories
 - `update_repository()`: Update an existing repository
 - `get_repository_status()`: Get repository status information
+- `get_repository_revision_info()`: Compare HEAD with a registered revision
 - `cleanup_failed_clones()`: Clean up failed clone attempts
 - `validate_repository_url()`: Validate repository URL format
 
