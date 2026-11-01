@@ -21,8 +21,9 @@ generated curricula, or included in the release bundle.
 
 - **URL**: [github.com/ActiveInferenceInstitute/Generalized_Notation_Notation](https://github.com/ActiveInferenceInstitute/Generalized_Notation_Notation/)
 - **Destination**: `src/_clones/gnn`
+- **Revision**: `8f293d9ba810e6eda5c09842d9c7ed9ffa5f92c1` (v5.0.3) — the registered revision recorded in `src/repos/cloning.py`
 - **Purpose**: Generalized Notation Notation (GNN) project by the Active Inference Institute
-- **Integration**: Optional reference material; generated claims require independent source review
+- **Integration**: Optional reference material; generated claims require independent source review. `start-gnn` runs the pipeline in this checkout and reports the artifacts it produced.
 
 #### **cerebrum** (CEREBRUM)
 
@@ -90,6 +91,7 @@ Steps
 Links
 
 - Clone utility: `uv run start-clone` (the module is also importable as a Python API)
+- GNN pipeline runner: `uv run start-gnn` (see [Running the GNN Pipeline](#running-the-gnn-pipeline))
 
 ### Interactive (recommended)
 
@@ -143,6 +145,44 @@ git clone --shallow-since="2023-01-01" --branch textbook https://github.com/docx
 cd src/_clones/cognitive && git pull origin main
 cd src/_clones/pymdp && git pull origin textbook
 ```
+
+## Running the GNN Pipeline
+
+The GNN checkout contains its own 25-step pipeline. `start-gnn` runs a bounded
+selection (default steps 3, 5, 11, 12: parse, type-check, render, execute) and
+reports what it produced: per-step statuses, artifact counts, artifact hashes,
+and the models the pipeline recorded as consumed.
+
+```bash
+# Default: steps 3,5,11,12 over input/gnn_files/basics
+uv run start-gnn
+
+# Full exemplar corpus, with a machine-readable report
+uv run start-gnn --target input/gnn_files --json
+
+# Print the command without executing it
+uv run start-gnn --dry-run
+
+# Clone the registered repository first when the checkout is missing
+uv run start-gnn --clone
+
+# Fail closed when the checkout is not the registered revision
+uv run start-gnn --require-pin
+```
+
+Behaviour
+
+- The interpreter is the checkout's own `.venv` when present, then
+  `uv run --frozen --no-sync python` (no environment mutation), then the
+  interpreter running START. Override with `--python-executable`.
+- The default output directory is the upstream default `<checkout>/output`;
+  `--output-dir <path>` keeps a run outside the checkout.
+- Each run writes `start_gnn_summary.json`, `start_gnn_stdout.log` and (when
+  non-empty) `start_gnn_stderr.log` beside the pipeline artifacts.
+- The report states the checkout HEAD and its relation to the registered
+  revision (`at_revision`, `ahead_of_revision`, `diverged`, or `unknown` when a
+  shallow clone cannot resolve the revision object).
+- Exit codes: `0` pipeline ran, `1` pipeline failed, `2` run refused.
 
 ## Integration with Curriculum Pipeline
 

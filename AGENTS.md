@@ -66,6 +66,7 @@ Lock file for dependency versions managed by uv.
 - `uv run start-curriculum`: canonical acquire → prepare → process → parse → render orchestrator
 - `uv run start-curriculum-gui`: loopback-only GUI by default
 - `uv run start-clone`: clone external repositories via the CLI utility
+- `uv run start-gnn`: run the cloned GNN pipeline (default steps 3,5,11,12) and summarize its outputs
 - `uv run start-validate-outputs --check`: structural output validation
 - `uv run start-audit-artifacts --check`: non-destructive provenance and duplication audit
 - `uv run start-curate-artifacts`: plan-first curation with a reviewed allow-list

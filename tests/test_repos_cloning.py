@@ -98,6 +98,17 @@ def test_failed_clone_removes_new_partial_destination(tmp_path):
     assert not destination.exists()
 
 
+def test_gnn_registration_carries_the_pinned_revision():
+    """The GNN checklist pin is registration provenance, not a checkout check."""
+    from src.repos.cloning import get_predefined_repositories
+
+    registered = get_predefined_repositories()["gnn"]
+    assert registered.revision == "8f293d9ba810e6eda5c09842d9c7ed9ffa5f92c1"
+    assert registered.url.endswith("Generalized_Notation_Notation/")
+    positional = RepoInfo("plain", "https://example.invalid/repo")
+    assert positional.revision == ""
+
+
 def test_cleanup_only_removes_incomplete_children(tmp_path):
     clones = tmp_path / "clones"
     clones.mkdir()

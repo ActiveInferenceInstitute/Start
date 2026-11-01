@@ -81,6 +81,13 @@ def _unsafe_repo_config_message(repo_path: Path) -> str | None:
     return None
 
 
+# Revision relationships reported by get_repository_revision_info().
+REVISION_AT_RECORDED = "at_revision"
+REVISION_AHEAD_OF_RECORDED = "ahead_of_revision"
+REVISION_DIVERGED = "diverged"
+REVISION_UNKNOWN = "unknown"
+
+
 @dataclass
 class RepoInfo:
     """Information about a repository to clone."""
@@ -92,6 +99,7 @@ class RepoInfo:
     category: str = "general"
     shallow: bool = True
     destination: Optional[str] = None
+    revision: str = ""
 
 
 @dataclass
@@ -126,6 +134,8 @@ def get_predefined_repositories() -> Dict[str, RepoInfo]:
             description="Generalized Notation Notation (GNN) by Active Inference Institute",
             category="active_inference",
             shallow=True,
+            # GNN v5.0.3; the shared canonical revision for the education workstream.
+            revision="8f293d9ba810e6eda5c09842d9c7ed9ffa5f92c1",
         ),
         "cerebrum": RepoInfo(
             name="cerebrum",
@@ -688,6 +698,114 @@ def get_repository_status(repo_path: Path) -> Dict[str, Any]:
         status["errors"].append(f"size: {exc}")
 
     return status
+
+
+def get_repository_revision_info(repo_path: Path, revision: str) -> Dict[str, Any]:
+    """Compare a repository HEAD against an expected upstream revision.
+
+    The revision recorded on a :class:`RepoInfo` is provenance, not a checkout
+    instruction: shallow clones cannot resolve an arbitrary commit, so callers
+    get the factual relationship instead of an assumption.
+
+    Args:
+        repo_path: Path to the repository working tree
+        revision: Expected commit SHA recorded in the clone registration
+
+    Returns:
+        Dictionary with ``head``, ``relation`` (``at_revision``,
+        ``ahead_of_revision``, ``diverged`` or ``unknown``),
+        ``revision_object_present`` and a human-readable ``detail``
+    """
+    info: Dict[str, Any] = {
+        "head": None,
+        "registered_revision": revision or "",
+        "relation": REVISION_UNKNOWN,
+        "revision_object_present": False,
+        "detail": "",
+    }
+    if not revision:
+        info["detail"] = "no registered revision to compare against"
+        return info
+    if not re.fullmatch(r"[0-9a-fA-F]{7,64}", revision):
+        info["detail"] = f"registered revision is not a commit SHA: {revision!r}"
+        return info
+    if not repo_path.exists() or repo_path.is_symlink() or not (repo_path / ".git").exists():
+        info["detail"] = "path is not a git working tree"
+        return info
+
+    unsafe = _unsafe_repo_config_message(repo_path)
+    if unsafe:
+        info["detail"] = unsafe
+        return info
+
+    try:
+        head_result = subprocess.run(
+            _git_safe_command("rev-parse", "HEAD"),
+            cwd=repo_path,
+            env=_git_safe_env(),
+            capture_output=True,
+            text=True,
+            timeout=5,
+        )
+    except Exception as exc:
+        info["detail"] = f"rev-parse: {exc}"
+        return info
+    if head_result.returncode != 0:
+        info["detail"] = "repository has no HEAD commit"
+        return info
+
+    head = head_result.stdout.strip()
+    info["head"] = head
+    if head == revision:
+        info["relation"] = REVISION_AT_RECORDED
+        info["revision_object_present"] = True
+        info["detail"] = "HEAD is the registered revision"
+        return info
+
+    info["revision_object_present"] = _git_object_present(repo_path, revision)
+    if not info["revision_object_present"]:
+        info["detail"] = (
+            "registered revision object is absent locally "
+            "(shallow or trimmed clone); relationship unknown"
+        )
+        return info
+
+    try:
+        ancestor = subprocess.run(
+            _git_safe_command("merge-base", "--is-ancestor", revision, head),
+            cwd=repo_path,
+            env=_git_safe_env(),
+            capture_output=True,
+            text=True,
+            timeout=10,
+        )
+    except Exception as exc:
+        info["detail"] = f"merge-base: {exc}"
+        return info
+
+    if ancestor.returncode == 0:
+        info["relation"] = REVISION_AHEAD_OF_RECORDED
+        info["detail"] = "HEAD descends from the registered revision"
+    else:
+        info["relation"] = REVISION_DIVERGED
+        info["detail"] = "HEAD neither matches nor descends from the registered revision"
+    return info
+
+
+def _git_object_present(repo_path: Path, revision: str) -> bool:
+    """Whether ``revision`` resolves to a commit in the local object store."""
+    try:
+        result = subprocess.run(
+            _git_safe_command("cat-file", "-e", f"{revision}^{{commit}}"),
+            cwd=repo_path,
+            env=_git_safe_env(),
+            capture_output=True,
+            text=True,
+            timeout=5,
+        )
+    except Exception:
+        return False
+    return result.returncode == 0
 
 
 def cleanup_failed_clones(base_dir: Optional[Path] = None) -> List[str]:
