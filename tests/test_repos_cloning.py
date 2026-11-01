@@ -21,7 +21,11 @@ def _git(*args: str, cwd=None) -> None:
 def _local_remote(tmp_path):
     bare = tmp_path / "remote.git"
     source = tmp_path / "source"
-    _git("init", "--bare", str(bare))
+    # Name the bare repository's default branch explicitly: `git init`'s default
+    # depends on the machine's git version and configuration (master on some
+    # hosts, main on others), and a HEAD dangling at a branch that is never
+    # pushed decides what a clone checks out.
+    _git("init", "--bare", "-b", "main", str(bare))
     _git("init", "-b", "main", str(source))
     _git("config", "user.email", "tests@example.invalid", cwd=source)
     _git("config", "user.name", "START tests", cwd=source)
