@@ -2,7 +2,7 @@
 
 The fixtures here are real: real git repositories, a real pipeline entry-point
 script that writes the same summary files the GNN pipeline writes, and real
-subprocess execution.  Nothing about the code under test is mocked.
+subprocess execution.  Every test drives the code under test directly.
 """
 
 from __future__ import annotations
