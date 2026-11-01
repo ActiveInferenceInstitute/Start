@@ -99,8 +99,15 @@ def parse_step_selection(value: str | Iterable[int] | None) -> tuple[int, ...]:
     return tuple(steps)
 
 
-def tail_lines(text: str, limit: int) -> list[str]:
-    """Last ``limit`` non-empty lines of process output."""
+def tail_lines(text: str | bytes, limit: int) -> list[str]:
+    """Last ``limit`` non-empty lines of process output.
+
+    A ``subprocess`` exception reports its captured output as ``bytes | str |
+    None`` regardless of how the child was started, so both text forms are
+    accepted here and bytes are decoded with replacement rather than guessed at.
+    """
+    if isinstance(text, bytes):
+        text = text.decode("utf-8", errors="replace")
     lines = [line for line in text.splitlines() if line.strip()]
     return lines[-limit:] if limit > 0 else []
 
