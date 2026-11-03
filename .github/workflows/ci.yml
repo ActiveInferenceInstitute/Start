@@ -40,7 +40,9 @@ jobs:
         run: uv run python -m scripts.validate_repository
 
       - name: Audit generated artifacts
-        run: uv run python -m scripts.audit_artifacts --check
+        run: >-
+          uv run python -m scripts.audit_artifacts --check
+          --baseline data/artifact-manifests/current.json
 
       - name: Validate generated output contracts
         run: uv run start-validate-outputs --check

@@ -12,7 +12,7 @@ from types import SimpleNamespace
 
 import pytest
 
-from scripts.audit_artifacts import audit_artifacts
+from scripts.audit_artifacts import audit_artifacts, main
 from scripts.curate_artifacts import apply_curation, plan_curation
 from scripts.regenerate_offline_fixtures import regenerate
 from scripts.validate_outputs import validate_outputs
@@ -807,6 +807,43 @@ def test_artifact_audit_is_non_destructive_and_reports_provenance(tmp_path: Path
     assert report["summary"]["file_count"] == 1
     assert report["summary"]["unprovenanced_count"] == 1
     assert (target / "complete_curriculum.md").exists()
+
+
+def test_artifact_audit_check_fails_on_unprovenanced(tmp_path: Path) -> None:
+    target = tmp_path / "data" / "written_curriculums" / "reader"
+    target.mkdir(parents=True)
+    (target / "complete_curriculum.md").write_text("# no metadata", encoding="utf-8")
+
+    assert main(["--root", str(tmp_path), "--check"]) == 1
+
+
+def test_artifact_audit_check_ratchets_recorded_provenance_debt(tmp_path: Path) -> None:
+    target = tmp_path / "data" / "written_curriculums" / "reader"
+    target.mkdir(parents=True)
+    (target / "complete_curriculum.md").write_text("# no metadata", encoding="utf-8")
+    baseline = tmp_path / "baseline.json"
+    baseline.write_text(
+        json.dumps({"unprovenanced": ["data/written_curriculums/reader/complete_curriculum.md"]}),
+        encoding="utf-8",
+    )
+
+    assert main(["--root", str(tmp_path), "--check", "--baseline", str(baseline)]) == 0
+
+    (target / "new_curriculum.md").write_text("# new", encoding="utf-8")
+    assert main(["--root", str(tmp_path), "--check", "--baseline", str(baseline)]) == 1
+    assert (
+        main(
+            [
+                "--root",
+                str(tmp_path),
+                "--check",
+                "--baseline",
+                str(baseline),
+                "--fail-on-unprovenanced",
+            ]
+        )
+        == 1
+    )
 
 
 def test_artifact_curation_is_plan_first_and_hash_checked(tmp_path: Path) -> None:

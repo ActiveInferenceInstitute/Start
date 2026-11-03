@@ -67,6 +67,16 @@ def _has_symlink_boundary(path: Path, root: Path) -> bool:
     return any(parent != root and parent.is_symlink() for parent in path.parents)
 
 
+def _load_baseline(path: Path) -> set[str]:
+    """Return the unprovenanced paths accepted by a recorded audit manifest."""
+
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    values = payload.get("unprovenanced") if isinstance(payload, dict) else payload
+    if not isinstance(values, list) or any(not isinstance(value, str) for value in values):
+        raise ValueError("baseline manifest must contain an unprovenanced list")
+    return {Path(value).as_posix() for value in values}
+
+
 def audit_artifacts(root: Path) -> dict[str, Any]:
     """Return a deterministic, JSON-serializable artifact inventory."""
 
@@ -153,16 +163,34 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--write", type=Path, help="Write the inventory manifest to this path")
     parser.add_argument("--json", action="store_true", help="Print the complete inventory JSON")
     parser.add_argument(
-        "--check", action="store_true", help="Fail on unreadable or unsafe artifacts"
+        "--check",
+        action="store_true",
+        help=(
+            "Fail on unreadable or unsafe artifacts, or on unprovenanced "
+            "artifacts not recorded in --baseline"
+        ),
+    )
+    parser.add_argument(
+        "--baseline",
+        type=Path,
+        help="Recorded audit manifest whose unprovenanced paths are accepted debt",
     )
     parser.add_argument(
         "--fail-on-unprovenanced",
         action="store_true",
-        help="Treat missing provenance as a release failure",
+        help="Treat any missing provenance as a release failure, baseline or not",
     )
     args = parser.parse_args(argv)
     root = args.root.expanduser().resolve()
     report = audit_artifacts(root)
+    baseline: set[str] = set()
+    if args.baseline:
+        try:
+            baseline = _load_baseline(args.baseline.expanduser())
+        except (OSError, ValueError) as exc:
+            print(f"Invalid baseline manifest: {args.baseline}: {exc}")
+            return 1
+    new_unprovenanced = [path for path in report["unprovenanced"] if path not in baseline]
     if args.write:
         destination = args.write.expanduser()
         ensure_parent_dir(destination)
@@ -171,12 +199,13 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(report, indent=2, sort_keys=True))
     else:
         summary = report["summary"]
+        suffix = f"; {len(new_unprovenanced)} new against baseline" if args.baseline else ""
         print(
             f"Audited {summary['file_count']} artifacts; "
             f"{summary['duplicate_group_count']} duplicate groups; "
-            f"{summary['unprovenanced_count']} without provenance"
+            f"{summary['unprovenanced_count']} without provenance{suffix}"
         )
-    if args.check and report["errors"]:
+    if args.check and (report["errors"] or new_unprovenanced):
         return 1
     if args.fail_on_unprovenanced and report["unprovenanced"]:
         return 1

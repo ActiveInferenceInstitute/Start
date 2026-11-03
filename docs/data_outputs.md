@@ -83,6 +83,13 @@ Use these to control which entities/domains/languages are processed.
 Audit is read-only. Curation requires a human-reviewed JSON allow-list and is
 plan-first; mutation requires an explicit archive destination or `--remove`.
 
+`--check` fails on unreadable or unsafe artifacts and on unprovenanced
+artifacts not recorded in `--baseline`. CI passes
+`--baseline data/artifact-manifests/current.json`, so the recorded debt stays
+visible without failing every pull request; a new unprovenanced artifact still
+fails. The release gate uses `--fail-on-unprovenanced`, which fails on any
+unprovenanced artifact.
+
 ```bash
 uv run start-audit-artifacts --root . --write data/artifact-manifests/current.json
 uv run start-curate-artifacts --manifest data/artifact-manifests/current.json \
