@@ -7,6 +7,81 @@ on:
     branches: [main]
 
 jobs:
+  gnn-conformance:
+    name: gnn conformance (pinned)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          enable-cache: true
+
+      - name: Set up Python
+        run: uv python install 3.12
+
+      - name: Install dependencies
+        run: uv sync --all-extras --dev
+
+      - name: Check pinned GNN registration
+        run: |
+          uv run python - <<'PY'
+          import json
+          from pathlib import Path
+
+          from src.gnn.main import build_pipeline_command, registered_revision
+
+          pin = json.loads(Path(".github/gnn-pin.json").read_text(encoding="utf-8"))
+          assert pin["repository"] == "ActiveInferenceInstitute/Generalized_Notation_Notation"
+          assert registered_revision() == pin["revision"]
+          command = build_pipeline_command(
+              ["python"], (3, 5), Path("/tmp/gnn-models"), Path("/tmp/gnn-output")
+          )
+          assert command[1] == "src/gnn/main.py"
+          assert command[command.index("--only-steps") + 1] == "3,5"
+          print(f"registered GNN revision: {registered_revision()}")
+          PY
+
+      - name: Run GNN orchestrator tests
+        run: uv run pytest tests/test_gnn_runner.py -q
+
+      - name: Parse the pinned GNN exemplar
+        run: |
+          uv pip install --no-deps defusedxml psutil \
+            "generalized-notation-notation @ git+https://github.com/ActiveInferenceInstitute/Generalized_Notation_Notation.git@8f293d9ba810e6eda5c09842d9c7ed9ffa5f92c1"
+          curl -fsSL \
+            "https://raw.githubusercontent.com/ActiveInferenceInstitute/Generalized_Notation_Notation/8f293d9ba810e6eda5c09842d9c7ed9ffa5f92c1/input/gnn_files/basics/static_perception.md" \
+            -o /tmp/start-gnn-static-perception.md
+          uv run --no-sync python - <<'PY'
+          import json
+          import shutil
+          import tempfile
+          from pathlib import Path
+
+          from gnn import __version__
+          from gnn.parsers.basic import parse_gnn_formal, validate_gnn_syntax
+          from gnn.type_checker import GNNTypeChecker
+
+          model = Path("/tmp/start-gnn-static-perception.md")
+          parsed = parse_gnn_formal(model)
+          if parsed is None or getattr(parsed, "parse_errors", None):
+              raise SystemExit("pinned exemplar did not parse cleanly")
+          valid, errors = validate_gnn_syntax(model.read_text(encoding="utf-8"))
+          if not valid:
+              raise SystemExit(f"pinned exemplar syntax errors: {errors!r}")
+
+          with tempfile.TemporaryDirectory(prefix="start-gnn-") as output_dir:
+              model_dir = Path(output_dir) / "models"
+              model_dir.mkdir()
+              shutil.copy(model, model_dir / "static_perception.md")
+              if not GNNTypeChecker().validate_gnn_files(model_dir, Path(output_dir)):
+                  raise SystemExit("GNN type checker rejected the pinned exemplar")
+
+          print(json.dumps({"gnn-version": __version__, "result": "verified"}, sort_keys=True))
+          PY
+
   test:
     runs-on: ubuntu-latest
     strategy:
