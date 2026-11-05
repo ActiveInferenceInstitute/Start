@@ -1,0 +1,8 @@
+# The legacy GitHub Pages Jekyll build cannot parse generated curriculum
+# filenames containing ":"; MkDocs remains the published documentation build.
+exclude:
+  - data/written_curriculums
+  # Defining exclude replaces Jekyll's defaults; keep tracked example modules
+  # out of the Liquid parser as the default node_modules exclusion would.
+  - examples/vfe/node_modules
+  - examples/efe/node_modules
