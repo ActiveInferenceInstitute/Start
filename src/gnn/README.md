@@ -79,6 +79,15 @@ three receipts beside the pipeline artifacts:
 | `start_gnn_stdout.log` | Raw pipeline stdout |
 | `start_gnn_stderr.log` | Raw pipeline stderr (when non-empty) |
 
+## CI conformance check
+
+The repository's `gnn conformance (pinned)` job reads
+[`.github/gnn-pin.json`](../../.github/gnn-pin.json), asserts that the registered
+GNN revision matches the pin, runs `tests/test_gnn_runner.py`, and parses a
+verbatim GNN exemplar fetched from that revision with the pinned parser and type
+checker. It does not run the full pipeline; the orchestrator tests cover the
+command and receipt path with a real git checkout and a fixture pipeline.
+
 ## Reading the report
 
 `checkout_status.relation` is one of:
