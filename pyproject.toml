@@ -1,9 +1,10 @@
 [project]
 name = "start"
-version = "0.1.0"
+version = "0.2.0"
 description = "Active Inference curriculum generator and visualization toolkit"
 readme = "README.md"
-requires-python = ">=3.10"
+# 3.11 is the oldest release still receiving security fixes (3.10 reached end of life 2026-10-01, 3.9 on 2025-10-31). Pillow 13.0.0 declares requires-python >=3.11, so an advertised older range keeps a vulnerable pillow in the lock for interpreters that no longer get fixes. Do not lower this floor.
+requires-python = ">=3.11"
 authors = [{ name = "Active Inference Institute" }]
 license = { text = "CC BY-SA 4.0" }
 keywords = ["active inference", "curriculum", "research", "education", "provenance"]
@@ -12,7 +13,6 @@ classifiers = [
   "Intended Audience :: Education",
   "Intended Audience :: Science/Research",
   "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Operating System :: POSIX :: Linux",
