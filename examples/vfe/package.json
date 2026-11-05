@@ -17,5 +17,8 @@
     "playwright": "^1.40.0",
     "gifencoder": "^2.0.1",
     "canvas": "^2.11.2"
+  },
+  "overrides": {
+    "tar": "^7.5.21"
   }
 }
