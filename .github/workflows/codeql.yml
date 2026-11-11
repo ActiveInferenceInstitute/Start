@@ -13,8 +13,13 @@ permissions:
   contents: read
   security-events: write
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   analyze:
+    timeout-minutes: 120
     name: Analyze Python
     runs-on: ubuntu-latest
     steps:

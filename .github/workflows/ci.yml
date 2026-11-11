@@ -6,6 +6,13 @@ on:
   pull_request:
     branches: [main]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
 jobs:
   gnn-conformance:
     name: gnn conformance (pinned)
@@ -83,6 +90,7 @@ jobs:
           PY
 
   test:
+    timeout-minutes: 120
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -223,6 +231,7 @@ jobs:
           START_REPO_ROOT: ${{ github.workspace }}
 
   docs:
+    timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -243,6 +252,7 @@ jobs:
         working-directory: .
 
   macos-smoke:
+    timeout-minutes: 60
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1

@@ -1,13 +1,15 @@
-# AII sidecar — InstituteOS metadata. Schema: instituteos.platform.aii_sidecar
+# AII sidecar — InstituteOS metadata. Schema: aii_platform.aii_sidecar
 meta:
-  updated: '2026-06-30'
+  sidecar_version: 1.2.1
+  updated: '2026-11-10'
 repo:
   name: Start
   slug: start
   full_name: ActiveInferenceInstitute/Start
-  description: '> **An advanced AI-powered system for creating personalized Active
-    Inference and Free Energy Principle curricula** > Quick links: [activeinference.institute](https://www.activeinference.institute/)
-    •…'
+  description: START combines optional live research capabilities with sophisticated
+    content generation to produce personalized educational materials for Active Inference
+    and the Free Energy Principle. Every generated artifact carries an evidence status;
+    synthetic foundation material is not presented as live research.
 institute:
   category: research-software
   maturity: released
@@ -19,6 +21,9 @@ ecosystem:
     note: Federated via the InstituteOS .aii manifest.
   - repo: ActiveInferenceInstitute/Active_Inference_Ontology
     note: Uses Active Inference Ontology terms.
+  - repo: ActiveInferenceInstitute/pymdp
+    relation: depends-on
+    note: Consumes the pymdp active-inference library.
   links:
     github: https://github.com/ActiveInferenceInstitute/Start
     website: https://www.activeinference.org
@@ -35,6 +40,15 @@ artifacts:
 - path: LICENSE
   kind: doc
   description: License.
+- path: AGENTS.md
+  kind: doc
+  description: Agent guidance.
+- path: tests
+  kind: test
+  description: Test suite.
+- path: docs
+  kind: doc
+  description: Documentation tree.
 provenance:
   license: CC-BY-SA-4.0
   citation:
@@ -43,16 +57,23 @@ provenance:
 instituteos:
   tags:
   - start
-  - advanced
-  - powered
-  - system
-  - creating
+  - onboarding
+  - curriculum
+  - instituteos
   - python
 capabilities:
 - python-package
 - tested
 - documentation
+- ci
 tasks:
   test:
     cmd: python -m pytest
     description: Run the test suite.
+docs:
+- README.md
+- AGENTS.md
+- docs/INTEGRATION.md
+- docs/README.md
+- docs/AGENTS.md
+schema: aii-sidecar/v1
