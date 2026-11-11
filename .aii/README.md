@@ -26,7 +26,7 @@ Institute repositories without touching this project's own content. The schema i
 | Maturity | `released` |
 | License | `CC-BY-SA-4.0` |
 | Default branch | `main` |
-| Homepage | — |
+| Homepage | https://www.activeinference.org |
 | Tags | `start`, `onboarding`, `curriculum`, `instituteos`, `python` |
 
 ## Capabilities
@@ -40,7 +40,7 @@ Institute repositories without touching this project's own content. The schema i
 
 | Task | Command | Working directory | Description |
 | --- | --- | --- | --- |
-| `test` | `python -m pytest` | `.` | Run the test suite. |
+| `test` | `uv run pytest -q` | `.` | Run the test suite in the locked uv environment. |
 
 ## Links
 

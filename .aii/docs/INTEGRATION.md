@@ -32,7 +32,7 @@
 | --- | --- | --- |
 | `ActiveInferenceInstitute/InstituteOS` | `referenced-by` | Federated via the InstituteOS .aii manifest. |
 | `ActiveInferenceInstitute/Active_Inference_Ontology` | `references` | Uses Active Inference Ontology terms. |
-| `ActiveInferenceInstitute/pymdp` | `depends-on` | Consumes the pymdp active-inference library. |
+| `ActiveInferenceInstitute/pymdp` | `references` | Clone manager can fetch the pymdp implementation repository. |
 
 ## Key artifacts
 
@@ -45,12 +45,14 @@
 | `AGENTS.md` | `doc` | Agent guidance. |
 | `tests` | `test` | Test suite. |
 | `docs` | `doc` | Documentation tree. |
+| `examples` | `code` | Interactive EFE and VFE example visualizations. |
+| `scripts` | `code` | Repository validation and maintenance scripts. |
 
 ## Portable tasks
 
 | Task | Command | Working directory | Description |
 | --- | --- | --- | --- |
-| `test` | `python -m pytest` | `.` | Run the test suite. |
+| `test` | `uv run pytest -q` | `.` | Run the test suite in the locked uv environment. |
 
 ## Validation
 

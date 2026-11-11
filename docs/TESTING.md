@@ -95,7 +95,7 @@ uv run pytest --cov=src --cov-branch --cov-report=term-missing --cov-fail-under=
 Matrix CI currently enforces the 80% branch-aware working baseline. The manual
 release workflow is fail-closed at the 90% branch-aware floor and adds the
 publication output gate, dependency audit, type check, and offline-fixture
-reproducibility check. Linux runs cover Python 3.10–3.12; the macOS smoke job
+reproducibility check. Linux runs cover Python 3.11–3.12; the macOS smoke job
 uses the locked Python 3.12 environment and exercises shell, visualization,
 and strict documentation paths.
 

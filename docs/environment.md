@@ -1,6 +1,6 @@
 # Environment Setup & Development Guide
 
-START supports Python 3.10, 3.11, and 3.12. Use the locked `uv` environment
+START supports Python 3.11 and 3.12 (`requires-python = ">=3.11"`). Use the locked `uv` environment
 for local commands, CI, and documentation builds so dependency resolution does
 not vary between surfaces. The repo pins the interpreter with
 [`.python-version`](../.python-version) (`3.12`) because key dependencies (e.g.
@@ -16,7 +16,7 @@ uv run mkdocs build --strict
 ## Prerequisites
 
 ### System Requirements
-- **Python 3.10+** (3.11+ recommended for optimal performance)
+- **Python 3.11+**
 - **uv** package manager ([astral.sh/uv](https://astral.sh/uv))
 - **Git** for repository management and cloning external resources
 - **Internet connection** only for explicitly enabled live provider runs

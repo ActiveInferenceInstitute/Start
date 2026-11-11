@@ -73,7 +73,7 @@ start-validate-outputs = "scripts.validate_outputs:main"
 
 [tool.black]
 line-length = 100
-target-version = ["py310", "py311", "py312"]
+target-version = ["py311", "py312"]
 
 [tool.ruff]
 line-length = 100

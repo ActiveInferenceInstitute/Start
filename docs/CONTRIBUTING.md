@@ -17,7 +17,7 @@ uv run black --check .
 ```
 
 ## Coding Standards
-- Python 3.10+; type annotations for public functions
+- Python 3.11+; type annotations for public functions
 - Readable, modular code; early returns; meaningful names
 - No TODO comments; implement or open an issue
 - Docstrings for public APIs; short, high-signal comments

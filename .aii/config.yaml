@@ -1,7 +1,7 @@
 # AII sidecar — InstituteOS metadata. Schema: aii_platform.aii_sidecar
 meta:
   sidecar_version: 1.2.1
-  updated: '2026-11-10'
+  updated: '2026-11-12'
 repo:
   name: Start
   slug: start
@@ -22,8 +22,8 @@ ecosystem:
   - repo: ActiveInferenceInstitute/Active_Inference_Ontology
     note: Uses Active Inference Ontology terms.
   - repo: ActiveInferenceInstitute/pymdp
-    relation: depends-on
-    note: Consumes the pymdp active-inference library.
+    relation: references
+    note: Clone manager can fetch the pymdp implementation repository.
   links:
     github: https://github.com/ActiveInferenceInstitute/Start
     website: https://www.activeinference.org
@@ -49,6 +49,12 @@ artifacts:
 - path: docs
   kind: doc
   description: Documentation tree.
+- path: examples
+  kind: code
+  description: Interactive EFE and VFE example visualizations.
+- path: scripts
+  kind: code
+  description: Repository validation and maintenance scripts.
 provenance:
   license: CC-BY-SA-4.0
   citation:
@@ -68,8 +74,8 @@ capabilities:
 - ci
 tasks:
   test:
-    cmd: python -m pytest
-    description: Run the test suite.
+    cmd: uv run pytest -q
+    description: Run the test suite in the locked uv environment.
 docs:
 - README.md
 - AGENTS.md

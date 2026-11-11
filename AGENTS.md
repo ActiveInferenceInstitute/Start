@@ -76,6 +76,26 @@ Lock file for dependency versions managed by uv.
 - `uv run start-regenerate-offline`: deterministic synthetic fixture generation
 - `uv run start-run-history`: filesystem run-history inspection and pruning
 
+## Tests
+
+Run the suite from the repository root with the locked environment:
+
+```bash
+uv run pytest -q                      # full suite (pytest.ini sets testpaths = tests)
+uv run pytest -m "not integration"    # skip integration-marked tests
+uv run pytest tests/test_domain.py    # one file
+```
+
+Repository gates used by CI and the release workflow:
+
+```bash
+uv run python scripts/validate_repository.py
+uv run mkdocs build --strict
+```
+
+The example visualizations under `examples/` are separate Node surfaces; each has its
+own `package.json` with `build` and `capture-gifs` scripts (see `examples/*/README.md`).
+
 ## Main Directories
 
 - `src/`: Core system implementation modules
