@@ -5,8 +5,29 @@ work that remains after the deepest red-team review and hardening pass
 (2026-08-01).
 
 - Status: active (no release cut yet)
-- Last reviewed: 2026-08-02 (docs-deep review pass; Minor/Medium findings
-  implemented; see the dated section below)
+- Last reviewed: 2026-11-11 (documentation pass 3; repository defects below
+  recorded, not fixed); prior review 2026-08-02 (docs-deep review pass;
+  Minor/Medium findings implemented; see the dated section below)
+
+## Known repository defects (recorded 2026-11-11; not fixed)
+
+Verified against the tracked tree during the pass-3 documentation review. Each
+needs an owner decision before it is changed; none was modified in the
+documentation pass.
+
+- [ ] `examples/vfe/node_modules/` is committed (631 tracked files) even though
+  the root `.gitignore` lists `examples/vfe/node_modules/`. Git ignore rules do
+  not affect already-tracked files, so the vendored tree stays in the index.
+  Owner decision: untrack the directory (keep it ignored) and rely on
+  `npm install` per `examples/vfe/README.md`, or retain it intentionally.
+- [ ] `examples/package-lock.json` is an empty stub
+  (`{"name": "examples", "lockfileVersion": 3, "requires": true, "packages": {}}`)
+  with no sibling `examples/package.json`. Owner decision: remove it, or add the
+  missing `examples/package.json` that it would describe.
+- [ ] `examples/vfe.jsx` is duplicated verbatim at the `examples/` root and in
+  `examples/vfe/vfe.jsx` (both 56,986 bytes). `examples/README.md` and
+  `examples/AGENTS.md` document only the `examples/vfe/` copy. Owner decision:
+  remove the unused root duplicate or document why it exists.
 
 ## Docs deep review (2026-08-02)
 

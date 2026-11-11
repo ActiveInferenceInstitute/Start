@@ -1,23 +1,69 @@
 # START documentation
 
-START is a configurable curriculum research and generation pipeline. The
-canonical documentation covers installation, configuration, pipeline stages,
-repository management, visualization, translation, and validation.
+START is a configurable curriculum research and generation pipeline. This folder
+is the GitHub-readable documentation index; every page is modular and links to
+deeper material. The [Documentation Hub](index.md) is the MkDocs landing page and
+the narrative hub for the published site.
 
 Begin with [Getting Started](getting_started.md), then review
 [Configuration](configuration.md) and the [Pipeline](pipeline.md).
 
-The full documentation site for the START project (Scalable, Tailored Active-inference Research & Training) lives at **[docs/index.md](index.md)** — that page is both the MkDocs landing page and the definitive hub.
+## Start here
 
-**Quick links:**
-
-- [Documentation Hub (canonical)](index.md)
+- [Documentation Hub (narrative hub, MkDocs landing)](index.md)
 - [Getting Started](getting_started.md)
 - [Environment Setup](environment.md)
 - [Pipeline Overview](pipeline.md)
-- [Testing Guide](TESTING.md)
 - [Configuration Reference](configuration.md)
+- [Testing Guide](TESTING.md)
+
+## Setup and usage
+
+- [Getting Started](getting_started.md) — install, first run, generate outputs
+- [Environment](environment.md) — prerequisites, API keys, CI parity
+- [Configuration](configuration.md) — YAML schemas and CLI usage
+- [Curriculum Generator GUI](curriculum_gui.md) — browser-based generation
+- [Clone Management](clones.md) — fetch external ecosystem repositories
+- [Examples & Outputs](examples.md) — where generated artifacts live
+
+## Architecture and evidence
+
+- [Pipeline](pipeline.md) — acquire → prepare → process → parse → render
+- [Methods & Evidence Protocol](methods.md) — constraints, hypotheses, quality gates
+- [Manuscript Note](manuscript.md) — publication scope and limitations
+- [Operations](operations.md) — release evidence and operational notes
+
+## Outputs and localization
+
+- [Data & Outputs](data_outputs.md) — artifact directory purposes and descriptions
+- [Visualizations](visualizations.md) — diagram/chart gallery and regeneration
+- [Translations](translations.md) — multilingual output structure
+
+## Development and reference
+
+- [Testing](TESTING.md) — policies, markers, offline/CI rules
+- [Contributing](CONTRIBUTING.md) — workflow, quality gates, PR checklist
+- [Conventions](conventions.md) — documentation structure and naming
+- [FAQ](FAQ.md) — common questions and troubleshooting
+- [Roadmap](ROADMAP.md) — pointer to the canonical backlog in [`../TODO.md`](../TODO.md)
+- [Docs & Deployment](docs_and_deployment.md) — local serve, build, GitHub Pages
+
+## Learning guides
+
+- [Usage Guide](learning_usage_guide.md) — points at the curriculum-creation usage guide
+- [API Integration](learning_api_integration.md) — points at the curriculum-creation README
+
+## Other material
+
+- [Other materials index](other/index.md)
+- [Inferant Stream 015-1](other/inferant_stream_015-1.md)
+
+## Folder guides
+
+- [Agent-facing docs guide](AGENTS.md) — technical reference for this folder
+- [Other materials guides](other/README.md)
 
 ---
 
-The same content is published from this documentation directory for GitHub readers and the site build.
+The same content is published from this documentation directory for GitHub
+readers and the MkDocs site build (`mkdocs.yml`).

@@ -11,6 +11,36 @@ START combines optional live research capabilities with sophisticated content ge
 
 > 📌 Start here: **[here.md](here.md)** — interactive landing for the full experience. Also see the **[Docs Hub](docs/README.md)** and this **README** for GitHub-oriented navigation.
 
+## Contents
+
+- [Documentation (Live)](#-documentation-live)
+- [Quick Links](#-quick-links)
+- [Status](#status)
+- [Key Features](#-key-features)
+- [Quick Installation](#-quick-installation)
+- [Getting Started](#-getting-started)
+- [Configuration System](#-configuration-system)
+- [Development & Testing](#-development--testing)
+- [License & Citation](#-license--citation)
+- [Contact & Support](#-contact--support)
+
+## Status
+
+- **Runs offline by default.** The test suite, repository validation, output
+  validation, deterministic offline fixtures, and the docs build need no network
+  or API keys.
+- **Live research and generation need credentials.** The Perplexity and
+  OpenRouter stages require `PERPLEXITY_API_KEY` and `OPENROUTER_API_KEY` (see
+  [Environment](docs/environment.md)); without them, use the offline fixture path
+  (`uv run start-regenerate-offline`) and the local provider-protocol tests.
+- **The example visualizations are separate Node surfaces.** `examples/vfe/` and
+  `examples/efe/` need their own `npm install`; they are not part of the Python
+  package or its test suite.
+- **Outputs are generated and committed.** Directories under `data/` hold
+  generated artifacts that carry provenance/evidence status; see
+  [Data & Outputs](docs/data_outputs.md). Known repository defects and the
+  forward backlog live in [TODO.md](TODO.md).
+
 ## 🌐 Documentation (Live)
 
 - GitHub Pages site: [activeinferenceinstitute.github.io/Start](https://activeinferenceinstitute.github.io/Start/)

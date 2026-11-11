@@ -46,7 +46,8 @@ Technical documentation for all modules in the `src/` directory.
 - `history.py`: Filesystem run history management
 - `schemas.py`: Pipeline-level schema validation
 
-**See**: invoked via the `start-curriculum` console entry point and the
+**See**: [pipeline/README.md](pipeline/README.md) for the module reference and
+usage; invoked via the `start-curriculum` console entry point and the
 staged `learning/curriculum_creation/*.py` delegators
 
 ### `perplexity/`

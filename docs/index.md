@@ -28,6 +28,10 @@ START is a complete educational content generation pipeline that combines:
 - Testing: [Policy and workflows](./TESTING.md)
 - Examples: [Examples & outputs](./examples.md)
 - Clone Management: [External repos](./clones.md)
+- Curriculum GUI: [Browser-based generator](./curriculum_gui.md)
+- Conventions: [Documentation conventions](./conventions.md)
+- Contributing: [Contributing guide](./CONTRIBUTING.md)
+- FAQ: [Frequently asked questions](./FAQ.md)
 - Learning Guides:
   - Usage Guide: [Learning Usage Guide](./learning_usage_guide.md)
   - API Integration: [Learning API Integration](./learning_api_integration.md)
@@ -141,7 +145,8 @@ START is a complete educational content generation pipeline that combines:
 ### In-Repo Entry Points
 
 - **Top-level landing page**: [Here — starting at start/here](https://github.com/ActiveInferenceInstitute/Start/blob/main/here.md)
-- **Other materials**: [Inferant Stream 015-1](./other/inferant_stream_015-1.md)
+- **Other materials**: [Other materials index](./other/index.md)
+- **Inferant Stream 015-1**: [Inferant Stream 015-1](./other/inferant_stream_015-1.md)
 
 ## 📋 **System Capabilities**
 
