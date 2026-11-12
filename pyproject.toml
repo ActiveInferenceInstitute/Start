@@ -20,7 +20,7 @@ classifiers = [
 ]
 urls = { Repository = "https://github.com/ActiveInferenceInstitute/Start", Documentation = "https://activeinferenceinstitute.github.io/Start/" }
 dependencies = [
-  "openai>=1.30.0",
+  "openai>=3.46.0",
   "numpy>=1.26.0",
   "pandas>=2.2.0",
   "matplotlib>=3.8.0",
@@ -53,7 +53,7 @@ dev = [
   "pytest>=8.2",
   "pytest-cov>=5.0",
   "black>=24.4",
-  "ruff>=0.5",
+  "ruff>=0.17.4",
   "mkdocs>=1.6",
   "mkdocs-material>=9.5",
   "mypy>=1.11",
