@@ -20,7 +20,7 @@ documentation pass.
   not affect already-tracked files, so the vendored tree stays in the index.
   Owner decision: untrack the directory (keep it ignored) and rely on
   `npm install` per `examples/vfe/README.md`, or retain it intentionally.
-- [ ] `examples/package-lock.json` is an empty stub
+- [ ] `examples/package-lock.json` records no dependencies
   (`{"name": "examples", "lockfileVersion": 3, "requires": true, "packages": {}}`)
   with no sibling `examples/package.json`. Owner decision: remove it, or add the
   missing `examples/package.json` that it would describe.
