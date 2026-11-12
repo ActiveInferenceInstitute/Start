@@ -35,8 +35,9 @@ environment already sets it.
 
 `scripts.validate_repository` is the documentation and link check: it parses
 every tracked JSON/YAML/TOML file, resolves local Markdown links in authored
-text, and rejects retired paths and prohibited authored terminology. There is no
-separate Markdown link checker in this repository.
+text, enforces the flat documentation index's coverage of authored `docs/`
+pages, and rejects retired paths and prohibited authored terminology. There is
+no separate Markdown link checker in this repository.
 
 ## Default arm and test selection
 
