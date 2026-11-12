@@ -38,10 +38,12 @@ gate arms:
   `scripts/check_gnn_pin.py` (schema, repository, revision, clone registration,
   and pipeline command) and then `tests/test_gnn_runner.py`.
 - **Parse the pinned GNN exemplar** — `uv run start-gate gnn-exemplar` runs
-  `scripts/check_gnn_exemplar.py`, which installs the pinned upstream package
-  into the job environment, fetches the pinned exemplar, and runs the upstream
-  parser, syntax validator, and type checker. This arm needs network access; the
-  other arms do not.
+  `scripts/check_gnn_exemplar.py`, which first runs the same full pin validation
+  as the offline arm, then installs the pinned upstream package without resolving
+  dependencies. Its `defusedxml` and `psutil` helpers come from the locked `dev`
+  extra (`uv sync --all-extras --dev --locked`). It fetches the pinned exemplar
+  and runs the upstream parser, syntax validator, and type checker. This arm
+  needs network access; the other arms do not.
 
 ## Actions used
 

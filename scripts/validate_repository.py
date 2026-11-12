@@ -156,6 +156,26 @@ def validate_markdown_links(path: Path) -> list[str]:
     return failures
 
 
+def validate_documentation_index(paths: list[Path]) -> list[str]:
+    """Require every authored docs page, including folder guides, in the flat index."""
+    index = Path("docs/documentation-index.md")
+    text = (ROOT / index).read_text(encoding="utf-8")
+    targets = [
+        _normalize_markdown_target(match.group(1)) for match in LOCAL_MARKDOWN_LINK.finditer(text)
+    ]
+    # GitHub-only README pages are code references because MkDocs excludes them.
+    targets.extend(re.findall(r"`([^`\n]+\.md)`", text))
+    indexed = {(ROOT / index.parent / target).resolve() for target in targets}
+    return [
+        f"{index}: missing documentation page: {path.relative_to('docs')}"
+        for path in sorted(paths)
+        if path.suffix.lower() == ".md"
+        and path.parts[0] == "docs"
+        and not path.is_relative_to("docs/_generated")
+        and (ROOT / path).resolve() not in indexed
+    ]
+
+
 def main() -> int:
     failures: list[str] = []
     try:
@@ -179,6 +199,8 @@ def main() -> int:
             failures.extend(validate_markdown_links(path))
         except UnicodeDecodeError as exc:
             failures.append(f"{path}: not valid UTF-8 text: {exc}")
+
+    failures.extend(validate_documentation_index(files))
 
     if failures:
         print("Repository validation failed:", file=sys.stderr)

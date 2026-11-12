@@ -78,3 +78,43 @@ def test_tracked_config_files_include_untracked_candidates() -> None:
         Path("data.json"),
         Path("pyproject.toml"),
     ]
+
+
+def test_documentation_index_requires_every_authored_page(tmp_path, monkeypatch) -> None:
+    monkeypatch.setattr(validate_repository, "ROOT", tmp_path)
+    docs = tmp_path / "docs"
+    docs.mkdir()
+    (docs / "documentation-index.md").write_text(
+        "[index](documentation-index.md)\n[page](./page.md#section)\n"
+        "`README.md`\n`other/README.md`\n",
+        encoding="utf-8",
+    )
+    paths = [
+        Path("docs/documentation-index.md"),
+        Path("docs/page.md"),
+        Path("docs/README.md"),
+        Path("docs/other/README.md"),
+        Path("docs/_generated/report.md"),
+        Path("README.md"),
+        Path("docs/config.json"),
+    ]
+
+    assert validate_repository.validate_documentation_index(paths) == []
+    paths.append(Path("docs/other/new.md"))
+    assert validate_repository.validate_documentation_index(paths) == [
+        "docs/documentation-index.md: missing documentation page: other/new.md"
+    ]
+
+
+def test_main_rejects_an_unindexed_documentation_page(tmp_path, monkeypatch, capsys) -> None:
+    monkeypatch.setattr(validate_repository, "ROOT", tmp_path)
+    docs = tmp_path / "docs"
+    docs.mkdir()
+    index = Path("docs/documentation-index.md")
+    page = Path("docs/new.md")
+    (tmp_path / index).write_text("[index](documentation-index.md)\n", encoding="utf-8")
+    (tmp_path / page).write_text("# New page\n", encoding="utf-8")
+    monkeypatch.setattr(validate_repository, "tracked_files", lambda: [index, page])
+
+    assert validate_repository.main() == 1
+    assert "missing documentation page: new.md" in capsys.readouterr().err

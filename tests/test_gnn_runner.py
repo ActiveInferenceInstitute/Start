@@ -14,6 +14,7 @@ from pathlib import Path
 
 import pytest
 
+from scripts import check_gnn_exemplar, check_gnn_pin
 from src.gnn import config, utils
 from src.gnn.main import (
     EXIT_OK,
@@ -466,3 +467,59 @@ def test_parse_step_selection_rejects_out_of_range():
     with pytest.raises(ValueError):
         utils.parse_step_selection("")
     assert utils.parse_step_selection("3, 3, 5") == (3, 5)
+
+
+@pytest.mark.parametrize(
+    ("field", "value", "message"),
+    [
+        ("schema", "wrong/v1", "schema is"),
+        ("repository", "other/project", "repository is"),
+        ("revision", "main", "full 40-character commit id"),
+        ("tag", "", "tag is empty"),
+        ("revision", "0" * 40, "registered revision"),
+    ],
+)
+def test_exemplar_refuses_invalid_pin_before_install(tmp_path, monkeypatch, field, value, message):
+    pin = json.loads(check_gnn_pin.PIN_PATH.read_text(encoding="utf-8"))
+    pin[field] = value
+    pin_path = tmp_path / "gnn-pin.json"
+    pin_path.write_text(json.dumps(pin), encoding="utf-8")
+    monkeypatch.setattr(check_gnn_exemplar, "PIN_PATH", pin_path)
+    monkeypatch.setattr(
+        check_gnn_exemplar,
+        "install_pinned_package",
+        lambda pin: pytest.fail("invalid pin reached package installation"),
+    )
+
+    with pytest.raises(SystemExit, match=message):
+        check_gnn_exemplar.main()
+
+
+def test_exemplar_loads_fully_validated_pin():
+    assert check_gnn_exemplar.load_pin() == json.loads(
+        check_gnn_pin.PIN_PATH.read_text(encoding="utf-8")
+    )
+
+
+def test_exemplar_install_does_not_resolve_helper_dependencies(monkeypatch):
+    calls = []
+    monkeypatch.setattr(
+        check_gnn_exemplar.subprocess, "run", lambda argv, **kwargs: calls.append((argv, kwargs))
+    )
+    pin = check_gnn_exemplar.load_pin()
+
+    check_gnn_exemplar.install_pinned_package(pin)
+
+    assert calls == [
+        (
+            [
+                "uv",
+                "pip",
+                "install",
+                "--no-deps",
+                "generalized-notation-notation @ "
+                f"git+https://github.com/{pin['repository']}.git@{pin['revision']}",
+            ],
+            {"cwd": check_gnn_exemplar.ROOT, "check": True},
+        )
+    ]

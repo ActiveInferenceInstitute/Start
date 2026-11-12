@@ -1,7 +1,9 @@
 # Documentation index
 
-Flat index of the long-lived documentation in `docs/`. The narrative hub is
-`README.md`; the MkDocs landing page is [`index.md`](index.md).
+Flat index of every authored Markdown page in `docs/`, including folder guides
+and GitHub-only README pages. The `docs` gate enforces completeness; script-written
+pages in `_generated/` are exempt. The narrative hub is `README.md`; the MkDocs
+landing page is [`index.md`](index.md).
 
 ## Entry points
 
