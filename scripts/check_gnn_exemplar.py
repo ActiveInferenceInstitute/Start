@@ -18,22 +18,19 @@ import tempfile
 import urllib.request
 from pathlib import Path
 
+from scripts.check_gnn_pin import check_pin
+
 ROOT = Path(__file__).resolve().parents[1]
 PIN_PATH = ROOT / ".github" / "gnn-pin.json"
 EXEMPLAR = "input/gnn_files/basics/static_perception.md"
 RAW_URL = "https://raw.githubusercontent.com/{repository}/{revision}/{path}"
-REQUIREMENTS = (
-    "defusedxml",
-    "psutil",
-)
 
 
 def load_pin() -> dict[str, str]:
-    payload = json.loads(PIN_PATH.read_text(encoding="utf-8"))
-    for field in ("repository", "revision"):
-        if not str(payload.get(field) or "").strip():
-            raise SystemExit(f"{PIN_PATH.relative_to(ROOT)}: missing {field!r}")
-    return payload
+    failures = check_pin(PIN_PATH)
+    if failures:
+        raise SystemExit("GNN pin check failed:\n- " + "\n- ".join(failures))
+    return json.loads(PIN_PATH.read_text(encoding="utf-8"))
 
 
 def install_pinned_package(pin: dict[str, str]) -> None:
@@ -42,7 +39,7 @@ def install_pinned_package(pin: dict[str, str]) -> None:
         f"git+https://github.com/{pin['repository']}.git@{pin['revision']}"
     )
     subprocess.run(
-        ["uv", "pip", "install", "--no-deps", *REQUIREMENTS, spec],
+        ["uv", "pip", "install", "--no-deps", spec],
         cwd=ROOT,
         check=True,
     )
