@@ -32,25 +32,25 @@ Flow
 
 ## Running Tests
 
+Use the gate rather than retyping a command: `uv run start-gate <arm>` runs
+exactly what CI runs. See [Gate entry point](gate.md) for the arm list and
+generated numbers.
+
 ```bash
-# Full suite
-uv run pytest -q
+# Default arm: tests not marked slow, network, or integration
+uv run start-gate
 
-# Verbose / coverage (matrix baseline; release gate is 90, see Coverage below)
-uv run pytest -v
-uv run pytest --cov=src --cov-branch --cov-report=term-missing --cov-fail-under=80 -q
+# One arm at a time (each is also a CI step)
+uv run start-gate fast
+uv run start-gate full
+uv run start-gate docs
+uv run start-gate gnn
+uv run start-gate artifacts
 
-# Repository policy checks
-uv run python scripts/validate_repository.py
+# Every arm with its exact argv
+uv run start-gate --list
 
-# CLI and GUI entry-point smoke checks
-uv run python -m learning.curriculum_creation.generate_custom_curriculum --help
-uv run python -m learning.curriculum_creation.generate_curriculum_gui --help
-uv run start-clone --help
-uv run start-validate-outputs --check
-uv run start-regenerate-offline --output-dir /tmp/start-fixtures --json
-
-# Focused runs
+# Focused local runs (not gate arms)
 uv run pytest -k "domain"
 uv run pytest tests/test_domain.py
 ```
@@ -88,21 +88,19 @@ export OPENROUTER_API_KEY="..."
 
 ## Coverage
 
-```bash
-uv run pytest --cov=src --cov-branch --cov-report=term-missing --cov-fail-under=90 -q
-```
-
-Matrix CI currently enforces the 80% branch-aware working baseline. The manual
-release workflow is fail-closed at the 90% branch-aware floor and adds the
-publication output gate, dependency audit, type check, and offline-fixture
-reproducibility check. Linux runs cover Python 3.11–3.12; the macOS smoke job
-uses the locked Python 3.12 environment and exercises shell, visualization,
-and strict documentation paths.
+The `full` arm enforces the 80% branch-aware working baseline and is the only
+coverage pass in CI; the measurement is recorded in
+[`_generated/gate-timings.md`](_generated/gate-timings.md). The manual release
+workflow is fail-closed at the 90% branch-aware floor and adds the publication
+output gate. Linux runs cover Python 3.11–3.12 (`fast` on 3.11, `full` on 3.12);
+the macOS smoke job uses the locked Python 3.12 environment and runs the
+`smoke-macos` arm.
 
 ## Repository Validation
 
 ```bash
-uv run python scripts/validate_repository.py
+uv run start-gate docs      # strict MkDocs build + repository validation
+uv run start-gate numbers   # generated gate numbers match scripts/gate.py
 ```
 
 The repository validator parses tracked JSON/YAML/TOML files, rejects duplicate

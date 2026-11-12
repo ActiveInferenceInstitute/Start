@@ -10,7 +10,7 @@ on a 3.14-default machine fails at install time.
 ```bash
 uv sync --all-extras --dev
 uv run start-curriculum --help
-uv run mkdocs build --strict
+uv run start-gate docs
 ```
 
 ## Prerequisites
@@ -97,20 +97,19 @@ The system uses YAML configuration files in `data/config/`:
 ## Development Workflow
 
 ### Code Quality & Testing
+
+`uv run start-gate <arm>` is the single gate; each arm is the command CI runs.
+
 ```bash
-# Run comprehensive test suite
-uv run pytest -q
+uv run start-gate fast     # tests not marked slow/network/integration
+uv run start-gate full     # full suite + branch-aware coverage floor
+uv run start-gate lint     # ruff, black, shell syntax
+uv run start-gate types    # mypy over src, scripts, learning
+uv run start-gate audit    # dependency vulnerability audit
+uv run start-gate --list   # every arm with its exact command
 
-# Code linting and formatting
-uv run ruff check .                    # Lint checking
-uv run black --check .                 # Format checking
-uv run black .                         # Auto-formatting
-
-# Type checking for the release-critical core (full clean scope, enforced in CI)
-uv run mypy src scripts learning --ignore-missing-imports
-
-# Dependency audit
-uv run pip-audit --strict
+# Auto-formatting is a local convenience command, not a gate arm
+uv run black .
 ```
 
 ### Curriculum Pipeline Development
@@ -236,25 +235,26 @@ uv tree
 
 ## Continuous Integration (CI)
 
-The default CI workflow mirrors local quality checks. To emulate CI locally:
+`.github/workflows/ci.yml` calls the same `start-gate` arms a developer runs, so
+emulating CI locally is running the affected arms:
 
 ```bash
-uv sync --all-extras --dev
-uv run pytest -q
-uv run ruff check .
-uv run black --check .
+uv sync --all-extras --dev --locked
+uv run start-gate lint
+uv run start-gate full
+uv run start-gate docs
 ```
 
 ```mermaid
 sequenceDiagram
   participant Dev as Developer
+  participant Gate as start-gate
   participant CI as CI Runner
-  Dev->>CI: Push branch/PR
-  CI->>CI: uv sync --all-extras --dev
-  CI->>CI: uv run pytest -q
-  CI->>CI: uv run ruff check .
-  CI->>CI: uv run black --check .
-  CI-->>Dev: Status & reports
+  Dev->>Gate: uv run start-gate <arm>
+  CI->>Gate: uv run start-gate <arm>
+  Gate-->>Dev: arm output
+  Gate-->>CI: arm output
 ```
 
-See also: Testing policy and markers in `TESTING.md`.
+Job-to-arm mapping is in [Gate entry point](gate.md); markers in
+`TESTING.md`.

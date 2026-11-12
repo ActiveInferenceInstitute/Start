@@ -10,11 +10,14 @@ Thanks for improving START. This guide covers workflow, quality gates, and conve
 
 ## Local Quality Checks
 ```bash
-uv sync --all-extras --dev
-uv run pytest -q
-uv run ruff check .
-uv run black --check .
+uv sync --all-extras --dev --locked
+uv run start-gate          # default arm: fast test selection
+uv run start-gate lint     # ruff, black, shell syntax
+uv run start-gate docs     # strict docs build + link/config validation
+uv run start-gate --list   # every arm, with the command it runs
 ```
+
+Each arm is the command CI runs; see [Gate entry point](gate.md).
 
 ## Coding Standards
 - Python 3.11+; type annotations for public functions
@@ -35,7 +38,7 @@ uv run black --check .
 ## PR Checklist
 - [ ] Tests added/updated
 - [ ] Docs updated
-- [ ] `ruff` and `black` clean
+- [ ] Affected `uv run start-gate` arms pass locally (GitHub Actions is billing-locked)
 - [ ] Clear motivation and scope
 
 ## Community

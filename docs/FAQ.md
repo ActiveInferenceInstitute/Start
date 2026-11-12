@@ -7,7 +7,7 @@ A pipeline for research-driven, personalized curricula using Perplexity and Open
 See Environment: ./environment.md. Then run:
 ```bash
 uv sync --all-extras --dev
-uv run pytest -q
+uv run start-gate fast
 ```
 
 ## How do I generate content?

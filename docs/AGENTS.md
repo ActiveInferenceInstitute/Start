@@ -9,6 +9,9 @@ Technical documentation for the documentation directory structure and organizati
 ### Core Documentation
 - `README.md`: Documentation hub and navigation
 - `index.md`: Main documentation index
+- `documentation-index.md`: Flat index of every long-lived page
+- `gate.md`: `start-gate` arms, CI job mapping, local-run policy
+- `gnn_conformance.md`: GNN pin file, `.github/GNN.md` pointer, and job
 - `getting_started.md`: Quick start guide
 - `environment.md`: Environment setup and configuration
 - `pipeline.md`: System architecture and pipeline overview
@@ -38,6 +41,8 @@ Technical documentation for the documentation directory structure and organizati
 
 ### Subdirectories
 - `other/`: Additional documentation resources
+- `_generated/`: Script-written documents; `gate-timings.md` comes from
+  `uv run start-gate measure` and is verified by `uv run start-gate numbers`
 
 ## Documentation Build
 

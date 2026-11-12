@@ -28,8 +28,18 @@ This repository follows a modular, folder-based documentation approach that work
 - Landing page is `docs/index.md`, mirroring `docs/README.md` hub content.
 - Use common Markdown extensions: toc, admonition, tables, codehilite, def_list, footnotes, attr_list.
 
+## Generated documents
+
+- Measured numbers (arm wall times, test selection counts, coverage) live only
+  in `docs/_generated/`, written by `uv run start-gate measure`.
+- Do not copy a generated number into prose; link the generated page instead.
+- `uv run start-gate numbers` fails when a generated page is edited by hand or
+  when `scripts/gate.py` changes without a re-measurement.
+
 ## Quality and maintenance
 
 - Keep docs accurate and updated with changes.
 - Use clear, concise language; avoid jargon.
-- Validate locally with `./run_docs.sh --serve` when editing site structure.
+- Validate locally with `uv run start-gate docs` before landing; it runs the
+  strict MkDocs build and the repository link/configuration validation.
+- Serve locally with `./run_docs.sh --serve` when editing site structure.

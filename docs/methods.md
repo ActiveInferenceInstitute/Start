@@ -61,8 +61,9 @@ optional-stage failure remains visible rather than being silently discarded.
 
 Before a release claim, the following criteria are fixed:
 
-- [ ] `uv run pytest -q` completes with no unexpected failures.
-- [ ] Branch-aware coverage reaches the release floor configured by CI.
+- [ ] `uv run start-gate full` completes with no unexpected failures.
+- [ ] Branch-aware coverage reaches the floor recorded in the generated gate
+      numbers page.
 - [ ] Repository, type, dependency, shell, and strict documentation gates pass.
 - [ ] Offline regeneration produces equivalent artifact content and manifest
       structure across two clean output directories.

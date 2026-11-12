@@ -148,7 +148,7 @@ graph LR
 - **Test Suite**: Unit, integration, CLI, GUI, repository, and pipeline coverage; run `uv run pytest --collect-only -q` for the current count
 - **Provider Validation**: Real local HTTP protocol tests by default; live provider probes are opt-in
 - **Error Scenario Coverage**: Comprehensive testing of edge cases and error conditions
-- **Continuous Integration**: Ruff, Black, shell syntax, repository validation, all-`src` coverage, and strict docs gates
+- **Continuous Integration**: every CI step is one `uv run start-gate <arm>`: lint, types, fast/full tests, docs and link validation, artifact contracts, dependency audit, and the pinned GNN conformance check
 - **Reviewable methods**: First-principles constraints, falsifiable engineering hypotheses, and a manuscript-facing evidence note
 
 ## 📦 **Core Pipeline Scripts**
@@ -196,9 +196,8 @@ cp .env.example .env
 $EDITOR .env  # Add PERPLEXITY_API_KEY and OPENROUTER_API_KEY
 
 # Verify installation
-uv run pytest -q
-uv run ruff check .
-uv run black --check .
+uv run start-gate fast     # tests not marked slow/network/integration
+uv run start-gate lint     # ruff, black, shell syntax
 ```
 
 ## 🎯 **Getting Started**
@@ -333,10 +332,10 @@ We welcome contributions! See our [Contributing Guide](docs/CONTRIBUTING.md) for
 # Set up development environment
 uv sync --all-extras --dev
 
-# Run quality checks
-uv run pytest -q           # Test suite
-uv run ruff check .        # Linting
-uv run black --check .     # Formatting
+# Run quality checks through the one gate entry point (see docs/gate.md)
+uv run start-gate          # default arm: fast selection
+uv run start-gate lint     # ruff, black, shell syntax
+uv run start-gate full     # full suite with the coverage floor
 
 # Stable installed entry points
 uv run start-curriculum --help
@@ -356,23 +355,18 @@ The project includes a comprehensive testing framework covering:
 
 ### Running Tests
 ```bash
-# Run full test suite
-uv run pytest -q
+# One entry point, one command per arm; CI calls the same arms
+uv run start-gate          # default arm: fast selection
+uv run start-gate full     # full suite, 80% branch-aware coverage floor
+uv run start-gate docs     # mkdocs build --strict + link/config validation
+uv run start-gate --list   # every arm with its exact argv
 
-# Run specific test categories  
-uv run pytest -m "not integration"     # Skip integration tests
-uv run pytest -m integration           # Only integration tests
+# Focused local runs
 uv run pytest tests/test_domain.py     # Specific test file
+uv run pytest -m integration           # Only integration-marked tests
 
-# Branch-aware release coverage gate
-uv run pytest --cov=src --cov-branch --cov-report=term-missing --cov-fail-under=90 -q
-
-# Repository validation gate
-uv run python scripts/validate_repository.py
-
-# Set environment for GUI-free testing
-export MPLBACKEND=Agg
-uv run pytest -q
+# Measured arm runtimes, selection counts, and coverage
+# docs/_generated/gate-timings.md (rewritten by `uv run start-gate measure`)
 ```
 
 ### Development Guidelines

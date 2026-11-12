@@ -8,6 +8,10 @@ the narrative hub for the published site.
 Begin with [Getting Started](getting_started.md), then review
 [Configuration](configuration.md) and the [Pipeline](pipeline.md).
 
+**Quick reference**: [Documentation Index](documentation-index.md) ·
+[Gate entry point](gate.md) · [Testing](TESTING.md) · [GNN conformance](gnn_conformance.md) ·
+[Generated gate numbers](_generated/gate-timings.md)
+
 ## Start here
 
 - [Documentation Hub (narrative hub, MkDocs landing)](index.md)
@@ -32,6 +36,7 @@ Begin with [Getting Started](getting_started.md), then review
 - [Methods & Evidence Protocol](methods.md) — constraints, hypotheses, quality gates
 - [Manuscript Note](manuscript.md) — publication scope and limitations
 - [Operations](operations.md) — release evidence and operational notes
+- [GNN Conformance](gnn_conformance.md) — pin file, pointer, and conformance job
 
 ## Outputs and localization
 
@@ -41,6 +46,8 @@ Begin with [Getting Started](getting_started.md), then review
 
 ## Development and reference
 
+- [Gate entry point](gate.md) — `start-gate` arms, CI job mapping, local-run policy
+- [Generated gate numbers](_generated/gate-timings.md) — arm wall times, test selection counts, coverage
 - [Testing](TESTING.md) — policies, markers, offline/CI rules
 - [Contributing](CONTRIBUTING.md) — workflow, quality gates, PR checklist
 - [Conventions](conventions.md) — documentation structure and naming
@@ -66,4 +73,5 @@ Begin with [Getting Started](getting_started.md), then review
 ---
 
 The same content is published from this documentation directory for GitHub
-readers and the MkDocs site build (`mkdocs.yml`).
+readers and the MkDocs site build (`mkdocs.yml`). [Documentation Index](documentation-index.md)
+lists every long-lived page, including the generated gate-timings document.

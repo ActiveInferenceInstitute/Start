@@ -8,6 +8,11 @@ exclude_docs: |
   other/README.md
 nav:
   - Home: index.md
+  - Documentation Index: documentation-index.md
+  - Gate: gate.md
+  - GNN Conformance: gnn_conformance.md
+  - Generated:
+      - Gate numbers: _generated/gate-timings.md
   - Getting Started: getting_started.md
   - Environment: environment.md
   - Pipeline: pipeline.md

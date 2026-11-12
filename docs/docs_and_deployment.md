@@ -17,6 +17,14 @@ This page explains how to build, serve, and deploy the docs site locally and to 
 
 The script uses the repository-locked `uv run mkdocs` environment, matching CI and the Pages workflow.
 
+## What CI runs
+
+`.github/workflows/ci.yml` and `.github/workflows/deploy_docs.yml` both build
+with `uv run start-gate docs`, which is `mkdocs build --strict` plus
+`scripts.validate_repository` (tracked JSON/YAML/TOML parsing and local Markdown
+link resolution). Run that same arm locally before landing documentation
+changes; see [Gate entry point](gate.md).
+
 ## Prerequisites
 
 - `mkdocs.yml` at repository root
