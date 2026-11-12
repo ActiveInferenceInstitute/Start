@@ -70,6 +70,7 @@ start-curate-artifacts = "scripts.curate_artifacts:main"
 start-regenerate-offline = "scripts.regenerate_offline_fixtures:main"
 start-run-history = "scripts.run_history:main"
 start-validate-outputs = "scripts.validate_outputs:main"
+start-gate = "scripts.gate:main"
 
 [tool.black]
 line-length = 100
