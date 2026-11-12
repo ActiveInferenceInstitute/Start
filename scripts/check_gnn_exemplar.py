@@ -3,7 +3,9 @@
 This is the networked half of the GNN conformance job. It installs the pinned
 upstream package from ``.github/gnn-pin.json`` into the active environment,
 fetches the pinned ``input/gnn_files/basics/static_perception.md`` exemplar, and
-runs the upstream parser, syntax validator, and type checker over it.
+runs the upstream parser, syntax validator, and type checker over it. The type
+check passes only on the literal ``True`` return: ``2`` (invalid files, or no
+GNN files found) and ``False`` (hard failure) both refuse the arm.
 
 Requires network access. ``start-gate gnn`` is the offline half and does not
 install or fetch anything.
@@ -70,8 +72,15 @@ def main() -> int:
         model_dir = Path(output_dir) / "models"
         model_dir.mkdir()
         shutil.copy(model, model_dir / model.name)
-        if not GNNTypeChecker().validate_gnn_files(model_dir, Path(output_dir)):
-            raise SystemExit("GNN type checker rejected the pinned exemplar")
+        # ``validate_gnn_files`` returns ``True`` only when every file validates;
+        # it returns ``2`` when files are invalid or none were found, and
+        # ``False`` on hard failure. Only the literal ``True`` is a pass.
+        verdict = GNNTypeChecker().validate_gnn_files(model_dir, Path(output_dir))
+        if verdict is not True:
+            raise SystemExit(
+                "GNN type checker rejected the pinned exemplar: "
+                f"validate_gnn_files returned {verdict!r}"
+            )
 
     print(json.dumps({"gnn-version": __version__, "result": "verified"}, sort_keys=True))
     return 0

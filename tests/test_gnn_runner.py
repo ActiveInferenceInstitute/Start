@@ -10,6 +10,7 @@ from __future__ import annotations
 import json
 import subprocess
 import sys
+import types
 from pathlib import Path
 
 import pytest
@@ -523,3 +524,86 @@ def test_exemplar_install_does_not_resolve_helper_dependencies(monkeypatch):
             {"cwd": check_gnn_exemplar.ROOT, "check": True},
         )
     ]
+
+
+def _stand_in_module(name: str, **attributes: object) -> types.ModuleType:
+    """Build a stand-in module carrying the given attributes."""
+    module = types.ModuleType(name)
+    for key, value in attributes.items():
+        setattr(module, key, value)
+    return module
+
+
+class _StandInTypeChecker:
+    """Stand-in for ``gnn.type_checker.GNNTypeChecker`` with a fixed verdict."""
+
+    def __init__(self, verdict: object, calls: list[list[str]]) -> None:
+        self._verdict = verdict
+        self._calls = calls
+
+    def validate_gnn_files(self, target_dir: Path, output_dir: Path) -> object:
+        self._calls.append(sorted(path.name for path in Path(target_dir).iterdir()))
+        return self._verdict
+
+
+def _prepare_exemplar_run(tmp_path, monkeypatch, verdict: object) -> list[list[str]]:
+    """Run the exemplar end to end offline, with a fixed type-checker verdict."""
+
+    calls: list[list[str]] = []
+
+    def parse_gnn_formal(path: Path) -> object:
+        return types.SimpleNamespace(parse_errors=[])
+
+    def validate_gnn_syntax(text: str) -> tuple[bool, list[str]]:
+        return True, []
+
+    basic = _stand_in_module(
+        "gnn.parsers.basic",
+        parse_gnn_formal=parse_gnn_formal,
+        validate_gnn_syntax=validate_gnn_syntax,
+    )
+    parsers = _stand_in_module("gnn.parsers", basic=basic)
+    type_checker = _stand_in_module(
+        "gnn.type_checker",
+        GNNTypeChecker=lambda: _StandInTypeChecker(verdict, calls),
+    )
+    root = _stand_in_module(
+        "gnn", __version__="stand-in", parsers=parsers, type_checker=type_checker
+    )
+    for name, module in {
+        "gnn": root,
+        "gnn.parsers": parsers,
+        "gnn.parsers.basic": basic,
+        "gnn.type_checker": type_checker,
+    }.items():
+        monkeypatch.setitem(sys.modules, name, module)
+
+    model = tmp_path / Path(check_gnn_exemplar.EXEMPLAR).name
+    model.write_text("# stand-in exemplar\n", encoding="utf-8")
+    monkeypatch.setattr(check_gnn_exemplar, "RAW_URL", model.as_uri())
+    monkeypatch.setattr(check_gnn_exemplar, "install_pinned_package", lambda pin: None)
+    return calls
+
+
+@pytest.mark.parametrize("verdict", [2, False, None, 0])
+def test_exemplar_refuses_every_verdict_but_literal_true(tmp_path, monkeypatch, capsys, verdict):
+    calls = _prepare_exemplar_run(tmp_path, monkeypatch, verdict)
+
+    with pytest.raises(SystemExit) as refusal:
+        check_gnn_exemplar.main()
+
+    assert f"validate_gnn_files returned {verdict!r}" in str(refusal.value)
+    assert calls == [["static_perception.md"]]
+    assert "verified" not in capsys.readouterr().out
+
+
+def test_exemplar_accepts_literal_true_and_reports_verified(tmp_path, monkeypatch, capsys):
+    calls = _prepare_exemplar_run(tmp_path, monkeypatch, True)
+
+    assert check_gnn_exemplar.main() == 0
+
+    assert json.loads(capsys.readouterr().out) == {
+        "gnn-version": "stand-in",
+        "result": "verified",
+    }
+    assert calls == [["static_perception.md"]]
