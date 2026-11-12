@@ -61,14 +61,16 @@ body text are not used as exception messages.
 Run the following in order and preserve the outputs for review:
 
 ```bash
-uv run python -m scripts.validate_repository
-uv run start-audit-artifacts --check --json
-uv run start-validate-outputs --check
-uv run start-regenerate-offline --output-dir /tmp/start-release-fixture --json
-uv run pytest --cov=src --cov-branch --cov-report=term-missing -q
-uv run mkdocs build --strict
-uv run pip-audit --strict
+uv run start-gate types
+uv run start-gate audit
+uv run start-gate artifacts
+uv run start-gate docs
+uv run start-gate numbers
 ```
+
+The arms are the same commands the manual release workflow runs; see
+[Gate entry point](gate.md). Publication floors that only apply to a release
+stay in `.github/workflows/release-gate.yml`.
 
 The public-release gate additionally requires publication-mode content
 validation, a complete provenance review, security sign-off, and human review

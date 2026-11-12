@@ -66,15 +66,16 @@ Results must be generated from the current checkout rather than copied into a
 static claim. Use:
 
 ```bash
-uv run pytest --collect-only -q
-uv run pytest --cov=src --cov-branch --cov-report=term-missing -q
-uv run python -m scripts.validate_repository
-uv run mkdocs build --strict
-uv run start-regenerate-offline --output-dir /tmp/start-manuscript-fixture --json
+uv run start-gate full      # suite + branch-aware coverage
+uv run start-gate docs      # strict docs build + repository/link validation
+uv run start-gate artifacts # provenance, output contracts, offline fixture replay
+uv run start-gate numbers   # generated timings/coverage page is current
 ```
 
-The commands above report current counts and gates. They are intentionally not
-hard-coded here because counts, dependencies, and generated inputs change.
+The current arm wall times, test selection counts, and coverage total are in
+[`_generated/gate-timings.md`](_generated/gate-timings.md), written by
+`uv run start-gate measure`. They are intentionally not copied here because
+counts, dependencies, and generated inputs change.
 
 ## Limitations and next study
 

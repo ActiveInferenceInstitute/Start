@@ -27,9 +27,8 @@ cp .env.example .env
 $EDITOR .env  # Add PERPLEXITY_API_KEY and OPENROUTER_API_KEY
 
 # Verify installation
-uv run pytest -q
-uv run ruff check .
-uv run black --check .
+uv run start-gate fast
+uv run start-gate lint
 ```
 
 ## First Research Session

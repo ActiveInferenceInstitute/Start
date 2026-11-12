@@ -13,7 +13,97 @@ concurrency:
 permissions:
   contents: read
 
+# Every step below runs one arm of `uv run start-gate`; the arm definitions live
+# in scripts/gate.py and are the only copy of each command. Run the same arm
+# locally with `uv run start-gate <arm>`.
 jobs:
+  checks:
+    name: checks (py3.12)
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          enable-cache: true
+
+      - name: Set up Python
+        run: uv python install 3.12
+
+      - name: Install locked project environment
+        run: uv sync --all-extras --dev --locked
+
+      - name: Lint
+        run: uv run start-gate lint
+
+      - name: Types
+        run: uv run start-gate types
+
+      - name: Artifact and output contracts
+        run: uv run start-gate artifacts
+
+      - name: CLI and GUI smoke
+        run: uv run start-gate smoke
+
+      - name: Dependency audit
+        run: uv run start-gate audit
+
+  test:
+    timeout-minutes: 120
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # 3.11 runs the marker-selected fast arm; 3.12 runs the full suite with
+          # the coverage floor, so the expensive coverage pass is not paid twice.
+          - python-version: "3.11"
+            gate-arm: fast
+          - python-version: "3.12"
+            gate-arm: full
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          enable-cache: true
+
+      - name: Set up Python
+        run: uv python install ${{ matrix.python-version }}
+
+      - name: Install locked project environment
+        run: uv sync --all-extras --dev --locked
+
+      - name: Test
+        run: uv run start-gate ${{ matrix.gate-arm }}
+
+  docs:
+    name: docs
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          enable-cache: true
+
+      - name: Set up Python
+        run: uv python install 3.12
+
+      - name: Install locked project environment
+        run: uv sync --all-extras --dev --locked
+
+      - name: Build docs and validate links
+        run: uv run start-gate docs
+
+      - name: Verify generated gate numbers
+        run: uv run start-gate numbers
+
   gnn-conformance:
     name: gnn conformance (pinned)
     runs-on: ubuntu-latest
@@ -29,230 +119,17 @@ jobs:
       - name: Set up Python
         run: uv python install 3.12
 
-      - name: Install dependencies
-        run: uv sync --all-extras --dev
+      - name: Install locked project environment
+        run: uv sync --all-extras --dev --locked
 
       - name: Check pinned GNN registration
-        run: |
-          uv run python - <<'PY'
-          import json
-          from pathlib import Path
-
-          from src.gnn.main import build_pipeline_command, registered_revision
-
-          pin = json.loads(Path(".github/gnn-pin.json").read_text(encoding="utf-8"))
-          assert pin["repository"] == "ActiveInferenceInstitute/Generalized_Notation_Notation"
-          assert registered_revision() == pin["revision"]
-          command = build_pipeline_command(
-              ["python"], (3, 5), Path("/tmp/gnn-models"), Path("/tmp/gnn-output")
-          )
-          assert command[1] == "src/gnn/main.py"
-          assert command[command.index("--only-steps") + 1] == "3,5"
-          print(f"registered GNN revision: {registered_revision()}")
-          PY
-
-      - name: Run GNN orchestrator tests
-        run: uv run pytest tests/test_gnn_runner.py -q
+        run: uv run start-gate gnn
 
       - name: Parse the pinned GNN exemplar
-        run: |
-          uv pip install --no-deps defusedxml psutil \
-            "generalized-notation-notation @ git+https://github.com/ActiveInferenceInstitute/Generalized_Notation_Notation.git@8f293d9ba810e6eda5c09842d9c7ed9ffa5f92c1"
-          curl -fsSL \
-            "https://raw.githubusercontent.com/ActiveInferenceInstitute/Generalized_Notation_Notation/8f293d9ba810e6eda5c09842d9c7ed9ffa5f92c1/input/gnn_files/basics/static_perception.md" \
-            -o /tmp/start-gnn-static-perception.md
-          uv run --no-sync python - <<'PY'
-          import json
-          import shutil
-          import tempfile
-          from pathlib import Path
-
-          from gnn import __version__
-          from gnn.parsers.basic import parse_gnn_formal, validate_gnn_syntax
-          from gnn.type_checker import GNNTypeChecker
-
-          model = Path("/tmp/start-gnn-static-perception.md")
-          parsed = parse_gnn_formal(model)
-          if parsed is None or getattr(parsed, "parse_errors", None):
-              raise SystemExit("pinned exemplar did not parse cleanly")
-          valid, errors = validate_gnn_syntax(model.read_text(encoding="utf-8"))
-          if not valid:
-              raise SystemExit(f"pinned exemplar syntax errors: {errors!r}")
-
-          with tempfile.TemporaryDirectory(prefix="start-gnn-") as output_dir:
-              model_dir = Path(output_dir) / "models"
-              model_dir.mkdir()
-              shutil.copy(model, model_dir / "static_perception.md")
-              if not GNNTypeChecker().validate_gnn_files(model_dir, Path(output_dir)):
-                  raise SystemExit("GNN type checker rejected the pinned exemplar")
-
-          print(json.dumps({"gnn-version": __version__, "result": "verified"}, sort_keys=True))
-          PY
-
-  test:
-    timeout-minutes: 120
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: ["3.11", "3.12"]
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-
-      - name: Install uv
-        uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
-        with:
-          enable-cache: true
-
-      - name: Set up Python
-        run: uv python install ${{ matrix.python-version }}
-
-      - name: Install dependencies
-        run: uv sync --all-extras --dev
-
-      - name: Lint
-        run: uv run ruff check .
-
-      - name: Format check
-        run: uv run black --check .
-
-      - name: Shell syntax
-        run: bash -n run.sh run_docs.sh src/setup.sh
-
-      - name: Validate tracked configuration
-        run: uv run python -m scripts.validate_repository
-
-      - name: Audit generated artifacts
-        run: >-
-          uv run python -m scripts.audit_artifacts --check
-          --baseline data/artifact-manifests/current.json
-
-      - name: Validate generated output contracts
-        run: uv run start-validate-outputs --check
-
-      - name: Regenerate offline fixture smoke path
-        run: uv run start-regenerate-offline --output-dir "$RUNNER_TEMP/start-fixture" --run-id ci-fixture --json > /dev/null
-
-      - name: Type check core contracts
-        run: uv run mypy src scripts learning --ignore-missing-imports
-
-      - name: Dependency audit
-        run: uv run pip-audit --strict
-
-      - name: CLI help smoke
-        run: |
-          uv run python -m learning.curriculum_creation.generate_custom_curriculum --help > /dev/null
-          uv run python -m learning.curriculum_creation.generate_curriculum_gui --help > /dev/null
-          uv run start-clone --help > /dev/null
-
-      - name: GUI endpoint smoke
-        run: |
-          uv run python - <<'PY'
-          from __future__ import annotations
-
-          import json
-          import socket
-          import subprocess
-          import sys
-          import time
-          import urllib.error
-          import urllib.request
-
-          with socket.socket() as sock:
-              sock.bind(("127.0.0.1", 0))
-              port = sock.getsockname()[1]
-
-          process = subprocess.Popen(
-              [
-                  sys.executable,
-                  "-m",
-                  "learning.curriculum_creation.generate_curriculum_gui",
-                  "--host",
-                  "127.0.0.1",
-                  "--port",
-                  str(port),
-                  "--no-browser",
-              ],
-              stdout=subprocess.PIPE,
-              stderr=subprocess.PIPE,
-              text=True,
-          )
-          base = f"http://127.0.0.1:{port}"
-          try:
-              deadline = time.time() + 20
-              while time.time() < deadline:
-                  try:
-                      with urllib.request.urlopen(base + "/status", timeout=1) as response:
-                          status = json.loads(response.read().decode("utf-8"))
-                      break
-                  except Exception:
-                      if process.poll() is not None:
-                          stdout, stderr = process.communicate(timeout=1)
-                          raise RuntimeError(
-                              f"GUI exited early: stdout={stdout!r} stderr={stderr!r}"
-                          )
-                      time.sleep(0.25)
-              else:
-                  raise TimeoutError("GUI did not become ready")
-
-              assert status["running"] is False
-              for path in ("/", "/options"):
-                  with urllib.request.urlopen(base + path, timeout=3) as response:
-                      assert response.status == 200
-                      assert response.read()
-
-              request = urllib.request.Request(
-                  base + "/start",
-                  data=json.dumps({"domain": "", "entity": "", "language": ""}).encode("utf-8"),
-                  headers={"Content-Type": "application/json"},
-                  method="POST",
-              )
-              try:
-                  urllib.request.urlopen(request, timeout=3)
-              except urllib.error.HTTPError as exc:
-                  assert exc.code == 400
-              else:
-                  raise AssertionError("invalid /start payload unexpectedly succeeded")
-          finally:
-              process.terminate()
-              try:
-                  process.wait(timeout=5)
-              except subprocess.TimeoutExpired:
-                  process.kill()
-                  process.wait(timeout=5)
-          PY
-
-      - name: Test
-        # The manual release workflow is fail-closed at the 90% branch-aware floor;
-        # ordinary matrix CI keeps the current baseline visible while P2 work lands.
-        run: uv run pytest --cov=src --cov-branch --cov-report=term-missing --cov-fail-under=80 -q
-        env:
-          MPLBACKEND: Agg
-          START_REPO_ROOT: ${{ github.workspace }}
-
-  docs:
-    timeout-minutes: 60
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-
-      - name: Install uv
-        uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
-        with:
-          enable-cache: true
-
-      - name: Set up Python
-        run: uv python install 3.12
-
-      - name: Install dependencies
-        run: uv sync --all-extras --dev
-
-      - name: Build docs
-        run: uv run mkdocs build --strict
-        working-directory: .
+        run: uv run start-gate gnn-exemplar
 
   macos-smoke:
-    timeout-minutes: 60
+    timeout-minutes: 30
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -266,17 +143,10 @@ jobs:
         run: uv python install 3.12
 
       - name: Install locked project environment
-        run: uv sync --all-extras --dev
+        run: uv sync --all-extras --dev --locked
 
-      - name: Validate lock and shell entry points
-        run: |
-          uv lock --check
-          bash -n run.sh run_docs.sh src/setup.sh
+      - name: Validate lock
+        run: uv run start-gate lock
 
-      - name: Run macOS smoke tests
-        run: uv run pytest tests/test_core_hardening.py tests/test_visualization_runner.py -q
-        env:
-          MPLBACKEND: Agg
-
-      - name: Build docs on macOS
-        run: uv run mkdocs build --strict
+      - name: macOS smoke tests
+        run: uv run start-gate smoke-macos

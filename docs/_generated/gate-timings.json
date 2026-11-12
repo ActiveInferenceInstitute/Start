@@ -1,0 +1,181 @@
+{
+  "schema": "start-gate-timings/v1",
+  "measured": "2026-11-12T13:22:55Z",
+  "host": {
+    "platform": "macOS-27.0.1-arm64-arm-64bit",
+    "machine": "arm64",
+    "python": "3.12.16",
+    "uv": "uv 0.13.7 (Homebrew 2026-11-03 aarch64-apple-darwin)"
+  },
+  "tests": {
+    "all": 310,
+    "fast": 306,
+    "slow": 2,
+    "integration": 2,
+    "network": 0
+  },
+  "coverage_percent": 89.1,
+  "arms": [
+    {
+      "name": "lint",
+      "summary": "Ruff, Black, and shell syntax",
+      "commands": [
+        "python -m ruff check .",
+        "python -m black --check .",
+        "bash -n run.sh run_docs.sh src/setup.sh"
+      ],
+      "wall_seconds": 1.3,
+      "exit_codes": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "types",
+      "summary": "mypy over src, scripts, and learning",
+      "commands": [
+        "python -m mypy src scripts learning --ignore-missing-imports"
+      ],
+      "wall_seconds": 1.2,
+      "exit_codes": [
+        0
+      ]
+    },
+    {
+      "name": "fast",
+      "summary": "Selected tests: not marked slow, network, or integration",
+      "commands": [
+        "python -m pytest -m 'not slow and not network and not integration' -q"
+      ],
+      "wall_seconds": 44.5,
+      "exit_codes": [
+        0
+      ]
+    },
+    {
+      "name": "full",
+      "summary": "Full suite with the 80% branch-aware coverage floor",
+      "commands": [
+        "python -m pytest --cov=src --cov-branch --cov-report=term-missing --cov-fail-under=80 -q"
+      ],
+      "wall_seconds": 59.2,
+      "exit_codes": [
+        0
+      ]
+    },
+    {
+      "name": "docs",
+      "summary": "Strict MkDocs build plus configuration and local-link validation",
+      "commands": [
+        "python -m mkdocs build --strict",
+        "python -m scripts.validate_repository"
+      ],
+      "wall_seconds": 1.7,
+      "exit_codes": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "numbers",
+      "summary": "Generated gate-timings document matches its generator and this registry",
+      "commands": [
+        "python -m scripts.gate check-docs"
+      ],
+      "wall_seconds": 0.1,
+      "exit_codes": [
+        0
+      ]
+    },
+    {
+      "name": "gnn",
+      "summary": "Pinned GNN registration and orchestrator tests",
+      "commands": [
+        "python -m scripts.check_gnn_pin",
+        "python -m pytest tests/test_gnn_runner.py -q"
+      ],
+      "wall_seconds": 4.2,
+      "exit_codes": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "gnn-exemplar",
+      "summary": "Parse and type-check the pinned upstream GNN exemplar (requires network)",
+      "commands": [
+        "python -m scripts.check_gnn_exemplar"
+      ],
+      "wall_seconds": 3.5,
+      "exit_codes": [
+        0
+      ]
+    },
+    {
+      "name": "artifacts",
+      "summary": "Artifact provenance, output contracts, and offline fixture replay",
+      "commands": [
+        "python -m scripts.audit_artifacts --check --baseline data/artifact-manifests/current.json",
+        "python -m scripts.validate_outputs --check",
+        "python -m scripts.regenerate_offline_fixtures --output-dir '{fixture_dir}' --run-id gate-fixture --json"
+      ],
+      "wall_seconds": 1.8,
+      "exit_codes": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "smoke",
+      "summary": "CLI help and loopback GUI endpoint smoke",
+      "commands": [
+        "python -m learning.curriculum_creation.generate_custom_curriculum --help",
+        "python -m learning.curriculum_creation.generate_curriculum_gui --help",
+        "python -m src.repos.clone_repo --help",
+        "python -m scripts.smoke_gui"
+      ],
+      "wall_seconds": 7.4,
+      "exit_codes": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "audit",
+      "summary": "Dependency vulnerability audit",
+      "commands": [
+        "python -m pip_audit --strict"
+      ],
+      "wall_seconds": 1.2,
+      "exit_codes": [
+        0
+      ]
+    },
+    {
+      "name": "lock",
+      "summary": "Lockfile freshness",
+      "commands": [
+        "uv lock --check"
+      ],
+      "wall_seconds": 0.0,
+      "exit_codes": [
+        0
+      ]
+    },
+    {
+      "name": "smoke-macos",
+      "summary": "macOS hardening and visualization smoke tests",
+      "commands": [
+        "python -m pytest tests/test_core_hardening.py tests/test_visualization_runner.py -q"
+      ],
+      "wall_seconds": 7.0,
+      "exit_codes": [
+        0
+      ]
+    }
+  ]
+}
