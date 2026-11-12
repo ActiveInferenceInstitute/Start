@@ -70,6 +70,30 @@ The estate's GitHub Actions runs are billing-locked, so a workflow file is not
 evidence that a commit passes. Run the affected arms locally before landing.
 Arm output is the evidence; `start-gate measure` records the numbers.
 
+## Known host limitation: Darwin 27 and psutil 7.2.2
+
+On the Darwin 27 arm64 host, psutil 7.2.2's `cpu_freq()` raises
+`SystemError: <built-in function cpu_freq> returned a result with an exception set`,
+chained from `RuntimeError: invalid CPU frequency data`. The `full` arm is red
+for this host-only reason; its coverage floor still passes. No tests are skipped
+or weakened to conceal it.
+
+All six failures were reproduced on the pre-audit `origin/main` baseline
+`3296dde`, using the same Python 3.12.16 interpreter and installed psutil 7.2.2
+as the audit branch. The baseline and audit branch fail at the same
+`src/system/reporting.py:397` call. To reproduce these exact test IDs from
+either checkout with that environment (set `START_PYTHON` to its interpreter):
+
+```bash
+MPLBACKEND=Agg "$START_PYTHON" -m pytest -q \
+  tests/test_remaining_source.py::test_system_report_and_resource_formats \
+  tests/test_run_script_integration.py::TestRunScriptIntegration::test_python_system_reporting_integration \
+  tests/test_run_script_integration.py::TestScriptPerformance::test_memory_usage_reasonable \
+  tests/test_run_script_integration.py::TestEndToEndIntegration::test_complete_module_integration \
+  tests/test_system_reporting.py::test_system_report_preserves_network_diagnostics \
+  tests/test_system_reporting.py::test_formatted_report_and_resource_fallbacks
+```
+
 ## Release workflow
 
 `.github/workflows/release-gate.yml` is manual (`workflow_dispatch`). Shared
