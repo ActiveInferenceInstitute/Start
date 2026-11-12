@@ -51,6 +51,7 @@ COLLECT_SELECTIONS: dict[str, tuple[str, ...]] = {
 }
 COLLECTED = re.compile(r"(\d+)(?:/\d+)? tests? collected")
 COVERAGE_TOTAL = re.compile(r"^TOTAL\b.*?(\d+(?:\.\d+)?)%")
+COVERAGE_SUMMARY = re.compile(r"Total coverage:\s*(\d+(?:\.\d+)?)%")
 
 
 @dataclass(frozen=True)
@@ -293,6 +294,9 @@ def collect_counts() -> dict[str, int]:
 def coverage_percent(output: str) -> float | None:
     """Read the coverage total out of a pytest coverage table."""
 
+    summary = COVERAGE_SUMMARY.search(output)
+    if summary is not None:
+        return float(summary.group(1))
     for line in output.splitlines():
         match = COVERAGE_TOTAL.match(line.strip())
         if match is not None:
@@ -414,7 +418,8 @@ def render_markdown(payload: dict[str, Any]) -> str:
             "",
             "`measure` writes this file and its `.json` source; the `numbers` arm "
             "fails when either is edited by hand or when the arm registry changes "
-            "without a re-measurement.",
+            "without a re-measurement. Arms that need network access are listed "
+            "without a time unless `measure --include-network` runs them.",
             "",
         ]
     )
@@ -480,23 +485,30 @@ def check_docs() -> int:
 def measure(include_network: bool) -> int:
     """Run every arm once and rewrite the generated timing document."""
 
-    if not TIMINGS_JSON.exists() or not TIMINGS_MD.exists():
-        _write(_empty_payload())
-    names = [name for name in ARMS if include_network or name not in NETWORK_ARMS]
+    # Write a consistent document first: the `numbers` arm runs mid-measurement
+    # and must see a payload that matches the current arm registry.
+    _write(_empty_payload())
+    # Network arms install into the active environment, so they run last: the
+    # dependency audit must see the locked environment, not one arm's installs.
+    names = [name for name in ARMS if name not in NETWORK_ARMS]
+    if include_network:
+        names.extend(name for name in ARMS if name in NETWORK_ARMS)
     results: dict[str, tuple[bool, float, list[int], str]] = {}
     for name in names:
         results[name] = run_arm(name)
     receipts = _receipts()
-    arms = [
-        {
-            "name": name,
-            "summary": ARMS[name].summary,
-            "commands": receipts[name],
-            "wall_seconds": round(results[name][1], 1),
-            "exit_codes": results[name][2],
-        }
-        for name in names
-    ]
+    arms = []
+    for name in ARMS:
+        measured = results.get(name)
+        arms.append(
+            {
+                "name": name,
+                "summary": ARMS[name].summary,
+                "commands": receipts[name],
+                "wall_seconds": None if measured is None else round(measured[1], 1),
+                "exit_codes": [] if measured is None else measured[2],
+            }
+        )
     coverage = coverage_percent(results["full"][3]) if "full" in results else None
     tests = collect_counts()
     _write(
