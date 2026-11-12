@@ -4,16 +4,18 @@ This is the sole canonical backlog for future work. It contains unchecked
 work that remains after the deepest red-team review and hardening pass
 (2026-08-01).
 
-- Status: active (no release cut yet)
-- Last reviewed: 2026-11-11 (documentation pass 3; repository defects below
-  recorded, not fixed); prior review 2026-08-02 (docs-deep review pass;
-  Minor/Medium findings implemented; see the dated section below)
+- Status: active; release `v1` was cut on 2025-09-03 (tag `v1` on commit
+  `7c5452b`, still an ancestor of `main`); `pyproject.toml` version is `0.2.0`
+- Last reviewed: 2026-11-12 (backlog truth pass; every item re-verified against
+  the tracked tree and the recorded gate measurement at this head, completed
+  items moved to the dated section below); prior review 2026-11-11
+  (documentation pass 3; repository defects below recorded, not fixed); prior
+  review 2026-08-02 (docs-deep review pass; Minor/Medium findings implemented)
 
-## Known repository defects (recorded 2026-11-11; not fixed)
+## Known repository defects (recorded 2026-11-11; two added 2026-11-12; not fixed)
 
-Verified against the tracked tree during the pass-3 documentation review. Each
-needs an owner decision before it is changed; none was modified in the
-documentation pass.
+Verified against the tracked tree at this head. Each needs an owner decision
+before it is changed; none was modified by either review pass.
 
 - [ ] `examples/vfe/node_modules/` is committed (631 tracked files) even though
   the root `.gitignore` lists `examples/vfe/node_modules/`. Git ignore rules do
@@ -28,6 +30,58 @@ documentation pass.
   `examples/vfe/vfe.jsx` (both 56,986 bytes). `examples/README.md` and
   `examples/AGENTS.md` document only the `examples/vfe/` copy. Owner decision:
   remove the unused root duplicate or document why it exists.
+- [ ] `coverage.json` is tracked at the repository root (387,508 bytes) and its
+  `meta` block records `"timestamp": "2026-07-18T13:33:29"`, while the measured
+  total at this head is 89.1% (`docs/_generated/gate-timings.json`). No gate
+  arm, workflow, script, or document reads it, and `.gitignore` ignores
+  `.coverage`/`coverage.xml` but not `coverage.json`, so a `--cov-report=json`
+  run silently rewrites a stale committed file. Owner decision: delete it and
+  add the pattern to `.gitignore`, or make the gate consume it.
+- [ ] `pyproject.toml` sets `[tool.ruff] target-version = "py310"` while
+  `requires-python = ">=3.11"` and the documented matrix is 3.11/3.12
+  (`docs/environment.md`); `[tool.black] target-version` already lists
+  `py311`/`py312`. The linter therefore grades against a floor two minor
+  versions below the package's declared floor. Owner decision: set
+  `target-version = "py311"` and re-run `start-gate lint`.
+
+## Dependency pins (verified 2026-11-12)
+
+- **GNN is pinned at `v5.0.3`, not the estate's `v5.1.0`.** `.github/gnn-pin.json`
+  records `ActiveInferenceInstitute/Generalized_Notation_Notation` at
+  `8f293d9ba810e6eda5c09842d9c7ed9ffa5f92c1` (`v5.0.3`), and
+  `src/repos/cloning.py` hard-codes the same revision for the `gnn` clone target
+  with the comment "GNN v5.0.3; the shared canonical revision for the education
+  workstream". Start does not import the upstream GNN package:
+  `src/gnn/main.py` locates a GNN checkout and runs its pipeline with that
+  checkout's own interpreter, so the estate's `v5.1.0` importer migration does
+  not apply here and the older pin is a deliberate choice rather than an
+  unfinished migration. If that decision changes, the
+  repository maintainer updates `.github/gnn-pin.json` and
+  `src/repos/cloning.py` together, then re-runs `start-gate gnn` and
+  `start-gate gnn-exemplar` (the exemplar arm needs network).
+- **`pymdp` carries no version pin, and is not on 1.0.5.** `pymdp` is only a
+  clone target (`src/repos/cloning.py`: `docxology/pymdp`, branch `textbook`);
+  it is absent from `pyproject.toml` dependencies and from `uv.lock`, and no
+  module under `src/`, `scripts/`, or `learning/` imports it (only generated
+  curriculum text under `data/` mentions it). Owner: repository maintainer, if
+  a versioned dependency is ever wanted.
+
+## Education contract (blocked outside this repository)
+
+- [ ] **Authored curriculum content does not exist in this repository.** Start
+  generates curricula from provider responses; every committed curriculum under
+  `data/written_curriculums/`, `data/translated_curriculums/`, and
+  `data/visualizations/` is generated output carrying a run timestamp. The
+  authored tree (`data/prompts/`, `data/config/`, `docs/`, `learning/`, `src/`)
+  contains no learning-objectives artefact, no glossary term list, and no
+  learner plan: `git grep -i glossary` matches only the prompt template
+  `data/prompts/translation.md` and generated output under `data/`. Until that
+  authored content exists, no Education-contract bundle can be emitted from
+  this repository and the migration cannot start here.
+  Owner: the Institute's curriculum/education lead supplies the objectives,
+  glossary terms, and learner plan; the repository maintainer then wires them
+  into the generator. Blocked outside this repository; no code change here can
+  unblock it.
 
 ## Docs deep review (2026-08-02)
 
@@ -109,41 +163,72 @@ system overhaul or cross-cutting refactor.
 
 ## P0 — Release blockers
 
-- [ ] Complete the dirty-worktree baseline review and record the final
-  source/test/generated-artifact boundary before the first release commit.
-- [ ] Add full-run provider concurrency and cancellation stress tests,
-  structured-log integration assertions, and provider-reported usage/cost
-  aggregation across the orchestrator and all staged entrypoints.
-- [ ] Complete the provider failure matrix for every adapter path, including
-  malformed payloads, 4xx/429/5xx, timeout, retry exhaustion, cancellation,
-  usage accounting, and no-secret error/log output.
+None open. The artifact boundary and the provider matrix moved to the
+2026-11-12 completed section below. What still blocks a release is one
+publication gate each, tracked where it is worked: the provenance floor in P1
+and the coverage floor in P2.
 
 ## P1 — Data and product readiness
 
-- [ ] Human-review the generated-artifact audit (current snapshot: 687 files,
-  1 duplicate-content group, and 642 without provenance after excluding
-  repository guidance and run-state files), retain a small
-  canonical example set, archive or remove unexplained timestamped duplicates,
-  and make the curated manifest reproducible without deleting user-owned
-  evidence.
-- [ ] Expand CLI and GUI tests for JSON output, exit codes, dry-run,
-  cost-estimate, resume, budget refusal, authenticated remote binding,
-  cancellation, and sensitive-response redaction.
+- [ ] Human-review the generated-artifact audit. The recorded baseline at this
+  head is unchanged: 687 files, 1 duplicate-content group, and 642 without
+  provenance after excluding repository guidance and run-state files
+  (`data/artifact-manifests/current.json`). Retain a small canonical example
+  set, archive or remove unexplained timestamped duplicates, and make the
+  curated manifest reproducible without deleting user-owned evidence. Owner:
+  repository maintainer — this is a human retention decision, and
+  `uv run python -m scripts.audit_artifacts --check --fail-on-unprovenanced`
+  (the release floor in `.github/workflows/release-gate.yml`) is the gate that
+  must pass once the debt is cleared.
+- [ ] Add CLI-argv tests for `--dry-run` and `--estimate-cost`
+  (`learning/curriculum_creation/generate_custom_curriculum.py:1551-1556`); the
+  only current dry-run coverage is at orchestrator/runner level
+  (`tests/test_production_hardening.py:1111`,
+  `tests/test_gnn_runner.py:383`). The rest of the earlier list is covered:
+  JSON output and exit codes by
+  `test_cli_json_failure_is_bounded_and_machine_readable` and
+  `test_gui_entrypoint_has_stable_argument_failure_code`, resume by
+  `test_pipeline_dependencies_resume_and_optional_failures`, budget refusal by
+  `test_pipeline_budget_stops_before_downstream_stage_and_does_not_publish_failures`,
+  authenticated remote binding by
+  `test_gui_remote_binding_requires_explicit_authentication`, and redaction by
+  `test_structured_logging_redacts_sensitive_values`. Owner: whoever adds the
+  tests; nothing external blocks this.
 
 ## P2 — Public release gates
 
-- [ ] Raise branch-aware coverage above the now-passed 90.03% total gate and
-  enforce higher floors for every destructive repository/path operation; the
-  current repository orchestration module remains below that stricter floor.
-- [ ] Validate the Python 3.10–3.12 matrix and macOS smoke path in CI, and
-  document supported versions and package/console entrypoints.
-- [ ] Complete formal security review, secret-scan review, dependency audit,
-  static analysis triage, and release threat-model sign-off.
+- [ ] Raise branch-aware coverage from the recorded 89.1%
+  (`docs/_generated/gate-timings.json`, measured `2026-11-12T13:22:55Z`) to the
+  90% release floor, and add per-module floors for every destructive
+  repository/path operation. The two floors differ today: the CI `full` arm
+  enforces `--cov-fail-under=80` (`scripts/gate.py`) while
+  `.github/workflows/release-gate.yml` enforces `--cov-fail-under=90`, so the
+  release floor is currently unmet. Owner: repository maintainer. Neither floor
+  has hosted evidence, because the estate's Actions runs are billing-locked.
+- [ ] Get a recorded green run of the Python 3.11/3.12 matrix and the
+  `macos-smoke` job. The configuration exists — `.github/workflows/ci.yml` runs
+  `fast` on 3.11, `full` on 3.12, and `macos-smoke` (`lock` plus
+  `smoke-macos`); `docs/environment.md` documents 3.11/3.12; all ten console
+  entry points are listed in `AGENTS.md`. What is missing is evidence: the
+  estate's Actions runs are billing-locked, so neither job has a recorded green
+  hosted run. Owner: whoever holds the organization billing/runner decision;
+  local arm output is the interim evidence.
+- [ ] Complete formal security review, secret-scan review, dependency audit
+  triage, static analysis triage, and release threat-model sign-off. In place
+  today: the `audit` arm (`pip-audit --strict`) and
+  `.github/workflows/codeql.yml`. Missing: no `SECURITY.md`, no secret-scan
+  configuration or scan record, and no triage or threat-model artefact in the
+  repository. Owner: repository maintainer with a reviewer; CodeQL results are
+  also unobservable while Actions runs are billing-locked.
 - [ ] Run one explicitly budgeted live pilot for one domain, one entity, and
   one language; require human review of its manifest and artifacts before
-  publication.
+  publication. Owner: release owner; needs provider credentials and the human
+  review the item names.
 
 ## P3 — Post-release product exploration
+
+None of these is blocked; each needs an owner decision from the repository
+maintainer before it becomes work.
 
 - [ ] Evaluate provider plugins and model-independent runtime extensions.
 - [ ] Evaluate richer interactive visualizations, LMS exports, and
@@ -179,6 +264,36 @@ they are documented here so the reasoning is not lost.
   symlinks would break those legitimate installs. Writes still reject both.
 - `src/perplexity/entity.py` `extract_entity_description` falls back to the
   full input when no `Description:` line exists; existing tests pin this.
+
+## Completed / Closed (2026-11-12 backlog truth pass)
+
+Verified against tracked files at this head. Nothing here rests on a hosted
+run, because the estate's Actions runs are billing-locked.
+
+- **Source/test/generated-artifact boundary recorded and enforced.** The
+  boundary is the roots list in `data/artifact-manifests/current.json`
+  (`data/audience_research`, `data/domain_research`, `data/entity_research`,
+  `data/translated_curriculums`, `data/visualizations`,
+  `data/written_curriculums`) and the `artifacts` arm runs
+  `scripts.audit_artifacts --check --baseline data/artifact-manifests/current.json`,
+  `scripts.validate_outputs --check`, and the offline fixture replay. The
+  retired "before the first release commit" framing was wrong: release `v1` was
+  cut on 2025-09-03.
+- **Provider concurrency, cancellation, usage/cost, structured logging, and the
+  failure matrix are covered by tests.** `tests/test_production_hardening.py`
+  covers the `RequestLimiter` concurrency cap, cancellation interrupting
+  backoff, provider-reported cost and usage accounting, structured-log and
+  credential redaction, retry exhaustion, `Retry-After` parsing (including the
+  HTTP-date form), and payload validation.
+  `tests/test_release_edge_matrix.py::test_provider_failure_matrix_redacts_secrets_and_honors_cancellation`
+  covers 429 retry plus redaction plus cancellation, and
+  `tests/test_release_edge_matrix.py::test_pipeline_contracts_usage_and_run_artifacts_are_serializable`
+  covers usage normalization and aggregation at the pipeline-contract layer.
+  Budget refusal is covered by
+  `test_pipeline_budget_stops_before_downstream_stage_and_does_not_publish_failures`.
+  Both adapters run through `ProviderAdapter`/`complete_chat_result`;
+  `tests/test_clients.py` asserts the Perplexity and OpenRouter base URLs and
+  the credential requirement.
 
 ## Completed / Closed (2026-08-01 comprehensive + wiring pass)
 
