@@ -96,6 +96,13 @@ output gate. Linux runs cover Python 3.11–3.12 (`fast` on 3.11, `full` on 3.12
 the macOS smoke job uses the locked Python 3.12 environment and runs the
 `smoke-macos` arm.
 
+The Linux matrix explicitly passes its Python version to both `uv sync` and
+`uv run`; installing an interpreter alone does not override the repository's
+Python 3.12 pin. Before the selected gate runs, CI checks the actual version,
+virtual-environment prefix and executable directory. The required `test` rollup
+still requires every existing CI job to succeed; failed, cancelled or skipped
+jobs cannot satisfy it.
+
 ## Repository Validation
 
 ```bash
