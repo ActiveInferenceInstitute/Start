@@ -150,3 +150,15 @@ jobs:
 
       - name: macOS smoke tests
         run: uv run start-gate smoke-macos
+
+  required-gate:
+    name: test
+    needs: [checks, test, docs, gnn-conformance, macos-smoke]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Require successful validation jobs
+        env:
+          RESULTS: ${{ toJSON(needs) }}
+        run: jq -e 'length > 0 and all(.[]; .result == "success")' <<<"$RESULTS"
