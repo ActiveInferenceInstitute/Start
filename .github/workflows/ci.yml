@@ -53,8 +53,7 @@ jobs:
   test:
     timeout-minutes: 120
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
+    strategy:\n      fail-fast: false
       matrix:
         include:
           # 3.11 runs the marker-selected fast arm; 3.12 runs the full suite with
@@ -70,6 +69,7 @@ jobs:
         uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
         with:
           enable-cache: true
+          cache-local-path: ${{ runner.temp }}/setup-uv-cache-py${{ matrix.python-version }}
           cache-suffix: py${{ matrix.python-version }}
 
       - name: Set up Python
@@ -84,6 +84,7 @@ jobs:
           import json
           import sys
           from pathlib import Path
+          import pandas.io.formats.csvs
           expected = tuple(map(int, "${{ matrix.python-version }}".split(".")))
           assert sys.version_info[:2] == expected, sys.version
           assert Path(sys.prefix).resolve() == (Path.cwd() / ".venv").resolve(), sys.prefix
