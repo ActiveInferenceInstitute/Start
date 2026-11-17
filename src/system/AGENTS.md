@@ -54,6 +54,12 @@ Formats system report for display.
 
 **Returns**: Formatted report string
 
+#### `get_cpu_info() -> Dict[str, Any]`
+Returns core counts, load averages and optional CPU details. An unavailable
+frequency probe reports `cpu_freq=None` and `cpu_freq_error` with the actual
+`OSError`, `RuntimeError` or `SystemError` type and message; other CPU details
+remain available without inventing a frequency value.
+
 #### `get_resource_usage() -> ResourceUsage`
 Gets current resource usage statistics.
 

@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
+import json
 import os
 import subprocess
+import sys
 from pathlib import Path
 
 
@@ -64,7 +66,7 @@ def test_makefile_format_target_syntax():
     assert "uv run black" in result.stdout
 
 
-def test_setup_script_execution():
+def test_setup_script_execution(python_environment):
     """Test that setup.sh script executes successfully."""
     # Test script dry run or basic validation instead of full execution
     result = subprocess.run(
@@ -83,11 +85,37 @@ def test_setup_script_execution():
             ["bash", "src/setup.sh"],
             capture_output=True,
             text=True,
+            env=python_environment,
             timeout=300,  # 5 minutes timeout
         )
         # Should complete successfully in CI
         assert full_result.returncode == 0
         assert "complete" in full_result.stdout.lower()
+        probe = subprocess.run(
+            [
+                "uv",
+                "run",
+                "--no-sync",
+                "--python",
+                sys.executable,
+                "python",
+                "-c",
+                (
+                    "import json,sys;"
+                    "print(json.dumps([sys.executable,sys.prefix,list(sys.version_info[:3])]))"
+                ),
+            ],
+            env=python_environment,
+            capture_output=True,
+            text=True,
+            timeout=30,
+        )
+        assert probe.returncode == 0, probe.stderr
+        assert json.loads(probe.stdout) == [
+            sys.executable,
+            sys.prefix,
+            list(sys.version_info[:3]),
+        ]
 
 
 def test_project_structure_integrity():
@@ -108,17 +136,15 @@ def test_project_structure_integrity():
     assert Path("src/perplexity/__init__.py").exists(), "src/perplexity/__init__.py missing"
 
 
-def test_clone_script_help():
+def test_clone_script_help(python_environment):
     """Test that clone_repo script shows help."""
     result = subprocess.run(
-        ["uv", "run", "start-clone", "--help"], capture_output=True, text=True, timeout=30
+        ["uv", "run", "--no-sync", "--python", sys.executable, "start-clone", "--help"],
+        capture_output=True,
+        text=True,
+        timeout=30,
+        env=python_environment,
     )
-
-    # Handle git dependency issues gracefully
-    if result.returncode != 0 and "srccs" in result.stderr:
-        # Test that we get expected error for broken dependencies
-        assert "ModuleNotFoundError" in result.stderr or "srccs" in result.stderr
-        return  # Exit test successfully, having verified error handling
 
     assert result.returncode == 0
     assert "--url" in result.stdout
@@ -127,18 +153,18 @@ def test_clone_script_help():
     assert "--shallow" in result.stdout
 
 
-def test_clone_script_missing_args():
+def test_clone_script_missing_args(python_environment):
     """Test that clone_repo script fails appropriately with missing args."""
     result = subprocess.run(
-        ["uv", "run", "start-clone"], capture_output=True, text=True, timeout=30
+        ["uv", "run", "--no-sync", "--python", sys.executable, "start-clone"],
+        capture_output=True,
+        text=True,
+        timeout=30,
+        env=python_environment,
     )
-
-    # Handle git dependency issues gracefully
-    if result.returncode != 0 and "srccs" in result.stderr:
-        # Test that we get expected error for broken dependencies
-        assert "ModuleNotFoundError" in result.stderr or "srccs" in result.stderr
-        return  # Exit test successfully, having verified error handling
 
     # Should fail with missing required arguments
     assert result.returncode != 0
-    assert "required" in result.stderr or "error" in result.stderr.lower()
+    assert "required" in result.stderr
+    assert "--url" in result.stderr
+    assert "--dest" in result.stderr

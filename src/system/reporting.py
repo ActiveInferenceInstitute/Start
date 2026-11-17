@@ -394,7 +394,13 @@ def get_cpu_info() -> Dict[str, Any]:
         import psutil
 
         info["physical_cores"] = psutil.cpu_count(logical=False)
-        info["cpu_freq"] = psutil.cpu_freq()._asdict() if psutil.cpu_freq() else None
+        try:
+            frequency = psutil.cpu_freq()
+        except (OSError, RuntimeError, SystemError) as exc:
+            info["cpu_freq"] = None
+            info["cpu_freq_error"] = f"{type(exc).__name__}: {exc}"
+        else:
+            info["cpu_freq"] = frequency._asdict() if frequency is not None else None
         info["cpu_percent"] = psutil.cpu_percent(interval=1)
     except ImportError:
         pass

@@ -41,3 +41,13 @@ def data_dir() -> Path:
 def prompts_dir() -> Path:
     """Return the prompts directory path."""
     return PROJECT_ROOT / "data" / "prompts"
+
+
+@pytest.fixture
+def python_environment() -> dict[str, str]:
+    """Keep real uv subprocesses on the running test interpreter and prefix."""
+    return {
+        **os.environ,
+        "UV_PYTHON": sys.executable,
+        "UV_PROJECT_ENVIRONMENT": sys.prefix,
+    }
