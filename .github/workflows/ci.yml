@@ -70,15 +70,29 @@ jobs:
         uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
         with:
           enable-cache: true
+          cache-suffix: py${{ matrix.python-version }}
 
       - name: Set up Python
         run: uv python install ${{ matrix.python-version }}
 
       - name: Install locked project environment
-        run: uv sync --all-extras --dev --locked
+        run: uv sync --python ${{ matrix.python-version }} --all-extras --dev --locked
+
+      - name: Verify selected interpreter
+        run: |
+          uv run --no-sync --python ${{ matrix.python-version }} python - <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+          expected = tuple(map(int, "${{ matrix.python-version }}".split(".")))
+          assert sys.version_info[:2] == expected, sys.version
+          assert Path(sys.prefix).resolve() == (Path.cwd() / ".venv").resolve(), sys.prefix
+          assert Path(sys.executable).parent.resolve() == (Path(sys.prefix) / "bin").resolve(), sys.executable
+          print(json.dumps({"executable": sys.executable, "version": sys.version}))
+          PY
 
       - name: Test
-        run: uv run start-gate ${{ matrix.gate-arm }}
+        run: uv run --no-sync --python ${{ matrix.python-version }} start-gate ${{ matrix.gate-arm }}
 
   docs:
     name: docs
