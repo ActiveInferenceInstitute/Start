@@ -8,6 +8,7 @@ from src.system.reporting import (
     format_system_report,
     generate_system_report,
     get_basic_system_info,
+    get_cpu_info,
     get_disk_usage,
     get_network_info,
     get_python_environment_info,
@@ -87,3 +88,22 @@ def test_formatted_report_and_resource_fallbacks(monkeypatch) -> None:
     monkeypatch.setattr(builtins, "__import__", import_without_psutil)
     usage = get_resource_usage()
     assert usage.cpu_percent == 0.0
+
+
+@pytest.mark.parametrize("error_type", [OSError, RuntimeError, SystemError])
+def test_cpu_frequency_failure_keeps_other_cpu_details(monkeypatch, error_type) -> None:
+    import psutil
+
+    calls = []
+
+    def fail_frequency():
+        calls.append(None)
+        raise error_type("frequency unavailable")
+
+    monkeypatch.setattr(psutil, "cpu_freq", fail_frequency)
+    info = get_cpu_info()
+    assert len(calls) == 1
+    assert info["logical_cores"]
+    assert info["cpu_freq"] is None
+    assert info["cpu_freq_error"] == f"{error_type.__name__}: frequency unavailable"
+    assert "cpu_percent" in info

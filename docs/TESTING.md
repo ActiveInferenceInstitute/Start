@@ -103,6 +103,12 @@ virtual-environment prefix and executable directory. The required `test` rollup
 still requires every existing CI job to succeed; failed, cancelled or skipped
 jobs cannot satisfy it.
 
+Real installer and CLI tests bind `UV_PYTHON` and `UV_PROJECT_ENVIRONMENT` to
+the running pytest interpreter and prefix. They check the actual executable,
+prefix and version after setup, so the default 3.12 pin cannot replace a live
+3.11 test environment mid-suite. CLI or dependency failures are test failures,
+not an alternative successful result.
+
 ## Repository Validation
 
 ```bash

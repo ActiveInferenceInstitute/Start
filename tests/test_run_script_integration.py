@@ -6,10 +6,10 @@ and that the overall system integration is sound. Uses real methods and local da
 
 from __future__ import annotations
 
+import json
 import os
 import subprocess
 import sys
-from pathlib import Path
 
 import pytest
 
@@ -164,34 +164,38 @@ assert 'TEST BANNER' in banner
 
         assert result.returncode == 0, f"Menu system integration failed: {result.stderr}"
 
-    @pytest.mark.skipif(
-        not Path("/usr/bin/uv").exists() and not Path.home().joinpath(".cargo/bin/uv").exists(),
-        reason="uv not available",
-    )
-    def test_uv_integration(self):
-        """Test that uv integration works if uv is available."""
-        # Test basic uv command execution
+    def test_uv_integration(self, python_environment):
+        """Real uv commands preserve the selected test interpreter and prefix."""
+        version = subprocess.run(["uv", "--version"], capture_output=True, text=True)
+        assert version.returncode == 0, version.stderr
+        assert "uv" in version.stdout.lower()
+
+        python_code = (
+            "import json,sys;"
+            "print(json.dumps([sys.executable,sys.prefix,list(sys.version_info[:3])]))"
+        )
         result = subprocess.run(
-            ["uv", "--version"],
+            [
+                "uv",
+                "run",
+                "--no-sync",
+                "--python",
+                get_python_executable(),
+                "python",
+                "-c",
+                python_code,
+            ],
+            cwd=repo_root(),
             capture_output=True,
             text=True,
+            env=python_environment,
         )
-
-        if result.returncode == 0:
-            assert "uv" in result.stdout.lower()
-
-            # Test uv run with simple Python code
-            python_code = "print('UV integration test passed')"
-            result = subprocess.run(
-                ["uv", "run", "python", "-c", python_code],
-                cwd=repo_root(),
-                capture_output=True,
-                text=True,
-            )
-
-            # Note: This might fail if dependencies aren't installed, which is okay
-            # We're mainly testing that uv command works
-            assert result.returncode in [0, 1]  # 0 for success, 1 for dependency issues
+        assert result.returncode == 0, result.stderr
+        assert json.loads(result.stdout) == [
+            sys.executable,
+            sys.prefix,
+            list(sys.version_info[:3]),
+        ]
 
     def test_curriculum_generator_accessibility(self):
         """Test that curriculum generator is accessible."""
