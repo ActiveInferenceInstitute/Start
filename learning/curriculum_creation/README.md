@@ -14,6 +14,37 @@ uv run start-curriculum --non-interactive --stages curriculum visualizations tra
   --languages Spanish French --run-id example-001 --json
 ```
 
+## Education contract migration — blocked
+
+The [Education workflow contract](https://github.com/ActiveInferenceInstitute/courses/blob/main/docs/workflows/education.md)
+requires `specs/education/start.json`: learner plan steps become units and their
+ordering becomes prerequisite edges. This directory supplies the generator and
+its operator instructions, not a fixed learner plan.
+
+The missing input is a source-backed learner plan with a verbatim objective for
+every step and a quoted statement supporting its ordering. Specifically:
+
+- The stages below and the [step-by-step usage workflow](USAGE_GUIDE.md#step-by-step-workflow)
+  describe operating the generator, not prerequisites for learning Active Inference.
+- [`process_research_file`](../../src/perplexity/curriculum.py) takes section
+  headings from research text and requests their content from a provider.
+  [`ProviderPayload`](../../src/pipeline/schemas.py) carries section text, not
+  declared learner-step objectives or prerequisite edges.
+- Saved outputs live in `data/written_curriculums/`, outside this directory.
+  They are not all ready for verbatim transcription: for example,
+  `data/written_curriculums/Bill Gates/complete_curriculum_20250903_174607.md`
+  opens with response-writing steps and the unresolved text `The best answer is {A}.`;
+  that opening section has no stated learning objectives. Later sections do
+  contain objectives, so this is not a claim that the saved corpus has none.
+
+To unblock, identify the intended learner-plan source and supply or review its
+missing objectives and ordering statements. Do not reinterpret generation stages
+as learner units, silently omit unsupported steps, or generate replacement facts
+for this migration. Until the bundle can be transcribed, leave
+`education-contract.json` and the vendored schema absent: schema-only adoption
+is reported as `EC201` by the lead checker, while an empty bundle would conceal
+the missing content.
+
 ## Overview
 
 The curriculum creation process follows these stages:
