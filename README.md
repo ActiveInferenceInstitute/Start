@@ -17,9 +17,9 @@ START combines optional live research capabilities with sophisticated content ge
 - [Quick Links](#-quick-links)
 - [Status](#status)
 - [Key Features](#-key-features)
-- [Quick Installation](#-quick-installation)
+- [Quick Installation](#%EF%B8%8F-quick-installation)
 - [Getting Started](#-getting-started)
-- [Configuration System](#-configuration-system)
+- [Configuration System](#%EF%B8%8F-configuration-system)
 - [Development & Testing](#-development--testing)
 - [License & Citation](#-license--citation)
 - [Contact & Support](#-contact--support)
@@ -431,7 +431,7 @@ Licensed under Creative Commons Attribution-ShareAlike 4.0 International
 
 Together we're building tools to make Active Inference accessible and adaptable across domains, languages, and perspectives. **START** represents a new paradigm in AI-powered educational content creation - join us in making advanced neuroscience and cognitive science accessible to learners worldwide!
 
-**[📚 Explore Documentation](docs/README.md) | [🚀 Get Started](#-quick-installation) | [🤝 Join Community](https://www.activeinference.institute/)**
+**[📚 Explore Documentation](docs/README.md) | [🚀 Get Started](#%EF%B8%8F-quick-installation) | [🤝 Join Community](https://www.activeinference.institute/)**
 
 ## Institute Shortlinks (email-friendly)
 
