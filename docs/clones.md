@@ -21,7 +21,7 @@ generated curricula, or included in the release bundle.
 
 - **URL**: [github.com/ActiveInferenceInstitute/Generalized_Notation_Notation](https://github.com/ActiveInferenceInstitute/Generalized_Notation_Notation/)
 - **Destination**: `src/_clones/gnn`
-- **Revision**: `8f293d9ba810e6eda5c09842d9c7ed9ffa5f92c1` (v5.0.3) — the registered revision recorded in `src/repos/cloning.py`
+- **Revision**: `75c834bd8519dc7b5adc4d24f16bf393cfd1ecdf` (v5.1.0) — the registered revision recorded in `src/repos/cloning.py`
 - **Purpose**: Generalized Notation Notation (GNN) project by the Active Inference Institute
 - **Integration**: Optional reference material; generated claims require independent source review. `start-gnn` runs the pipeline in this checkout and reports the artifacts it produced.
 

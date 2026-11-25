@@ -134,8 +134,8 @@ def get_predefined_repositories() -> Dict[str, RepoInfo]:
             description="Generalized Notation Notation (GNN) by Active Inference Institute",
             category="active_inference",
             shallow=True,
-            # GNN v5.0.3; the shared canonical revision for the education workstream.
-            revision="8f293d9ba810e6eda5c09842d9c7ed9ffa5f92c1",
+            # GNN v5.1.0; the shared canonical revision for the education workstream.
+            revision="75c834bd8519dc7b5adc4d24f16bf393cfd1ecdf",
         ),
         "cerebrum": RepoInfo(
             name="cerebrum",
