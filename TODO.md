@@ -46,19 +46,14 @@ before it is changed; none was modified by either review pass.
 
 ## Dependency pins (verified 2026-11-12)
 
-- **GNN is pinned at `v5.0.3`, not the estate's `v5.1.0`.** `.github/gnn-pin.json`
-  records `ActiveInferenceInstitute/Generalized_Notation_Notation` at
-  `8f293d9ba810e6eda5c09842d9c7ed9ffa5f92c1` (`v5.0.3`), and
-  `src/repos/cloning.py` hard-codes the same revision for the `gnn` clone target
-  with the comment "GNN v5.0.3; the shared canonical revision for the education
-  workstream". Start does not import the upstream GNN package:
-  `src/gnn/main.py` locates a GNN checkout and runs its pipeline with that
-  checkout's own interpreter, so the estate's `v5.1.0` importer migration does
-  not apply here and the older pin is a deliberate choice rather than an
-  unfinished migration. If that decision changes, the
-  repository maintainer updates `.github/gnn-pin.json` and
-  `src/repos/cloning.py` together, then re-runs `start-gate gnn` and
-  `start-gate gnn-exemplar` (the exemplar arm needs network).
+- **GNN is pinned at `v5.1.0`.** `.github/gnn-pin.json` records
+  `ActiveInferenceInstitute/Generalized_Notation_Notation` at
+  `75c834bd8519dc7b5adc4d24f16bf393cfd1ecdf` (`v5.1.0`, recorded 2026-11-24), and
+  `src/repos/cloning.py` registers the same revision for the `gnn` clone target.
+  Start does not import the upstream GNN package: `src/gnn/main.py` locates a GNN
+  checkout and runs its pipeline with that checkout's own interpreter. The pin
+  file and `src/repos/cloning.py` move together, then `start-gate gnn` and
+  `start-gate gnn-exemplar` (the exemplar arm needs network) are re-run.
 - **`pymdp` carries no version pin, and is not on 1.0.5.** `pymdp` is only a
   clone target (`src/repos/cloning.py`: `docxology/pymdp`, branch `textbook`);
   it is absent from `pyproject.toml` dependencies and from `uv.lock`, and no

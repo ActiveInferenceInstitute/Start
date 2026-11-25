@@ -157,7 +157,7 @@ def _commit(checkout: Path, name: str = "follow-up.txt") -> str:
 
 
 def test_registered_revision_is_the_gnn_pin():
-    assert registered_revision() == "8f293d9ba810e6eda5c09842d9c7ed9ffa5f92c1"
+    assert registered_revision() == "75c834bd8519dc7b5adc4d24f16bf393cfd1ecdf"
 
 
 def test_resolve_gnn_checkout_prefers_explicit_path(tmp_path):

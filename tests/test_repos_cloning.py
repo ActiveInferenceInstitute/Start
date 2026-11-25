@@ -107,7 +107,7 @@ def test_gnn_registration_carries_the_pinned_revision():
     from src.repos.cloning import get_predefined_repositories
 
     registered = get_predefined_repositories()["gnn"]
-    assert registered.revision == "8f293d9ba810e6eda5c09842d9c7ed9ffa5f92c1"
+    assert registered.revision == "75c834bd8519dc7b5adc4d24f16bf393cfd1ecdf"
     assert registered.url.endswith("Generalized_Notation_Notation/")
     positional = RepoInfo("plain", "https://example.invalid/repo")
     assert positional.revision == ""
