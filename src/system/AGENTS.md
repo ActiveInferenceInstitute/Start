@@ -164,4 +164,4 @@ Runs comprehensive health check.
 
 - [README.md](README.md) - Module overview and usage
 - [../README.md](../README.md) - Source code overview
-- [../../docs/environment.md](../../docs/environment.md) - Environment setup guide
+- [../../docs/reference/environment.md](../../docs/reference/environment.md) - Environment setup guide

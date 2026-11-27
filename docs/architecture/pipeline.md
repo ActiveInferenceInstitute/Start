@@ -15,9 +15,9 @@ atomic `manifest.json`. Required-stage failures make `PipelineResult.ok` false;
 optional-stage failures remain visible in structured stage results.
 
 Links
-- [Configuration Reference](./configuration.md)
-- [Visualizations](./visualizations.md)
-- [Translations](./translations.md)
+- [Configuration Reference](../reference/configuration.md)
+- [Visualizations](visualizations.md)
+- [Translations](translations.md)
 
 ### 1. **Acquire** 🔍
 

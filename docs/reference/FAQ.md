@@ -14,7 +14,7 @@ uv run start-gate fast
 See Getting Started: ./getting_started.md and Pipeline: ./pipeline.md.
 
 ## Where do outputs go?
-Research in `data/audience_research/` and `data/domain_research/`; curricula in `data/written_curriculums/`; visuals in `data/visualizations/`; translations in `data/translated_curriculums/`. See [Data & Outputs](./data_outputs.md) for directory purposes and artifact descriptions.
+Research in `data/audience_research/` and `data/domain_research/`; curricula in `data/written_curriculums/`; visuals in `data/visualizations/`; translations in `data/translated_curriculums/`. See [Data & Outputs](../architecture/data_outputs.md) for directory purposes and artifact descriptions.
 
 ## How do I see the docs site?
 Run `./run_docs.sh --serve` (local) or visit GitHub Pages at the project site.
@@ -31,7 +31,7 @@ Required: `PERPLEXITY_API_KEY` and `OPENROUTER_API_KEY`. Optional: `OPENAI_API_K
 ## Do tests use the network?
 No external provider calls run by default. Provider behavior is exercised with
 local HTTP servers; live connectivity requires credentials and an explicit
-probe invocation. See [Testing](./TESTING.md).
+probe invocation. See [Testing](../development/TESTING.md).
 
 ## Docs site won’t start — what should I check?
 Use `./run_docs.sh --serve`. Ensure `mkdocs.yml` exists at repo root. The

@@ -2,42 +2,50 @@ site_name: START Documentation
 site_url: https://activeinferenceinstitute.github.io/Start/
 repo_url: https://github.com/ActiveInferenceInstitute/Start
 exclude_docs: |
-  AGENTS.md
-  README.md
+  /AGENTS.md
+  /README.md
   other/AGENTS.md
   other/README.md
 nav:
   - Home: index.md
   - Documentation Index: documentation-index.md
-  - Gate: gate.md
-  - GNN Conformance: gnn_conformance.md
+  - Gate: development/gate.md
+  - GNN Conformance: development/gnn_conformance.md
   - Generated:
       - Gate numbers: _generated/gate-timings.md
-  - Getting Started: getting_started.md
-  - Environment: environment.md
-  - Pipeline: pipeline.md
-  - Methods: methods.md
-  - Manuscript Note: manuscript.md
-  - Operations: operations.md
-  - Configuration: configuration.md
-  - Data & Outputs: data_outputs.md
-  - Visualizations: visualizations.md
-  - Translations: translations.md
-  - Docs & Deployment: docs_and_deployment.md
-  - Contributing: CONTRIBUTING.md
-  - FAQ: FAQ.md
-  - Roadmap: ROADMAP.md
-  - Testing: TESTING.md
-  - Examples: examples.md
-  - Clone Management: clones.md
-  - Conventions: conventions.md
+  - Getting Started: guides/getting_started.md
+  - Environment: reference/environment.md
+  - Pipeline: architecture/pipeline.md
+  - Methods: architecture/methods.md
+  - Manuscript:
+      - Source and render: manuscript/README.md
+      - Abstract: manuscript/00_abstract.md
+      - Contribution and scope: manuscript/01_contribution_and_scope.md
+      - Method: manuscript/02_method.md
+      - Evidence boundary: manuscript/03_evidence_boundary.md
+      - Results reporting: manuscript/04_results_reporting.md
+      - Limitations and next study: manuscript/05_limitations_and_next_study.md
+      - References: manuscript/99_references.md
+  - Operations: development/operations.md
+  - Configuration: reference/configuration.md
+  - Data & Outputs: architecture/data_outputs.md
+  - Visualizations: architecture/visualizations.md
+  - Translations: architecture/translations.md
+  - Docs & Deployment: development/docs_and_deployment.md
+  - Contributing: development/CONTRIBUTING.md
+  - FAQ: reference/FAQ.md
+  - Roadmap: development/ROADMAP.md
+  - Testing: development/TESTING.md
+  - Examples: guides/examples.md
+  - Clone Management: guides/clones.md
+  - Conventions: development/conventions.md
   - Other:
       - Overview: other/index.md
       - Inferant Stream 015-1: other/inferant_stream_015-1.md
   - Learning Guides:
-      - Usage Guide: learning_usage_guide.md
-      - API Integration: learning_api_integration.md
-      - Curriculum GUI: curriculum_gui.md
+      - Usage Guide: guides/learning_usage_guide.md
+      - API Integration: reference/learning_api_integration.md
+      - Curriculum GUI: guides/curriculum_gui.md
 markdown_extensions:
   - toc:
       permalink: true

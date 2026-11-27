@@ -82,4 +82,4 @@ Internal helpers: `normalize_counts`, `select_fields`, `read_json_object`,
 
 - [README.md](README.md) - Module overview and usage
 - [../repos/AGENTS.md](../repos/AGENTS.md) - Clone registration and revision checks
-- [../../docs/clones.md](../../docs/clones.md) - Clone management and `start-gnn`
+- [../../docs/guides/clones.md](../../docs/guides/clones.md) - Clone management and `start-gnn`

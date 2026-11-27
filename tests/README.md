@@ -43,5 +43,5 @@ Configuration in `pytest.ini`:
 ## Navigation
 
 - [AGENTS.md](AGENTS.md) - Test file reference
-- [../docs/TESTING.md](../docs/TESTING.md) - Testing guide
+- [../docs/development/TESTING.md](../docs/development/TESTING.md) - Testing guide
 - [../pytest.ini](../pytest.ini) - Pytest configuration

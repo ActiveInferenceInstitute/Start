@@ -91,5 +91,5 @@ under `tests/` for current call signatures.
 ## Where it is documented
 
 - [src/AGENTS.md](../AGENTS.md) — source-tree technical reference
-- [../../docs/pipeline.md](../../docs/pipeline.md) — pipeline architecture and stages
+- [../../docs/architecture/pipeline.md](../../docs/architecture/pipeline.md) — pipeline architecture and stages
 - [../gnn/README.md](../gnn/README.md) — the separate `start-gnn` orchestrator

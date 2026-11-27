@@ -45,4 +45,4 @@ run("data/written_curriculums", "data/visualizations")
 
 - [AGENTS.md](AGENTS.md) - Complete function reference
 - [../README.md](../README.md) - Source code overview
-- [../../docs/visualizations.md](../../docs/visualizations.md) - Visualization documentation
+- [../../docs/architecture/visualizations.md](../../docs/architecture/visualizations.md) - Visualization documentation

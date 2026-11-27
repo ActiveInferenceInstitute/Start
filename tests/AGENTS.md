@@ -63,5 +63,5 @@ Pytest configuration and fixtures:
 ## Cross-References
 
 - [README.md](README.md) - Test suite overview
-- [../docs/TESTING.md](../docs/TESTING.md) - Testing guide
+- [../docs/development/TESTING.md](../docs/development/TESTING.md) - Testing guide
 - [../pytest.ini](../pytest.ini) - Pytest configuration

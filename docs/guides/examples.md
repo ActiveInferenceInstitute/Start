@@ -28,4 +28,4 @@ ls data/visualizations/
 ls data/translated_curriculums/
 ```
 
-See also: [Data & Outputs](./data_outputs.md) for directory purposes and artifact descriptions.
+See also: [Data & Outputs](../architecture/data_outputs.md) for directory purposes and artifact descriptions.

@@ -69,7 +69,7 @@ Lock file for dependency versions managed by uv.
 - `uv run start-gnn`: run the cloned GNN pipeline (default steps 3,5,11,12) and summarize its outputs
 - `uv run start-gate <arm>`: the gate entry point; arms are `lint`, `types`,
   `fast`, `full`, `docs`, `numbers`, `gnn`, `gnn-exemplar`, `artifacts`,
-  `smoke`, `audit`, `lock`, `smoke-macos` (see `docs/gate.md`)
+  `smoke`, `audit`, `lock`, `smoke-macos` (see `docs/development/gate.md`)
 - `uv run start-validate-outputs --check`: structural output validation
 - `uv run start-audit-artifacts --check --baseline data/artifact-manifests/current.json`:
   CI ratchet; fails on unprovenanced artifacts not recorded in the baseline

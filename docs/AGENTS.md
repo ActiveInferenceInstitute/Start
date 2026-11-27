@@ -4,45 +4,17 @@
 
 Technical documentation for the documentation directory structure and organization.
 
-## Documentation Files
+## Documentation files
 
-### Core Documentation
-- `README.md`: Documentation hub and navigation
-- `index.md`: Main documentation index
-- `documentation-index.md`: Flat index of every long-lived page
-- `gate.md`: `start-gate` arms, CI job mapping, local-run policy
-- `gnn_conformance.md`: GNN pin file, `.github/GNN.md` pointer, and job
-- `getting_started.md`: Quick start guide
-- `environment.md`: Environment setup and configuration
-- `pipeline.md`: System architecture and pipeline overview
-- `methods.md`: Methods and evidence protocol
-- `manuscript.md`: Manuscript-facing engineering note
-- `operations.md`: Operations and release evidence
-- `configuration.md`: Configuration reference
-- `data_outputs.md`: Data outputs documentation
-- `visualizations.md`: Visualization documentation
-- `translations.md`: Translation documentation
-- `docs_and_deployment.md`: Documentation deployment guide
-
-### Testing and Development
-- `TESTING.md`: Testing policies and workflows
-- `CONTRIBUTING.md`: Contribution guidelines
-- `conventions.md`: Code and documentation conventions
-
-### Reference
-- `FAQ.md`: Frequently asked questions
-- `ROADMAP.md`: Historical roadmap pointer; the canonical forward backlog is
-  the root [`TODO.md`](../TODO.md)
-- `examples.md`: Examples and usage patterns
-- `clones.md`: Repository clone management
-- `learning_api_integration.md`: API integration guide
-- `learning_usage_guide.md`: Usage guide
-- `curriculum_gui.md`: Browser-based curriculum generator GUI
-
-### Subdirectories
-- `other/`: Additional documentation resources
-- `_generated/`: Script-written documents; `gate-timings.md` comes from
-  `uv run start-gate measure` and is verified by `uv run start-gate numbers`
+- `README.md`, `index.md`, and `documentation-index.md` are the entry points.
+- `guides/` contains installation, examples, clone workflows and learning guides.
+- `architecture/` contains pipeline, methods, provenance and output contracts.
+- `reference/` contains environment, configuration, API integration and FAQ.
+- `development/` contains operations, verification, contribution and release guidance.
+- `manuscript/` contains the numbered paper source and pinned Template render instructions.
+- `other/` contains additional documentation resources.
+- `_generated/` contains gate timings written by `uv run start-gate measure` and
+  checked by `uv run start-gate numbers`.
 
 ## Documentation Build
 

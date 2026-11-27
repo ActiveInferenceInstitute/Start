@@ -3,7 +3,7 @@
 START supports Python 3.11 and 3.12 (`requires-python = ">=3.11"`). Use the locked `uv` environment
 for local commands, CI, and documentation builds so dependency resolution does
 not vary between surfaces. The repo pins the interpreter with
-[`.python-version`](../.python-version) (`3.12`) because key dependencies (e.g.
+[`.python-version`](../../.python-version) (`3.12`) because key dependencies (e.g.
 `spacy`) publish no wheel for newer CPythons; without the pin a cold `uv run`
 on a 3.14-default machine fails at install time.
 
@@ -38,8 +38,8 @@ Steps
 - Run tests, lint, format
 
 Links
-- [Testing Guide](./TESTING.md)
-- [Docs Hub](./index.md)
+- [Testing Guide](../development/TESTING.md)
+- [Docs Hub](../index.md)
 
 ### 1. Install uv Package Manager
 ```bash
@@ -256,5 +256,5 @@ sequenceDiagram
   Gate-->>CI: arm output
 ```
 
-Job-to-arm mapping is in [Gate entry point](gate.md); markers in
+Job-to-arm mapping is in [Gate entry point](../development/gate.md); markers in
 `TESTING.md`.

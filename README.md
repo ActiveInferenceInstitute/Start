@@ -31,14 +31,14 @@ START combines optional live research capabilities with sophisticated content ge
   or API keys.
 - **Live research and generation need credentials.** The Perplexity and
   OpenRouter stages require `PERPLEXITY_API_KEY` and `OPENROUTER_API_KEY` (see
-  [Environment](docs/environment.md)); without them, use the offline fixture path
+  [Environment](docs/reference/environment.md)); without them, use the offline fixture path
   (`uv run start-regenerate-offline`) and the local provider-protocol tests.
 - **The example visualizations are separate Node surfaces.** `examples/vfe/` and
   `examples/efe/` need their own `npm install`; they are not part of the Python
   package or its test suite.
 - **Outputs are generated and committed.** Directories under `data/` hold
   generated artifacts that carry provenance/evidence status; see
-  [Data & Outputs](docs/data_outputs.md). Known repository defects and the
+  [Data & Outputs](docs/architecture/data_outputs.md). Known repository defects and the
   forward backlog live in [TODO.md](TODO.md).
 
 ## 🌐 Documentation (Live)
@@ -49,14 +49,14 @@ START combines optional live research capabilities with sophisticated content ge
 
 - **Docs Hub**: [docs/README.md](docs/README.md)
 - **Start Here (interactive)**: [here.md](here.md)
-- **Getting Started**: [docs/getting_started.md](docs/getting_started.md)
-- **Environment Setup**: [docs/environment.md](docs/environment.md)
-- **Pipeline Overview**: [docs/pipeline.md](docs/pipeline.md)
-- **Testing Guide**: [docs/TESTING.md](docs/TESTING.md)
-- **Configuration Reference**: [docs/configuration.md](docs/configuration.md)
-- **Examples & Outputs**: [docs/examples.md](docs/examples.md)
-- **Clone Management**: [docs/clones.md](docs/clones.md)
-- **Conventions**: [docs/conventions.md](docs/conventions.md)
+- **Getting Started**: [docs/guides/getting_started.md](docs/guides/getting_started.md)
+- **Environment Setup**: [docs/reference/environment.md](docs/reference/environment.md)
+- **Pipeline Overview**: [docs/architecture/pipeline.md](docs/architecture/pipeline.md)
+- **Testing Guide**: [docs/development/TESTING.md](docs/development/TESTING.md)
+- **Configuration Reference**: [docs/reference/configuration.md](docs/reference/configuration.md)
+- **Examples & Outputs**: [docs/guides/examples.md](docs/guides/examples.md)
+- **Clone Management**: [docs/guides/clones.md](docs/guides/clones.md)
+- **Conventions**: [docs/development/conventions.md](docs/development/conventions.md)
 - **User Usage Guide (GitHub)**: https://github.com/ActiveInferenceInstitute/Start/blob/main/learning/curriculum_creation/USAGE_GUIDE.md
 - **API Integration (GitHub)**: https://github.com/ActiveInferenceInstitute/Start/blob/main/learning/curriculum_creation/README.md
 
@@ -85,12 +85,12 @@ START combines optional live research capabilities with sophisticated content ge
 
 - High-level docs live under `docs/`. Each page is modular and links to deeper guides.
 - Start with the **[Docs Hub](docs/README.md)**, then dive into:
-  - **[Getting Started](docs/getting_started.md)** — install, first research session, generate outputs
-  - **[Environment](docs/environment.md)** — prerequisites, API keys, CI parity
-  - **[Pipeline](docs/pipeline.md)** — architecture, stages, data layout
-  - **[Testing](docs/TESTING.md)** — policies, markers, offline/CI rules
-  - **[Configuration](docs/configuration.md)** — YAML schemas and CLI usage
-  - **[Examples](docs/examples.md)** — where to find generated artifacts
+  - **[Getting Started](docs/guides/getting_started.md)** — install, first research session, generate outputs
+  - **[Environment](docs/reference/environment.md)** — prerequisites, API keys, CI parity
+  - **[Pipeline](docs/architecture/pipeline.md)** — architecture, stages, data layout
+  - **[Testing](docs/development/TESTING.md)** — policies, markers, offline/CI rules
+  - **[Configuration](docs/reference/configuration.md)** — YAML schemas and CLI usage
+  - **[Examples](docs/guides/examples.md)** — where to find generated artifacts
 
 ## 🚀 **Key Features**
 
@@ -107,10 +107,10 @@ graph LR
   T --> T1[Configured languages]
   Q --> Q1[pytest, ruff, black]
 
-  click R "docs/pipeline.md" "Pipeline"
-  click Q "docs/TESTING.md" "Testing"
-  click V "docs/pipeline.md" "Visualizations"
-  click T "docs/pipeline.md" "Translation"
+  click R "docs/architecture/pipeline.md" "Pipeline"
+  click Q "docs/development/TESTING.md" "Testing"
+  click V "docs/architecture/pipeline.md" "Visualizations"
+  click T "docs/architecture/pipeline.md" "Translation"
 ```
 
 ### 🔍 **Intelligent Research**
@@ -155,18 +155,18 @@ graph LR
 
 ### Configuration-Based Research
 
-See `docs/getting_started.md` for full command lists and script paths.
+See `docs/guides/getting_started.md` for full command lists and script paths.
 
 ### Learn More
 
 - Docs Hub: `docs/README.md`
-- Getting Started: `docs/getting_started.md`
-- Configuration: `docs/configuration.md`
-- Examples & Outputs: `docs/examples.md`
-- Pipeline & Architecture: `docs/pipeline.md`
-- Environment & CI: `docs/environment.md`
-- Testing Policy: `docs/TESTING.md`
-- Clone Management: `docs/clones.md`
+- Getting Started: `docs/guides/getting_started.md`
+- Configuration: `docs/reference/configuration.md`
+- Examples & Outputs: `docs/guides/examples.md`
+- Pipeline & Architecture: `docs/architecture/pipeline.md`
+- Environment & CI: `docs/reference/environment.md`
+- Testing Policy: `docs/development/TESTING.md`
+- Clone Management: `docs/guides/clones.md`
 
 ## 🛠️ **Quick Installation**
 
@@ -202,11 +202,11 @@ uv run start-gate lint     # ruff, black, shell syntax
 
 ## 🎯 **Getting Started**
 
-See `docs/getting_started.md` for first-run commands, generation steps, and exploring outputs.
+See `docs/guides/getting_started.md` for first-run commands, generation steps, and exploring outputs.
 
 ## ⚙️ **Configuration System**
 
-See `docs/configuration.md` for YAML examples and CLI usage.
+See `docs/reference/configuration.md` for YAML examples and CLI usage.
 
 ## 📈 **Generated Content Quality**
 
@@ -238,11 +238,11 @@ flowchart TD
   D --> E[Translations]
   E --> F[data/* outputs]
 
-  click B "docs/pipeline.md" "Pipeline"
+  click B "docs/architecture/pipeline.md" "Pipeline"
   click F "docs/README.md" "Docs Hub"
 ```
 
-See `docs/pipeline.md` for architecture, templates, and data flow.
+See `docs/architecture/pipeline.md` for architecture, templates, and data flow.
 
 ### Prompt Template System
 ```
@@ -262,7 +262,7 @@ data/prompts/
 
 ## 📊 **Example Outputs**
 
-See `docs/examples.md` for example outputs and paths.
+See `docs/guides/examples.md` for example outputs and paths.
 
 ## 🎯 **Use Cases & Applications**
 
@@ -285,16 +285,16 @@ See `docs/examples.md` for example outputs and paths.
 
 ### 🚀 **Getting Started Guides**
 - See the Docs Hub for the complete documentation: `docs/README.md`
-- Environment Setup: `docs/environment.md`
-- Pipeline Overview: `docs/pipeline.md`
-- Methods & evidence protocol: `docs/methods.md`
-- Manuscript-facing engineering note: `docs/manuscript.md`
+- Environment Setup: `docs/reference/environment.md`
+- Pipeline Overview: `docs/architecture/pipeline.md`
+- Methods & evidence protocol: `docs/architecture/methods.md`
+- Manuscript-facing engineering note: `docs/manuscript/README.md`
 - Usage Guide: `learning/curriculum_creation/USAGE_GUIDE.md`
 
 ### 🔧 **Technical References** 
 - API Documentation: `learning/curriculum_creation/README.md`
 - Configuration Reference & Docs Hub: `docs/README.md`
-- Clone Management: `docs/clones.md`
+- Clone Management: `docs/guides/clones.md`
 
 ### 📋 **Advanced Topics**
 - **Prompt Engineering**: Custom templates in `data/prompts/`
@@ -311,7 +311,7 @@ See `docs/examples.md` for example outputs and paths.
 - **YouTube**: [youtube.com/c/ActiveInference](https://www.youtube.com/c/ActiveInference/)
 - **Livestreams**: [video.activeinference.institute](https://video.activeinference.institute/)
 
-See also: implementation repos and knowledge resources in [docs/clones.md](docs/clones.md).
+See also: implementation repos and knowledge resources in [docs/guides/clones.md](docs/guides/clones.md).
 
 ## 🔄 **Development Roadmap**
 
@@ -320,7 +320,7 @@ canonical list of future work.
 
 ## 🤝 **Contributing**
 
-We welcome contributions! See our [Contributing Guide](docs/CONTRIBUTING.md) for details on:
+We welcome contributions! See our [Contributing Guide](docs/development/CONTRIBUTING.md) for details on:
 
 - Code style and development process
 - Pull request procedure and review guidelines
@@ -332,7 +332,7 @@ We welcome contributions! See our [Contributing Guide](docs/CONTRIBUTING.md) for
 # Set up development environment
 uv sync --all-extras --dev
 
-# Run quality checks through the one gate entry point (see docs/gate.md)
+# Run quality checks through the one gate entry point (see docs/development/gate.md)
 uv run start-gate          # default arm: fast selection
 uv run start-gate lint     # ruff, black, shell syntax
 uv run start-gate full     # full suite with the coverage floor
@@ -390,7 +390,7 @@ uv run pytest -m integration           # Only integration-marked tests
 └── data/                  # Generated content storage
 ```
 
-For detailed testing information, see `docs/TESTING.md`.
+For detailed testing information, see `docs/development/TESTING.md`.
 
 ## 📄 **License & Citation**
 
