@@ -1,0 +1,24 @@
+paper:
+  title: "START: A Reviewable Filesystem Pipeline for Evidence-Labeled Learning Artifacts"
+  subtitle: "Typed stages, provider boundaries and publication evidence"
+
+authors:
+  - name: "Active Inference Institute"
+
+publication:
+  repository_url: "https://github.com/ActiveInferenceInstitute/Start"
+  release_status: "unreleased"
+
+metadata:
+  language: "en"
+  license: "CC-BY-SA-4.0"
+
+manuscript_dir: "docs/manuscript"
+
+render:
+  formats:
+    pdf: true
+    html: false
+    slides: false
+    docx: false
+    epub: false

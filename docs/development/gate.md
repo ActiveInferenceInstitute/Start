@@ -44,7 +44,7 @@ no separate Markdown link checker in this repository.
 The default arm is `fast`, which uses the markers declared in
 `pytest.ini`: `slow`, `network`, and `integration`. The exact
 selection sizes and per-arm wall times are recorded in
-[`_generated/gate-timings.md`](_generated/gate-timings.md); they are measured,
+[`_generated/gate-timings.md`](../_generated/gate-timings.md); they are measured,
 not maintained by hand.
 
 ## CI jobs and deduplication

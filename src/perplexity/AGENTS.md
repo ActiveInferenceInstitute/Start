@@ -338,4 +338,4 @@ Processes translations for multiple curricula and languages.
 
 - [README.md](README.md) - Module overview and usage examples
 - [../README.md](../README.md) - Source code overview
-- [../../docs/pipeline.md](../../docs/pipeline.md) - Pipeline architecture
+- [../../docs/architecture/pipeline.md](../../docs/architecture/pipeline.md) - Pipeline architecture

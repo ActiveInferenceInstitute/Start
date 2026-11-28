@@ -1,7 +1,7 @@
 """Constants for the ``start-gnn`` orchestrator.
 
 The GNN project is optional reference material cloned into ``src/_clones/gnn``
-(see [docs/clones.md](../../docs/clones.md)).  This module records how START
+(see [docs/guides/clones.md](../../docs/guides/clones.md)).  This module records how START
 drives that checkout; the pinned upstream revision belongs to the clone
 registration in :mod:`src.repos.cloning`.
 

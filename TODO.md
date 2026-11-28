@@ -39,7 +39,7 @@ before it is changed; none was modified by either review pass.
   add the pattern to `.gitignore`, or make the gate consume it.
 - [ ] `pyproject.toml` sets `[tool.ruff] target-version = "py310"` while
   `requires-python = ">=3.11"` and the documented matrix is 3.11/3.12
-  (`docs/environment.md`); `[tool.black] target-version` already lists
+  (`docs/reference/environment.md`); `[tool.black] target-version` already lists
   `py311`/`py312`. The linter therefore grades against a floor two minor
   versions below the package's declared floor. Owner decision: set
   `target-version = "py311"` and re-run `start-gate lint`.
@@ -101,24 +101,24 @@ system overhaul or cross-cutting refactor.
 
 ### Medium
 
-- [x] ✓ `docs/environment.md`: mypy command now full-scope
+- [x] ✓ `docs/reference/environment.md`: mypy command now full-scope
   (`mypy src scripts learning --ignore-missing-imports`), matching CI;
-  fix `docs/TESTING.md` relative path; align model env defaults with
+  fix `docs/development/TESTING.md` relative path; align model env defaults with
   `src/perplexity/clients.py`.
-- [x] ✓ `docs/curriculum_gui.md`: remove the "only the Python standard
+- [x] ✓ `docs/guides/curriculum_gui.md`: remove the "only the Python standard
   library" overclaim (GUI imports project pipeline modules).
 - [x] ✓ `README.md`: unify Zenodo DOI (badge/citation use
   `10.5281/zenodo.17047617`; inline text said `...19`).
-- [x] ✓ `docs/clones.md`: add missing `gnn` and `cerebrum` repositories;
+- [x] ✓ `docs/guides/clones.md`: add missing `gnn` and `cerebrum` repositories;
   correct clone destinations to the code keys (`rxinfer`,
   `activeinference`) and the after-cloning structure tree.
-- [x] ✓ `docs/data_outputs.md`: research filenames use display names
+- [x] ✓ `docs/architecture/data_outputs.md`: research filenames use display names
   (e.g. `Barry Bonds_research_20250903.json`), not stable IDs; stable IDs
   appear in diagrams/manifests.
-- [x] ✓ `docs/docs_and_deployment.md`: point at the existing
+- [x] ✓ `docs/development/docs_and_deployment.md`: point at the existing
   `.github/workflows/deploy_docs.yml` instead of describing an Actions
   workflow as a to-be-added alternative.
-- [x] ✓ `docs/FAQ.md`: merge the duplicated "Where do outputs go?" entry.
+- [x] ✓ `docs/reference/FAQ.md`: merge the duplicated "Where do outputs go?" entry.
 - [x] ✓ `learning/curriculum_creation/README.md`: correct Input lines
   (config-driven), dependency list (drop `pydantic`, `pathlib`), and
   `--input`/`--output` CLI examples.
@@ -133,12 +133,12 @@ system overhaul or cross-cutting refactor.
   README` vs `# START documentation`).
 - [x] ✓ `docs/index.md`: fix `** Professional Domains**` bold-marker typo;
   align the inferant-stream link label with its relative path.
-- [x] ✓ `docs/getting_started.md`, `docs/pipeline.md`,
-  `docs/environment.md`: `docs/`-prefixed intra-doc paths are wrong from
+- [x] ✓ `docs/guides/getting_started.md`, `docs/architecture/pipeline.md`,
+  `docs/reference/environment.md`: `docs/`-prefixed intra-doc paths are wrong from
   inside `docs/`; use relative names.
-- [x] ✓ `docs/TESTING.md`: annotate the `--cov-fail-under=80` example as
+- [x] ✓ `docs/development/TESTING.md`: annotate the `--cov-fail-under=80` example as
   the matrix baseline (release floor is 90).
-- [x] ✓ `docs/conventions.md`: use `./run_docs.sh --serve` consistently.
+- [x] ✓ `docs/development/conventions.md`: use `./run_docs.sh --serve` consistently.
 - [x] ✓ `tests/AGENTS.md`: remove duplicate `test_repos_cloning.py` /
   `test_run_script_integration.py` entries.
 - [x] ✓ `examples/AGENTS.md`: fix off-by-one line counts for `vfe.jsx`
@@ -203,7 +203,7 @@ and the coverage floor in P2.
 - [ ] Get a recorded green run of the Python 3.11/3.12 matrix and the
   `macos-smoke` job. The configuration exists — `.github/workflows/ci.yml` runs
   `fast` on 3.11, `full` on 3.12, and `macos-smoke` (`lock` plus
-  `smoke-macos`); `docs/environment.md` documents 3.11/3.12; all ten console
+  `smoke-macos`); `docs/reference/environment.md` documents 3.11/3.12; all ten console
   entry points are listed in `AGENTS.md`. What is missing is evidence: the
   estate's Actions runs are billing-locked, so neither job has a recorded green
   hosted run. Owner: whoever holds the organization billing/runner decision;
@@ -368,7 +368,7 @@ during the deep red-team pass. These are removed from the active backlog:
 
 - Documentation drift fixed: `src/terminal/AGENTS.md` (typewriter_effect,
   glitch_effect, input_dialog signatures), `src/system/AGENTS.md` (dependency
-  attributes), `docs/curriculum_gui.md` (no longer overclaims "only stdlib"),
+  attributes), `docs/guides/curriculum_gui.md` (no longer overclaims "only stdlib"),
   `learning/curriculum_creation/AGENTS.md` (deduplicated thin-delegator entry).
 - `config/schemas.py`: reject CR/LF in source URLs.
 - `config/catalog.py`: `output_exists` no longer raises on odd display names.

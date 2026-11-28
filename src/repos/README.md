@@ -95,4 +95,4 @@ destination = clone_repository(
 
 - [AGENTS.md](AGENTS.md) - Complete function reference
 - [../README.md](../README.md) - Source code overview
-- [../../docs/clones.md](../../docs/clones.md) - Clone management documentation
+- [../../docs/guides/clones.md](../../docs/guides/clones.md) - Clone management documentation

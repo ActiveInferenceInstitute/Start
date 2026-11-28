@@ -255,4 +255,4 @@ Command-line entry point.
 
 - [README.md](README.md) - Module overview and usage examples
 - [../README.md](../README.md) - Source code overview
-- [../../docs/clones.md](../../docs/clones.md) - Clone management documentation
+- [../../docs/guides/clones.md](../../docs/guides/clones.md) - Clone management documentation

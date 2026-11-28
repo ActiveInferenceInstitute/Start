@@ -14,57 +14,57 @@ START is a complete educational content generation pipeline that combines:
 
 ## 📚 **Documentation Structure**
 
-- Environment & Setup: [Environment Setup](./environment.md)
-- System Architecture: [Pipeline Overview](./pipeline.md)
-- Methods: [Methods and Evidence Protocol](./methods.md)
-- Manuscript Note: [Reviewable Learning Artifacts](./manuscript.md)
-- Operations: [Operations and Release Evidence](./operations.md)
-- Getting Started: [Quickstart](./getting_started.md)
-- Configuration: [Reference](./configuration.md)
-- Data & Outputs: [Locations and artifacts](./data_outputs.md)
-- Visualizations: [Gallery and regeneration](./visualizations.md)
-- Translations: [Multilingual outputs](./translations.md)
-- Docs & Deployment: [Local + GitHub Pages](./docs_and_deployment.md)
-- Gate: [One entry point, one command per arm](./gate.md)
-- Testing: [Policy and workflows](./TESTING.md)
-- GNN Conformance: [Pin, pointer, and job](./gnn_conformance.md)
+- Environment & Setup: [Environment Setup](reference/environment.md)
+- System Architecture: [Pipeline Overview](architecture/pipeline.md)
+- Methods: [Methods and Evidence Protocol](architecture/methods.md)
+- Manuscript Note: [Reviewable Learning Artifacts](manuscript/README.md)
+- Operations: [Operations and Release Evidence](development/operations.md)
+- Getting Started: [Quickstart](guides/getting_started.md)
+- Configuration: [Reference](reference/configuration.md)
+- Data & Outputs: [Locations and artifacts](architecture/data_outputs.md)
+- Visualizations: [Gallery and regeneration](architecture/visualizations.md)
+- Translations: [Multilingual outputs](architecture/translations.md)
+- Docs & Deployment: [Local + GitHub Pages](development/docs_and_deployment.md)
+- Gate: [One entry point, one command per arm](development/gate.md)
+- Testing: [Policy and workflows](development/TESTING.md)
+- GNN Conformance: [Pin, pointer, and job](development/gnn_conformance.md)
 - Documentation Index: [Every long-lived page](./documentation-index.md)
-- Examples: [Examples & outputs](./examples.md)
-- Clone Management: [External repos](./clones.md)
-- Curriculum GUI: [Browser-based generator](./curriculum_gui.md)
-- Conventions: [Documentation conventions](./conventions.md)
-- Contributing: [Contributing guide](./CONTRIBUTING.md)
-- FAQ: [Frequently asked questions](./FAQ.md)
+- Examples: [Examples & outputs](guides/examples.md)
+- Clone Management: [External repos](guides/clones.md)
+- Curriculum GUI: [Browser-based generator](guides/curriculum_gui.md)
+- Conventions: [Documentation conventions](development/conventions.md)
+- Contributing: [Contributing guide](development/CONTRIBUTING.md)
+- FAQ: [Frequently asked questions](reference/FAQ.md)
 - Learning Guides:
-  - Usage Guide: [Learning Usage Guide](./learning_usage_guide.md)
-  - API Integration: [Learning API Integration](./learning_api_integration.md)
+  - Usage Guide: [Learning Usage Guide](guides/learning_usage_guide.md)
+  - API Integration: [Learning API Integration](reference/learning_api_integration.md)
 
 ### Core Guides
 
 #### 🛠️ **Setup & Development**
 
-- **[Environment Setup](./environment.md)** - Complete installation, configuration, and development guide
+- **[Environment Setup](reference/environment.md)** - Complete installation, configuration, and development guide
   - Prerequisites, API setup, dependency management
   - Development workflow, testing, troubleshooting
   - IDE integration and advanced configuration
 
 #### 🔄 **System Architecture**
 
-- **[Pipeline Overview](./pipeline.md)** - Comprehensive system architecture and workflow
+- **[Pipeline Overview](architecture/pipeline.md)** - Comprehensive system architecture and workflow
   - acquire → prepare → process → parse → render curriculum pipeline
   - Configuration-driven research approach
   - API integration and content generation standards
 
 #### 🧪 **Methods and Publication**
 
-- **[Methods and Evidence Protocol](./methods.md)** - First-principles
+- **[Methods and Evidence Protocol](architecture/methods.md)** - First-principles
   constraints, hypotheses, quality gates, and reproducibility protocol
-- **[Manuscript Note](./manuscript.md)** - Publication-facing scope, evidence
+- **[Manuscript Note](manuscript/README.md)** - Publication-facing scope, evidence
   boundary, and limitations
 
 #### 🔗 **External Integrations**
 
-- **[Repository & Clone Management](./clones.md)** - External resource integration
+- **[Repository & Clone Management](guides/clones.md)** - External resource integration
   - Active Inference Institute ecosystem integration
   - Knowledge graph and implementation repositories
   - Educational resource enhancement strategies
@@ -84,19 +84,19 @@ START is a complete educational content generation pipeline that combines:
 
 #### 📦 **Data & Outputs**
 
-- **[Data & Outputs](./data_outputs.md)** - Where artifacts are written and how to use them
+- **[Data & Outputs](architecture/data_outputs.md)** - Where artifacts are written and how to use them
 
 #### 📊 **Visualizations**
 
-- **[Visualizations](./visualizations.md)** - Diagram and chart gallery with regeneration steps
+- **[Visualizations](architecture/visualizations.md)** - Diagram and chart gallery with regeneration steps
 
 #### 🌍 **Translations**
 
-- **[Translations & Localization](./translations.md)** - Multilingual outputs and structure
+- **[Translations & Localization](architecture/translations.md)** - Multilingual outputs and structure
 
 #### 🧭 **Docs & Deployment**
 
-- **[Docs & Deployment](./docs_and_deployment.md)** - Local serve, build, and GitHub Pages
+- **[Docs & Deployment](development/docs_and_deployment.md)** - Local serve, build, and GitHub Pages
 
 #### 📝 **Prompt Engineering**
 
@@ -109,20 +109,20 @@ START is a complete educational content generation pipeline that combines:
 
 ### For New Users
 
-1. **[Environment Setup](./environment.md)** - Get up and running
-2. **[Pipeline Overview](./pipeline.md)** - Understand the system
+1. **[Environment Setup](reference/environment.md)** - Get up and running
+2. **[Pipeline Overview](architecture/pipeline.md)** - Understand the system
 3. **[Usage Guide (GitHub)](https://github.com/ActiveInferenceInstitute/Start/blob/main/learning/curriculum_creation/USAGE_GUIDE.md)**
 
 ### For Developers
 
-1. **[Environment Setup](./environment.md)** - Development environment
+1. **[Environment Setup](reference/environment.md)** - Development environment
 2. **[API Docs (GitHub)](https://github.com/ActiveInferenceInstitute/Start/blob/main/learning/curriculum_creation/README.md)**
 3. **[Tests (GitHub)](https://github.com/ActiveInferenceInstitute/Start/tree/main/tests)**
 
 ### For Researchers
 
-1. **[Pipeline Overview](./pipeline.md)** - Research capabilities
-2. **[Clone Management](./clones.md)** - Access research repositories
+1. **[Pipeline Overview](architecture/pipeline.md)** - Research capabilities
+2. **[Clone Management](guides/clones.md)** - Access research repositories
 3. **Configuration Files** - Customize research targets
 
 ## 🌐 **External Resources**

@@ -24,4 +24,4 @@ Contains curriculum creation scripts:
 
 - [README.md](README.md) - Pipeline overview
 - [curriculum_creation/AGENTS.md](curriculum_creation/AGENTS.md) - Script reference
-- [../docs/pipeline.md](../docs/pipeline.md) - Pipeline architecture
+- [../docs/architecture/pipeline.md](../docs/architecture/pipeline.md) - Pipeline architecture

@@ -64,4 +64,4 @@ is_valid, messages = validate_environment()
 
 - [AGENTS.md](AGENTS.md) - Complete function reference
 - [../README.md](../README.md) - Source code overview
-- [../../docs/environment.md](../../docs/environment.md) - Environment setup guide
+- [../../docs/reference/environment.md](../../docs/reference/environment.md) - Environment setup guide

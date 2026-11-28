@@ -27,4 +27,4 @@ Main curriculum creation scripts:
 
 - [AGENTS.md](AGENTS.md) - Pipeline workflow reference
 - [curriculum_creation/README.md](curriculum_creation/README.md) - Script documentation
-- [../docs/pipeline.md](../docs/pipeline.md) - Pipeline architecture
+- [../docs/architecture/pipeline.md](../docs/architecture/pipeline.md) - Pipeline architecture

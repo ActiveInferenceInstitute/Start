@@ -108,4 +108,4 @@ save_translation(
 
 - [AGENTS.md](AGENTS.md) - Complete function reference
 - [../README.md](../README.md) - Source code overview
-- [../../docs/pipeline.md](../../docs/pipeline.md) - Pipeline architecture
+- [../../docs/architecture/pipeline.md](../../docs/architecture/pipeline.md) - Pipeline architecture

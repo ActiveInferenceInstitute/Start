@@ -78,5 +78,5 @@ Example: `20250903_073951`
 ## Cross-References
 
 - [README.md](README.md) - Data directory overview
-- [../docs/data_outputs.md](../docs/data_outputs.md) - Data outputs documentation
-- [../docs/pipeline.md](../docs/pipeline.md) - Pipeline architecture
+- [../docs/architecture/data_outputs.md](../docs/architecture/data_outputs.md) - Data outputs documentation
+- [../docs/architecture/pipeline.md](../docs/architecture/pipeline.md) - Pipeline architecture

@@ -61,5 +61,5 @@ Generated curriculum outputs organized by entity/domain.
 ## Navigation
 
 - [AGENTS.md](AGENTS.md) - Data structure and file format reference
-- [../docs/data_outputs.md](../docs/data_outputs.md) - Data outputs documentation
-- [../docs/pipeline.md](../docs/pipeline.md) - Pipeline architecture
+- [../docs/architecture/data_outputs.md](../docs/architecture/data_outputs.md) - Data outputs documentation
+- [../docs/architecture/pipeline.md](../docs/architecture/pipeline.md) - Pipeline architecture

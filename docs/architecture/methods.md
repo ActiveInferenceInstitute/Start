@@ -73,7 +73,7 @@ Before a release claim, the following criteria are fixed:
       before any live output is published.
 
 The checkboxes are release criteria, not evidence that the criteria have
-already been met. Run the commands in [Testing](TESTING.md) to update them.
+already been met. Run the commands in [Testing](../development/TESTING.md) to update them.
 
 ## Hypotheses and falsification tests
 

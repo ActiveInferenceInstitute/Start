@@ -90,7 +90,7 @@ export OPENROUTER_API_KEY="..."
 
 The `full` arm enforces the 80% branch-aware working baseline and is the only
 coverage pass in CI; the measurement is recorded in
-[`_generated/gate-timings.md`](_generated/gate-timings.md). The manual release
+[`_generated/gate-timings.md`](../_generated/gate-timings.md). The manual release
 workflow is fail-closed at the 90% branch-aware floor and adds the publication
 output gate. Linux runs cover Python 3.11–3.12 (`fast` on 3.11, `full` on 3.12);
 the macOS smoke job uses the locked Python 3.12 environment and runs the

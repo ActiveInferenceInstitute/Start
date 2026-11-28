@@ -33,10 +33,10 @@ Welcome. This is a simple, actionable landing page into the Active Inference Eco
 ## Repo docs (read first)
 
 - **Overview**: [docs/index.md](docs/index.md)
-- **Getting set up**: [docs/getting_started.md](docs/getting_started.md), [docs/environment.md](docs/environment.md)
-- **Configuration & conventions**: [docs/configuration.md](docs/configuration.md), [docs/conventions.md](docs/conventions.md)
-- **Pipelines**: [docs/pipeline.md](docs/pipeline.md), [docs/examples.md](docs/examples.md)
-- **Testing**: [docs/TESTING.md](docs/TESTING.md), `pytest.ini`
+- **Getting set up**: [docs/guides/getting_started.md](docs/guides/getting_started.md), [docs/reference/environment.md](docs/reference/environment.md)
+- **Configuration & conventions**: [docs/reference/configuration.md](docs/reference/configuration.md), [docs/development/conventions.md](docs/development/conventions.md)
+- **Pipelines**: [docs/architecture/pipeline.md](docs/architecture/pipeline.md), [docs/guides/examples.md](docs/guides/examples.md)
+- **Testing**: [docs/development/TESTING.md](docs/development/TESTING.md), `pytest.ini`
 
 ---
 
@@ -90,7 +90,7 @@ Welcome. This is a simple, actionable landing page into the Active Inference Eco
 
 ## Contribute and connect
 
-- Contributing fixes or features: follow [docs/conventions.md](docs/conventions.md) and run tests locally.
+- Contributing fixes or features: follow [docs/development/conventions.md](docs/development/conventions.md) and run tests locally.
 - Ask questions or propose ideas via issues/PRs and reference relevant tests in `tests/`.
 - Explore ecosystem code: [ActiveInferenceInstitute/cognitive](https://github.com/ActiveInferenceInstitute/cognitive)
 
