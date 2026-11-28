@@ -1,6 +1,7 @@
 # GNN conformance
 
-`gnn conformance (pinned)` is defined in `.github/workflows/ci.yml` and reads
+The `gnn-conformance` job (display name `gnn conformance (pinned)`) is
+defined in [`.github/workflows/ci.yml`](workflows/ci.yml) and reads
 `.github/gnn-pin.json`, which pins
 `ActiveInferenceInstitute/Generalized_Notation_Notation` at `v5.1.0`
 (`75c834bd8519dc7b5adc4d24f16bf393cfd1ecdf`).
